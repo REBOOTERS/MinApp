@@ -15,8 +15,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        resConfigs "zh"
-        resConfigs "xxhdpi"
+        resConfigs "zh-rCN","xxhdpi"
     }
 
     signingConfigs {
