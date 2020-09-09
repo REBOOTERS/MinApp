@@ -17,5 +17,6 @@ class MainActivity : AppCompatActivity() {
         val a = A()
         a.test2()
         val b = B()
+        b.test()
     }
 }

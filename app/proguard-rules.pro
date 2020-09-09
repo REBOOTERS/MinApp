@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class com.engineer.android.mini.proguards.Utils {*;}
+-keep class com.engineer.android.mini.proguards.Utils$MyBuilder {*;}
+-keep class com.engineer.android.mini.proguards.A
+-keep class com.engineer.android.mini.proguards.B {*;}

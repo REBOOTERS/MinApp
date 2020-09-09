@@ -6,4 +6,9 @@ package com.engineer.android.mini.proguards;
  * @author rookie
  */
 public class B {
+    private String a;
+
+    public void test() {
+        System.out.println("aaa");
+    }
 }
