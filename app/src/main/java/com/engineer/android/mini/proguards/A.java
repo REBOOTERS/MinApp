@@ -7,10 +7,17 @@ package com.engineer.android.mini.proguards;
  */
 public class A {
     private void test() {
+        int max = 10;
+        for (int i = 0; i < max; i++) {
+            double value = Math.sqrt(i);
+            System.out.println(value);
+
+        }
         System.out.println("1");
     }
 
     public void test2() {
+        test();
         System.out.println(2);
     }
 

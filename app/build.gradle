@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 def ext = rootProject.ext
 
@@ -41,17 +42,29 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+        debug {
+            signingConfig signingConfigs.release
+        }
     }
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+
     implementation "androidx.appcompat:appcompat:$appcompat"
     implementation "androidx.core:core-ktx:$core_ktx"
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.2.1'
 }
 
-apply from: file("./custom-gradle/test-dep.gradle")
-apply from: file("./custom-gradle/res-guard.gradle")
+apply from: file("./custom-gradle/test-dep.gradle") // unit test
+apply from: file("./custom-gradle/res-guard.gradle") // res-guard
+apply from: file("./custom-gradle/viewmodel-dep.gradle") // view-model-lifecycle 全家桶
+apply from: file("./custom-gradle/coroutines-dep.gradle") // kotlin coroutines
