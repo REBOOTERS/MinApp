@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         up_fab.setOnClickListener {
             supportFragmentManager.beginTransaction()
-                .add(R.id.up_content, FooFragment.newInstance("Foo", "Foo1"))
+                .replace(R.id.up_content, FooFragment.newInstance("Foo", "Foo1"))
                 .commitAllowingStateLoss()
 
             refreshStatus()
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         down_fab.setOnClickListener {
             supportFragmentManager.beginTransaction()
-                .add(R.id.down_content, BarFragment.newInstance("Bar", "Bar1"))
+                .replace(R.id.down_content, BarFragment.newInstance("Bar", "Bar1"))
                 .commitAllowingStateLoss()
 
             refreshStatus()
@@ -41,21 +41,30 @@ class MainActivity : AppCompatActivity() {
     private fun refreshStatus() {
         val coroutineScope = CoroutineScope(Dispatchers.IO)
         coroutineScope.launch {
+            Log.e("MainActivity", "Current Thread ${Thread.currentThread().name}")
             delay(1000)
-            withContext(Dispatchers.Main) {
-                Log.e(
-                    "MainActivity",
-                    "================= ${supportFragmentManager.fragments.size} fragment ============="
-                )
-                supportFragmentManager.fragments.forEach {
-                    Log.e("MainActivity", "fragment = ${it.javaClass.canonicalName}")
-                }
-                Log.e(
-                    "MainActivity",
-                    "=======================================================\n"
-                )
-            }
+            printFragmentStack()
+        }
+        Log.e(
+            "MainActivity",
+            "<================= ${supportFragmentManager.fragments.size} fragment =============>"
+        )
+    }
 
+    private suspend fun printFragmentStack() {
+        withContext(Dispatchers.Main) {
+            Log.e("MainActivity", "Current Thread ${Thread.currentThread().name}")
+            Log.e(
+                "MainActivity",
+                "================= ${supportFragmentManager.fragments.size} fragment ============="
+            )
+            supportFragmentManager.fragments.forEach {
+                Log.e("MainActivity", "fragment = ${it.javaClass.canonicalName}")
+            }
+            Log.e(
+                "MainActivity",
+                "=======================================================\n"
+            )
         }
     }
 
