@@ -13,3 +13,11 @@
 </details>
 
 how to make a minimal app
+
+ - [Material Design](https://mp.weixin.qq.com/s/6b5hIMxqz2WEutcxRbRfhg)
+ 
+ ```gradle
+implementation 'com.google.android.material:material:1.2.0'
+```
+
+

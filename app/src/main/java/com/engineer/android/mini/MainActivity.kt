@@ -1,16 +1,15 @@
 package com.engineer.android.mini
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import com.engineer.android.mini.jetpack.java.FooFragment
-import com.engineer.android.mini.jetpack.kotlin.BarFragment
+import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.proguards.A
 import com.engineer.android.mini.proguards.B
 import com.engineer.android.mini.proguards.BlankFragment
 import com.engineer.android.mini.proguards.Utils
+import com.engineer.android.mini.ui.JetpackActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -18,54 +17,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        up_fab.setOnClickListener {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.up_content, FooFragment.newInstance("Foo", "Foo1"))
-                .commitAllowingStateLoss()
-
-            refreshStatus()
-        }
-
-        down_fab.setOnClickListener {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.down_content, BarFragment.newInstance("Bar", "Bar1"))
-                .commitAllowingStateLoss()
-
-            refreshStatus()
-        }
-
-
+        jetpack.setOnClickListener { gotoPage(JetpackActivity::class.java) }
     }
 
-    private fun refreshStatus() {
-        val coroutineScope = CoroutineScope(Dispatchers.IO)
-        coroutineScope.launch {
-            Log.e("MainActivity", "Current Thread ${Thread.currentThread().name}")
-            delay(1000)
-            printFragmentStack()
-        }
-        Log.e(
-            "MainActivity",
-            "<================= ${supportFragmentManager.fragments.size} fragment =============>"
-        )
-    }
-
-    private suspend fun printFragmentStack() {
-        withContext(Dispatchers.Main) {
-            Log.e("MainActivity", "Current Thread ${Thread.currentThread().name}")
-            Log.e(
-                "MainActivity",
-                "================= ${supportFragmentManager.fragments.size} fragment ============="
-            )
-            supportFragmentManager.fragments.forEach {
-                Log.e("MainActivity", "fragment = ${it.javaClass.canonicalName}")
-            }
-            Log.e(
-                "MainActivity",
-                "=======================================================\n"
-            )
-        }
+    private fun gotoPage(clazz: Class<out Activity>) {
+        startActivity(Intent(this, clazz))
     }
 
     override fun onResume() {
