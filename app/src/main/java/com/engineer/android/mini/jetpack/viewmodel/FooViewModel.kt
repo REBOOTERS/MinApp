@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 
 /**
  * Created on 2020/9/13.
@@ -12,6 +13,12 @@ import androidx.lifecycle.MutableLiveData
  */
 class FooViewModel(application: Application) : AndroidViewModel(application) {
     internal val foo = MutableLiveData<Int>()
+
+    internal val test =MutableLiveData<Boolean>(true)
+
+    internal val fooMap = Transformations.map(foo) {
+        it * it
+    }
 
     fun getFoo(): MutableLiveData<Int> {
         return foo

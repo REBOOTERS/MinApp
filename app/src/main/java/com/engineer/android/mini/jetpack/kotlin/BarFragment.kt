@@ -3,7 +3,9 @@ package com.engineer.android.mini.jetpack.kotlin
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.engineer.android.mini.R
+import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.jetpack.base.ARG_PARAM1
 import com.engineer.android.mini.jetpack.base.ARG_PARAM2
 import com.engineer.android.mini.jetpack.base.SimpleBaseFragment
@@ -34,6 +36,11 @@ class BarFragment : SimpleBaseFragment() {
             text.text = "result is $it"
             Log.e(TAG, "onViewCreated: $it")
         })
+
+        fooViewModel.fooMap.observe(this, {
+            it.toast()
+        })
+
         fooViewModel.doFoo()
         fooViewModel.doFoo2()
     }
