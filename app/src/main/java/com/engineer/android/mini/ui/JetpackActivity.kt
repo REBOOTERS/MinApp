@@ -9,7 +9,7 @@ import com.engineer.android.mini.jetpack.kotlin.BarFragment
 import kotlinx.android.synthetic.main.activity_jetpack.*
 import kotlinx.coroutines.*
 
-class JetpackActivity : AppCompatActivity() {
+class JetpackActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jetpack)

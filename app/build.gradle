@@ -61,7 +61,7 @@ dependencies {
     implementation "androidx.core:core-ktx:$core_ktx"
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.2.1'
+    implementation "com.google.android.material:material:$material"
 }
 
 apply from: file("./custom-gradle/test-dep.gradle") // unit test

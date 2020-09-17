@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#03A9F4"
     android:orientation="vertical"
     tools:context=".MainActivity"
     tools:ignore="HardcodedText">
@@ -15,6 +14,44 @@
         android:src="@drawable/android"
         app:shapeAppearance="@style/StyleShapeAppearanceImage" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/current_theme"
+        style="@style/mw_10_margin"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="15sp"
+        tools:text="current theme" />
+
+    <RadioGroup
+        android:id="@+id/theme_radio"
+        style="@style/mw_10_margin"
+        android:orientation="vertical">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/follow_system"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="跟随系统" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/force_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="force_dark" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/force_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="force_light" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/auto_battery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="auto_battery" />
+
+    </RadioGroup>
+
 
     <com.google.android.material.slider.Slider style="@style/mw_10_margin" />
 
@@ -23,7 +60,17 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/jetpack"
         style="@style/mw_10_margin"
-        android:text="jetpack" />
+        android:text="jetpack"
+        android:textColor="?android:attr/textColorPrimary" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/full_screen"
+        style="@style/mw_10_margin"
+        android:text="full_screen"
+        android:textColor="?android:attr/textColorPrimary" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/storage_info"
+        style="@style/mw_10_margin" />
 
 </LinearLayout>
