@@ -12,8 +12,7 @@ import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.FullscreenActivity
 import com.engineer.android.mini.ui.JetpackActivity
-import kotlinx.android.synthetic.main.activity_main.*
-import java.lang.StringBuilder
+import kotlinx.android.synthetic.main.activity_main_content.*
 
 @SuppressLint("SetTextI18n")
 class MainActivity : BaseActivity() {
