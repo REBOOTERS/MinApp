@@ -11,40 +11,22 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.FullscreenActivity
-import com.engineer.android.mini.ui.JetpackActivity
 import kotlinx.android.synthetic.main.activity_main_content.*
 
 @SuppressLint("SetTextI18n")
-class MainActivity : BaseActivity() {
+class PureUIActivity : BaseActivity() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setUpUi()
-        setUpStorageInfo()
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun setUpStorageInfo() {
-        val sb = StringBuilder()
-        val codeCacheDir = this.codeCacheDir.absolutePath
-        val cacheDir = this.cacheDir.absolutePath
-        val dataDir = this.dataDir.absolutePath
-        val filesDir = this.filesDir.absoluteFile
-        val picDir = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        sb.append("codeCacheDir :$codeCacheDir").append("\n\n")
-        sb.append("cacheDir :$cacheDir").append("\n\n")
-        sb.append("dataDir :$dataDir").append("\n\n")
-        sb.append("filesDir :$filesDir").append("\n\n")
-        sb.append("picDir :$picDir").append("\n\n")
-        storage_info.text = sb
-        Log.e(TAG, "setUpStorageInfo:\n $sb")
-    }
+
 
     private fun setUpUi() {
         systemDayNight()
-        jetpack.setOnClickListener { gotoPage(JetpackActivity::class.java) }
         full_screen.setOnClickListener { gotoPage(FullscreenActivity::class.java) }
     }
 

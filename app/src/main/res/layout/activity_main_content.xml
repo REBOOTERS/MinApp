@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity"
+    tools:context=".PureUIActivity"
     tools:ignore="HardcodedText">
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -58,12 +58,6 @@
     <com.google.android.material.slider.RangeSlider style="@style/mw_10_margin" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/jetpack"
-        style="@style/mw_10_margin"
-        android:text="jetpack"
-        android:textColor="?android:attr/textColorPrimary" />
-
-    <com.google.android.material.button.MaterialButton
         android:id="@+id/full_screen"
         style="@style/mw_10_margin"
         android:text="full_screen"
@@ -74,8 +68,5 @@
         android:text="AppCompatButton"
         android:textColor="?android:attr/textColorPrimary" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/storage_info"
-        style="@style/mw_10_margin" />
 
 </LinearLayout>
