@@ -14,15 +14,8 @@
 
  ### Android 10 作用域存储
 
-```flow
-st=>start: Start
-op=>operation: Your Operation
-cond=>condition: Yes or No?
-e=>end
-st->op->cond
-cond(yes)->e
-cond(no)->op
-```
+ - [Android 10适配要点，作用域存储](https://guolin.blog.csdn.net/article/details/105419420)
+
 
 
 

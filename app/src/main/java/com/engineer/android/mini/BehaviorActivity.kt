@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
+import com.engineer.android.mini.util.SystemTools
 import kotlinx.android.synthetic.main.activity_behavior.*
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
@@ -150,7 +151,7 @@ class BehaviorActivity : AppCompatActivity() {
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     val uri = data.data
                     if (uri != null) {
-                        val fileName = getFileNameByUri(uri)
+                        val fileName = SystemTools.getFileNameByUri(this, uri)
                         copyUriToExternalFilesDir(uri, fileName)
                     }
                 }
@@ -158,17 +159,6 @@ class BehaviorActivity : AppCompatActivity() {
         }
     }
 
-    private fun getFileNameByUri(uri: Uri): String {
-        var fileName = System.currentTimeMillis().toString()
-        val cursor = contentResolver.query(uri, null, null, null, null)
-        if (cursor != null && cursor.count > 0) {
-            cursor.moveToFirst()
-            fileName =
-                cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME))
-            cursor.close()
-        }
-        return fileName
-    }
 
     private fun copyUriToExternalFilesDir(uri: Uri, fileName: String) {
         thread {

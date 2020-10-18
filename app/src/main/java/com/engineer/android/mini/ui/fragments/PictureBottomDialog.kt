@@ -58,7 +58,7 @@ class PictureBottomDialog : BaseBottomSheetDialog() {
             imageList.addAll(it)
             adapter.notifyDataSetChanged()
             it.forEach { uri ->
-//                handleUri(uri)
+                handleUri(uri)
             }
         }
         cursorQueryViewModel.loadImages()
@@ -66,8 +66,9 @@ class PictureBottomDialog : BaseBottomSheetDialog() {
         cursorQueryViewModel.videoResults.observe(this) {
             it.forEach { uri ->
                 Log.e(
-                    TAG, "onViewCreated: $uri," +
-                            " path= ${SystemTools.getVideoFilePathFromUri(context!!, uri)}"
+                    TAG, "uri=$uri," +
+                            "fileName=${SystemTools.getFileNameByUri(context!!, uri)}," +
+                            "path=${SystemTools.getVideoFilePathFromUri(context!!, uri)}"
                 )
             }
         }
@@ -76,7 +77,11 @@ class PictureBottomDialog : BaseBottomSheetDialog() {
 
     private fun handleUri(uri: Uri) {
         context?.let {
-            Log.e(TAG, "uri = $uri,path = ${SystemTools.getImageFilePathFromUri(it, uri)}")
+            Log.e(
+                TAG, "uri=$uri," +
+                        "fileName=${SystemTools.getFileNameByUri(context!!, uri)}," +
+                        "path=${SystemTools.getVideoFilePathFromUri(context!!, uri)}"
+            )
             val fd = it.contentResolver.openFileDescriptor(uri, "r")
             fd?.let {
                 Log.e(TAG, "handleUri: $fd")

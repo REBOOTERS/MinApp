@@ -55,4 +55,16 @@ object SystemTools {
         }
         return data
     }
+
+    fun getFileNameByUri(context: Context,uri: Uri): String {
+        var fileName = System.currentTimeMillis().toString()
+        val cursor = context.contentResolver.query(uri, null, null, null, null)
+        if (cursor != null && cursor.count > 0) {
+            cursor.moveToFirst()
+            fileName =
+                cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME))
+            cursor.close()
+        }
+        return fileName
+    }
 }
