@@ -15,8 +15,10 @@ class BehaviorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_behavior)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            setUpStorageInfo()
+//            setUpStorageInfo()
         }
+        val dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        Log.e(TAG, "onCreate: dir =$dir")
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -27,11 +29,11 @@ class BehaviorActivity : AppCompatActivity() {
         val dataDir = this.dataDir.absolutePath
         val filesDir = this.filesDir.absoluteFile
         val picDir = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        sb.append("codeCacheDir :$codeCacheDir").append("\n\n")
-        sb.append("cacheDir :$cacheDir").append("\n\n")
-        sb.append("dataDir :$dataDir").append("\n\n")
-        sb.append("filesDir :$filesDir").append("\n\n")
-        sb.append("picDir :$picDir").append("\n\n")
+        sb.append("codeCacheDir :$codeCacheDir").append("\n")
+        sb.append("cacheDir :$cacheDir").append("\n")
+        sb.append("dataDir :$dataDir").append("\n")
+        sb.append("filesDir :$filesDir").append("\n")
+        sb.append("picDir :$picDir").append("\n")
         storage_info.text = sb
         Log.e(TAG, "setUpStorageInfo:\n $sb")
     }
