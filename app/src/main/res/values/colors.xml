@@ -7,4 +7,6 @@
     <color name="fragment_bg">#18FFFF</color>
 
     <color name="black_overlay">#66000000</color>
+
+    <color name="transparent">#00000000</color>
 </resources>

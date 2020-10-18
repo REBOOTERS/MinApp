@@ -5,7 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".BehaviorActivity">
+    tools:context=".BehaviorActivity"
+    tools:ignore="HardcodedText">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/storage_query"
+        style="@style/mw_10_margin"
+        android:text="picture_query" />
+
+    <Button
+        android:id="@+id/addImageToAlbum"
+        style="@style/mw_10_margin"
+        android:text="Add Image To Album" />
+
+    <Button
+        android:id="@+id/downloadFile"
+        style="@style/mw_10_margin"
+        android:text="Download File" />
+
+    <Button
+        android:id="@+id/pickFile"
+        style="@style/mw_10_margin"
+        android:text="Pick File" />
 
 
     <com.google.android.material.textview.MaterialTextView

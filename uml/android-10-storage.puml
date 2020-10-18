@@ -1,0 +1,11 @@
+@startuml
+start
+if(targetSdk >=29) then (yes)
+    if(android:requestLegacyExternalStorage="true") then (yes)
+    :Android 11 以下，不用做什么;
+    else
+    :;
+    endif
+endif
+end
+@enduml
