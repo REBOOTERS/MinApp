@@ -15,6 +15,7 @@ import com.engineer.android.mini.ui.adapter.AlbumAdapter
 import com.engineer.android.mini.ui.viewmodel.CursorQueryViewModel
 import com.engineer.android.mini.util.SystemTools
 import kotlinx.android.synthetic.main.bottom_sheet_layout.*
+import kotlin.concurrent.thread
 
 /**
  * Created on 2020/10/18.
@@ -57,34 +58,44 @@ class PictureBottomDialog : BaseBottomSheetDialog() {
             imageList.clear()
             imageList.addAll(it)
             adapter.notifyDataSetChanged()
-            it.forEach { uri ->
-                handleUri(uri)
-            }
+            handleUri(it)
         }
         cursorQueryViewModel.loadImages()
 
         cursorQueryViewModel.videoResults.observe(this) {
-            it.forEach { uri ->
-                Log.e(
-                    TAG, "uri=$uri," +
-                            "fileName=${SystemTools.getFileNameByUri(context!!, uri)}," +
-                            "path=${SystemTools.getVideoFilePathFromUri(context!!, uri)}"
-                )
+            thread {
+                Log.e(TAG, "currentThread ${Thread.currentThread().name}")
+                it.forEach { uri ->
+                    context?.let {
+                        Log.e(
+                            TAG, "uri=$uri," +
+                                    "fileName=${SystemTools.getFileNameByUri(it, uri)}," +
+                                    "path=${SystemTools.getVideoFilePathFromUri(it, uri)}"
+                        )
+                    }
+
+                }
             }
         }
         cursorQueryViewModel.loadVideos()
     }
 
-    private fun handleUri(uri: Uri) {
-        context?.let {
-            Log.e(
-                TAG, "uri=$uri," +
-                        "fileName=${SystemTools.getFileNameByUri(context!!, uri)}," +
-                        "path=${SystemTools.getVideoFilePathFromUri(context!!, uri)}"
-            )
-            val fd = it.contentResolver.openFileDescriptor(uri, "r")
-            fd?.let {
-                Log.e(TAG, "handleUri: $fd")
+
+    private fun handleUri(it: List<Uri>) {
+        thread {
+            Log.e(TAG, "currentThread ${Thread.currentThread().name}")
+            it.forEach { uri ->
+                context?.let {
+                    Log.e(
+                        TAG, "uri=$uri," +
+                                "fileName=${SystemTools.getFileNameByUri(it, uri)}," +
+                                "path=${SystemTools.getVideoFilePathFromUri(it, uri)}"
+                    )
+//                    val fd = it.contentResolver.openFileDescriptor(uri, "r")
+//                    fd?.let {
+//                        Log.e(TAG, "handleUri: $fd")
+//                    }
+                }
             }
         }
     }
