@@ -11,7 +11,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.engineer.android.mini.ext.easy
 import com.engineer.android.mini.ext.toast
-import com.engineer.android.mini.ui.JetpackActivity
+import com.engineer.android.mini.jetpack.JetpackActivity
+import com.engineer.android.mini.ui.behavior.BehaviorActivity
+import com.engineer.android.mini.ui.pure.PureUIActivity
 import kotlinx.android.synthetic.main.activity_root.*
 
 class RootActivity : AppCompatActivity() {

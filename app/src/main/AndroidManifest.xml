@@ -16,15 +16,15 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".BehaviorActivity"
+            android:name=".ui.behavior.BehaviorActivity"
             android:exported="true" />
-        <activity android:name=".PureUIActivity" />
+        <activity android:name=".ui.pure.PureUIActivity" />
         <activity
             android:name=".ui.FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_fullscreen"
             android:theme="@style/FullscreenTheme" />
-        <activity android:name=".ui.JetpackActivity" />
+        <activity android:name=".jetpack.JetpackActivity" />
         <activity android:name=".RootActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

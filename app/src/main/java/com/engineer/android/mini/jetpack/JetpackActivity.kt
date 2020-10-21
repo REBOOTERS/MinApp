@@ -1,11 +1,11 @@
-package com.engineer.android.mini.ui
+package com.engineer.android.mini.jetpack
 
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.R
 import com.engineer.android.mini.jetpack.java.FooFragment
 import com.engineer.android.mini.jetpack.kotlin.BarFragment
+import com.engineer.android.mini.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_jetpack.*
 import kotlinx.coroutines.*
 

@@ -1,13 +1,12 @@
-package com.engineer.android.mini
+package com.engineer.android.mini.ui.pure
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
+import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.FullscreenActivity
