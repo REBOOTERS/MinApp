@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.behavior.BehaviorActivity"
     tools:ignore="HardcodedText">
+
+    <Button
+        android:id="@+id/settings"
+        style="@style/mw_10_margin"
+        android:text="Settings" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/storage_query"
@@ -32,5 +42,6 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/storage_info"
         style="@style/mw_10_margin" />
+
 
 </LinearLayout>

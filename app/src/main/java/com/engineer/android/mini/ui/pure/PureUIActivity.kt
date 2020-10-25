@@ -49,7 +49,7 @@ class PureUIActivity : BaseActivity() {
         theme_radio.setOnCheckedChangeListener { _, checkedId ->
             var mode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
             when (checkedId) {
-                R.id.follow_system -> mode = AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+                R.id.follow_system -> mode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
                 R.id.force_dark -> mode = AppCompatDelegate.MODE_NIGHT_YES
                 R.id.force_light -> mode = AppCompatDelegate.MODE_NIGHT_NO
                 R.id.auto_battery -> mode = AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY

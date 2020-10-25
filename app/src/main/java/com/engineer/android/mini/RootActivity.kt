@@ -1,16 +1,13 @@
 package com.engineer.android.mini
 
 import android.Manifest
-import android.app.Activity
-import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.engineer.android.mini.ext.easy
-import com.engineer.android.mini.ext.toast
+import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.jetpack.JetpackActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
@@ -72,14 +69,5 @@ class RootActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-
-    private fun gotoActivity(targetClass: Class<out Activity>?) {
-        targetClass.easy({
-            startActivity(Intent(this, it))
-        }, {
-            "Preparing".toast()
-        })
     }
 }

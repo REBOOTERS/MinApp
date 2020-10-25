@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.R
+import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
 import com.engineer.android.mini.util.SystemTools
 import kotlinx.android.synthetic.main.activity_behavior.*
@@ -57,6 +58,10 @@ class BehaviorActivity : AppCompatActivity() {
         }
         pickFile.setOnClickListener {
             pickFileAndCopyUriToExternalFilesDir()
+        }
+
+        settings.setOnClickListener {
+            gotoActivity(SettingsActivity::class.java)
         }
     }
 
