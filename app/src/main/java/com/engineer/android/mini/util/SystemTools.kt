@@ -56,13 +56,16 @@ object SystemTools {
         return data
     }
 
-    fun getFileNameByUri(context: Context,uri: Uri): String {
-        var fileName = System.currentTimeMillis().toString()
+    fun getFileNameByUri(context: Context, uri: Uri): String {
+        var fileName :String= System.currentTimeMillis().toString()
         val cursor = context.contentResolver.query(uri, null, null, null, null)
         if (cursor != null && cursor.count > 0) {
             cursor.moveToFirst()
-            fileName =
-                cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME))
+            val index = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME)
+            if (index >= 0) {
+                fileName =
+                    cursor.getString(index) ?: "error name"
+            }
             cursor.close()
         }
         return fileName

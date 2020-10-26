@@ -16,6 +16,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".coroutines.ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".coroutines.old.OldWayActivity"/>
+        <activity
             android:name=".ui.behavior.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/AppThemeWithActionBar" />
