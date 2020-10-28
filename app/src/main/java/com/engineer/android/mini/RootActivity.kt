@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.engineer.android.mini.coroutines.ScrollingActivity
+import com.engineer.android.mini.coroutines.old.OldWayActivity
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.jetpack.JetpackActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
@@ -30,7 +30,7 @@ class RootActivity : AppCompatActivity() {
             gotoActivity(BehaviorActivity::class.java)
         }
         coroutines.setOnClickListener {
-            gotoActivity(ScrollingActivity::class.java)
+            gotoActivity(OldWayActivity::class.java)
         }
     }
 

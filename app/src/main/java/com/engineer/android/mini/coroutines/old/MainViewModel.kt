@@ -19,8 +19,12 @@ package com.engineer.android.mini.coroutines.old
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.engineer.android.mini.coroutines.old.util.BACKGROUND
 import com.engineer.android.mini.coroutines.old.util.singleArgViewModelFactory
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * MainViewModel designed to store and manage UI-related data in a lifecycle conscious way. This
@@ -101,10 +105,14 @@ class MainViewModel(private val repository: TitleRepository) : ViewModel() {
      * Wait one second then update the tap count.
      */
     private fun updateTaps() {
-        // TODO: Convert updateTaps to use coroutines
-        tapCount++
-        BACKGROUND.submit {
-            Thread.sleep(1_000)
+//        tapCount++
+//        BACKGROUND.submit {
+//            Thread.sleep(1_000)
+//            _taps.postValue("${tapCount} taps")
+//        }
+        viewModelScope.launch {
+            tapCount++
+            delay(1000)
             _taps.postValue("${tapCount} taps")
         }
     }
@@ -121,16 +129,47 @@ class MainViewModel(private val repository: TitleRepository) : ViewModel() {
      */
     fun refreshTitle() {
         // TODO: Convert refreshTitle to use coroutines
-        _spinner.value = true
-        repository.refreshTitleWithCallbacks(object : TitleRefreshCallback {
-            override fun onCompleted() {
-                _spinner.postValue(false)
-            }
+//        _spinner.value = true
+//        repository.refreshTitleWithCallbacks(object : TitleRefreshCallback {
+//            override fun onCompleted() {
+//                _spinner.postValue(false)
+//            }
+//
+//            override fun onError(cause: Throwable) {
+//                _snackBar.postValue(cause.message)
+//                _spinner.postValue(false)
+//            }
+//        })
 
-            override fun onError(cause: Throwable) {
-                _snackBar.postValue(cause.message)
-                _spinner.postValue(false)
-            }
-        })
+//        viewModelScope.launch {
+//            try {
+//                _spinner.value = true
+//                repository.refreshTitle()
+//            } catch (e: Exception) {
+//                _snackBar.value = e.message
+//            } finally {
+//                _spinner.value = false
+//            }
+//        }
+
+        launchDataLoad {
+            repository.refreshTitle()
+        }
+
     }
+
+
+    private fun launchDataLoad(block: suspend () -> Unit): Job {
+        return viewModelScope.launch {
+            try {
+                _spinner.value = true
+                block()
+            } catch (e: Exception) {
+                _snackBar.value = e.message
+            } finally {
+                _spinner.value = false
+            }
+        }
+    }
+
 }

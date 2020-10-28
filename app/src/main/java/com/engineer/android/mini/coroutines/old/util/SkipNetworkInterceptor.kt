@@ -42,7 +42,7 @@ class SkipNetworkInterceptor: Interceptor {
     /**
      * Return true iff this request should error.
      */
-    private fun wantRandomError() = attempts++ % 5 == 0
+    private fun wantRandomError() = ++attempts % 5 == 0
 
     /**
      * Stop the request from actually going out to the network.
