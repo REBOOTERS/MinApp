@@ -32,12 +32,12 @@ class BarFragment : SimpleBaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fooViewModel.foo.observe(this, {
+        fooViewModel.foo.observe(viewLifecycleOwner, {
             text.text = "result is $it"
-            Log.e(TAG, "onViewCreated: $it")
+            Log.e(TAG,  "$it")
         })
 
-        fooViewModel.fooMap.observe(this, {
+        fooViewModel.fooMap.observe(viewLifecycleOwner, {
             it.toast()
         })
 

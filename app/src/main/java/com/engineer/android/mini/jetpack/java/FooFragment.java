@@ -35,9 +35,9 @@ public class FooFragment extends SimpleBaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fooViewModel.getFoo().observe(this, integer -> {
+        fooViewModel.getFoo().observe(getViewLifecycleOwner(), integer -> {
                     TextView tv = view.findViewById(R.id.text);
-                    Log.e(getTAG(), "onViewCreated: " + integer);
+                    Log.e(getTAG(), "result: " + integer);
                     tv.setText("result is " + integer);
                 }
         );

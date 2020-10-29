@@ -9,7 +9,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.engineer.android.mini.coroutines.old.OldWayActivity
 import com.engineer.android.mini.ext.gotoActivity
-import com.engineer.android.mini.jetpack.JetpackActivity
+import com.engineer.android.mini.jetpack.FragmentManagerActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
 import kotlinx.android.synthetic.main.activity_root.*
@@ -24,7 +24,7 @@ class RootActivity : AppCompatActivity() {
             gotoActivity(PureUIActivity::class.java)
         }
         jetpack_arch.setOnClickListener {
-            gotoActivity(JetpackActivity::class.java)
+            gotoActivity(FragmentManagerActivity::class.java)
         }
         jetpack_behavior.setOnClickListener {
             gotoActivity(BehaviorActivity::class.java)

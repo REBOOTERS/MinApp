@@ -9,7 +9,7 @@ import com.engineer.android.mini.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_jetpack.*
 import kotlinx.coroutines.*
 
-class JetpackActivity : BaseActivity() {
+class FragmentManagerActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jetpack)
