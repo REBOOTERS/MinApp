@@ -5,12 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/root_content"
     tools:context=".ui.pure.PureUIActivity"
     tools:ignore="HardcodedText">
 
     <com.google.android.material.imageview.ShapeableImageView
         style="@style/mw_10_margin"
         android:scaleType="fitXY"
+        android:id="@+id/image_view"
         android:src="@drawable/android"
         app:shapeAppearance="@style/StyleShapeAppearanceImage" />
 

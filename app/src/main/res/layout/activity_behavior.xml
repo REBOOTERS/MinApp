@@ -38,6 +38,11 @@
         style="@style/mw_10_margin"
         android:text="Pick File" />
 
+    <Button
+        android:id="@+id/pickGif"
+        style="@style/mw_10_margin"
+        android:text="Pick Gif" />
+
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/storage_info"

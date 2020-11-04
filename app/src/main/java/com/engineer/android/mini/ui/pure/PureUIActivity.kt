@@ -4,9 +4,13 @@ import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
+import android.view.animation.LinearInterpolator
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
 import com.engineer.android.mini.R
+import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.FullscreenActivity
@@ -20,8 +24,23 @@ class PureUIActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setUpUi()
-    }
 
+        TransitionManager.beginDelayedTransition(root_content)
+
+        image_view.setOnClickListener {
+            // Transition 动画 https://github.com/xiaweizi/TransitionDemo
+            val changeBounds = ChangeBounds()
+            changeBounds.interpolator = LinearInterpolator()
+            TransitionManager.beginDelayedTransition(root_content, changeBounds)
+            val params = image_view.layoutParams
+            if (params.width >= (resources.displayMetrics.widthPixels - 20.dp)) {
+                params.width = resources.displayMetrics.widthPixels / 3
+            } else {
+                params.width = resources.displayMetrics.widthPixels - 20.dp
+            }
+            image_view.layoutParams = params
+        }
+    }
 
 
     private fun setUpUi() {

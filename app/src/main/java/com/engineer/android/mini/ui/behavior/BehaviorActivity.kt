@@ -2,6 +2,7 @@ package com.engineer.android.mini.ui.behavior
 
 import android.app.Activity
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -19,16 +20,14 @@ import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
 import com.engineer.android.mini.util.SystemTools
 import kotlinx.android.synthetic.main.activity_behavior.*
-import java.io.BufferedInputStream
-import java.io.BufferedOutputStream
-import java.io.File
-import java.io.FileOutputStream
+import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
 
 private const val TAG = "BehaviorActivity"
 const val PICK_FILE = 1
+const val PICK_GIF = 2
 
 class BehaviorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,10 +59,15 @@ class BehaviorActivity : AppCompatActivity() {
             pickFileAndCopyUriToExternalFilesDir()
         }
 
+        pickGif.setOnClickListener {
+            pickGifAndCopyUriToExternal()
+        }
+
         settings.setOnClickListener {
             gotoActivity(SettingsActivity::class.java)
         }
     }
+
 
     private fun addBitmapToAlbum(
         bitmap: Bitmap,
@@ -150,6 +154,14 @@ class BehaviorActivity : AppCompatActivity() {
         startActivityForResult(intent, PICK_FILE)
     }
 
+
+    private fun pickGifAndCopyUriToExternal() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.type = "image/gif"
+        startActivityForResult(intent, PICK_GIF)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -159,6 +171,16 @@ class BehaviorActivity : AppCompatActivity() {
                     if (uri != null) {
                         val fileName = SystemTools.getFileNameByUri(this, uri)
                         copyUriToExternalFilesDir(uri, fileName)
+                    }
+                }
+            }
+            PICK_GIF -> {
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    val uri = data.data
+                    if (uri != null) {
+                        val fileName = SystemTools.getFileNameByUri(this, uri)
+//                        copyUriToExternalFilesDir(uri, fileName,)
+                        copyUriToAlbumDir(this, uri, fileName, "image/gif")
                     }
                 }
             }
@@ -208,4 +230,52 @@ class BehaviorActivity : AppCompatActivity() {
         storage_info.text = sb
         Log.e(TAG, "setUpStorageInfo:\n $sb")
     }
+
+
+    fun copyUriToAlbumDir(
+        context: Context,
+        inputUri: Uri,
+        displayName: String,
+        mimeType: String
+    ) {
+        thread {
+            val inputStream = context.contentResolver.openInputStream(inputUri)
+            val values = ContentValues()
+            values.put(MediaStore.MediaColumns.DISPLAY_NAME, displayName)
+            values.put(MediaStore.MediaColumns.MIME_TYPE, mimeType)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DCIM)
+            } else {
+                values.put(
+                    MediaStore.MediaColumns.DATA,
+                    "${Environment.getExternalStorageDirectory().path}/${Environment.DIRECTORY_DCIM}/$displayName"
+                )
+            }
+            val bis = BufferedInputStream(inputStream)
+            val uri =
+                context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+            if (uri != null) {
+                val outputStream = context.contentResolver.openOutputStream(uri)
+                if (outputStream != null) {
+                    val bos = BufferedOutputStream(outputStream)
+                    val buffer = ByteArray(1024)
+                    var bytes = bis.read(buffer)
+                    while (bytes >= 0) {
+                        bos.write(buffer, 0, bytes)
+                        bos.flush()
+                        bytes = bis.read(buffer)
+                    }
+                    bos.close()
+                }
+            }
+            bis.close()
+            runOnUiThread {
+                Toast.makeText(this, "Copy file into album succeeded.", Toast.LENGTH_LONG)
+                    .show()
+            }
+        }
+
+
+    }
+
 }

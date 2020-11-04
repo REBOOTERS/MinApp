@@ -32,7 +32,7 @@ class FragmentManagerActivity : BaseActivity() {
 
     }
 
-    private fun refreshStatus() {
+    private  fun refreshStatus() {
         val coroutineScope = CoroutineScope(Dispatchers.IO)
         coroutineScope.launch {
             Log.e("MainActivity", "Current Thread ${Thread.currentThread().name}")

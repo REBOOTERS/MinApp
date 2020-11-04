@@ -17,19 +17,32 @@
 package com.engineer.android.mini.coroutines.old
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.engineer.android.mini.R
+import com.engineer.android.mini.ext.toast
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_old_main.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
+import kotlin.random.Random
 
 /**
  * Show layout.activity_main and setup data binding.
  */
+private const val TAG = "Coroutines"
+
 class OldWayActivity : AppCompatActivity() {
+
+
+    private var mainScope: CoroutineScope? = null
 
     /**
      * Inflate layout.activity_main and setup data binding.
@@ -38,10 +51,9 @@ class OldWayActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_old_main)
-
-        val rootLayout: ConstraintLayout = findViewById(R.id.rootLayout)
+        mainScope = MainScope()
         val title: TextView = findViewById(R.id.title)
-        val taps: TextView = findViewById(R.id.taps)
+        val taps: Button = findViewById(R.id.taps)
         val spinner: ProgressBar = findViewById(R.id.spinner)
 
         // Get MainViewModel by passing a database to the factory
@@ -51,7 +63,7 @@ class OldWayActivity : AppCompatActivity() {
             .get(MainViewModel::class.java)
 
         // When rootLayout is clicked call onMainViewClicked in ViewModel
-        rootLayout.setOnClickListener {
+        taps.setOnClickListener {
             viewModel.onMainViewClicked()
         }
 
@@ -80,5 +92,75 @@ class OldWayActivity : AppCompatActivity() {
                 viewModel.onSnackbarShown()
             }
         }
+
+        handle.setOnClickListener {
+            mainScope?.launch(Dispatchers.Main) {
+                val start = System.currentTimeMillis()
+                printThreadName()
+                val x = mockNet(10)
+                val y = mockNet(30)
+                val result = x + y
+                printThreadName()
+                printMethodCost(start)
+                "result is $result".toast()
+            }
+        }
+
+        useAwait.setOnClickListener {
+            mainScope?.launch(Dispatchers.Unconfined) {
+                val start = System.currentTimeMillis()
+                printThreadName()
+                val x = async { mockNet(10) }
+                val y = async { mockNet(30) }
+                val result = x.await() + y.await()
+                printThreadName()
+                printMethodCost(start)
+                withContext(Dispatchers.Main) {
+                    "result is $result".toast()
+                }
+
+            }
+        }
+
+        useFlow.setOnClickListener {
+            lifecycleScope.launchWhenResumed {
+                createFlow()
+                    .flowOn(Dispatchers.IO)
+                    .catch {
+
+                    }
+                    .onCompletion {
+                        Log.e(TAG, "onCompletion" )
+                    }
+                    .collect {
+                        Log.e(TAG, "collect ,it = $it" )
+                    }
+            }
+        }
+    }
+
+    private fun createFlow(): Flow<Int> {
+       return (1..10).asFlow()
+    }
+
+    private suspend fun mockNet(input: Int): Int {
+        withContext(Dispatchers.Default) {
+            delay(1000)
+            printThreadName()
+        }
+        return Random(input).nextInt()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mainScope?.cancel()
+    }
+
+    private fun printThreadName() {
+        Log.e(TAG, "thread == ${Thread.currentThread().name}")
+    }
+
+    private fun printMethodCost(start: Long) {
+        Log.e(TAG, "cost time = ${System.currentTimeMillis() - start}")
     }
 }
