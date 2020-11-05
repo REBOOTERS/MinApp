@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import com.engineer.android.mini.coroutines.old.OldWayActivity
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.jetpack.FragmentManagerActivity
+import com.engineer.android.mini.net.RxCacheActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
 import kotlinx.android.synthetic.main.activity_root.*
@@ -31,6 +32,9 @@ class RootActivity : AppCompatActivity() {
         }
         coroutines.setOnClickListener {
             gotoActivity(OldWayActivity::class.java)
+        }
+        cache.setOnClickListener {
+            gotoActivity(RxCacheActivity::class.java)
         }
     }
 
