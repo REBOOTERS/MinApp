@@ -71,9 +71,11 @@ dependencies {
 
     implementation 'com.facebook.stetho:stetho:1.5.1'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+    implementation project(path: ':netcache')
 }
 
-apply from: file("./custom-gradle/test-dep.gradle") // unit test
-apply from: file("./custom-gradle/res-guard.gradle") // res-guard
-apply from: file("./custom-gradle/viewmodel-dep.gradle") // view-model-lifecycle 全家桶
-apply from: file("./custom-gradle/coroutines-dep.gradle") // kotlin coroutines
+apply from: file("../custom-gradle/test-dep.gradle") // unit test
+apply from: file("../custom-gradle/res-guard.gradle") // res-guard
+apply from: file("../custom-gradle/viewmodel-dep.gradle") // view-model-lifecycle 全家桶
+apply from: file("../custom-gradle/coroutines-dep.gradle") // kotlin coroutines
+apply from: file("../custom-gradle/rx-retrofit-dep.gradle") // rxjava retrofit gson 网络全家桶
