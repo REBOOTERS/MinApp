@@ -72,6 +72,9 @@ dependencies {
     implementation 'com.facebook.stetho:stetho:1.5.1'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
     implementation project(path: ':netcache')
+
+    implementation 'com.zchu:rxcache:2.3.5'
+    implementation 'com.zchu:rxcache-kotlin:2.3.5'
 }
 
 apply from: file("../custom-gradle/test-dep.gradle") // unit test
