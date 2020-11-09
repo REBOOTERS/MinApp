@@ -13,6 +13,7 @@ import com.engineer.android.mini.jetpack.FragmentManagerActivity
 import com.engineer.android.mini.net.RxCacheActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
+import com.weijiaxing.logviewer.LogcatActivity
 import kotlinx.android.synthetic.main.activity_root.*
 
 class RootActivity : AppCompatActivity() {
@@ -36,6 +37,7 @@ class RootActivity : AppCompatActivity() {
         cache.setOnClickListener {
             gotoActivity(RxCacheActivity::class.java)
         }
+//        LogcatActivity.launch(this)
     }
 
     private fun handlePermissions() {

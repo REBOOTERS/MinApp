@@ -5,7 +5,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+
     }
     dependencies {
         classpath "com.android.tools.build:gradle:${gradle_version}"
@@ -22,11 +22,12 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven{url 'https://dl.bintray.com/zchu/maven/'}
+        maven { url "https://jitpack.io" }
+        maven { url 'https://dl.bintray.com/zchu/maven/' }
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-    delete rootProject.rootDir.absolutePath +  "/final.apk"
+    delete rootProject.rootDir.absolutePath + "/final.apk"
 }

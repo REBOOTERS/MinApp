@@ -6,6 +6,7 @@ import android.os.Environment
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.netcache.internal.Net
@@ -49,6 +50,36 @@ class RxCacheActivity : AppCompatActivity() {
 
 
         loadData()
+
+        fullStatusBar()
+    }
+
+    /**
+     * 内容填空状态栏
+     */
+    private fun fullStatusBar() {
+        val window = window
+        val decorView = window.decorView
+        decorView.setOnApplyWindowInsetsListener { v, insets ->
+            val defaultInsets = v.onApplyWindowInsets(insets)
+            defaultInsets?.let {
+
+                val left = it.systemWindowInsetLeft
+                val top = it.systemWindowInsetTop
+                val right = it.systemWindowInsetRight
+                val bottom = it.systemWindowInsetBottom
+                Log.e(TAG, "insets: $left,$top,$right,$bottom")
+            }
+
+            defaultInsets.replaceSystemWindowInsets(
+                defaultInsets.getSystemWindowInsetLeft(),
+                200,
+                defaultInsets.getSystemWindowInsetRight(),
+                defaultInsets.getSystemWindowInsetBottom()
+
+            )
+        }
+        ViewCompat.requestApplyInsets(decorView)
     }
 
     @SuppressLint("CheckResult")
@@ -60,7 +91,7 @@ class RxCacheActivity : AppCompatActivity() {
         Log.e("zyq", "second =$second")
         Net.createService(WanAndroidService::class.java)
             .getWeChatAccountList()
-            .rxCache(rxCache, "all", FirstCacheTimeoutStrategy(10 * 1000))
+            .rxCache(rxCache, "all", FirstCacheTimeoutStrategy(millis))
             .compose(ThreadExTransform())
             .subscribe({
                 handleCache(it)
@@ -74,9 +105,11 @@ class RxCacheActivity : AppCompatActivity() {
     private fun handleCache(it: CacheResult<WeChatCountList>) {
         if (ResultFrom.ifFromCache(it.from)) {
             lg("cache")
+            "from cache".toast()
             this.parseData(it.data)
         } else {
             lg("net")
+            "from net".toast()
             this.parseData(it.data)
         }
     }
@@ -87,7 +120,7 @@ class RxCacheActivity : AppCompatActivity() {
             if (errorCode == 0) {
                 val sb = StringBuilder()
                 data.forEach {
-                    sb.append(it).append("\n")
+                    sb.append(it).append("\n\n")
                 }
                 tv.text = sb.toString()
             }

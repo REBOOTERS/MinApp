@@ -1,3 +1,4 @@
+include ':thirdlib'
 include ':netcache'
 rootProject.name='MiniApp'
 include ':app'

@@ -75,6 +75,7 @@ dependencies {
 
     implementation 'com.zchu:rxcache:2.3.5'
     implementation 'com.zchu:rxcache-kotlin:2.3.5'
+    implementation project(path: ':thirdlib')
 }
 
 apply from: file("../custom-gradle/test-dep.gradle") // unit test
