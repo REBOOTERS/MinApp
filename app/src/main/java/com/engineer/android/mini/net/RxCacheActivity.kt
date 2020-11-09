@@ -24,6 +24,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_rx_cache.*
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 private const val TAG = "RxCacheActivity"
 
@@ -53,6 +54,10 @@ class RxCacheActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     private fun loadData() {
 
+        val millis = TimeUnit.DAYS.toMillis(1)
+        val second = TimeUnit.DAYS.toSeconds(1)
+        Log.e("zyq", "millis =$millis")
+        Log.e("zyq", "second =$second")
         Net.createService(WanAndroidService::class.java)
             .getWeChatAccountList()
             .rxCache(rxCache, "all", FirstCacheTimeoutStrategy(10 * 1000))
