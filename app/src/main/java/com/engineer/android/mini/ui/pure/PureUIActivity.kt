@@ -13,7 +13,6 @@ import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
-import com.engineer.android.mini.ui.FullscreenActivity
 import kotlinx.android.synthetic.main.activity_main_content.*
 
 @SuppressLint("SetTextI18n")
@@ -40,6 +39,9 @@ class PureUIActivity : BaseActivity() {
             }
             image_view.layoutParams = params
         }
+
+
+
     }
 
 

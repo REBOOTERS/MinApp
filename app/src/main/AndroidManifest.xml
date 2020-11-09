@@ -25,7 +25,7 @@
             android:exported="true" />
         <activity android:name=".ui.pure.PureUIActivity" />
         <activity
-            android:name=".ui.FullscreenActivity"
+            android:name=".ui.pure.FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_fullscreen"
             android:theme="@style/FullscreenTheme" />

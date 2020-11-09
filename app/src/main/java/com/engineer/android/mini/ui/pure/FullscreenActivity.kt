@@ -1,4 +1,4 @@
-package com.engineer.android.mini.ui
+package com.engineer.android.mini.ui.pure
 
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
