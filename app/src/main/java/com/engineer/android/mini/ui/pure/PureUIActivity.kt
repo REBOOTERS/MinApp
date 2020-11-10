@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.Window
 import android.view.WindowManager
 import android.view.animation.LinearInterpolator
 import androidx.annotation.RequiresApi
@@ -16,6 +15,8 @@ import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
+import com.engineer.android.mini.ext.getStatusBarHeight
+import com.engineer.android.mini.ext.resizeMarginTop
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_main_content.*
@@ -48,6 +49,7 @@ class PureUIActivity : BaseActivity() {
 
         transparentStatusBar()
         fullStatusBar()
+        image_view.resizeMarginTop(getStatusBarHeight())
     }
 
     /**
