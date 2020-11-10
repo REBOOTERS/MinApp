@@ -6,17 +6,14 @@ import android.os.Environment
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.netcache.internal.Net
-import com.google.gson.Gson
 import com.zchu.rxcache.RxCache
 import com.zchu.rxcache.data.CacheResult
 import com.zchu.rxcache.data.ResultFrom
 import com.zchu.rxcache.diskconverter.GsonDiskConverter
 import com.zchu.rxcache.kotlin.rxCache
-import com.zchu.rxcache.stategy.FirstCacheStrategy
 import com.zchu.rxcache.stategy.FirstCacheTimeoutStrategy
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
@@ -50,37 +47,8 @@ class RxCacheActivity : AppCompatActivity() {
 
 
         loadData()
-
-        fullStatusBar()
     }
 
-    /**
-     * 内容填空状态栏
-     */
-    private fun fullStatusBar() {
-        val window = window
-        val decorView = window.decorView
-        decorView.setOnApplyWindowInsetsListener { v, insets ->
-            val defaultInsets = v.onApplyWindowInsets(insets)
-            defaultInsets?.let {
-
-                val left = it.systemWindowInsetLeft
-                val top = it.systemWindowInsetTop
-                val right = it.systemWindowInsetRight
-                val bottom = it.systemWindowInsetBottom
-                Log.e(TAG, "insets: $left,$top,$right,$bottom")
-            }
-
-            defaultInsets.replaceSystemWindowInsets(
-                defaultInsets.getSystemWindowInsetLeft(),
-                200,
-                defaultInsets.getSystemWindowInsetRight(),
-                defaultInsets.getSystemWindowInsetBottom()
-
-            )
-        }
-        ViewCompat.requestApplyInsets(decorView)
-    }
 
     @SuppressLint("CheckResult")
     private fun loadData() {

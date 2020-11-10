@@ -2,17 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/wall"
     android:orientation="vertical"
-    android:id="@+id/root_content"
     tools:context=".ui.pure.PureUIActivity"
     tools:ignore="HardcodedText">
 
     <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image_view"
         style="@style/mw_10_margin"
         android:scaleType="fitXY"
-        android:id="@+id/image_view"
         android:src="@drawable/android"
         app:shapeAppearance="@style/StyleShapeAppearanceImage" />
 

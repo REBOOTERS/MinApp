@@ -2,11 +2,16 @@ package com.engineer.android.mini.ui.pure
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.view.Window
+import android.view.WindowManager
 import android.view.animation.LinearInterpolator
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.ViewCompat
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import com.engineer.android.mini.R
@@ -15,13 +20,14 @@ import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_main_content.*
 
+
 @SuppressLint("SetTextI18n")
 class PureUIActivity : BaseActivity() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_pure_ui)
         setUpUi()
 
         TransitionManager.beginDelayedTransition(root_content)
@@ -40,8 +46,45 @@ class PureUIActivity : BaseActivity() {
             image_view.layoutParams = params
         }
 
+        transparentStatusBar()
+        fullStatusBar()
+    }
 
+    /**
+     * 透明状态栏
+     */
+    private fun transparentStatusBar() {
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.statusBarColor = Color.TRANSPARENT
+    }
 
+    /**
+     * 内容填空状态栏
+     */
+    private fun fullStatusBar() {
+
+        val window = window
+        val decorView = window.decorView
+        decorView.setOnApplyWindowInsetsListener { v, insets ->
+            val defaultInsets = v.onApplyWindowInsets(insets)
+            defaultInsets?.let {
+
+                val left = it.systemWindowInsetLeft
+                val top = it.systemWindowInsetTop
+                val right = it.systemWindowInsetRight
+                val bottom = it.systemWindowInsetBottom
+                Log.e(TAG, "insets: $left,$top,$right,$bottom")
+            }
+
+            defaultInsets.replaceSystemWindowInsets(
+                defaultInsets.getSystemWindowInsetLeft(),
+                0,
+                defaultInsets.getSystemWindowInsetRight(),
+                defaultInsets.getSystemWindowInsetBottom()
+
+            )
+        }
+        ViewCompat.requestApplyInsets(decorView)
     }
 
 
