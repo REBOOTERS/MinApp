@@ -15,7 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".net.RxCacheActivity"></activity>
+        <activity
+            android:name=".ui.pure.LayoutActivity"
+            android:exported="true" />
+        <activity android:name=".net.RxCacheActivity" />
         <activity
             android:name=".ui.behavior.SettingsActivity"
             android:label="@string/title_activity_settings"

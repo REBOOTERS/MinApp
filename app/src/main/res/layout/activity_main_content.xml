@@ -66,6 +66,7 @@
         android:textColor="?android:attr/textColorPrimary" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/layout_ac"
         style="@style/mw_10_margin"
         android:text="AppCompatButton"
         android:textColor="?android:attr/textColorPrimary" />
