@@ -1,6 +1,7 @@
 package com.engineer.android.mini.ui.behavior
 
 import android.app.Activity
+import android.app.DownloadManager
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -17,10 +18,12 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.gotoActivity
+import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
 import com.engineer.android.mini.util.SystemTools
 import kotlinx.android.synthetic.main.activity_behavior.*
 import java.io.*
+import java.lang.reflect.Field
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
@@ -65,6 +68,39 @@ class BehaviorActivity : AppCompatActivity() {
 
         settings.setOnClickListener {
             gotoActivity(SettingsActivity::class.java)
+        }
+
+        use_hide_api.setOnClickListener {
+            val downloadManager: DownloadManager =
+                getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+                try {
+                    val fields: Array<Field> = downloadManager.javaClass.declaredFields
+                    fields.forEach {
+                        it.isAccessible = true
+                        Log.e(TAG, "it = ${it.name}: ${it.get(downloadManager)}")
+                    }
+                    val mAccessFilename: Field =
+                        downloadManager.javaClass.getDeclaredField("mAccessFilename")
+                    mAccessFilename.isAccessible = true
+                    Log.e(TAG, "before hack value is $mAccessFilename")
+
+                    val method = downloadManager.javaClass.getDeclaredMethod(
+                        "setAccessFilename",
+                        Boolean::class.java.componentType
+                    )
+                    method.isAccessible = true
+                    method.invoke(downloadManager, true)
+
+                    Log.e(TAG, "after hack value is $mAccessFilename")
+                } catch (e: Exception) {
+                    Log.e(TAG, "e = $e")
+                    e.message.toast()
+                }
+
+            }
         }
     }
 
