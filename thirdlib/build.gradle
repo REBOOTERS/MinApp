@@ -34,4 +34,5 @@ android {
 
 dependencies {
     api 'com.github.weijiaxing:LogcatViewer:1.0.3'
+    api 'jp.wasabeef:blurry:4.0.0'
 }
