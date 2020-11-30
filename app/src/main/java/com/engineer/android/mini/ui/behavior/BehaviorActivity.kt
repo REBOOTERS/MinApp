@@ -22,7 +22,10 @@ import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
 import com.engineer.android.mini.util.SystemTools
 import kotlinx.android.synthetic.main.activity_behavior.*
-import java.io.*
+import java.io.BufferedInputStream
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.lang.reflect.Field
 import java.net.HttpURLConnection
 import java.net.URL
