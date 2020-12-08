@@ -47,6 +47,8 @@ class RxCacheActivity : AppCompatActivity() {
 
 
         loadData()
+
+//        fullStatusBar()
     }
 
 

@@ -2,17 +2,21 @@ package com.engineer.android.mini
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.engineer.android.mini.coroutines.old.OldWayActivity
 import com.engineer.android.mini.ext.gotoActivity
+import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.jetpack.FragmentManagerActivity
 import com.engineer.android.mini.net.RxCacheActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
+import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_root.*
 
 class RootActivity : AppCompatActivity() {
@@ -20,6 +24,26 @@ class RootActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_root)
         handlePermissions()
+
+        var blured  = false
+
+        blur_view.setOnClickListener {
+            if (blured) {
+                Blurry.delete(rootView)
+            } else {
+                val now = System.currentTimeMillis()
+                Blurry.with(this)
+                    .radius(25)
+                    .sampling(1)
+                    .color(Color.argb(66, 0, 255, 255))
+                    .async()
+                    .onto(rootView)
+                "time is ${System.currentTimeMillis() - now}".toast()
+            }
+            blured = !blured
+        }
+
+
 
         jetpack_ui.setOnClickListener {
             gotoActivity(PureUIActivity::class.java)

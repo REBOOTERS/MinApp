@@ -47,6 +47,10 @@ class PureUIActivity : BaseActivity() {
             image_view.layoutParams = params
         }
 
+        layout_ac.setOnClickListener {
+            gotoPage(LayoutActivity::class.java)
+        }
+
         transparentStatusBar()
         fullStatusBar()
         image_view.resizeMarginTop(getStatusBarHeight())
