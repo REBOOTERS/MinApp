@@ -25,11 +25,11 @@ class RootActivity : AppCompatActivity() {
         setContentView(R.layout.activity_root)
         handlePermissions()
 
-        var blured  = false
+        var blured = false
 
         blur_view.setOnClickListener {
             if (blured) {
-                Blurry.delete(rootView)
+                Blurry.delete(blur_view)
             } else {
                 val now = System.currentTimeMillis()
                 Blurry.with(this)
@@ -37,7 +37,7 @@ class RootActivity : AppCompatActivity() {
                     .sampling(1)
                     .color(Color.argb(66, 0, 255, 255))
                     .async()
-                    .onto(rootView)
+                    .onto(blur_view)
                 "time is ${System.currentTimeMillis() - now}".toast()
             }
             blured = !blured

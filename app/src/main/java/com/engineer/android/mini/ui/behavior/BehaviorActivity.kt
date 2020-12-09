@@ -105,6 +105,34 @@ class BehaviorActivity : AppCompatActivity() {
 
             }
         }
+        val dd = arrayOf("11")
+        handler.setOnClickListener {
+            val tag = "threadLocal"
+
+            val threadLocal = ThreadLocal<Int>()
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                ThreadLocal.withInitial { 0 }
+            }
+            val t1 = Thread {
+                threadLocal.set(1)
+                Log.e(tag, "${Thread.currentThread().name} : threadLocal = ${threadLocal.get()}")
+            }
+
+            val t2 = Thread {
+                threadLocal.set(2)
+                Log.e(tag, "${Thread.currentThread().name} : threadLocal = ${threadLocal.get()}")
+            }
+
+            t1.start()
+            Thread.sleep(1000)
+            t2.start()
+
+            t1.join()
+            t2.join()
+
+            Log.e(tag, "${Thread.currentThread().name} : threadLocal = ${threadLocal.get()}")
+        }
     }
 
 

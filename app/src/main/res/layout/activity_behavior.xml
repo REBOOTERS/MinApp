@@ -13,6 +13,11 @@
         android:text="Settings" />
 
     <Button
+        android:id="@+id/handler"
+        style="@style/mw_10_margin"
+        android:text="Handler" />
+
+    <Button
         android:id="@+id/use_hide_api"
         style="@style/mw_10_margin"
         android:text="Use Hide Api" />

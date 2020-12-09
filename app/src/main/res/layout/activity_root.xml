@@ -5,7 +5,7 @@
     android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#111"
+    android:background="@color/black_overlay"
     tools:context=".RootActivity"
     tools:ignore="HardcodedText">
 
@@ -121,13 +121,24 @@
     </com.google.android.material.card.MaterialCardView>
 
 
-    <View
+    <LinearLayout
         android:id="@+id/blur_view"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="10dp"
         android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/cache" />
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/cache">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:text="@string/long_chinese_content"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 
     <androidx.constraintlayout.widget.Guideline
