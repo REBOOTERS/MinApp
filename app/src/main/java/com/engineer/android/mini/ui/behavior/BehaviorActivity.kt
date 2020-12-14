@@ -105,15 +105,14 @@ class BehaviorActivity : AppCompatActivity() {
 
             }
         }
-        val dd = arrayOf("11")
         handler.setOnClickListener {
             val tag = "threadLocal"
 
-            val threadLocal = ThreadLocal<Int>()
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 ThreadLocal.withInitial { 0 }
             }
+            val threadLocal = ThreadLocal<Int>()
             val t1 = Thread {
                 threadLocal.set(1)
                 Log.e(tag, "${Thread.currentThread().name} : threadLocal = ${threadLocal.get()}")
