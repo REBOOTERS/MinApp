@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -17,6 +16,7 @@ import com.engineer.android.mini.net.RxCacheActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
 import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterActivityLaunchConfigs
 import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_root.*
 
@@ -63,11 +63,14 @@ class RootActivity : AppCompatActivity() {
         }
         next.setOnClickListener {
             startActivity(
-                FlutterActivity.withCachedEngine(MinApp.MINI).build(this)
+                FlutterActivity.withCachedEngine(MinApp.MINI)
+                    .backgroundMode(FlutterActivityLaunchConfigs.BackgroundMode.transparent)
+                    .build(this)
             )
         }
     }
 
+    // <editor-fold defaultstate="collapsed" desc="permission">
     private fun handlePermissions() {
         val permissionsToRequire = ArrayList<String>()
         if (ContextCompat.checkSelfPermission(
@@ -105,4 +108,5 @@ class RootActivity : AppCompatActivity() {
             }
         }
     }
+// </editor-fold>
 }
