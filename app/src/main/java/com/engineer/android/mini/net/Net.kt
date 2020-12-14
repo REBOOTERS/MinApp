@@ -1,4 +1,4 @@
-package com.engineer.android.netcache.internal
+package com.engineer.android.mini.net
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
