@@ -16,6 +16,7 @@ import com.engineer.android.mini.jetpack.FragmentManagerActivity
 import com.engineer.android.mini.net.RxCacheActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
+import io.flutter.embedding.android.FlutterActivity
 import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_root.*
 
@@ -59,6 +60,11 @@ class RootActivity : AppCompatActivity() {
         }
         cache.setOnClickListener {
             gotoActivity(RxCacheActivity::class.java)
+        }
+        next.setOnClickListener {
+            startActivity(
+                FlutterActivity.withCachedEngine(MinApp.MINI).build(this)
+            )
         }
     }
 

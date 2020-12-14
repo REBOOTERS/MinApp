@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name=".MinApp"
@@ -28,7 +28,7 @@
             android:name=".ui.behavior.BehaviorActivity"
             android:exported="true" />
         <activity android:name=".ui.pure.PureUIActivity" />
-        <activity android:name=".coroutines.old.OldWayActivity"/>
+        <activity android:name=".coroutines.old.OldWayActivity" />
         <activity
             android:name=".ui.pure.FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -42,6 +42,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--flutter-->
+        <activity
+            android:name="io.flutter.embedding.android.FlutterActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
