@@ -1,0 +1,11 @@
+@startuml
+start
+:抢购开始;
+:手速、网速快的比拼开始;
+repeat
+:请求服务器，查询一下还有多少出货;
+repeat while(存货充足?)
+:抢购结束，抢购按钮置灰;
+:结束;
+end
+@enduml
