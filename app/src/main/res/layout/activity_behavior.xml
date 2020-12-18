@@ -18,6 +18,11 @@
         android:text="Handler" />
 
     <Button
+        android:id="@+id/thread_local"
+        style="@style/mw_10_margin"
+        android:text="ThreadLocal" />
+
+    <Button
         android:id="@+id/use_hide_api"
         style="@style/mw_10_margin"
         android:text="Use Hide Api" />

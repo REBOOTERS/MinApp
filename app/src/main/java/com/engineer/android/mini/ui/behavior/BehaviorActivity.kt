@@ -8,9 +8,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
-import android.os.Environment
+import android.os.*
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
@@ -105,7 +103,21 @@ class BehaviorActivity : AppCompatActivity() {
 
             }
         }
+
         handler.setOnClickListener {
+            val h = Handler(Looper.getMainLooper())
+            val msg1 = Message.obtain()
+            msg1.what = 100
+            msg1.obj = "100"
+            h.sendMessage(msg1)
+
+            handler.postDelayed({
+                "delay 3000".toast()
+            }, 3000)
+
+        }
+
+        thread_local.setOnClickListener {
             val tag = "threadLocal"
 
 
@@ -113,9 +125,14 @@ class BehaviorActivity : AppCompatActivity() {
                 ThreadLocal.withInitial { 0 }
             }
             val threadLocal = ThreadLocal<Int>()
+            val threadLocal2 = ThreadLocal<String>()
+            val threadLocal3 = ThreadLocal<Boolean>()
             val t1 = Thread {
                 threadLocal.set(1)
+                threadLocal2.set("22222")
+                threadLocal3.set(true)
                 Log.e(tag, "${Thread.currentThread().name} : threadLocal = ${threadLocal.get()}")
+
             }
 
             val t2 = Thread {
@@ -131,6 +148,11 @@ class BehaviorActivity : AppCompatActivity() {
             t2.join()
 
             Log.e(tag, "${Thread.currentThread().name} : threadLocal = ${threadLocal.get()}")
+
+            val magicNumberStr = "0x61c88647"
+            val magicNum = magicNumberStr.substring(2)
+            val value = Integer.parseInt(magicNum,16)
+            val valueBin = Integer.toBinaryString(value)
         }
     }
 
