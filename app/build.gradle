@@ -76,6 +76,8 @@ dependencies {
     implementation 'com.zchu:rxcache-kotlin:2.3.5'
     implementation project(path: ':thirdlib')
     implementation project(path: ':flutter')
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
 }
 
 apply from: file("../custom-gradle/test-dep.gradle") // unit test
