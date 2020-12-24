@@ -36,5 +36,10 @@
       <option name="name" value="maven4" />
       <option name="url" value="https://storage.flutter-io.cn/download.flutter.io" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven6" />
+      <option name="name" value="maven6" />
+      <option name="url" value="https://google.bintray.com/exoplayer/" />
+    </remote-repository>
   </component>
 </project>

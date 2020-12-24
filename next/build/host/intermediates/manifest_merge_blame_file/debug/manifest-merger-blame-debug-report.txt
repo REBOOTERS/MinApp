@@ -1,0 +1,120 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.engineer.flutter.next.host"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="16"
+8-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="29" />
+9-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml
+10
+11    <!--
+12         The INTERNET permission is required for development. Specifically,
+13         flutter needs it to communicate with the running application
+14         to allow setting breakpoints, to provide hot reload, etc.
+15    -->
+16    <uses-permission android:name="android.permission.INTERNET" />
+16-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:9:5-66
+16-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:9:22-64
+17    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+17-->[:image_picker] /Users/zhuyongging/Documents/flutter_all/flutter/.pub-cache/hosted/pub.flutter-io.cn/image_picker-0.6.7+17/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-80
+17-->[:image_picker] /Users/zhuyongging/Documents/flutter_all/flutter/.pub-cache/hosted/pub.flutter-io.cn/image_picker-0.6.7+17/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:22-77
+18    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+18-->[:image_picker] /Users/zhuyongging/Documents/flutter_all/flutter/.pub-cache/hosted/pub.flutter-io.cn/image_picker-0.6.7+17/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-81
+18-->[:image_picker] /Users/zhuyongging/Documents/flutter_all/flutter/.pub-cache/hosted/pub.flutter-io.cn/image_picker-0.6.7+17/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:8:22-78
+19    <!--
+20 io.flutter.app.FlutterApplication is an android.app.Application that
+21         calls FlutterMain.startInitialization(this); in its onCreate method.
+22         In most cases you can leave this as-is, but you if you want to provide
+23         additional functionality it is fine to subclass or reimplement
+24         FlutterApplication and put your custom class here.
+25    -->
+26    <application
+26-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:16:5-44:19
+27        android:name="io.flutter.app.FlutterApplication"
+27-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:17:9-57
+28        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+28-->[androidx.core:core:1.1.0] /Users/zhuyongging/.gradle/caches/transforms-2/files-2.1/6b399c2363bb098ebde1725d903cbda0/core-1.1.0/AndroidManifest.xml:24:18-86
+29        android:debuggable="true"
+30        android:icon="@mipmap/ic_launcher"
+30-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:19:9-43
+31        android:label="next" >
+31-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:18:9-29
+32        <activity
+32-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:20:9-38:20
+33            android:name="com.engineer.flutter.next.host.MainActivity"
+33-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:21:13-41
+34            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+34-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:24:13-163
+35            android:hardwareAccelerated="true"
+35-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:25:13-47
+36            android:launchMode="singleTop"
+36-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:22:13-43
+37            android:theme="@style/LaunchTheme"
+37-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:23:13-47
+38            android:windowSoftInputMode="adjustResize" >
+38-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:26:13-55
+39
+40            <!--
+41                 This keeps the window background of the activity showing
+42                 until Flutter renders its first frame. It can be removed if
+43                 there is no splash screen (such as the default splash screen
+44                 defined in @style/LaunchTheme).
+45            -->
+46            <meta-data
+46-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:31:13-33:40
+47                android:name="io.flutter.app.android.SplashScreenUntilFirstFrame"
+47-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:32:17-82
+48                android:value="true" />
+48-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:33:17-37
+49
+50            <intent-filter>
+50-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:34:13-37:29
+51                <action android:name="android.intent.action.MAIN" />
+51-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:35:17-68
+51-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:35:25-66
+52
+53                <category android:name="android.intent.category.LAUNCHER" />
+53-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:36:17-76
+53-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:36:27-74
+54            </intent-filter>
+55        </activity>
+56        <!--
+57             Don't delete the meta-data below.
+58             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+59        -->
+60        <meta-data
+60-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:41:9-43:33
+61            android:name="flutterEmbedding"
+61-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:42:13-44
+62            android:value="2" />
+62-->/Users/zhuyongging/Documents/mygithub/MinApp/next/.android/app/src/main/AndroidManifest.xml:43:13-30
+63        <meta-data
+63-->[:flutter] /Users/zhuyongging/Documents/mygithub/MinApp/next/.android/Flutter/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:9-18:38
+64            android:name="flutterProjectType"
+64-->[:flutter] /Users/zhuyongging/Documents/mygithub/MinApp/next/.android/Flutter/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:13-46
+65            android:value="module" />
+65-->[:flutter] /Users/zhuyongging/Documents/mygithub/MinApp/next/.android/Flutter/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:13-35
+66
+67        <provider
+67-->[:image_picker] /Users/zhuyongging/Documents/flutter_all/flutter/.pub-cache/hosted/pub.flutter-io.cn/image_picker-0.6.7+17/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:9-19:20
+68            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+68-->[:image_picker] /Users/zhuyongging/Documents/flutter_all/flutter/.pub-cache/hosted/pub.flutter-io.cn/image_picker-0.6.7+17/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-82
+69            android:authorities="com.engineer.flutter.next.host.flutter.image_provider"
+69-->[:image_picker] /Users/zhuyongging/Documents/flutter_all/flutter/.pub-cache/hosted/pub.flutter-io.cn/image_picker-0.6.7+17/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-74
+70            android:exported="false"
+70-->[:image_picker] /Users/zhuyongging/Documents/flutter_all/flutter/.pub-cache/hosted/pub.flutter-io.cn/image_picker-0.6.7+17/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:14:13-37
+71            android:grantUriPermissions="true" >
+71-->[:image_picker] /Users/zhuyongging/Documents/flutter_all/flutter/.pub-cache/hosted/pub.flutter-io.cn/image_picker-0.6.7+17/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:13-47
+72            <meta-data
+72-->[:image_picker] /Users/zhuyongging/Documents/flutter_all/flutter/.pub-cache/hosted/pub.flutter-io.cn/image_picker-0.6.7+17/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:13-18:75
+73                android:name="android.support.FILE_PROVIDER_PATHS"
+73-->[:image_picker] /Users/zhuyongging/Documents/flutter_all/flutter/.pub-cache/hosted/pub.flutter-io.cn/image_picker-0.6.7+17/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:17-67
+74                android:resource="@xml/flutter_image_picker_file_paths" />
+74-->[:image_picker] /Users/zhuyongging/Documents/flutter_all/flutter/.pub-cache/hosted/pub.flutter-io.cn/image_picker-0.6.7+17/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:17-72
+75        </provider>
+76    </application>
+77
+78</manifest>
