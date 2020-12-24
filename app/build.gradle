@@ -75,7 +75,7 @@ dependencies {
     implementation 'com.zchu:rxcache:2.3.5'
     implementation 'com.zchu:rxcache-kotlin:2.3.5'
     implementation project(path: ':thirdlib')
-    implementation project(path: ':flutter')
+//    implementation project(path: ':flutter')
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
 }

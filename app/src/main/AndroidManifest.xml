@@ -43,6 +43,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.behavior.lifecycle.ActivityA" android:exported="true"/>
+        <activity android:name=".ui.behavior.lifecycle.ActivityB" />
 
         <!--flutter-->
         <activity
