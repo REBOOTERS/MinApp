@@ -24,26 +24,7 @@ class RootActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_root)
         handlePermissions()
-
-        var blured = false
-
-        blur_view.setOnClickListener {
-            if (blured) {
-                Blurry.delete(blur_view)
-            } else {
-                val now = System.currentTimeMillis()
-                Blurry.with(this)
-                    .radius(25)
-                    .sampling(1)
-                    .color(Color.argb(66, 0, 255, 255))
-                    .async()
-                    .onto(blur_view)
-                "time is ${System.currentTimeMillis() - now}".toast()
-            }
-            blured = !blured
-        }
-
-
+        handleBlur()
 
         jetpack_ui.setOnClickListener {
             gotoActivity(PureUIActivity::class.java)
@@ -62,6 +43,26 @@ class RootActivity : AppCompatActivity() {
         }
         next.setOnClickListener {
             gotoActivity(ActivityA::class.java)
+        }
+    }
+
+    private fun handleBlur() {
+        var blur = false
+
+        blur_view.setOnClickListener {
+            if (blur) {
+                Blurry.delete(rootView)
+            } else {
+                val now = System.currentTimeMillis()
+                Blurry.with(this)
+                    .radius(25)
+                    .sampling(1)
+                    .color(Color.argb(66, 0, 255, 255))
+                    .async()
+                    .onto(rootView)
+                "time is ${System.currentTimeMillis() - now}".toast()
+            }
+            blur = !blur
         }
     }
 
