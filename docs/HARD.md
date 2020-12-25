@@ -31,3 +31,4 @@ block 中的代码如果是单例的场景下，当 lifecycleOwner 所在的页�
 会导致不同的 lifecycleOwner 绑定相同的 observer 。
 
 2. Thread Java&Android 实现不一致。
+

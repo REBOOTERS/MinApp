@@ -1,11 +1,3 @@
 include ':thirdlib'
-setBinding(new Binding([gradle: this]))
-//evaluate(new File(
-//  settingsDir,
-//  'next/.android/include_flutter.groovy'
-//))
 rootProject.name='MiniApp'
 include ':app'
-
-include ':next'
-project(':next').projectDir = new File('next')
