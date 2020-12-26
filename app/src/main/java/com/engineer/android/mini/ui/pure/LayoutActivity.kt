@@ -4,17 +4,16 @@ import android.content.Context
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
-import android.view.Gravity
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import android.widget.*
 import androidx.core.view.setMargins
-import androidx.core.view.updateLayoutParams
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
+import com.engineer.android.mini.ext.toast
+import kotlinx.android.synthetic.main.activity_layout.*
 
 class LayoutActivity : AppCompatActivity() {
     private val TAG = "LayoutActivity"
@@ -23,6 +22,10 @@ class LayoutActivity : AppCompatActivity() {
         setContentView(R.layout.activity_layout)
 
         addViewToWindow()
+
+        child_one.setOnClickListener {
+            "I'm child_one".toast()
+        }
     }
 
     override fun onResume() {
@@ -33,7 +36,7 @@ class LayoutActivity : AppCompatActivity() {
 
     private fun addViewToWindow() {
         val manager: WindowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val child = genChild()
+        val child = genChild(manager)
         val params = WindowManager.LayoutParams().apply {
             type = WindowManager.LayoutParams.TYPE_APPLICATION
             width = WindowManager.LayoutParams.WRAP_CONTENT
@@ -43,9 +46,14 @@ class LayoutActivity : AppCompatActivity() {
             y = 24.dp
         }
         manager.addView(child, params)
+        child_root.setOnClickListener(null)
     }
 
-    private fun genChild(): View {
+    private fun genChild(windowManager: WindowManager): View {
+        val containerShell = HandleBackMenuView(this)
+        containerShell.setBackgroundColor(Color.parseColor("#55000000"))
+        containerShell.orientation = LinearLayout.VERTICAL
+
         val container = LinearLayout(this)
         container.setBackgroundResource(R.color.colorAccent)
         container.orientation = LinearLayout.VERTICAL
@@ -81,11 +89,27 @@ class LayoutActivity : AppCompatActivity() {
             hack()
         }
 
-        return container
+        containerShell.handleCallback = object : HandleBackMenuView.HandleBackMenu {
+            override fun back(handleBackMenuView: HandleBackMenuView) {
+                "remove self from window".toast()
+                windowManager.removeView(containerShell)
+                child_root.setOnClickListener {
+                    addViewToWindow()
+                }
+            }
+
+        }
+        val p2 = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        p2.setMargins(50.dp)
+        containerShell.addView(container, p2)
+        return containerShell
     }
 
     private fun hack() {
-        Log.e(TAG,"start hack ")
+        Log.e(TAG, "start hack ")
         try {
             val clazz = Class.forName("android.view.ViewRootImpl")
             val fileds = clazz.declaredFields
@@ -94,7 +118,28 @@ class LayoutActivity : AppCompatActivity() {
             }
         } catch (e: Exception) {
         }
-        Log.e(TAG,"end  hack ")
+        Log.e(TAG, "end  hack ")
+    }
+
+    class HandleBackMenuView @JvmOverloads constructor(
+        context: Context,
+        attributeSet: AttributeSet? = null, defaultStyle: Int = 0
+    ) : LinearLayout(context, attributeSet, defaultStyle) {
+        override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
+            event?.let {
+                if (it.keyCode == KeyEvent.KEYCODE_BACK && it.action == KeyEvent.ACTION_UP) {
+                    handleCallback?.back(this)
+                    return true
+                }
+            }
+            return super.dispatchKeyEvent(event)
+        }
+
+        var handleCallback: HandleBackMenu? = null
+
+        interface HandleBackMenu {
+            fun back(handleBackMenuView: HandleBackMenuView)
+        }
     }
 
 

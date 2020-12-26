@@ -39,10 +39,13 @@ class PureUIActivity : BaseActivity() {
             changeBounds.interpolator = LinearInterpolator()
             TransitionManager.beginDelayedTransition(root_content, changeBounds)
             val params = image_view.layoutParams
+            val hw: Float = image_view.measuredWidth * 1.0f / image_view.measuredHeight
             if (params.width >= (resources.displayMetrics.widthPixels - 20.dp)) {
-                params.width = resources.displayMetrics.widthPixels / 3
+                params.width = resources.displayMetrics.widthPixels / 2
+                params.height = ((resources.displayMetrics.widthPixels / 2) * (1 / hw)).toInt()
             } else {
                 params.width = resources.displayMetrics.widthPixels - 20.dp
+                params.height = ((resources.displayMetrics.widthPixels - 20.dp) * (1 / hw)).toInt()
             }
             image_view.layoutParams = params
         }
