@@ -40,7 +40,7 @@ class PureUIActivity : BaseActivity() {
             TransitionManager.beginDelayedTransition(root_content, changeBounds)
             val params = image_view.layoutParams
             val hw: Float = image_view.measuredWidth * 1.0f / image_view.measuredHeight
-            if (params.width >= (resources.displayMetrics.widthPixels - 20.dp)) {
+            if (image_view.measuredWidth >= (resources.displayMetrics.widthPixels - 20.dp)) {
                 params.width = resources.displayMetrics.widthPixels / 2
                 params.height = ((resources.displayMetrics.widthPixels / 2) * (1 / hw)).toInt()
             } else {
@@ -54,47 +54,10 @@ class PureUIActivity : BaseActivity() {
             gotoPage(LayoutActivity::class.java)
         }
 
-        transparentStatusBar()
-        fullStatusBar()
+
         image_view.resizeMarginTop(getStatusBarHeight())
     }
 
-    /**
-     * 透明状态栏
-     */
-    private fun transparentStatusBar() {
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        window.statusBarColor = Color.TRANSPARENT
-    }
-
-    /**
-     * 内容填空状态栏
-     */
-    private fun fullStatusBar() {
-
-        val window = window
-        val decorView = window.decorView
-        decorView.setOnApplyWindowInsetsListener { v, insets ->
-            val defaultInsets = v.onApplyWindowInsets(insets)
-            defaultInsets?.let {
-
-                val left = it.systemWindowInsetLeft
-                val top = it.systemWindowInsetTop
-                val right = it.systemWindowInsetRight
-                val bottom = it.systemWindowInsetBottom
-                Log.e(TAG, "insets: $left,$top,$right,$bottom")
-            }
-
-            defaultInsets.replaceSystemWindowInsets(
-                defaultInsets.getSystemWindowInsetLeft(),
-                0,
-                defaultInsets.getSystemWindowInsetRight(),
-                defaultInsets.getSystemWindowInsetBottom()
-
-            )
-        }
-        ViewCompat.requestApplyInsets(decorView)
-    }
 
 
     private fun setUpUi() {

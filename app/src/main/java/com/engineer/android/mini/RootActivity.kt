@@ -13,13 +13,14 @@ import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.jetpack.FragmentManagerActivity
 import com.engineer.android.mini.net.RxCacheActivity
+import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.behavior.lifecycle.ActivityA
 import com.engineer.android.mini.ui.pure.PureUIActivity
 import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_root.*
 
-class RootActivity : AppCompatActivity() {
+class RootActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_root)

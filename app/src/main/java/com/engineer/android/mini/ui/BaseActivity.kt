@@ -3,9 +3,12 @@ package com.engineer.android.mini.ui
 import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import com.engineer.android.mini.proguards.A
 import com.engineer.android.mini.proguards.B
 import com.engineer.android.mini.proguards.BlankFragment
@@ -22,6 +25,9 @@ open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.e(TAG, "onCreate() called ")
+
+        transparentStatusBar()
+        fullStatusBar()
     }
 
     internal fun gotoPage(clazz: Class<out Activity>) {
@@ -50,5 +56,42 @@ open class BaseActivity : AppCompatActivity() {
         a.test2()
         val b = B()
         println(b.hashCode())
+    }
+
+    /**
+     * 透明状态栏
+     */
+    protected fun transparentStatusBar() {
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.statusBarColor = Color.TRANSPARENT
+    }
+
+    /**
+     * 内容填空状态栏
+     */
+    protected fun fullStatusBar() {
+
+        val window = window
+        val decorView = window.decorView
+        decorView.setOnApplyWindowInsetsListener { v, insets ->
+            val defaultInsets = v.onApplyWindowInsets(insets)
+            defaultInsets?.let {
+
+                val left = it.systemWindowInsetLeft
+                val top = it.systemWindowInsetTop
+                val right = it.systemWindowInsetRight
+                val bottom = it.systemWindowInsetBottom
+                Log.e(TAG, "insets: $left,$top,$right,$bottom")
+            }
+
+            defaultInsets.replaceSystemWindowInsets(
+                defaultInsets.getSystemWindowInsetLeft(),
+                0,
+                defaultInsets.getSystemWindowInsetRight(),
+                defaultInsets.getSystemWindowInsetBottom()
+
+            )
+        }
+        ViewCompat.requestApplyInsets(decorView)
     }
 }

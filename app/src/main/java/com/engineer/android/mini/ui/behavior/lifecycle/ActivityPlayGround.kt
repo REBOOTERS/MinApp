@@ -16,14 +16,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.setMargins
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.gotoActivity
+import com.engineer.android.mini.ui.BaseActivity
 
 /**
  * Created on 2020/12/24.
  * @author rookie
  */
 
-open class BaseActivity : AppCompatActivity() {
-    private val TAG = this::class.java.simpleName
+open class BaseLifeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(provideView())
@@ -68,7 +68,7 @@ open class BaseActivity : AppCompatActivity() {
     open fun provideView(): View = FrameLayout(this)
 }
 
-class ActivityA : BaseActivity() {
+class ActivityA : BaseLifeActivity() {
     @SuppressLint("SetTextI18n")
     override fun provideView(): View {
         val contentView = LinearLayout(this)
@@ -117,7 +117,7 @@ class ActivityA : BaseActivity() {
     }
 }
 
-class ActivityB : BaseActivity() {
+class ActivityB : BaseLifeActivity() {
     override fun provideView(): View {
         val frameLayout = FrameLayout(this)
         frameLayout.setBackgroundColor(Color.YELLOW)
@@ -136,7 +136,7 @@ class ActivityB : BaseActivity() {
     }
 }
 
-class ActivityB1 : BaseActivity() {
+class ActivityB1 : BaseLifeActivity() {
     override fun provideView(): View {
         val frameLayout = FrameLayout(this)
         frameLayout.setBackgroundColor(Color.YELLOW)
@@ -155,7 +155,7 @@ class ActivityB1 : BaseActivity() {
     }
 }
 
-class ActivityB2 : BaseActivity() {
+class ActivityB2 : BaseLifeActivity() {
     override fun provideView(): View {
         val frameLayout = FrameLayout(this)
         frameLayout.setBackgroundColor(Color.YELLOW)
@@ -174,7 +174,7 @@ class ActivityB2 : BaseActivity() {
     }
 }
 
-class ActivityC : BaseActivity() {
+class ActivityC : BaseLifeActivity() {
 
     override fun provideView(): View {
         val frameLayout = FrameLayout(this)
@@ -207,7 +207,7 @@ class ActivityC : BaseActivity() {
     }
 }
 
-class ActivityD : BaseActivity() {
+class ActivityD : BaseLifeActivity() {
 
     override fun provideView(): View {
         val frameLayout = FrameLayout(this)

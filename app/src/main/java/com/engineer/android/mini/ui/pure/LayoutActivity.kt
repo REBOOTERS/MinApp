@@ -13,10 +13,11 @@ import androidx.core.view.setMargins
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.toast
+import com.engineer.android.mini.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_layout.*
 
-class LayoutActivity : AppCompatActivity() {
-    private val TAG = "LayoutActivity"
+class LayoutActivity : BaseActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_layout)
