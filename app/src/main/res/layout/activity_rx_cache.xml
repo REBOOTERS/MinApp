@@ -7,15 +7,40 @@
     android:orientation="vertical"
     tools:context=".net.RxCacheActivity">
 
-    <TextView
-        android:id="@+id/tv"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_margin="10dp"
-        android:background="#4CAF50"
-        android:lineSpacingExtra="4dp"
-        android:padding="10dp"
-        android:textColor="#fff"
-        tools:text="@string/long_chinese_content" />
+        android:layout_margin="10dp">
 
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#4CAF50"
+            android:lineSpacingExtra="4dp"
+            android:padding="10dp"
+            android:textColor="#fff"
+            tools:text="@string/long_chinese_content" />
+
+    </androidx.core.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/tv_array"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="0"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="0"
+        android:textColor="@color/white" />
 </LinearLayout>

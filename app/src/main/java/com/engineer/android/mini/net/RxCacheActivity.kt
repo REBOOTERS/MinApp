@@ -6,6 +6,7 @@ import android.os.Environment
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.toast
 import com.zchu.rxcache.RxCache
@@ -22,6 +23,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_rx_cache.*
 import java.io.File
 import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 private const val TAG = "RxCacheActivity"
 
@@ -29,10 +31,17 @@ class RxCacheActivity : AppCompatActivity() {
 
     private lateinit var rxCache: RxCache
 
+    private val arrayLiveData = MutableLiveData<ArrayList<String>>()
+    private val mapLiveData = MutableLiveData<HashMap<String, Int>>()
+
+    private val array = ArrayList<String>()
+    private val map = HashMap<String, Int>()
+
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rx_cache)
-        tv.movementMethod = ScrollingMovementMethod.getInstance()
+
 
         lg("dir 1 is ${getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)}")
         lg("dir 2 is ${cacheDir.toString() + File.separator + getString(R.string.app_name)}")
@@ -47,7 +56,31 @@ class RxCacheActivity : AppCompatActivity() {
 
         loadData()
 
-//        fullStatusBar()
+        arrayLiveData.observe(this) {
+            tv_array.text = "array size is ${it.size} \n $it"
+        }
+        mapLiveData.observe(this) {
+            tv_map.text = "map size is ${it.size} \n $it"
+        }
+
+        tv_array.setOnClickListener {
+            array.add(System.currentTimeMillis().toString())
+            arrayLiveData.value = array
+        }
+        tv_array.setOnLongClickListener {
+            array.clear()
+            arrayLiveData.value = array
+            true
+        }
+        tv_map.setOnClickListener {
+            map[System.currentTimeMillis().toString()] = Random(100).nextInt()
+            mapLiveData.value = map
+        }
+        tv_map.setOnLongClickListener {
+            map.clear()
+            mapLiveData.value = map
+            true
+        }
     }
 
 
