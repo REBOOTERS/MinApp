@@ -26,7 +26,7 @@
 
     <RadioGroup
         android:id="@+id/theme_radio"
-        style="@style/mw_10_margin"
+        style="@style/mw"
         android:orientation="vertical">
 
         <com.google.android.material.radiobutton.MaterialRadioButton
@@ -72,5 +72,9 @@
         android:text="AppCompatButton"
         android:textColor="?android:attr/textColorPrimary" />
 
-
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/custom_view"
+        style="@style/mw_10_margin"
+        android:text="AppCompatButton"
+        android:textColor="?android:attr/textColorPrimary" />
 </LinearLayout>
