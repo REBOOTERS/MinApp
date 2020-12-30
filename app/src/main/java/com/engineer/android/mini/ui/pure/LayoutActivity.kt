@@ -40,6 +40,7 @@ class LayoutActivity : BaseActivity() {
         val child = genChild(manager)
         val params = WindowManager.LayoutParams().apply {
             type = WindowManager.LayoutParams.TYPE_APPLICATION
+            flags = WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
             width = WindowManager.LayoutParams.WRAP_CONTENT
             height = WindowManager.LayoutParams.WRAP_CONTENT
             gravity = Gravity.TOP or Gravity.START
@@ -90,16 +91,16 @@ class LayoutActivity : BaseActivity() {
             hack()
         }
 
-        containerShell.handleCallback = object : HandleBackMenuView.HandleBackMenu {
-            override fun back(handleBackMenuView: HandleBackMenuView) {
-                "remove self from window".toast()
-                windowManager.removeView(containerShell)
-                child_root.setOnClickListener {
-                    addViewToWindow()
-                }
-            }
-
-        }
+//        containerShell.handleCallback = object : HandleBackMenuView.HandleBackMenu {
+//            override fun back(handleBackMenuView: HandleBackMenuView) {
+//                "remove self from window".toast()
+//                windowManager.removeView(containerShell)
+//                child_root.setOnClickListener {
+//                    addViewToWindow()
+//                }
+//            }
+//
+//        }
         val p2 = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
