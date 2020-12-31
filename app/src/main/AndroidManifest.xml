@@ -20,6 +20,7 @@
         <activity
             android:name=".ui.pure.LayoutActivity"
             android:exported="true" />
+        <activity android:name=".ui.pure.EmptyActivity"/>
         <activity android:name=".net.RxCacheActivity" />
         <activity
             android:name=".ui.behavior.SettingsActivity"

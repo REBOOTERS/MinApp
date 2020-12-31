@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
@@ -26,6 +27,7 @@ class LayoutActivity : BaseActivity() {
 
         child_one.setOnClickListener {
             "I'm child_one".toast()
+            gotoPage(EmptyActivity::class.java)
         }
     }
 
@@ -40,7 +42,7 @@ class LayoutActivity : BaseActivity() {
         val child = genChild(manager)
         val params = WindowManager.LayoutParams().apply {
             type = WindowManager.LayoutParams.TYPE_APPLICATION
-            flags = WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
+//            flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
             width = WindowManager.LayoutParams.WRAP_CONTENT
             height = WindowManager.LayoutParams.WRAP_CONTENT
             gravity = Gravity.TOP or Gravity.START
@@ -145,4 +147,49 @@ class LayoutActivity : BaseActivity() {
     }
 
 
+}
+
+
+class EmptyActivity : AppCompatActivity() {
+    private val TAG = "EmptyActivity"
+
+    private lateinit var tv: TextView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
+        tv = TextView(this)
+        tv.setBackgroundColor(Color.BLUE)
+        tv.text = "111"
+        setContentView(tv)
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+
+        Log.d(TAG, "onPostCreate() called with: savedInstanceState = $savedInstanceState")
+        val view = window.findViewById<View>(android.R.id.content)
+        Log.d(TAG, "onPostCreate() called ${view.measuredHeight},${tv.measuredHeight}")
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val view = window.findViewById<View>(android.R.id.content)
+        Log.d(TAG, "onResume() called ${view.width},${tv.measuredHeight}")
+
+    }
+
+    override fun onPostResume() {
+        super.onPostResume()
+        val view = window.findViewById<View>(android.R.id.content)
+        Log.d(TAG, "onPostResume() called ${view.width},${tv.measuredHeight}")
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        Log.d(TAG, "onWindowFocusChanged() called with: hasFocus = $hasFocus")
+        val view = window.findViewById<View>(android.R.id.content)
+        Log.d(TAG, "onWindowFocusChanged() called ${view.width},${tv.measuredHeight}")
+    }
 }
