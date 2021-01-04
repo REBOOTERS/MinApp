@@ -159,7 +159,6 @@ class EmptyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
         tv = TextView(this)
-        tv.setBackgroundColor(Color.BLUE)
         tv.text = "111"
         setContentView(tv)
     }
