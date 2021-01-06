@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/wall"
+    android:orientation="vertical"
     android:paddingTop="24dp">
 
     <LinearLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/grey"
+        android:background="@color/colorAccent"
         android:orientation="vertical">
 
         <com.engineer.android.mini.ui.pure.SquareImageView
+            android:id="@+id/square_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:src="@drawable/android" />
+            android:src="@drawable/bot" />
 
     </LinearLayout>
 
     <com.engineer.android.mini.ui.pure.SimpleViewOne
+        android:id="@+id/simple_view"
+        android:layout_margin="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-</FrameLayout>
+</LinearLayout>

@@ -1,10 +1,14 @@
 package com.engineer.android.mini.ext
 
+import android.view.Gravity
 import android.widget.Toast
 import com.engineer.android.mini.MinApp
 
 fun String?.toast() {
     this?.let {
-        Toast.makeText(MinApp.INSTANCE, this, Toast.LENGTH_SHORT).show()
+        val toast = Toast.makeText(MinApp.INSTANCE, this, Toast.LENGTH_SHORT)
+        toast.setGravity(Gravity.TOP, 0.dp, 100.dp)
+        toast.show()
+
     }
 }

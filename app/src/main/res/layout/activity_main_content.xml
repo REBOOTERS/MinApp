@@ -75,6 +75,6 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/custom_view"
         style="@style/mw_10_margin"
-        android:text="AppCompatButton"
+        android:text="custom_view"
         android:textColor="?android:attr/textColorPrimary" />
 </LinearLayout>

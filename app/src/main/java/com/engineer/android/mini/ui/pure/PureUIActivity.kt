@@ -54,7 +54,7 @@ class PureUIActivity : BaseActivity() {
             gotoPage(LayoutActivity::class.java)
         }
 
-
+        custom_view.setOnClickListener { gotoPage(CustomViewActivity::class.java) }
         image_view.resizeMarginTop(getStatusBarHeight())
     }
 

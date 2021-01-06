@@ -91,16 +91,16 @@ class LayoutActivity : BaseActivity() {
             hack()
         }
 
-//        containerShell.handleCallback = object : HandleBackMenuView.HandleBackMenu {
-//            override fun back(handleBackMenuView: HandleBackMenuView) {
-//                "remove self from window".toast()
-//                windowManager.removeView(containerShell)
-//                child_root.setOnClickListener {
-//                    addViewToWindow()
-//                }
-//            }
-//
-//        }
+        containerShell.handleCallback = object : HandleBackMenuView.HandleBackMenu {
+            override fun back(handleBackMenuView: HandleBackMenuView) {
+                "remove self from window".toast()
+                windowManager.removeView(containerShell)
+                child_root.setOnClickListener {
+                    addViewToWindow()
+                }
+            }
+
+        }
         val p2 = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT

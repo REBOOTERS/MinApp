@@ -11,7 +11,10 @@ import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
+import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
+import com.engineer.android.mini.util.ImagePool
+import kotlinx.android.synthetic.main.activity_custom_view.*
 
 /**
  * Created on 2020/12/29.
@@ -70,8 +73,28 @@ class SquareImageView @JvmOverloads constructor(
 
 
 class CustomViewActivity : BaseActivity() {
+
+    companion object {
+        // make a memory leak
+        private var maybeLeakView: View? = null
+    }
+
+    private val list = ArrayList<View>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_custom_view)
+        maybeLeakView = simple_view
+        simple_view.setOnClickListener {
+            for (i in 0..1000) {
+                list.add(ImageView(this))
+            }
+        }
+        square_iv.setOnClickListener {
+            val resId = ImagePool.images.random()
+            val resStr = resources.getResourceName(resId)
+            "$resId show $resStr".toast()
+            square_iv.setImageResource(resId)
+        }
     }
 }
