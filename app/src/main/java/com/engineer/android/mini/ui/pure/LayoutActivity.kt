@@ -150,8 +150,7 @@ class LayoutActivity : BaseActivity() {
 }
 
 
-class EmptyActivity : AppCompatActivity() {
-    private val TAG = "EmptyActivity"
+class EmptyActivity : BaseActivity() {
 
     private lateinit var tv: TextView
 
@@ -161,6 +160,11 @@ class EmptyActivity : AppCompatActivity() {
         tv = TextView(this)
         tv.text = "111"
         setContentView(tv)
+
+        Choreographer.getInstance().postFrameCallback {
+
+        }
+        Choreographer.getInstance().removeFrameCallback {  }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
