@@ -1,11 +1,12 @@
 package com.engineer.android.mini.ui.pure
 
+import android.R.attr
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
+import android.graphics.drawable.NinePatchDrawable
 import android.os.Bundle
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
@@ -15,6 +16,7 @@ import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.util.ImagePool
 import kotlinx.android.synthetic.main.activity_custom_view.*
+
 
 /**
  * Created on 2020/12/29.
@@ -95,6 +97,16 @@ class CustomViewActivity : BaseActivity() {
             val resStr = resources.getResourceName(resId)
             "$resId show $resStr".toast()
             square_iv.setImageResource(resId)
+        }
+
+        val bitmap = BitmapFactory.decodeFile("sdcard/chatfrom_bg_normal.9.png")
+        if (bitmap != null) {
+            val chunk = bitmap.ninePatchChunk
+            if (NinePatch.isNinePatchChunk(chunk)) {
+                val drawable = NinePatchDrawable(resources, bitmap, chunk, Rect(), null)
+
+                Log.e(TAG, "drawable is $drawable")
+            }
         }
     }
 }

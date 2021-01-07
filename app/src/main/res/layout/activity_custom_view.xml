@@ -7,9 +7,9 @@
     android:paddingTop="24dp">
 
     <LinearLayout
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:background="@color/colorAccent"
         android:orientation="vertical">
 
@@ -24,7 +24,16 @@
 
     <com.engineer.android.mini.ui.pure.SimpleViewOne
         android:id="@+id/simple_view"
-        android:layout_margin="10dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" />
+
+    <EditText
+        android:id="@+id/et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="please input"
+        android:background="@drawable/chatfrom_bg_normal"
+        android:textColorHint="@color/white" />
 </LinearLayout>
