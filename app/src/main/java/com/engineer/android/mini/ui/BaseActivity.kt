@@ -98,4 +98,10 @@ open class BaseActivity : AppCompatActivity() {
         }
         ViewCompat.requestApplyInsets(decorView)
     }
+
+    fun printAny(vararg strs: String) {
+        strs.forEach {
+            Log.e(TAG, it)
+        }
+    }
 }

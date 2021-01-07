@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Looper
 import android.os.PersistableBundle
 import android.util.AttributeSet
 import android.util.Log
@@ -29,6 +30,14 @@ class LayoutActivity : BaseActivity() {
             "I'm child_one".toast()
             gotoPage(EmptyActivity::class.java)
         }
+
+        val looper = Looper.myLooper()
+        val messageQueue = Looper.myQueue()
+        val mainLooper = Looper.getMainLooper()
+
+        printAny("looper $looper")
+        printAny("messageQueue $messageQueue")
+        printAny("mainLooper $mainLooper")
     }
 
     override fun onResume() {
