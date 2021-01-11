@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/wall"
     android:orientation="vertical"
+    tools:context=".ui.pure.CustomViewActivity"
     android:paddingTop="24dp">
 
     <LinearLayout
@@ -33,7 +35,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:hint="please input"
         android:background="@drawable/chatfrom_bg_normal"
-        android:textColorHint="@color/white" />
+        android:hint="please input"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:textColorHint="@color/white"
+        tools:ignore="HardcodedText" />
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.engineer.android.mini.ui.pure
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.graphics.Color
@@ -59,7 +60,6 @@ class PureUIActivity : BaseActivity() {
     }
 
 
-
     private fun setUpUi() {
         systemDayNight()
         full_screen.setOnClickListener { gotoPage(FullscreenActivity::class.java) }
@@ -91,6 +91,30 @@ class PureUIActivity : BaseActivity() {
                 R.id.auto_battery -> mode = AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
             }
             AppCompatDelegate.setDefaultNightMode(mode)
+        }
+        var open = true
+        var origin = 0
+        current_theme.setOnClickListener {
+            val p = theme_radio.layoutParams
+            if (open) {
+                origin = theme_radio.measuredHeight
+                val ani = ValueAnimator.ofInt(origin, 0)
+                ani.addUpdateListener {
+                    val value = it.animatedValue as Int
+                    p.height = value
+                    theme_radio.layoutParams = p
+                }
+                ani.start()
+            } else {
+                val ani = ValueAnimator.ofInt(0, origin)
+                ani.addUpdateListener {
+                    val value = it.animatedValue as Int
+                    p.height = value
+                    theme_radio.layoutParams = p
+                }
+                ani.start()
+            }
+            open = !open
         }
     }
 

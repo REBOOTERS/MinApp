@@ -88,9 +88,10 @@ class CustomViewActivity : BaseActivity() {
         setContentView(R.layout.activity_custom_view)
         maybeLeakView = simple_view
         simple_view.setOnClickListener {
-            for (i in 0..1000) {
+            for (i in 0..10000) {
                 list.add(ImageView(this))
             }
+            list.size.toString().toast()
         }
         square_iv.setOnClickListener {
             val resId = ImagePool.images.random()
