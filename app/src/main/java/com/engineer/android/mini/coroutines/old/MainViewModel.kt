@@ -117,12 +117,6 @@ class MainViewModel(private val repository: TitleRepository) : ViewModel() {
         }
     }
 
-    /**
-     * Called immediately after the UI shows the snackbar.
-     */
-    fun onSnackbarShown() {
-        _snackBar.value = null
-    }
 
     /**
      * Refresh the title, showing a loading spinner while it refreshes and errors via snackbar.
@@ -170,6 +164,13 @@ class MainViewModel(private val repository: TitleRepository) : ViewModel() {
                 _spinner.value = false
             }
         }
+    }
+
+    /**
+     * Called immediately after the UI shows the snackbar.
+     */
+    fun onSnackbarShown() {
+        _snackBar.value = null
     }
 
 }

@@ -94,7 +94,7 @@ class OldWayActivity : AppCompatActivity() {
         }
 
         handle.setOnClickListener {
-            mainScope?.launch(Dispatchers.Main) {
+            mainScope?.launch {
                 val start = System.currentTimeMillis()
                 printThreadName()
                 val x = mockNet(10)

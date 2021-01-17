@@ -1,6 +1,5 @@
 package com.engineer.android.mini.ui.pure
 
-import android.R.attr
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.NinePatchDrawable

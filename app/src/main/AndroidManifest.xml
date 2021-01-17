@@ -29,7 +29,7 @@
             android:name=".ui.behavior.BehaviorActivity"
             android:exported="true" />
         <activity android:name=".ui.pure.PureUIActivity" />
-        <activity android:name=".coroutines.old.OldWayActivity" />
+        <activity android:name=".coroutines.old.OldWayActivity" android:exported="true" />
         <activity
             android:name=".ui.pure.CustomViewActivity"
             android:exported="true" />
