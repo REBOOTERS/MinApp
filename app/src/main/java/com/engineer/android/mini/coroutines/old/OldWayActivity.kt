@@ -32,6 +32,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_old_main.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import java.lang.Exception
 import kotlin.random.Random
 
 /**
@@ -94,16 +95,25 @@ class OldWayActivity : AppCompatActivity() {
         }
 
         handle.setOnClickListener {
-            mainScope?.launch(Dispatchers.Main) {
-                val start = System.currentTimeMillis()
-                printThreadName()
-                val x = mockNet(10)
-                val y = mockNet(30)
-                val result = x + y
-                printThreadName()
-                printMethodCost(start)
-                "result is $result".toast()
+            try {
+                mainScope?.launch {
+                    val start = System.currentTimeMillis()
+                    printThreadName()
+                    val x = mockNet(10)
+                    lg(x)
+                    val y = mockNet(30)
+                    lg(y)
+                    val z = mockNet(-1)
+//                lg(z)
+                    val result = x + y
+                    printThreadName()
+                    printMethodCost(start)
+                    "result is $result".toast()
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "catch a coroutine ex $e")
             }
+
         }
 
         useAwait.setOnClickListener {
@@ -130,17 +140,17 @@ class OldWayActivity : AppCompatActivity() {
 
                     }
                     .onCompletion {
-                        Log.e(TAG, "onCompletion" )
+                        Log.e(TAG, "onCompletion")
                     }
                     .collect {
-                        Log.e(TAG, "collect ,it = $it" )
+                        Log.e(TAG, "collect ,it = $it")
                     }
             }
         }
     }
 
     private fun createFlow(): Flow<Int> {
-       return (1..10).asFlow()
+        return (1..10).asFlow()
     }
 
     private suspend fun mockNet(input: Int): Int {
@@ -148,7 +158,11 @@ class OldWayActivity : AppCompatActivity() {
             delay(1000)
             printThreadName()
         }
-        return Random(input).nextInt()
+        if (input > 0) {
+            return Random(input).nextInt()
+        } else {
+            throw Exception("error")
+        }
     }
 
     override fun onDestroy() {
@@ -158,6 +172,10 @@ class OldWayActivity : AppCompatActivity() {
 
     private fun printThreadName() {
         Log.e(TAG, "thread == ${Thread.currentThread().name}")
+    }
+
+    private fun lg(value: Int) {
+        Log.e(TAG, "value == $value")
     }
 
     private fun printMethodCost(start: Long) {
