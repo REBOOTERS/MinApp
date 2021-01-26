@@ -51,17 +51,16 @@ abstract class SimpleBaseFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.e(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
-            Log.e(TAG, "onCreate: param1 = $param1")
-            Log.e(TAG, "onCreate: param2 = $param2")
+            Log.e(TAG, "onCreate(): param1 = $param1,param2 = $param2")
         }
         fooViewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory(MinApp.INSTANCE)
         ).get(FooViewModel::class.java)
-        Log.e(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
     }
 
     override fun onCreateView(

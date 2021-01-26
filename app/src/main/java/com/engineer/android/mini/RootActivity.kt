@@ -6,10 +6,10 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.engineer.android.mini.coroutines.old.OldWayActivity
+import com.engineer.android.mini.databinding.ActivityRootBinding
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.jetpack.FragmentManagerActivity
@@ -19,32 +19,35 @@ import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.behavior.lifecycle.ActivityA
 import com.engineer.android.mini.ui.pure.PureUIActivity
 import jp.wasabeef.blurry.Blurry
-import kotlinx.android.synthetic.main.activity_root.*
 import radiography.Radiography
 
 class RootActivity : BaseActivity() {
+    // https://mp.weixin.qq.com/s/keR7bO-Nu9bBr5Nhevbe1Q  ViewBinding
+    private lateinit var viewBinding: ActivityRootBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_root)
+        viewBinding = ActivityRootBinding.inflate(layoutInflater)
+        setContentView(viewBinding.rootView)
         handlePermissions()
         handleBlur()
 
-        jetpack_ui.setOnClickListener {
+        viewBinding.jetpackUi.setOnClickListener {
             gotoActivity(PureUIActivity::class.java)
         }
-        jetpack_arch.setOnClickListener {
+        viewBinding.jetpackArch.setOnClickListener {
             gotoActivity(FragmentManagerActivity::class.java)
         }
-        jetpack_behavior.setOnClickListener {
+        viewBinding.jetpackBehavior.setOnClickListener {
             gotoActivity(BehaviorActivity::class.java)
         }
-        coroutines.setOnClickListener {
+        viewBinding.coroutines.setOnClickListener {
             gotoActivity(OldWayActivity::class.java)
         }
-        cache.setOnClickListener {
+        viewBinding.cache.setOnClickListener {
             gotoActivity(RxCacheActivity::class.java)
         }
-        next.setOnClickListener {
+        viewBinding.next.setOnClickListener {
             gotoActivity(ActivityA::class.java)
         }
     }
@@ -52,9 +55,9 @@ class RootActivity : BaseActivity() {
     private fun handleBlur() {
         var blur = false
 
-        blur_view.setOnClickListener {
+        viewBinding.blurView.setOnClickListener {
             if (blur) {
-                Blurry.delete(rootView)
+                Blurry.delete(viewBinding.rootView)
             } else {
                 val now = System.currentTimeMillis()
                 Blurry.with(this)
@@ -62,7 +65,7 @@ class RootActivity : BaseActivity() {
                     .sampling(1)
                     .color(Color.argb(66, 0, 255, 255))
                     .async()
-                    .onto(rootView)
+                    .onto(viewBinding.rootView)
                 "time is ${System.currentTimeMillis() - now}".toast()
             }
             blur = !blur

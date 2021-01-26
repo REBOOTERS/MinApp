@@ -22,10 +22,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_baseline_add_24"
+        android:src="@drawable/ic_baseline_add_circle_outline_24"
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="@id/middle_line_v"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/up_fab_minus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_baseline_remove_circle_outline_24"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="@id/up_fab"
+        app:layout_constraintEnd_toStartOf="@id/up_fab" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/up_fab_hide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_baseline_remove_red_eye_24"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="@id/up_fab"
+        app:layout_constraintEnd_toStartOf="@id/up_fab_minus" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/middle_line_v"
