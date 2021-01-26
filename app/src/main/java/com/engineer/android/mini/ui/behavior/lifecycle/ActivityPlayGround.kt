@@ -2,6 +2,7 @@ package com.engineer.android.mini.ui.behavior.lifecycle
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -30,6 +31,12 @@ open class BaseLifeActivity : BaseActivity() {
         Log.d(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
     }
 
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        Log.d(TAG, "onPostCreate() called with: savedInstanceState = $savedInstanceState")
+    }
+
     override fun onStart() {
         super.onStart()
         Log.d(TAG, "onStart() called")
@@ -38,6 +45,11 @@ open class BaseLifeActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume() called")
+    }
+
+    override fun onPostResume() {
+        super.onPostResume()
+        Log.d(TAG, "onPostResume: ")
     }
 
     override fun onPause() {
@@ -63,6 +75,11 @@ open class BaseLifeActivity : BaseActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         Log.d(TAG, "onNewIntent() called with: intent = $intent")
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        Log.d(TAG, "onConfigurationChanged() called with: newConfig = $newConfig")
     }
 
     open fun provideView(): View = FrameLayout(this)

@@ -13,7 +13,6 @@ import com.engineer.android.mini.proguards.A
 import com.engineer.android.mini.proguards.B
 import com.engineer.android.mini.proguards.BlankFragment
 import com.engineer.android.mini.proguards.Utils
-import radiography.Radiography
 
 /**
  * Created on 2020/9/17.
@@ -44,9 +43,6 @@ open class BaseActivity : AppCompatActivity() {
         super.onResume()
         Log.e(TAG, "onResume() called")
         proguardTest()
-
-        val prettyHierarchy = Radiography.scan()
-        Log.e(TAG, "onResume: $prettyHierarchy")
     }
 
     private fun proguardTest() {

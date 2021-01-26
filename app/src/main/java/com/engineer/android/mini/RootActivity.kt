@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -19,6 +20,7 @@ import com.engineer.android.mini.ui.behavior.lifecycle.ActivityA
 import com.engineer.android.mini.ui.pure.PureUIActivity
 import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_root.*
+import radiography.Radiography
 
 class RootActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +67,13 @@ class RootActivity : BaseActivity() {
             }
             blur = !blur
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val prettyHierarchy = Radiography.scan()
+        Log.e(TAG, "onResume: $prettyHierarchy")
     }
 
     // <editor-fold defaultstate="collapsed" desc="permission">
