@@ -4,8 +4,7 @@
 
  通过各种手段，对编译产物 apk 进行压缩，看看一个最基础的 App 可以有多小。
 
-# ReLearn Android 
-
+# ReLearn Android
 ## 适配
 
  ### icon 适配
@@ -15,6 +14,12 @@
  ### Android 10 作用域存储
 
  - [Android 10适配要点，作用域存储](https://guolin.blog.csdn.net/article/details/105419420)
+
+ ### Android ViewBinding
+
+ apply plugin: 'kotlin-android-extensions' 被官方废弃的场景下，如何使用 viewbinding
+
+ - [kotlin-android-extensions插件也被废弃了？扶我起来](https://mp.weixin.qq.com/s/keR7bO-Nu9bBr5Nhevbe1Q)
 
 
 # Kotlin 

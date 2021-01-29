@@ -28,58 +28,58 @@ open class BaseLifeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(provideView())
-        Log.d(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
+        Log.e(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
     }
 
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        Log.d(TAG, "onPostCreate() called with: savedInstanceState = $savedInstanceState")
+        Log.e(TAG, "onPostCreate() called with: savedInstanceState = $savedInstanceState")
     }
 
     override fun onStart() {
         super.onStart()
-        Log.d(TAG, "onStart() called")
+        Log.e(TAG, "onStart() called")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "onResume() called")
+        Log.e(TAG, "onResume() called")
     }
 
     override fun onPostResume() {
         super.onPostResume()
-        Log.d(TAG, "onPostResume: ")
+        Log.e(TAG, "onPostResume: ")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d(TAG, "onPause() called")
+        Log.e(TAG, "onPause() called")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d(TAG, "onStop() called")
+        Log.e(TAG, "onStop() called")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAG, "onDestroy() called")
+        Log.e(TAG, "onDestroy() called")
     }
 
     override fun onRestart() {
         super.onRestart()
-        Log.d(TAG, "onRestart() called")
+        Log.e(TAG, "onRestart() called")
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        Log.d(TAG, "onNewIntent() called with: intent = $intent")
+        Log.e(TAG, "onNewIntent() called with: intent = $intent")
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        Log.d(TAG, "onConfigurationChanged() called with: newConfig = $newConfig")
+        Log.e(TAG, "onConfigurationChanged() called with: newConfig = $newConfig")
     }
 
     open fun provideView(): View = FrameLayout(this)

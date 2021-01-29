@@ -39,7 +39,7 @@ constructor(
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         canvas?.let {
-            it.drawColor(Color.GREEN)
+            it.drawColor(Color.WHITE)
             it.drawCircle(100f, 100f, 100f, paint)
         }
     }

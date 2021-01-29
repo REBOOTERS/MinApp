@@ -11,16 +11,18 @@ import kotlinx.coroutines.*
 
 class FragmentManagerActivity : BaseActivity() {
 
-    private val fooFragment: FooFragment by lazy {
-        FooFragment.newInstance("Foo", "Foo1")
-    }
+//    private val fooFragment: FooFragment by lazy {
+//        FooFragment.newInstance("Foo", "Foo1")
+//    }
+
+    private lateinit var fooFragment: FooFragment
 
     private var hide = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_jetpack)
-
+        fooFragment = FooFragment.newInstance("Foo", "Foo1")
         up_fab.setOnClickListener {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.up_content, fooFragment)
@@ -94,5 +96,9 @@ class FragmentManagerActivity : BaseActivity() {
                 "=======================================================\n"
             )
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }
