@@ -20,6 +20,8 @@ import com.engineer.android.mini.ext.getStatusBarHeight
 import com.engineer.android.mini.ext.resizeMarginTop
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
+import com.engineer.android.mini.util.JavaUtil
+import com.google.android.material.slider.RangeSlider
 import kotlinx.android.synthetic.main.activity_main_content.*
 
 
@@ -57,6 +59,24 @@ class PureUIActivity : BaseActivity() {
 
         custom_view.setOnClickListener { gotoPage(CustomViewActivity::class.java) }
         image_view.resizeMarginTop(getStatusBarHeight())
+
+        val p = content_img.layoutParams
+
+        range_slider.addOnChangeListener { slider, value, fromUser ->
+            Log.e(
+                TAG,
+                "onCreate() called with: value = $value, fromUser = $fromUser"
+            )
+            var value = 300 * value
+            p.width = value.toInt()
+            content_img.layoutParams = p
+            val desc = getString(R.string.long_chinese_content)
+            if (value > 0) {
+                value = value + 20
+            }
+            val s = JavaUtil.getSpannableString(value  , desc)
+            content_view.setText(s)
+        }
     }
 
 
@@ -130,6 +150,8 @@ class PureUIActivity : BaseActivity() {
             }
         }
     }
+
+
 
 
 }
