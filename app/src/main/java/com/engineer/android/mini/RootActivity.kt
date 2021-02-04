@@ -8,11 +8,18 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.OnLifecycleEvent
 import com.engineer.android.mini.coroutines.old.OldWayActivity
 import com.engineer.android.mini.databinding.ActivityRootBinding
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
+import com.engineer.android.mini.jetpack.EasyObserver
 import com.engineer.android.mini.jetpack.FragmentManagerActivity
+import com.engineer.android.mini.jetpack.LIFECYCLE_TAG
+import com.engineer.android.mini.jetpack.MyComponent
 import com.engineer.android.mini.net.RxCacheActivity
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
@@ -50,6 +57,10 @@ class RootActivity : BaseActivity() {
         viewBinding.next.setOnClickListener {
             gotoActivity(ActivityA::class.java)
         }
+
+        playLifecycle()
+
+
     }
 
     private fun handleBlur() {
@@ -72,11 +83,32 @@ class RootActivity : BaseActivity() {
         }
     }
 
+    private var myComponent:MyComponent? = null
+    private fun playLifecycle() {
+        lifecycle.addObserver(EasyObserver())
+
+
+        myComponent = MyComponent(this)
+        myComponent?.init(this)
+    }
+
+
+
     override fun onResume() {
         super.onResume()
-
+        Log.d(LIFECYCLE_TAG, "onResume() called")
         val prettyHierarchy = Radiography.scan()
         Log.e(TAG, "onResume: $prettyHierarchy")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(LIFECYCLE_TAG, "onPause() called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        myComponent?.release()
     }
 
     // <editor-fold defaultstate="collapsed" desc="permission">

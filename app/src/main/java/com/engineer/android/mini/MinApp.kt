@@ -4,6 +4,10 @@ import android.app.Application
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.collection.LruCache
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.facebook.stetho.Stetho
 
 /**
@@ -24,7 +28,23 @@ class MinApp : Application() {
         Stetho.initializeWithDefaults(this)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
+        appLifecycle()
         lruTest()
+    }
+
+    private fun appLifecycle() {
+        ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleObserver {
+
+            @OnLifecycleEvent(Lifecycle.Event.ON_START)
+            private fun onAppForeground() {
+                Log.e("ProcessLife", "ApplicationObserver: app moved to foreground")
+            }
+
+            @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+            private fun onAppBackground() {
+                Log.e("ProcessLife", "ApplicationObserver: app moved to background")
+            }
+        })
     }
 
     private fun lruTest() {
@@ -35,7 +55,7 @@ class MinApp : Application() {
         Log.e(MINI, "lruTest() called $lruCache")
         val map = lruCache.snapshot()
         map.keys.forEach {
-            Log.e(MINI,"key=$it,value=${lruCache[it]}")
+            Log.e(MINI, "key=$it,value=${lruCache[it]}")
         }
     }
 }

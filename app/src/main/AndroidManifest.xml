@@ -52,6 +52,7 @@
             android:name=".ui.behavior.lifecycle.ActivityA"
             android:exported="true" />
         <activity android:name=".ui.behavior.lifecycle.ActivityB" />
+        <activity android:name=".ui.behavior.lifecycle.ActivityE" />
         <activity
             android:name=".ui.behavior.lifecycle.ActivityB1"
             android:launchMode="singleTop" />

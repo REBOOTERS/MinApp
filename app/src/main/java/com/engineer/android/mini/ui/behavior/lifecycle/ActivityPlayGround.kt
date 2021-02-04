@@ -124,12 +124,22 @@ class ActivityA : BaseLifeActivity() {
             gotoActivity(ActivityC::class.java)
         }
         contentView.addView(button2, param)
+
         val button3 = Button(this)
         button3.text = "another process"
         button3.setOnClickListener {
             gotoActivity(ActivityD::class.java)
         }
         contentView.addView(button3, param)
+
+        val button4 = Button(this)
+        button4.text = "start and finish"
+        button4.setOnClickListener {
+            gotoActivity(ActivityE::class.java)
+        }
+        contentView.addView(button4, param)
+
+
         return contentView
     }
 }
@@ -241,5 +251,12 @@ class ActivityD : BaseLifeActivity() {
         }
         frameLayout.addView(button, param)
         return frameLayout
+    }
+}
+
+class ActivityE: BaseLifeActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        finish()
     }
 }
