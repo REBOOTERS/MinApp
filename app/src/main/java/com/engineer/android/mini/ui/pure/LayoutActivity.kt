@@ -16,6 +16,7 @@ import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
+import com.google.android.flexbox.FlexboxLayout
 import kotlinx.android.synthetic.main.activity_layout.*
 
 class LayoutActivity : BaseActivity() {
@@ -23,6 +24,7 @@ class LayoutActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_layout)
+
 
         addViewToWindow()
 
@@ -168,12 +170,13 @@ class EmptyActivity : BaseActivity() {
         Log.d(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
         tv = TextView(this)
         tv.text = "111"
+
         setContentView(tv)
 
         Choreographer.getInstance().postFrameCallback {
 
         }
-        Choreographer.getInstance().removeFrameCallback {  }
+        Choreographer.getInstance().removeFrameCallback { }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

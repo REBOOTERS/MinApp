@@ -7,14 +7,19 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.util.ImagePool
+import com.google.android.flexbox.FlexboxLayout
 import kotlinx.android.synthetic.main.activity_custom_view.*
+import kotlin.random.Random
 
 
 /**
@@ -108,5 +113,33 @@ class CustomViewActivity : BaseActivity() {
                 Log.e(TAG, "drawable is $drawable")
             }
         }
+
+        setupFlexBox()
+    }
+
+    private fun setupFlexBox() {
+        var tv: TextView? = null
+        val random = Random(10000)
+        for (i in 0..10) {
+            tv = TextView(this)
+            tv.setTextColor(Color.BLACK)
+            tv.setPadding(8.dp, 4.dp, 8.dp, 4.dp)
+            tv.setBackgroundResource(R.drawable.tv_tag_bg)
+            tv.text = random.nextInt().toString()
+            val p = FlexboxLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            p.setMargins(10.dp, 10.dp, 10.dp, 10.dp)
+            flexbox.addView(tv, p)
+        }
+        // 用一种 hack 的方式给 FlexboxLayout 添加分割线
+        special_line.post {
+            val parmas = special_line.layoutParams as ConstraintLayout.LayoutParams
+            val viewHeight = tv?.measuredHeight ?: 0
+            parmas.bottomMargin = 20.dp + viewHeight
+            special_line.layoutParams = parmas
+        }
+
     }
 }

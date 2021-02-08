@@ -22,8 +22,6 @@
             android:layout_margin="10dp"
             android:background="#7C4DFF"
             android:orientation="vertical">
-
-
         </LinearLayout>
 
         <LinearLayout

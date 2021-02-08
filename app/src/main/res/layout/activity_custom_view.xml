@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/wall"
     android:orientation="vertical"
-    tools:context=".ui.pure.CustomViewActivity"
-    android:paddingTop="24dp">
+    android:paddingTop="24dp"
+    tools:context=".ui.pure.CustomViewActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,4 +42,32 @@
         android:inputType="number"
         android:textColorHint="@color/white"
         tools:ignore="HardcodedText" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/flexbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/colorPrimary"
+            app:alignContent="stretch"
+            app:alignItems="stretch"
+            app:flexWrap="wrap"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/special_line"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/flexbox"
+            app:layout_constraintEnd_toEndOf="@id/flexbox"
+            app:layout_constraintStart_toStartOf="@id/flexbox" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </LinearLayout>

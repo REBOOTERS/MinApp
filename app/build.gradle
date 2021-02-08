@@ -82,6 +82,8 @@ dependencies {
 //    implementation project(path: ':flutter')
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
+
+    implementation "com.google.android:flexbox:1.0.0"
 }
 
 apply from: file("../custom-gradle/test-dep.gradle") // unit test
