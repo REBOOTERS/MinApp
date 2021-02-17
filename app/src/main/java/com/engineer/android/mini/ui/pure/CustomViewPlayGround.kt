@@ -17,6 +17,7 @@ import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.util.ImagePool
+import com.engineer.android.mini.util.KeyBoardUtil
 import com.google.android.flexbox.FlexboxLayout
 import kotlinx.android.synthetic.main.activity_custom_view.*
 import kotlin.random.Random
@@ -102,6 +103,18 @@ class CustomViewActivity : BaseActivity() {
             val resStr = resources.getResourceName(resId)
             "$resId show $resStr".toast()
             square_iv.setImageResource(resId)
+        }
+
+        KeyBoardUtil.checkVisible(et) {
+            if (it) {
+                val parentView = et.parent as ViewGroup
+                parentView.setOnClickListener {
+                    KeyBoardUtil.hideKeyboard(et)
+                }
+            } else {
+                val parentView = et.parent as ViewGroup
+                parentView.setOnClickListener(null)
+            }
         }
 
         val bitmap = BitmapFactory.decodeFile("sdcard/chatfrom_bg_normal.9.png")

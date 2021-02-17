@@ -1,5 +1,6 @@
 package com.engineer.android.mini.ext
 
+import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
 import com.engineer.android.mini.MinApp
@@ -11,4 +12,8 @@ fun String?.toast() {
         toast.show()
 
     }
+}
+
+fun String.log() {
+    Log.e("MyLog", this)
 }

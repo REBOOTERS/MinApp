@@ -8,13 +8,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
 import com.engineer.android.mini.coroutines.old.OldWayActivity
 import com.engineer.android.mini.databinding.ActivityRootBinding
 import com.engineer.android.mini.ext.gotoActivity
+import com.engineer.android.mini.ext.log
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.jetpack.EasyObserver
 import com.engineer.android.mini.jetpack.FragmentManagerActivity
@@ -26,17 +23,41 @@ import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.behavior.lifecycle.ActivityA
 import com.engineer.android.mini.ui.pure.PureUIActivity
 import jp.wasabeef.blurry.Blurry
+import kotlinx.coroutines.*
 import radiography.Radiography
 
 class RootActivity : BaseActivity() {
     // https://mp.weixin.qq.com/s/keR7bO-Nu9bBr5Nhevbe1Q  ViewBinding
     private lateinit var viewBinding: ActivityRootBinding
 
+    private lateinit var mainScope: CoroutineScope
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityRootBinding.inflate(layoutInflater)
         setContentView(viewBinding.rootView)
+
+        mainScope = MainScope()
         handlePermissions()
+        setupUI()
+        playLifecycle()
+
+        mainScope.launch {
+            "111".log()
+            timeToggle(2000)
+            "222".log()
+            timeToggle(3000)
+            "333".log()
+        }
+    }
+
+    private suspend fun timeToggle(i: Long) {
+        withContext(Dispatchers.IO) {
+            delay(i)
+        }
+    }
+
+    private fun setupUI() {
         handleBlur()
 
         viewBinding.jetpackUi.setOnClickListener {
@@ -57,10 +78,6 @@ class RootActivity : BaseActivity() {
         viewBinding.next.setOnClickListener {
             gotoActivity(ActivityA::class.java)
         }
-
-        playLifecycle()
-
-
     }
 
     private fun handleBlur() {
@@ -83,7 +100,7 @@ class RootActivity : BaseActivity() {
         }
     }
 
-    private var myComponent:MyComponent? = null
+    private var myComponent: MyComponent? = null
     private fun playLifecycle() {
         lifecycle.addObserver(EasyObserver())
 
@@ -91,7 +108,6 @@ class RootActivity : BaseActivity() {
         myComponent = MyComponent(this)
         myComponent?.init(this)
     }
-
 
 
     override fun onResume() {
