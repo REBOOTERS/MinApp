@@ -16,12 +16,15 @@
 
 package com.engineer.android.mini.coroutines.old
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.engineer.android.mini.coroutines.old.util.BACKGROUND
 import com.engineer.android.mini.coroutines.old.util.singleArgViewModelFactory
+import com.engineer.android.mini.ext.toast
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -154,7 +157,14 @@ class MainViewModel(private val repository: TitleRepository) : ViewModel() {
 
 
     private fun launchDataLoad(block: suspend () -> Unit): Job {
-        return viewModelScope.launch {
+        val errorHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+            Log.e("zyq", Thread.currentThread().name)
+            Log.e("zyq", coroutineContext.toString())
+            throwable.message.toast()
+            tapCount = 0
+            _taps.value = "$tapCount taps"
+        }
+        return viewModelScope.launch(errorHandler) {
             try {
                 _spinner.value = true
                 block()

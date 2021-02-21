@@ -94,9 +94,14 @@ class OldWayActivity : AppCompatActivity() {
             }
         }
 
+
+        val errorHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+            throwable.message.toast()
+        }
+
         handle.setOnClickListener {
             try {
-                mainScope?.launch {
+                mainScope?.launch(errorHandler) {
                     val start = System.currentTimeMillis()
                     printThreadName()
                     val x = mockNet(10)
