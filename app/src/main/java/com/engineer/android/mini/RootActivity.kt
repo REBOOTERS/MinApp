@@ -125,6 +125,7 @@ class RootActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         myComponent?.release()
+        mainScope.cancel()
     }
 
     // <editor-fold defaultstate="collapsed" desc="permission">
