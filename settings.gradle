@@ -1,3 +1,15 @@
+println "Start All"
+
+println "rootProject=" + rootProject
+println "rootDir    =" + rootDir
+
+println "settings.dir=" + settingsDir
+println "settings.dir.parent=" + settingsDir.parent
+
 include ':thirdlib'
-rootProject.name='MiniApp'
+rootProject.name = 'MiniApp'
 include ':app'
+
+setBinding(new Binding([gradle: this]))
+evaluate(new File(settingsDir, 'sub_flutter/.android/include_flutter.groovy'))
+include ':sub_flutter'

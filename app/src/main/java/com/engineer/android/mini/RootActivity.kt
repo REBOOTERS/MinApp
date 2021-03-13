@@ -13,6 +13,7 @@ import com.engineer.android.mini.databinding.ActivityRootBinding
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.log
 import com.engineer.android.mini.ext.toast
+import com.engineer.android.mini.flutter.FlutterRootActivity
 import com.engineer.android.mini.jetpack.EasyObserver
 import com.engineer.android.mini.jetpack.FragmentManagerActivity
 import com.engineer.android.mini.jetpack.LIFECYCLE_TAG
@@ -23,6 +24,7 @@ import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.behavior.lifecycle.ActivityA
 import com.engineer.android.mini.ui.pure.PureUIActivity
 import jp.wasabeef.blurry.Blurry
+import kotlinx.android.synthetic.main.activity_root.view.*
 import kotlinx.coroutines.*
 import radiography.Radiography
 
@@ -77,6 +79,9 @@ class RootActivity : BaseActivity() {
         }
         viewBinding.next.setOnClickListener {
             gotoActivity(ActivityA::class.java)
+        }
+        viewBinding.flutterRoot.setOnClickListener {
+            gotoActivity(FlutterRootActivity::class.java)
         }
     }
 

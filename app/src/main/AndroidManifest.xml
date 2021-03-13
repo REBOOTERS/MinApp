@@ -18,10 +18,15 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".flutter.FlutterRootActivity"
+            android:label="@string/title_activity_flutter_root"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".ui.pure.LayoutActivity"
             android:exported="true" />
-        <activity android:name=".ui.pure.EmptyActivity"
-            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"/>
+        <activity
+            android:name=".ui.pure.EmptyActivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar" />
         <activity android:name=".net.RxCacheActivity" />
         <activity
             android:name=".ui.behavior.SettingsActivity"
@@ -31,7 +36,9 @@
             android:name=".ui.behavior.BehaviorActivity"
             android:exported="true" />
         <activity android:name=".ui.pure.PureUIActivity" />
-        <activity android:name=".coroutines.old.OldWayActivity" android:exported="true" />
+        <activity
+            android:name=".coroutines.old.OldWayActivity"
+            android:exported="true" />
         <activity
             android:name=".ui.pure.CustomViewActivity"
             android:exported="true" />
