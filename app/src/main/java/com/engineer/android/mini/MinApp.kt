@@ -9,6 +9,9 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.facebook.stetho.Stetho
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.embedding.engine.FlutterEngineCache
+import io.flutter.embedding.engine.dart.DartExecutor
 
 /**
  * Created on 2020/9/13.
@@ -19,7 +22,11 @@ class MinApp : Application() {
     companion object {
         lateinit var INSTANCE: Application
         val MINI = "mini"
+
+        val FLUTTER_ENGINE_ID = "FLUTTER_ENGINE_ID"
     }
+
+    private lateinit var flutterEngine: FlutterEngine
 
 
     override fun onCreate() {
@@ -30,6 +37,17 @@ class MinApp : Application() {
 
         appLifecycle()
         lruTest()
+
+        // Instantiate a FlutterEngine.
+        flutterEngine = FlutterEngine(this)
+        // Start executing Dart code to pre-warm the FlutterEngine.
+        flutterEngine.dartExecutor.executeDartEntrypoint(
+            DartExecutor.DartEntrypoint.createDefault()
+        )
+        // Cache the FlutterEngine to be used by FlutterActivity.
+        FlutterEngineCache
+            .getInstance()
+            .put(FLUTTER_ENGINE_ID, flutterEngine)
     }
 
     private fun appLifecycle() {
