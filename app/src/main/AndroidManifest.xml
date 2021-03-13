@@ -19,8 +19,8 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".flutter.FlutterRootActivity"
-            android:label="@string/title_activity_flutter_root"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:exported="true"
+            android:label="@string/title_activity_flutter_root" />
         <activity
             android:name=".ui.pure.LayoutActivity"
             android:exported="true" />
@@ -72,6 +72,15 @@
         <activity
             android:name=".ui.behavior.lifecycle.ActivityD"
             android:process="com.engineer.android.mini.remote" />
+
+
+        <activity
+            android:name="io.flutter.embedding.android.FlutterActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize" />
+
+
     </application>
 
 </manifest>

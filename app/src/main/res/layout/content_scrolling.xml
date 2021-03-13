@@ -6,12 +6,20 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".flutter.FlutterRootActivity"
+    tools:ignore="HardcodedText"
     tools:showIn="@layout/activity_flutter_root">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+        android:orientation="vertical">
+
+
+        <Button
+            android:id="@+id/flutter_activity"
+            style="@style/SmartButtonStyle"
+            android:text="flutter_activity" />
+    </LinearLayout>
+
 
 </androidx.core.widget.NestedScrollView>
