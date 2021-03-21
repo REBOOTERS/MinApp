@@ -34,11 +34,16 @@ class RootActivity : BaseActivity() {
 
     private lateinit var mainScope: CoroutineScope
 
+    private val testLazy by lazy {
+        Log.e("RootActivity","testLazy triggle")
+        "just a value"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityRootBinding.inflate(layoutInflater)
         setContentView(viewBinding.rootView)
-
+        testLazy
         mainScope = MainScope()
         handlePermissions()
         setupUI()

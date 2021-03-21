@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ui.adapter.RecyclerViewActivity" android:exported="true"/>
         <activity
             android:name=".flutter.FlutterRootActivity"
             android:exported="true"
@@ -35,7 +36,8 @@
         <activity
             android:name=".ui.behavior.BehaviorActivity"
             android:exported="true" />
-        <activity android:name=".ui.pure.PureUIActivity" />
+        <activity android:name=".ui.pure.PureUIActivity"
+            android:exported="true"/>
         <activity
             android:name=".coroutines.old.OldWayActivity"
             android:exported="true" />
@@ -72,15 +74,11 @@
         <activity
             android:name=".ui.behavior.lifecycle.ActivityD"
             android:process="com.engineer.android.mini.remote" />
-
-
         <activity
             android:name="io.flutter.embedding.android.FlutterActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize" />
-
-
     </application>
 
 </manifest>

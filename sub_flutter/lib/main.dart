@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:media_gallery/media_gallery.dart';
 
 void main() => runApp(MyApp());
 

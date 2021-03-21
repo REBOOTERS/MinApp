@@ -56,6 +56,13 @@
     </RadioGroup>
 
 
+    <ImageView
+        android:id="@+id/temp_bitmap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        tools:src="@drawable/avatar" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -66,14 +73,14 @@
             android:text="@string/long_chinese_content" />
 
         <ImageView
-            android:src="@drawable/phone"
             android:id="@+id/content_img"
-            android:scaleType="fitXY"
             android:layout_width="0dp"
-            tools:layout_width="100dp"
             android:layout_height="20dp"
             android:layout_alignStart="@id/content_view"
-            android:layout_alignTop="@id/content_view" />
+            android:layout_alignTop="@id/content_view"
+            android:scaleType="fitXY"
+            android:src="@drawable/phone"
+            tools:layout_width="100dp" />
 
     </RelativeLayout>
 
@@ -83,6 +90,12 @@
     <com.google.android.material.slider.RangeSlider
         android:id="@+id/range_slider"
         style="@style/mw_10_margin" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/recycler_view_demo"
+        style="@style/mw_10_margin"
+        android:text="recycler_view_demo"
+        android:textColor="?android:attr/textColorPrimary" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/full_screen"
