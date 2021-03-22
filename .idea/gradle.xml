@@ -9,12 +9,12 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/../../flutter-workspace/flutter/.pub-cache/hosted/pub.flutter-io.cn/media_gallery-0.1.5/android" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/sub_flutter" />
             <option value="$PROJECT_DIR$/sub_flutter/.android/Flutter" />
             <option value="$PROJECT_DIR$/thirdlib" />
+            <option value="$PROJECT_DIR$/../flutter/.pub-cache/hosted/pub.flutter-io.cn/media_gallery-0.1.5/android" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

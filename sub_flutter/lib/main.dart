@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:media_gallery/media_gallery.dart';
+import 'package:sub_flutter/ui/widget/CustomMaterialButton.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,18 +10,22 @@ class MyApp extends StatelessWidget {
         await MediaGallery.listMediaCollections(
       mediaTypes: [MediaType.image, MediaType.video],
     );
-    for (var i = 0; i < collections.length; i++) {
-      print("i = $i, item=${collections[i]}");
+    // for (var i = 0; i < collections.length; i++) {
+    //   print("i = $i, item=${collections[i].name}");
+    // }
+    var collection = collections[8];
+    print(collection.name);
+    print(collection.count);
+    print(collection.id);
+    var page = await collection.getMedias(
+      mediaType: MediaType.image,
+      take: collection.count,
+    );
+    for(var i=0;i<page.items.length;i++) {
+      var media = page.items[i];
+      var file = await media.getFile();
+      print(file);
     }
-    // var collection = collections[0];
-    // print(collection.name);
-    // print(collection.count);
-    // print(collection.id);
-    // var page = await collection.getMedias(
-    //   mediaType: MediaType.image,
-    //   take: 5,
-    // );
-    // print(page);
   }
 
   // This widget is the root of your application.
@@ -119,6 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            CustomMaterialButton()
           ],
         ),
       ),
