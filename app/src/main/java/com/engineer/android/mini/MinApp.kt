@@ -1,6 +1,7 @@
 package com.engineer.android.mini
 
 import android.app.Application
+import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.collection.LruCache
@@ -26,9 +27,6 @@ class MinApp : Application() {
         val FLUTTER_ENGINE_ID = "FLUTTER_ENGINE_ID"
     }
 
-    private lateinit var flutterEngine: FlutterEngine
-
-
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
@@ -37,9 +35,15 @@ class MinApp : Application() {
 
         appLifecycle()
         lruTest()
+        Looper.myQueue().addIdleHandler {
+            initFlutterEngine()
+            false
+        }
+    }
 
+    private fun initFlutterEngine() {
         // Instantiate a FlutterEngine.
-        flutterEngine = FlutterEngine(this)
+        val flutterEngine = FlutterEngine(this)
         // Start executing Dart code to pre-warm the FlutterEngine.
         flutterEngine.dartExecutor.executeDartEntrypoint(
             DartExecutor.DartEntrypoint.createDefault()
@@ -49,6 +53,7 @@ class MinApp : Application() {
             .getInstance()
             .put(FLUTTER_ENGINE_ID, flutterEngine)
     }
+
 
     private fun appLifecycle() {
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleObserver {
