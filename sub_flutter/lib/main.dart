@@ -4,9 +4,30 @@ import 'package:media_gallery/media_gallery.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  void loadImages() async {
+    final List<MediaCollection> collections =
+        await MediaGallery.listMediaCollections(
+      mediaTypes: [MediaType.image, MediaType.video],
+    );
+    for (var i = 0; i < collections.length; i++) {
+      print("i = $i, item=${collections[i]}");
+    }
+    // var collection = collections[0];
+    // print(collection.name);
+    // print(collection.count);
+    // print(collection.id);
+    // var page = await collection.getMedias(
+    //   mediaType: MediaType.image,
+    //   take: 5,
+    // );
+    // print(page);
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    loadImages();
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
