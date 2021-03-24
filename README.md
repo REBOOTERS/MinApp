@@ -40,7 +40,28 @@ how to make a minimal app
 implementation 'com.google.android.material:material:1.2.0'
 ```
 
+### CI
 
+[Continuous Integration for Flutter with GitHub Actions](https://admcpr.com/continuous-integration-for-flutter-with-github-actions/)
+
+```yaml
+on: push
+jobs: 
+  build-and-test: 
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1 
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    - uses: subosito/flutter-action@v1
+      with:
+        channel: 'stable'  
+    # Get flutter packages
+    - run: flutter pub get
+    # Build :D 
+    - run: flutter build aot
+```
    
 
 

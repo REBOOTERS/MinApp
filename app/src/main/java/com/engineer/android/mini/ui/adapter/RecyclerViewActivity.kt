@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ui.BaseActivity
+import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.collections.ArrayList
 
 class RecyclerViewActivity : BaseActivity() {
 
@@ -32,6 +34,46 @@ class RecyclerViewActivity : BaseActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(DividerItemDecoration(this, RecyclerView.VERTICAL))
         recyclerView.adapter = adapter
+        recyclerView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            reflectValue(recyclerView)
+        }
+    }
+
+    private fun reflectValue(recyclerView: RecyclerView) {
+//        val rv = Class.forName("androidx.recyclerview.widget.RecyclerView")
+        val rv = recyclerView.javaClass
+        val recycler = rv.getDeclaredField("mRecycler")
+        recycler.isAccessible = true
+
+        Log.e("reflect", "recycler: $recycler")
+
+        val real = recycler.get(recyclerView)
+
+        Log.e("reflect", "real: $real")
+
+        val recyclerClazz = Class.forName("androidx.recyclerview.widget.RecyclerView\$Recycler")
+
+
+        val mAttachedScrap = recyclerClazz.getDeclaredField("mAttachedScrap")
+        mAttachedScrap.isAccessible = true
+        Log.e("reflect", "mm: $mAttachedScrap")
+        val ccc = mAttachedScrap.get(real)
+        Log.e("reflect", "as: $ccc")
+
+        val mChangedScrap = recyclerClazz.getDeclaredField("mChangedScrap")
+        mChangedScrap.isAccessible = true
+        val cs = mChangedScrap.get(real)
+        Log.e("reflect", "cs: $cs")
+
+        val mCachedViews  = recyclerClazz.getDeclaredField("mCachedViews")
+        mCachedViews.isAccessible = true
+        val cd = mCachedViews.get(real)
+        Log.e("reflect", "cd: $cd")
+
+
+//
+//        val mm : ArrayList<RecyclerView.ViewHolder> = mAttachedScrap.get(recyclerClazz) as ArrayList<RecyclerView.ViewHolder>
+
     }
 
     class MyAdapter(private val datas: List<String>) : RecyclerView.Adapter<MyAdapter.MyHolder>() {
