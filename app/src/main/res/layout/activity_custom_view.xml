@@ -9,6 +9,40 @@
     android:paddingTop="24dp"
     tools:context=".ui.pure.CustomViewActivity">
 
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="#66000000"
+        android:padding="10dp">
+
+        <FrameLayout
+            android:id="@+id/temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_bg">
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:text="111111111" />
+        </FrameLayout>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="10dp"
+            android:layout_alignBottom="@id/temp"
+            android:layout_marginStart="-3dp"
+            android:layout_toEndOf="@id/temp"
+            android:scaleType="fitXY"
+            android:src="@drawable/phone" />
+
+
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,7 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@color/colorPrimary"
+            android:background="#66000000"
             app:alignContent="stretch"
             app:alignItems="stretch"
             app:flexWrap="wrap"

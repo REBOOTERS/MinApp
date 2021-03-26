@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.NinePatchDrawable
 import android.os.Bundle
+import android.text.Editable
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
@@ -12,13 +13,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.addTextChangedListener
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
+import com.engineer.android.mini.ext.screenWidth
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.util.ImagePool
 import com.engineer.android.mini.util.KeyBoardUtil
 import com.google.android.flexbox.FlexboxLayout
+import com.google.android.material.internal.TextWatcherAdapter
 import kotlinx.android.synthetic.main.activity_custom_view.*
 import kotlin.random.Random
 
@@ -126,6 +130,13 @@ class CustomViewActivity : BaseActivity() {
                 Log.e(TAG, "drawable is $drawable")
             }
         }
+
+        et.addTextChangedListener(object :TextWatcherAdapter(){
+            override fun afterTextChanged(s: Editable) {
+                content.text = s.toString()
+            }
+        })
+        content.maxWidth = screenWidth - 92.dp
 
         setupFlexBox()
     }

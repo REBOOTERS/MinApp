@@ -1,6 +1,7 @@
 package com.engineer.android.mini.ext
 
 import android.content.Context
+import android.content.res.Resources
 
 fun Context?.getStatusBarHeight(): Int {
     var result = 0
@@ -12,3 +13,5 @@ fun Context?.getStatusBarHeight(): Int {
     }
     return result
 }
+
+val screenWidth = Resources.getSystem().displayMetrics.widthPixels

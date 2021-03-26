@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +34,7 @@ class RecyclerViewActivity : BaseActivity() {
         val adapter = MyAdapter(datas)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(DividerItemDecoration(this, RecyclerView.VERTICAL))
+        recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = adapter
         recyclerView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             reflectValue(recyclerView)
@@ -40,7 +42,6 @@ class RecyclerViewActivity : BaseActivity() {
     }
 
     private fun reflectValue(recyclerView: RecyclerView) {
-//        val rv = Class.forName("androidx.recyclerview.widget.RecyclerView")
         val rv = recyclerView.javaClass
         val recycler = rv.getDeclaredField("mRecycler")
         recycler.isAccessible = true
@@ -69,10 +70,6 @@ class RecyclerViewActivity : BaseActivity() {
         mCachedViews.isAccessible = true
         val cd = mCachedViews.get(real)
         Log.e("reflect", "cd: $cd")
-
-
-//
-//        val mm : ArrayList<RecyclerView.ViewHolder> = mAttachedScrap.get(recyclerClazz) as ArrayList<RecyclerView.ViewHolder>
 
     }
 
@@ -107,6 +104,11 @@ class RecyclerViewActivity : BaseActivity() {
         override fun getItemCount(): Int {
             Log.e("getItemCount", "getItemCount() called")
             return datas.size
+        }
+
+        override fun onViewRecycled(holder: MyHolder) {
+            super.onViewRecycled(holder)
+            Log.d("onViewRecycled", "onViewRecycled() called with: holder = $holder")
         }
 
         override fun onViewAttachedToWindow(holder: MyHolder) {
