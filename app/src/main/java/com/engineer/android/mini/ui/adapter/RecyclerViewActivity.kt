@@ -1,5 +1,6 @@
 package com.engineer.android.mini.ui.adapter
 
+import android.database.Observable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ui.BaseActivity
+import kotlinx.android.synthetic.main.activity_recycler_view.*
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.collections.ArrayList
@@ -38,6 +40,15 @@ class RecyclerViewActivity : BaseActivity() {
         recyclerView.adapter = adapter
         recyclerView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             reflectValue(recyclerView)
+        }
+
+        remove.setOnClickListener {
+            datas.removeAt(0)
+            adapter.notifyItemChanged(0)
+        }
+        add.setOnClickListener {
+            datas.add(0, 0.toString())
+            adapter.notifyItemChanged(0)
         }
     }
 
@@ -66,7 +77,7 @@ class RecyclerViewActivity : BaseActivity() {
         val cs = mChangedScrap.get(real)
         Log.e("reflect", "cs: $cs")
 
-        val mCachedViews  = recyclerClazz.getDeclaredField("mCachedViews")
+        val mCachedViews = recyclerClazz.getDeclaredField("mCachedViews")
         mCachedViews.isAccessible = true
         val cd = mCachedViews.get(real)
         Log.e("reflect", "cd: $cd")
@@ -98,7 +109,7 @@ class RecyclerViewActivity : BaseActivity() {
                 "onBindViewHolder() called with: holder = $holder, position = $position"
             )
             holder.title.text = holder.hashCode().toString()
-            holder.index.text = position.toString()
+            holder.index.text = datas[position]
         }
 
         override fun getItemCount(): Int {
@@ -121,4 +132,19 @@ class RecyclerViewActivity : BaseActivity() {
             Log.e("ach", "onViewDetachedFromWindow() called with: holder = $holder")
         }
     }
+
+
+    private abstract class MyObserver {
+        abstract  fun update(str:String)
+    }
+
+    private class MyObservable : Observable<MyObserver>() {
+        fun notifyDataSetChanged() {
+            mObservers.forEach {
+                it.update("aaa")
+            }
+        }
+    }
+
+
 }

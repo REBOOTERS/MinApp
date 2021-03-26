@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sub_flutter/ui/page/gallery.dart';
+import 'package:sub_flutter/ui/page/images.dart';
 
 class CustomMaterialButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void _gotoPage() => {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => GalleryPage()))
+              .push(MaterialPageRoute(builder: (context) => MyApp()))
         };
 
     return MaterialButton(

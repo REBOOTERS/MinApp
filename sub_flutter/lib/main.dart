@@ -1,37 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:media_gallery/media_gallery.dart';
 import 'package:sub_flutter/ui/widget/CustomMaterialButton.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  void loadImages() async {
-    final List<MediaCollection> collections =
-        await MediaGallery.listMediaCollections(
-      mediaTypes: [MediaType.image, MediaType.video],
-    );
-    // for (var i = 0; i < collections.length; i++) {
-    //   print("i = $i, item=${collections[i].name}");
-    // }
-    var collection = collections[8];
-    print(collection.name);
-    print(collection.count);
-    print(collection.id);
-    var page = await collection.getMedias(
-      mediaType: MediaType.image,
-      take: collection.count,
-    );
-    for(var i=0;i<page.items.length;i++) {
-      var media = page.items[i];
-      var file = await media.getFile();
-      print(file);
-    }
-  }
+
+
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    loadImages();
 
     return MaterialApp(
       title: 'Flutter Demo',

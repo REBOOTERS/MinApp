@@ -8,12 +8,37 @@
     android:paddingTop="50dp"
     tools:context=".ui.adapter.RecyclerViewActivity">
 
+    <LinearLayout
+        android:id="@+id/control_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="add"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="remove"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="#66000000"
+        app:layout_constraintTop_toBottomOf="@id/control_panel"
         tools:itemCount="20"
         tools:listitem="@layout/list_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

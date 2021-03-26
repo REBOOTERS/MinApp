@@ -40,6 +40,11 @@ class LayoutActivity : BaseActivity() {
         printAny("looper $looper")
         printAny("messageQueue $messageQueue")
         printAny("mainLooper $mainLooper")
+
+        Looper.myQueue().addIdleHandler {
+            printAny("idleHandle execute")
+            false
+        }
     }
 
     override fun onResume() {
