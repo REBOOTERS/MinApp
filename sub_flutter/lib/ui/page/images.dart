@@ -5,8 +5,7 @@ import 'dart:io';
 
 import 'package:media_gallery/media_gallery.dart';
 import 'package:permission_handler/permission_handler.dart';
-
-// void main() => runApp(new MyApp());
+import 'package:sub_flutter/ui/page/picture_gallery.dart';
 
 class MyApp extends StatefulWidget {
   @override
@@ -39,7 +38,7 @@ class _MyAppState extends State<MyApp> {
     for (var i = 0; i < collections.length; i++) {
       collection = collections[i];
       print("i = $i, item=${collection.name}");
-      if (collection.name == "panoramas") {
+      if (collection.name == "panoramas" || collection.name == "All") {
         print(collection.name);
         print(collection.count);
         print(collection.id);
@@ -78,30 +77,25 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
-    return new MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: new Scaffold(
-        appBar: new AppBar(
-          title: const Text('Image Gallery'),
-        ),
-        body: _buildGrid(),
+    return new Scaffold(
+      appBar: new AppBar(
+        title: const Text('Panorama Gallery'),
       ),
+      body: _buildGrid(),
     );
   }
 
   Widget _buildGrid() {
-    return GridView.extent(
-        maxCrossAxisExtent: 150.0,
-        // padding: const EdgeInsets.all(4.0),
-        mainAxisSpacing: 4.0,
-        crossAxisSpacing: 4.0,
-        children: _buildGridTileList(allImage.length));
+    return GridView.count(
+      crossAxisCount: 3,
+      padding: EdgeInsets.symmetric(vertical: 0),
+      children: _buildGridTileList(allImage.length),
+    );
   }
 
   List<Container> _buildGridTileList(int count) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return List<Container>.generate(
         count,
         (int index) => Container(
@@ -109,14 +103,48 @@ class _MyAppState extends State<MyApp> {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Image.file(
-                  File(allImage[index].toString()),
-                  width: 96.0,
-                  height: 96.0,
-                  fit: BoxFit.contain,
+                GestureDetector(
+                  child: Image.file(
+                    File(allImage[index].toString()),
+                    width: screenWidth / 3,
+                    height: screenWidth / 3,
+                    fit: BoxFit.cover,
+                  ),
+                  onTap: () {
+                    Navigator.of(context).push(new FadeRoute(
+                        page: PictureGalleryScreen(
+                      images: allImage, //传入图片list
+                      index: index, //传入当前点击的图片的index
+                      heroTag: "img", //传入当前点击的图片的hero tag （可选）
+                    )));
+                  },
                 ),
-                Text(allNameList[index])
+                // Text(allNameList[index])
               ],
             )));
   }
+}
+
+class FadeRoute extends PageRouteBuilder {
+  final Widget page;
+
+  FadeRoute({this.page})
+      : super(
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              FadeTransition(
+            opacity: animation,
+            child: child,
+          ),
+        );
 }
