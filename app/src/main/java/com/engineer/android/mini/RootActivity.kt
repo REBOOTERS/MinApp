@@ -85,9 +85,6 @@ class RootActivity : BaseActivity() {
         viewBinding.next.setOnClickListener {
             gotoActivity(ActivityA::class.java)
         }
-        viewBinding.flutterRoot.setOnClickListener {
-            gotoActivity(FlutterRootActivity::class.java)
-        }
     }
 
     private fun handleBlur() {

@@ -10,6 +10,6 @@ include ':thirdlib'
 rootProject.name = 'MiniApp'
 include ':app'
 
-setBinding(new Binding([gradle: this]))
-evaluate(new File(settingsDir, 'sub_flutter/.android/include_flutter.groovy'))
-include ':sub_flutter'
+//setBinding(new Binding([gradle: this]))
+//evaluate(new File(settingsDir, 'sub_flutter/.android/include_flutter.groovy'))
+//include ':sub_flutter'

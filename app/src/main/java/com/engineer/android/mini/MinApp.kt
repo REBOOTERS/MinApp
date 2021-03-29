@@ -1,7 +1,6 @@
 package com.engineer.android.mini
 
 import android.app.Application
-import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.collection.LruCache
@@ -10,9 +9,6 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.facebook.stetho.Stetho
-import io.flutter.embedding.engine.FlutterEngine
-import io.flutter.embedding.engine.FlutterEngineCache
-import io.flutter.embedding.engine.dart.DartExecutor
 
 /**
  * Created on 2020/9/13.
@@ -35,24 +31,8 @@ class MinApp : Application() {
 
         appLifecycle()
         lruTest()
-        Looper.myQueue().addIdleHandler {
-            initFlutterEngine()
-            false
-        }
     }
 
-    private fun initFlutterEngine() {
-        // Instantiate a FlutterEngine.
-        val flutterEngine = FlutterEngine(this)
-        // Start executing Dart code to pre-warm the FlutterEngine.
-        flutterEngine.dartExecutor.executeDartEntrypoint(
-            DartExecutor.DartEntrypoint.createDefault()
-        )
-        // Cache the FlutterEngine to be used by FlutterActivity.
-        FlutterEngineCache
-            .getInstance()
-            .put(FLUTTER_ENGINE_ID, flutterEngine)
-    }
 
 
     private fun appLifecycle() {
