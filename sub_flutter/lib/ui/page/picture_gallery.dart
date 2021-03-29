@@ -40,8 +40,9 @@ class _PhotoViewGalleryScreenState extends State<PictureGalleryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Stack(
+    new Material(
+        child: Container(
+            child: Stack(
       alignment: Alignment.bottomRight,
       children: [
         PhotoViewGallery.builder(
@@ -75,12 +76,12 @@ class _PhotoViewGalleryScreenState extends State<PictureGalleryScreen> {
             "${currentIndex + 1}/${widget.images.length}",
             style: const TextStyle(
               color: Colors.black,
+              decoration: TextDecoration.none,
               fontSize: 17.0,
-              decoration: null,
             ),
           ),
         ))
       ],
-    ));
+    )));
   }
 }
