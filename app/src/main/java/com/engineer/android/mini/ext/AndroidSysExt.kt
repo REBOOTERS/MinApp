@@ -15,3 +15,4 @@ fun Context?.getStatusBarHeight(): Int {
 }
 
 val screenWidth = Resources.getSystem().displayMetrics.widthPixels
+val screenHeight = Resources.getSystem().displayMetrics.heightPixels

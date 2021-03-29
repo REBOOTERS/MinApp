@@ -17,7 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.adapter.RecyclerViewActivity" android:exported="true"/>
+        <activity
+            android:name=".ui.adapter.RecyclerViewActivity"
+            android:exported="true" />
         <activity
             android:name=".flutter.FlutterRootActivity"
             android:exported="true"
@@ -36,13 +38,17 @@
         <activity
             android:name=".ui.behavior.BehaviorActivity"
             android:exported="true" />
-        <activity android:name=".ui.pure.PureUIActivity"
-            android:exported="true"/>
+        <activity
+            android:name=".ui.pure.PureUIActivity"
+            android:exported="true" />
         <activity
             android:name=".coroutines.old.OldWayActivity"
             android:exported="true" />
         <activity
             android:name=".ui.pure.CustomViewActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.pure.WrapContentActivity"
             android:exported="true" />
         <activity
             android:name=".ui.pure.FullscreenActivity"

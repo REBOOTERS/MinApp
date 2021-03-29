@@ -16,9 +16,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
+import com.engineer.android.mini.ext.screenHeight
 import com.engineer.android.mini.ext.screenWidth
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
+import com.engineer.android.mini.ui.pure.helper.MeasureSpec
 import com.engineer.android.mini.util.ImagePool
 import com.engineer.android.mini.util.KeyBoardUtil
 import com.google.android.flexbox.FlexboxLayout
@@ -48,6 +50,7 @@ constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+        setBackgroundColor(Color.RED)
         canvas?.let {
             it.drawColor(Color.WHITE)
             it.drawCircle(100f, 100f, 100f, paint)
@@ -55,6 +58,14 @@ constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        Log.e(
+            "SimpleViewOne",
+            "w = ${MeasureSpec.toString(widthMeasureSpec)},h = ${
+                MeasureSpec.toString(heightMeasureSpec)
+            }"
+        )
+
         val w = 210
         val h = 210
         val rW = resolveSize(w, widthMeasureSpec)
@@ -70,6 +81,13 @@ class SquareImageView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        Log.d(
+            "SquareImageView",
+            "onMeasure() called with: widthMeasureSpec = $widthMeasureSpec, heightMeasureSpec = $heightMeasureSpec"
+        )
+        Log.e("SquareImageView", "w = ${MeasureSpec.toString(widthMeasureSpec)}")
+        Log.e("SquareImageView", "h = ${MeasureSpec.toString(heightMeasureSpec)}")
+
         var w = measuredWidth
         var h = measuredHeight
 
@@ -131,7 +149,7 @@ class CustomViewActivity : BaseActivity() {
             }
         }
 
-        et.addTextChangedListener(object :TextWatcherAdapter(){
+        et.addTextChangedListener(object : TextWatcherAdapter() {
             override fun afterTextChanged(s: Editable) {
                 content.text = s.toString()
             }
@@ -139,6 +157,8 @@ class CustomViewActivity : BaseActivity() {
         content.maxWidth = screenWidth - 92.dp
 
         setupFlexBox()
+
+        MeasureSpec.print()
     }
 
     private fun setupFlexBox() {
@@ -165,5 +185,14 @@ class CustomViewActivity : BaseActivity() {
             special_line.layoutParams = parmas
         }
 
+    }
+}
+
+class WrapContentActivity : BaseActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_wrap_content)
+
+        Log.e("SimpleViewOne", "screenW = ${screenWidth}, screenH = ${screenHeight}")
     }
 }
