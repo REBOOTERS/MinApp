@@ -178,9 +178,7 @@ class EmptyActivity : BaseActivity() {
 
         setContentView(tv)
 
-        Choreographer.getInstance().postFrameCallback {
-
-        }
+        Choreographer.getInstance().postFrameCallback {}
         Choreographer.getInstance().removeFrameCallback { }
     }
 

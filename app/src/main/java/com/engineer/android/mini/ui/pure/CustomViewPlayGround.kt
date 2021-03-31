@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -103,6 +104,39 @@ class SquareImageView @JvmOverloads constructor(
         }
         setMeasuredDimension(w, h)
     }
+}
+
+class LogLinearLayout @JvmOverloads constructor(
+    context: Context,
+    attributeSet: AttributeSet? = null, style: Int = 0
+) : LinearLayout(context, attributeSet, style) {
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        Log.e(
+            "LogLinearLayout",
+            "w = ${MeasureSpec.toString(widthMeasureSpec)},h = ${
+                MeasureSpec.toString(heightMeasureSpec)
+            }"
+        )
+    }
+}
+
+class FirstViewGroup @JvmOverloads constructor(
+    context: Context,
+    attributeSet: AttributeSet? = null, style: Int = 0
+) : ViewGroup(context, attributeSet, style) {
+
+    init {
+        setWillNotDraw(false)
+    }
+
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        Log.d(
+            "FirstViewGroup",
+            "onLayout() called with: changed = $changed, l = $l, t = $t, r = $r, b = $b"
+        )
+    }
+
 }
 
 
