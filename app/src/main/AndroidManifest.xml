@@ -17,6 +17,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ipc.IpcActivity" android:exported="true"/>
+
+        <service
+            android:name=".ipc.messenger.MessengerService"
+            android:enabled="true"
+            android:process=":remote"
+            android:exported="false" />
+
         <activity
             android:name=".ui.adapter.RecyclerViewActivity"
             android:exported="true" />

@@ -1,6 +1,7 @@
 package com.engineer.android.mini.ui.pure
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.NinePatchDrawable
 import android.os.Bundle
@@ -15,10 +16,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
 import com.engineer.android.mini.R
-import com.engineer.android.mini.ext.dp
-import com.engineer.android.mini.ext.screenHeight
-import com.engineer.android.mini.ext.screenWidth
-import com.engineer.android.mini.ext.toast
+import com.engineer.android.mini.ext.*
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.pure.helper.MeasureSpec
 import com.engineer.android.mini.util.ImagePool
@@ -50,10 +48,10 @@ constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        setBackgroundColor(Color.RED)
         canvas?.let {
-            it.drawColor(Color.WHITE)
-            it.drawCircle(100f, 100f, 100f, paint)
+//            canvas.translate(width / 2.0f, height / 2.0f)
+            it.drawColor(Color.CYAN)
+            it.drawCircle(width / 2.0f, height / 2.0f, 100f, paint)
         }
     }
 
@@ -70,7 +68,14 @@ constructor(
         val h = 210
         val rW = resolveSize(w, widthMeasureSpec)
         val rH = resolveSize(h, heightMeasureSpec)
+        Log.e(
+            "SimpleViewOne",
+            "w1 = ${MeasureSpec.toString(widthMeasureSpec)},h1 = ${
+                MeasureSpec.toString(heightMeasureSpec)
+            }"
+        )
         setMeasuredDimension(rW, rH)
+//        setMeasuredDimension(widthMeasureSpec,heightMeasureSpec)
     }
 }
 
@@ -193,6 +198,28 @@ class WrapContentActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wrap_content)
 
-        Log.e("SimpleViewOne", "screenW = ${screenWidth}, screenH = ${screenHeight}")
+        Log.e("displayMetrics", "density       = ${Resources.getSystem().displayMetrics.density}")
+        Log.e(
+            "displayMetrics",
+            "densityDpi    = ${Resources.getSystem().displayMetrics.densityDpi}"
+        )
+        Log.e(
+            "displayMetrics",
+            "scaledDensity = ${Resources.getSystem().displayMetrics.scaledDensity}"
+        )
+        Log.e("displayMetrics", "xdpi          = ${Resources.getSystem().displayMetrics.xdpi}")
+        Log.e("displayMetrics", "ydpi          = ${Resources.getSystem().displayMetrics.ydpi}")
+        Log.e(
+            "displayMetrics",
+            "widthPixels   = ${Resources.getSystem().displayMetrics.widthPixels}"
+        )
+        Log.e(
+            "displayMetrics",
+            "heightPixels  = ${Resources.getSystem().displayMetrics.heightPixels}"
+        )
+        Log.e("displayMetrics", "displayMetrics= ${Resources.getSystem().displayMetrics}")
+
+        Log.e("SimpleViewOne", "screenW = ${screenWidth}, screenH = $screenHeight")
+        Log.e("SimpleViewOne", "screenW = ${screenWidth.px}, screenH = ${screenHeight.px}")
     }
 }
