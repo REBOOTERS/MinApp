@@ -128,13 +128,39 @@ class FirstViewGroup @JvmOverloads constructor(
 
     init {
         setWillNotDraw(false)
+
+        Log.e("FirstViewGroup","parent is $parent")
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        Log.e(
+            "FirstViewGroup",
+            "w = ${MeasureSpec.toString(widthMeasureSpec)},h = ${
+                MeasureSpec.toString(heightMeasureSpec)
+            }"
+        )
+        Log.e("FirstViewGroup", "childCount= $childCount")
+        for (i in 0 until childCount) {
+            val child = getChildAt(i)
+            child.measure(widthMeasureSpec, heightMeasureSpec)
+        }
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        Log.d(
+        Log.e(
             "FirstViewGroup",
             "onLayout() called with: changed = $changed, l = $l, t = $t, r = $r, b = $b"
         )
+        val count = childCount
+        for (i in 0 until count) {
+            val child = getChildAt(i)
+            Log.e(
+                "FirstViewGroup",
+                "onLayout: child[$i] w=${child.measuredWidth},h=${child.measuredHeight}"
+            )
+            child.layout(l,  i * child.measuredWidth, r, t + (i) * child.measuredWidth)
+        }
     }
 
 }

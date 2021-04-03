@@ -16,5 +16,18 @@
 
     <com.engineer.android.mini.ui.pure.FirstViewGroup
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:scaleType="fitXY"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/avatar" />
+
+        <ImageView
+            android:scaleType="fitXY"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/phone" />
+    </com.engineer.android.mini.ui.pure.FirstViewGroup>
 </com.engineer.android.mini.ui.pure.LogLinearLayout>
