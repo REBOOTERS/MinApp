@@ -13,4 +13,9 @@
         style="@style/mw_10_margin"
         android:text="messenger" />
 
+    <Button
+        android:id="@+id/aidl"
+        style="@style/mw_10_margin"
+        android:text="aidl" />
+
 </LinearLayout>
