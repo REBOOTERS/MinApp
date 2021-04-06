@@ -8,6 +8,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.engineer.android.mini.coroutines.old.OldWayActivity
 import com.engineer.android.mini.databinding.ActivityRootBinding
 import com.engineer.android.mini.ext.gotoActivity
@@ -23,10 +25,14 @@ import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.behavior.lifecycle.ActivityA
 import com.engineer.android.mini.ui.pure.PureUIActivity
+import com.engineer.android.mini.util.ProducerConsumerViewModel
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
 import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_root.view.*
 import kotlinx.coroutines.*
 import radiography.Radiography
+import java.util.concurrent.TimeUnit
 
 class RootActivity : BaseActivity() {
     // https://mp.weixin.qq.com/s/keR7bO-Nu9bBr5Nhevbe1Q  ViewBinding
@@ -35,7 +41,7 @@ class RootActivity : BaseActivity() {
     private lateinit var mainScope: CoroutineScope
 
     private val testLazy by lazy {
-        Log.e("RootActivity","testLazy triggle")
+        Log.e("RootActivity", "testLazy triggle")
         "just a value"
     }
 
@@ -56,6 +62,26 @@ class RootActivity : BaseActivity() {
             timeToggle(3000)
             "333".log()
         }
+
+        testPC()
+    }
+
+    private val disposeOn = CompositeDisposable()
+    private fun testPC() {
+        val viewModel = ViewModelProvider(this).get(ProducerConsumerViewModel::class.java)
+        viewModel.consumer()
+
+        val d = Observable.interval(0, 1, TimeUnit.SECONDS)
+            .subscribe {
+                viewModel.add(it.toString())
+            }
+
+        val d1 = Observable.interval(0, 2, TimeUnit.SECONDS)
+            .subscribe {
+                viewModel.consumer()
+            }
+        disposeOn.add(d1)
+        disposeOn.add(d)
     }
 
     private suspend fun timeToggle(i: Long) {
@@ -133,6 +159,7 @@ class RootActivity : BaseActivity() {
         super.onDestroy()
         myComponent?.release()
         mainScope.cancel()
+        disposeOn.dispose()
     }
 
     // <editor-fold defaultstate="collapsed" desc="permission">
