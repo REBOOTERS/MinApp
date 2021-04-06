@@ -27,6 +27,7 @@ public class IpcActivity extends AppCompatActivity {
     private static final String TAG = "IpcActivity";
 
     private Messenger mRepliedMessenger = MessengerDelegate.provideMessenger();
+
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
