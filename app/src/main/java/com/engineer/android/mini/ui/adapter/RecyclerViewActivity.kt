@@ -7,16 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.engineer.android.mini.R
+import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_recycler_view.*
-import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
-import kotlin.collections.ArrayList
 
 class RecyclerViewActivity : BaseActivity() {
 
@@ -38,6 +34,13 @@ class RecyclerViewActivity : BaseActivity() {
         recyclerView.addItemDecoration(DividerItemDecoration(this, RecyclerView.VERTICAL))
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = adapter
+
+        val linearSnapHelper = LinearSnapHelper()
+//        linearSnapHelper.attachToRecyclerView(recyclerView)
+
+        val pagerSnapHelper = PagerSnapHelper()
+//        pagerSnapHelper.attachToRecyclerView(recyclerView)
+
         recyclerView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             reflectValue(recyclerView)
         }
@@ -100,7 +103,14 @@ class RecyclerViewActivity : BaseActivity() {
             )
             val view =
                 LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
-            return MyHolder(view)
+            val holder = MyHolder(view)
+
+            view.setOnClickListener {
+                val adapterPosition = holder.adapterPosition
+                val layoutPosition = holder.layoutPosition
+                "adapterPosition = $adapterPosition\n layoutPosition = $layoutPosition".toast()
+            }
+            return holder
         }
 
         override fun onBindViewHolder(holder: MyHolder, position: Int) {
@@ -135,7 +145,7 @@ class RecyclerViewActivity : BaseActivity() {
 
 
     private abstract class MyObserver {
-        abstract  fun update(str:String)
+        abstract fun update(str: String)
     }
 
     private class MyObservable : Observable<MyObserver>() {
