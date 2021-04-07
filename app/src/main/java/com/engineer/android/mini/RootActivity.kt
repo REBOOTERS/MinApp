@@ -71,12 +71,12 @@ class RootActivity : BaseActivity() {
         val viewModel = ViewModelProvider(this).get(ProducerConsumerViewModel::class.java)
         viewModel.consumer()
 
-        val d = Observable.interval(0, 1, TimeUnit.SECONDS)
+        val d = Observable.interval(0, 2, TimeUnit.SECONDS)
             .subscribe {
                 viewModel.add(it.toString())
             }
 
-        val d1 = Observable.interval(0, 2, TimeUnit.SECONDS)
+        val d1 = Observable.interval(0, 2500, TimeUnit.MILLISECONDS)
             .subscribe {
                 viewModel.consumer()
             }

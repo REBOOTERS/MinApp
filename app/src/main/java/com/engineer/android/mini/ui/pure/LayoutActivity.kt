@@ -18,6 +18,7 @@ import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.google.android.flexbox.FlexboxLayout
 import kotlinx.android.synthetic.main.activity_layout.*
+import java.lang.StringBuilder
 
 class LayoutActivity : BaseActivity() {
 
@@ -175,7 +176,12 @@ class EmptyActivity : BaseActivity() {
         Log.d(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
         tv = TextView(this)
         tv.text = "111"
-
+        tv.setBackgroundColor(Color.RED)
+        val params = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        tv.layoutParams = params
         setContentView(tv)
 
         Choreographer.getInstance().postFrameCallback {}
@@ -185,29 +191,44 @@ class EmptyActivity : BaseActivity() {
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
 
-        Log.d(TAG, "onPostCreate() called with: savedInstanceState = $savedInstanceState")
+        Log.e(TAG, "onPostCreate() called with: savedInstanceState = $savedInstanceState")
         val view = window.findViewById<View>(android.R.id.content)
-        Log.d(TAG, "onPostCreate() called ${view.measuredHeight},${tv.measuredHeight}")
+        Log.e(TAG, "onPostCreate() called ${view.measuredHeight},${tv.measuredHeight}")
 
     }
 
     override fun onResume() {
         super.onResume()
         val view = window.findViewById<View>(android.R.id.content)
-        Log.d(TAG, "onResume() called ${view.width},${tv.measuredHeight}")
+        Log.e(TAG, "onResume() called ${view.width},${tv.measuredHeight}")
 
     }
 
     override fun onPostResume() {
         super.onPostResume()
         val view = window.findViewById<View>(android.R.id.content)
-        Log.d(TAG, "onPostResume() called ${view.width},${tv.measuredHeight}")
+        Log.e(TAG, "onPostResume() called ${view.width},${tv.measuredHeight}")
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        Log.d(TAG, "onWindowFocusChanged() called with: hasFocus = $hasFocus")
+        Log.e(TAG, "onWindowFocusChanged() called with: hasFocus = $hasFocus")
         val view = window.findViewById<View>(android.R.id.content)
-        Log.d(TAG, "onWindowFocusChanged() called ${view.width},${tv.measuredHeight}")
+        Log.e(TAG, "onWindowFocusChanged() called view = ${getViewPos(view)}")
+        Log.e(TAG, "onWindowFocusChanged() called tv   = ${getViewPos(tv)}")
+    }
+
+    private fun getViewPos(view: View): String {
+        val sb = StringBuilder()
+
+        sb.append("====>").append("\n").append("left=").append(view.left).append(" ")
+            .append("top=").append(view.top).append(" ")
+            .append("right=").append(view.right).append(" ")
+            .append("bottom=").append(view.bottom).append("\n")
+            .append("width=").append(view.width).append(" ")
+            .append("height=").append(view.height).append("\n")
+            .append("parent=").append(view.parent).append("\n")
+
+        return sb.toString()
     }
 }
