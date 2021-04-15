@@ -79,14 +79,14 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     implementation 'androidx.preference:preference-ktx:1.1.1'
 
-    implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.facebook.stetho:stetho:1.6.0'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
 
     implementation 'com.zchu:rxcache:2.3.5'
     implementation 'com.zchu:rxcache-kotlin:2.3.5'
     implementation project(path: ':thirdlib')
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
     implementation "com.google.android:flexbox:1.0.0"
 
