@@ -1,7 +1,6 @@
 package com.engineer.android.mini.ui.behavior.lifecycle
 
 import android.annotation.SuppressLint
-import android.content.ComponentName
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
@@ -10,6 +9,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -20,6 +20,7 @@ import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
+import kotlin.random.Random
 
 
 /**
@@ -85,6 +86,14 @@ open class BaseLifeActivity : BaseActivity() {
         Log.e(TAG, "onConfigurationChanged() called with: newConfig = $newConfig")
     }
 
+    protected fun randomColor(): Int {
+        val r = Random.nextInt(255)
+        val g = Random.nextInt(255)
+        val b = Random.nextInt(255)
+        Log.e("randomColor", "randomColor: r=$r,g=$g,b=$b" )
+        return Color.rgb(r, g, b)
+    }
+
     open fun provideView(): View = FrameLayout(this)
 }
 
@@ -93,7 +102,8 @@ class ActivityA : BaseLifeActivity() {
     override fun provideView(): View {
         val contentView = LinearLayout(this)
         contentView.orientation = LinearLayout.VERTICAL
-        contentView.setBackgroundColor(Color.MAGENTA)
+        contentView.setBackgroundColor(randomColor())
+        contentView.setPadding(0, 48.dp, 0, 0)
         val param = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
@@ -169,7 +179,7 @@ class ActivityA : BaseLifeActivity() {
 class ActivityB : BaseLifeActivity() {
     override fun provideView(): View {
         val frameLayout = FrameLayout(this)
-        frameLayout.setBackgroundColor(Color.YELLOW)
+        frameLayout.setBackgroundColor(randomColor())
         val button = Button(this)
         val param = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -188,27 +198,42 @@ class ActivityB : BaseLifeActivity() {
 
 class ActivityB1 : BaseLifeActivity() {
     override fun provideView(): View {
-        val frameLayout = FrameLayout(this)
-        frameLayout.setBackgroundColor(Color.YELLOW)
+        val cont = LinearLayout(this)
+        cont.orientation = LinearLayout.VERTICAL
+        cont.setBackgroundColor(randomColor())
+
+        val p = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT)
+        cont.layoutParams = p
+        cont.gravity = Gravity.CENTER
+        Log.e("ddd","con-> ${cont.layoutParams?.height}")
         val button = Button(this)
-        val param = FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.WRAP_CONTENT,
-            FrameLayout.LayoutParams.WRAP_CONTENT
+        val param = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        param.gravity = Gravity.CENTER
         button.text = this::class.java.simpleName
         button.setOnClickListener {
             finish()
         }
-        frameLayout.addView(button, param)
-        return frameLayout
+        cont.addView(button, param)
+
+        val bb1 = Button(this)
+        bb1.text = "start-self " + hashCode()
+//        param.topMargin = 10.dp
+        bb1.setOnClickListener {
+            gotoPage(ActivityB1::class.java)
+        }
+        cont.addView(bb1, param)
+
+        return cont
     }
 }
 
 class ActivityB2 : BaseLifeActivity() {
     override fun provideView(): View {
         val frameLayout = FrameLayout(this)
-        frameLayout.setBackgroundColor(Color.YELLOW)
+        frameLayout.setBackgroundColor(randomColor())
         val button = Button(this)
         val param = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -261,7 +286,7 @@ class ActivityD : BaseLifeActivity() {
 
     override fun provideView(): View {
         val frameLayout = FrameLayout(this)
-        frameLayout.setBackgroundColor(Color.CYAN)
+        frameLayout.setBackgroundColor(randomColor())
         val button = Button(this)
         val param = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT,
