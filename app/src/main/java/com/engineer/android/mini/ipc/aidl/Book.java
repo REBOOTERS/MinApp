@@ -46,4 +46,12 @@ public class Book implements Parcelable {
         bookId = in.readInt();
         bookName = in.readString();
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "bookId=" + bookId +
+                ", bookName='" + bookName + '\'' +
+                '}';
+    }
 }

@@ -24,8 +24,6 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.e(TAG, "onCreate() called ")
-
         transparentStatusBar()
         fullStatusBar()
     }
@@ -41,7 +39,6 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Log.e(TAG, "onResume() called")
         proguardTest()
     }
 
@@ -81,7 +78,7 @@ open class BaseActivity : AppCompatActivity() {
                 val top = it.systemWindowInsetTop
                 val right = it.systemWindowInsetRight
                 val bottom = it.systemWindowInsetBottom
-                Log.e(TAG, "insets: $left,$top,$right,$bottom")
+//                Log.e(TAG, "insets: $left,$top,$right,$bottom")
             }
 
             defaultInsets.replaceSystemWindowInsets(

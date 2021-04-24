@@ -1,6 +1,7 @@
 package com.engineer.android.mini.ui.behavior.lifecycle
 
 import android.annotation.SuppressLint
+import android.content.ComponentName
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
@@ -13,11 +14,13 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.setMargins
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.gotoActivity
+import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
+
 
 /**
  * Created on 2020/12/24.
@@ -139,6 +142,25 @@ class ActivityA : BaseLifeActivity() {
         }
         contentView.addView(button4, param)
 
+        val button5 = Button(this)
+        button5.text = "open dialog"
+        button5.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Just Dialog")
+                .setPositiveButton("OK") { _, _ -> }
+                .setNegativeButton("Cancel") { _, _ -> }
+                .show()
+        }
+        contentView.addView(button5, param)
+
+        val button6 = Button(this)
+        button6.text = "show toast"
+        button6.setOnClickListener {
+            "I'm Just A Toast".toast()
+
+            OpenRecentHelper.open()
+        }
+        contentView.addView(button6, param)
 
         return contentView
     }
@@ -155,10 +177,11 @@ class ActivityB : BaseLifeActivity() {
         )
         param.gravity = Gravity.CENTER
         button.text = this::class.java.simpleName
+        frameLayout.addView(button, param)
         button.setOnClickListener {
             finish()
         }
-        frameLayout.addView(button, param)
+
         return frameLayout
     }
 }
@@ -254,7 +277,7 @@ class ActivityD : BaseLifeActivity() {
     }
 }
 
-class ActivityE: BaseLifeActivity() {
+class ActivityE : BaseLifeActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         finish()

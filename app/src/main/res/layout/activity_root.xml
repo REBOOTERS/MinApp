@@ -161,6 +161,27 @@
 
     </LinearLayout>
 
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/blur_view">
+
+        <Button
+            android:id="@+id/ipc_way"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="IPC" />
+        <Button
+            android:id="@+id/cp"
+            android:text="add"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.flexbox.FlexboxLayout>
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/v_center"

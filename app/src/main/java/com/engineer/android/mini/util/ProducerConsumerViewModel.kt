@@ -87,9 +87,10 @@ class ProducerConsumerViewModel(app: Application) : AndroidViewModel(app) {
         }
 
         fun <T> produce(t: T) {
-            val message = Message.obtain()
+            val message = Message.obtain(handler)
             message.obj = t
             handler.sendMessage(message)
+
         }
 
     }

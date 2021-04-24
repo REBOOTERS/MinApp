@@ -16,6 +16,7 @@ import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.log
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.flutter.FlutterRootActivity
+import com.engineer.android.mini.ipc.IpcActivity
 import com.engineer.android.mini.jetpack.EasyObserver
 import com.engineer.android.mini.jetpack.FragmentManagerActivity
 import com.engineer.android.mini.jetpack.LIFECYCLE_TAG
@@ -62,12 +63,14 @@ class RootActivity : BaseActivity() {
             timeToggle(3000)
             "333".log()
         }
-
-        testPC()
     }
 
     private val disposeOn = CompositeDisposable()
     private fun testPC() {
+        if (disposeOn.size() > 0) {
+            "producer and consumer is doing".toast()
+            return
+        }
         val viewModel = ViewModelProvider(this).get(ProducerConsumerViewModel::class.java)
         viewModel.consumer()
 
@@ -110,6 +113,12 @@ class RootActivity : BaseActivity() {
         }
         viewBinding.next.setOnClickListener {
             gotoActivity(ActivityA::class.java)
+        }
+        viewBinding.ipcWay.setOnClickListener {
+            gotoActivity(IpcActivity::class.java)
+        }
+        viewBinding.cp.setOnClickListener {
+            testPC()
         }
     }
 

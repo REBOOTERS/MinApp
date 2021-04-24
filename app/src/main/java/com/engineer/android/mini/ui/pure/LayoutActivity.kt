@@ -181,8 +181,8 @@ class EmptyActivity : BaseActivity() {
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        tv.layoutParams = params
-        setContentView(tv)
+//        tv.layoutParams = params
+//        setContentView(tv)
 
         Choreographer.getInstance().postFrameCallback {}
         Choreographer.getInstance().removeFrameCallback { }

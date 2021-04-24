@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Log;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class BookManagerService extends Service {
+    private static final String TAG = "BookManagerService";
     public BookManagerService() {
     }
 
@@ -23,11 +25,13 @@ public class BookManagerService extends Service {
 
         @Override
         public List<Book> getBookList() throws RemoteException {
+            Log.e(TAG, "getBookList() called on Thread "+Thread.currentThread().getName());
             return mBookList;
         }
 
         @Override
         public void addBook(Book book) throws RemoteException {
+            Log.e(TAG, "addBook() called with: book = [" + book + "] called on Thread "+Thread.currentThread().getName());
             mBookList.add(book);
         }
     };

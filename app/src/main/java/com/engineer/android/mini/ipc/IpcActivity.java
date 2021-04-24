@@ -77,6 +77,7 @@ public class IpcActivity extends AppCompatActivity {
             IBookInterface iBookInterface = IBookInterface.Stub.asInterface(service);
 
             try {
+                Log.e(TAG, "onServiceConnected: thread on " + Thread.currentThread().getName());
                 List<Book> books = iBookInterface.getBookList();
                 Log.e(TAG, "onServiceConnected: list type is " + books.getClass().getCanonicalName());
                 Log.e(TAG, "onServiceConnected: books = " + books.toString());
