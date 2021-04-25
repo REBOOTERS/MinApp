@@ -15,6 +15,8 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ImageSpan
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AnticipateInterpolator
 import android.view.animation.LinearInterpolator
 import androidx.annotation.RequiresApi
@@ -98,6 +100,8 @@ class PureUIActivity : BaseActivity() {
             content_view.text = s
         }
         range_slider.setValues(0.3f)
+
+        "view level is ${viewLevel(range_slider)}".toast()
     }
 
     private fun testImageSpan() {
@@ -115,6 +119,14 @@ class PureUIActivity : BaseActivity() {
         test_span.text = ss
     }
 
+
+    private fun viewLevel(view: View): Int {
+        if (view.parent == null) {
+            return 0
+        } else {
+            return viewLevel(view.parent as View) + 1
+        }
+    }
 
     private class CenterImageSpan(context: Context, bitmap: Bitmap) : ImageSpan(context, bitmap) {
 

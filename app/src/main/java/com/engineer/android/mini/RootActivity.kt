@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.util.SparseArray
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -30,9 +31,11 @@ import com.engineer.android.mini.util.ProducerConsumerViewModel
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import jp.wasabeef.blurry.Blurry
+import kotlinx.android.synthetic.main.activity_root.*
 import kotlinx.android.synthetic.main.activity_root.view.*
 import kotlinx.coroutines.*
 import radiography.Radiography
+import java.lang.StringBuilder
 import java.util.concurrent.TimeUnit
 
 class RootActivity : BaseActivity() {
@@ -63,6 +66,18 @@ class RootActivity : BaseActivity() {
             timeToggle(3000)
             "333".log()
         }
+
+        val _1MB = 1024 * 1024
+        val sb = StringBuilder()
+
+        val maxMemory = Runtime.getRuntime().maxMemory() / _1MB
+        sb.append("maxMemory=").append(maxMemory).append("MB").append("\n")
+
+        val freeMemory = Runtime.getRuntime().freeMemory() / _1MB
+        sb.append("freeMemory=").append(freeMemory).append("MB").append("\n")
+
+
+        sys_runtime_info.text = sb.toString()
     }
 
     private val disposeOn = CompositeDisposable()

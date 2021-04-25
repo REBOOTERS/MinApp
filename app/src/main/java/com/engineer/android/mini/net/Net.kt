@@ -9,6 +9,8 @@ object Net {
     val baseUrl = "https://www.wanandroid.com/"
     private val okHttpClient = OkHttpClient.Builder().build()
 
+    private val okHttpClient1 = OkHttpClient()
+
     private val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
         .client(okHttpClient)
