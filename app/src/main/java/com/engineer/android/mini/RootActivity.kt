@@ -3,7 +3,7 @@ package com.engineer.android.mini
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.os.Bundle
+import android.os.*
 import android.util.Log
 import android.util.SparseArray
 import android.widget.Toast
@@ -78,6 +78,17 @@ class RootActivity : BaseActivity() {
 
 
         sys_runtime_info.text = sb.toString()
+
+        val handler = Handler(Looper.getMainLooper()) {
+            it.what.toString().toast()
+            true
+        }
+        Thread {
+            Thread.sleep(1000)
+            val message = Message.obtain(handler)
+            message.what = 100
+            handler.sendMessage(message)
+        }.start()
     }
 
     private val disposeOn = CompositeDisposable()
