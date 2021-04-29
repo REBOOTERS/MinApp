@@ -36,7 +36,9 @@ import kotlinx.android.synthetic.main.activity_root.view.*
 import kotlinx.coroutines.*
 import radiography.Radiography
 import java.lang.StringBuilder
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 class RootActivity : BaseActivity() {
     // https://mp.weixin.qq.com/s/keR7bO-Nu9bBr5Nhevbe1Q  ViewBinding
@@ -89,6 +91,7 @@ class RootActivity : BaseActivity() {
             message.what = 100
             handler.sendMessage(message)
         }.start()
+
     }
 
     private val disposeOn = CompositeDisposable()
