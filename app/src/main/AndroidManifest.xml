@@ -17,11 +17,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".better.bitmap.LargeBitmapActivity"
+            android:exported="true" />
+        <activity
+            android:name=".better.BetterActivity"
+            android:exported="true" />
+
         <service
             android:name=".ipc.aidl.BookManagerService"
             android:enabled="true"
-            android:process=":remoteBook"
-            android:exported="false"/>
+            android:exported="false"
+            android:process=":remoteBook" />
 
         <activity
             android:name=".ipc.IpcActivity"
