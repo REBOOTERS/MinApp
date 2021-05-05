@@ -46,6 +46,10 @@ class ProducerConsumerViewModel(app: Application) : AndroidViewModel(app) {
                     super.handleMessage(msg)
                     when (msg.what) {
                         0 -> {
+                            Log.e(
+                                TAG,
+                                "handleMessage: consume in Thread: ${Thread.currentThread().name}",
+                            )
                             Log.e(TAG, "handleMessage: consumer begin take")
                             val event = queue.take()
                             Log.e(TAG, "handleMessage: consumer take event: $event")
@@ -73,6 +77,7 @@ class ProducerConsumerViewModel(app: Application) : AndroidViewModel(app) {
             object : Handler(looper) {
                 override fun handleMessage(msg: Message) {
                     super.handleMessage(msg)
+                    Log.e(TAG, "handleMessage: producer in Thread: ${Thread.currentThread().name}")
                     Log.e(TAG, "handleMessage: producer : $msg")
                     val t: T = msg.obj as T
                     Log.e(TAG, "handleMessage: queue : $queue")

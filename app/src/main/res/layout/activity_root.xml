@@ -176,7 +176,7 @@
             android:text="IPC" />
         <Button
             android:id="@+id/cp"
-            android:text="add"
+            android:text="consume"
             android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
