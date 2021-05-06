@@ -93,10 +93,11 @@ class RxCacheActivity : AppCompatActivity() {
         Log.e("zyq", "second =$second")
         Net.createService(WanAndroidService::class.java)
             .getWeChatAccountList()
-            .rxCache(rxCache, "all", FirstCacheTimeoutStrategy(millis))
+//            .rxCache(rxCache, "all", FirstCacheTimeoutStrategy(millis))
             .compose(ThreadExTransform())
             .subscribe({
-                handleCache(it)
+//                handleCache(it)
+                parseData(it)
             }, {
                 it.message.toast()
                 lg(it.message)

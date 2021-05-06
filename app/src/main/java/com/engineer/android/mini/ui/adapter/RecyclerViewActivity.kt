@@ -2,11 +2,13 @@ package com.engineer.android.mini.ui.adapter
 
 import android.database.Observable
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.os.HandlerCompat
 import androidx.recyclerview.widget.*
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.toast
@@ -52,7 +54,14 @@ class RecyclerViewActivity : BaseActivity() {
         add.setOnClickListener {
             datas.add(0, 0.toString())
             adapter.notifyItemChanged(0)
+
+            add.post {
+                println(1)
+            }
+            add.postDelayed({}, 0)
         }
+
+        val h = HandlerCompat.createAsync(Looper.getMainLooper())
     }
 
     private fun reflectValue(recyclerView: RecyclerView) {

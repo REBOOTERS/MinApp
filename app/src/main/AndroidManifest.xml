@@ -20,9 +20,7 @@
         <activity
             android:name=".better.bitmap.LargeBitmapActivity"
             android:exported="true" />
-        <activity
-            android:name=".better.BetterActivity"
-            android:exported="true" />
+        <activity android:name=".better.BetterActivity" />
 
         <service
             android:name=".ipc.aidl.BookManagerService"

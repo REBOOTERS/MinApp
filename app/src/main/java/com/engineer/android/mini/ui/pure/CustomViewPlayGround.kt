@@ -54,6 +54,7 @@ constructor(
             it.drawColor(Color.CYAN)
             it.drawCircle(width / 2.0f, height / 2.0f, 100f, paint)
         }
+        val ss  = String()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
