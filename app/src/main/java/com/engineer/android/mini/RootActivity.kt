@@ -64,7 +64,7 @@ class RootActivity : BaseActivity() {
             "333".log()
         }
 
-        val _1MB = 1024 * 1024
+        val _1MB = 1024 * 1024f
         val sb = StringBuilder()
 
         val maxMemory = Runtime.getRuntime().maxMemory() / _1MB
