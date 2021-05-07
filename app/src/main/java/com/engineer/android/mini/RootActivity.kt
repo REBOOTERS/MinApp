@@ -5,18 +5,15 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.*
 import android.util.Log
-import android.util.SparseArray
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.engineer.android.mini.coroutines.old.OldWayActivity
 import com.engineer.android.mini.databinding.ActivityRootBinding
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.log
 import com.engineer.android.mini.ext.toast
-import com.engineer.android.mini.flutter.FlutterRootActivity
 import com.engineer.android.mini.ipc.IpcActivity
 import com.engineer.android.mini.jetpack.EasyObserver
 import com.engineer.android.mini.jetpack.FragmentManagerActivity
@@ -25,18 +22,16 @@ import com.engineer.android.mini.jetpack.MyComponent
 import com.engineer.android.mini.net.RxCacheActivity
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
-import com.engineer.android.mini.ui.behavior.lifecycle.ActivityA
+import com.engineer.android.mini.ui.behavior.lifecycle.PanelActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
 import com.engineer.android.mini.util.ProducerConsumerViewModel
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_root.*
-import kotlinx.android.synthetic.main.activity_root.view.*
 import kotlinx.coroutines.*
 import radiography.Radiography
 import java.lang.StringBuilder
-import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
@@ -141,7 +136,7 @@ class RootActivity : BaseActivity() {
             gotoActivity(RxCacheActivity::class.java)
         }
         viewBinding.next.setOnClickListener {
-            gotoActivity(ActivityA::class.java)
+            gotoActivity(PanelActivity::class.java)
         }
         viewBinding.ipcWay.setOnClickListener {
             gotoActivity(IpcActivity::class.java)

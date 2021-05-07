@@ -16,6 +16,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.setMargins
+import androidx.core.widget.NestedScrollView
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
@@ -90,16 +91,17 @@ open class BaseLifeActivity : BaseActivity() {
         val r = Random.nextInt(255)
         val g = Random.nextInt(255)
         val b = Random.nextInt(255)
-        Log.e("randomColor", "randomColor: r=$r,g=$g,b=$b" )
+        Log.e("randomColor", "randomColor: r=$r,g=$g,b=$b")
         return Color.rgb(r, g, b)
     }
 
     open fun provideView(): View = FrameLayout(this)
 }
 
-class ActivityA : BaseLifeActivity() {
+class PanelActivity : BaseLifeActivity() {
     @SuppressLint("SetTextI18n")
     override fun provideView(): View {
+        val nestedScrollView = NestedScrollView(this)
         val contentView = LinearLayout(this)
         contentView.orientation = LinearLayout.VERTICAL
         contentView.setBackgroundColor(randomColor())
@@ -111,25 +113,32 @@ class ActivityA : BaseLifeActivity() {
         param.gravity = Gravity.CENTER_HORIZONTAL
         param.setMargins(10.dp)
         val button = Button(this)
-        button.text = "normal"
+        button.text = "standard"
         button.setOnClickListener {
-            gotoActivity(ActivityB::class.java)
+            gotoActivity(StandardActivity::class.java)
         }
         contentView.addView(button, param)
 
         val button01 = Button(this)
         button01.text = "singleTop"
         button01.setOnClickListener {
-            gotoActivity(ActivityB1::class.java)
+            gotoActivity(SingleTopActivity::class.java)
         }
         contentView.addView(button01, param)
 
         val button02 = Button(this)
         button02.text = "singleTask"
         button02.setOnClickListener {
-            gotoActivity(ActivityB2::class.java)
+            gotoActivity(SingleTaskActivity::class.java)
         }
         contentView.addView(button02, param)
+
+        val button03 = Button(this)
+        button03.text = "singleInstance"
+        button03.setOnClickListener {
+            gotoActivity(SingleTaskActivity::class.java)
+        }
+        contentView.addView(button03, param)
 
         val button2 = Button(this)
         button2.text = "transparent"
@@ -171,42 +180,61 @@ class ActivityA : BaseLifeActivity() {
             OpenRecentHelper.open()
         }
         contentView.addView(button6, param)
-
-        return contentView
+        nestedScrollView.addView(contentView)
+        return nestedScrollView
     }
 }
 
-class ActivityB : BaseLifeActivity() {
-    override fun provideView(): View {
-        val frameLayout = FrameLayout(this)
-        frameLayout.setBackgroundColor(randomColor())
-        val button = Button(this)
-        val param = FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.WRAP_CONTENT,
-            FrameLayout.LayoutParams.WRAP_CONTENT
-        )
-        param.gravity = Gravity.CENTER
-        button.text = this::class.java.simpleName
-        frameLayout.addView(button, param)
-        button.setOnClickListener {
-            finish()
-        }
-
-        return frameLayout
-    }
-}
-
-class ActivityB1 : BaseLifeActivity() {
+class StandardActivity : BaseLifeActivity() {
     override fun provideView(): View {
         val cont = LinearLayout(this)
         cont.orientation = LinearLayout.VERTICAL
         cont.setBackgroundColor(randomColor())
 
-        val p = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT)
+        val p = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
         cont.layoutParams = p
         cont.gravity = Gravity.CENTER
-        Log.e("ddd","con-> ${cont.layoutParams?.height}")
+
+        val button = Button(this)
+        val param = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        button.setOnClickListener {
+            finish()
+        }
+        param.gravity = Gravity.CENTER
+        button.text = this::class.java.simpleName
+        cont.addView(button, param)
+
+        val button1 = Button(this)
+        button1.setOnClickListener {
+            gotoPage(SingleTopActivity::class.java)
+        }
+        button1.text = "Start A SingleTop"
+        cont.addView(button1, param)
+
+
+        return cont
+    }
+}
+
+class SingleTopActivity : BaseLifeActivity() {
+    override fun provideView(): View {
+        val cont = LinearLayout(this)
+        cont.orientation = LinearLayout.VERTICAL
+        cont.setBackgroundColor(randomColor())
+
+        val p = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        cont.layoutParams = p
+        cont.gravity = Gravity.CENTER
+        Log.e("ddd", "con-> ${cont.layoutParams?.height}")
         val button = Button(this)
         val param = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -222,18 +250,27 @@ class ActivityB1 : BaseLifeActivity() {
         bb1.text = "start-self " + hashCode()
 //        param.topMargin = 10.dp
         bb1.setOnClickListener {
-            gotoPage(ActivityB1::class.java)
+            gotoPage(SingleTopActivity::class.java)
         }
         cont.addView(bb1, param)
+
+        val bb2 = Button(this)
+        bb2.text = "start-a-normal"
+        bb2.setOnClickListener {
+            gotoPage(StandardActivity::class.java)
+        }
+        cont.addView(bb2, param)
 
         return cont
     }
 }
 
-class ActivityB2 : BaseLifeActivity() {
+class SingleTaskActivity : BaseLifeActivity() {
     override fun provideView(): View {
-        val frameLayout = FrameLayout(this)
+        val frameLayout = LinearLayout(this)
+        frameLayout.orientation = LinearLayout.VERTICAL
         frameLayout.setBackgroundColor(randomColor())
+        frameLayout.gravity = Gravity.CENTER
         val button = Button(this)
         val param = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -244,6 +281,37 @@ class ActivityB2 : BaseLifeActivity() {
         button.setOnClickListener {
             finish()
         }
+        frameLayout.addView(button, param)
+
+        val bb = Button(this)
+        bb.text = "start standard"
+        bb.setOnClickListener { gotoPage(StandardActivity::class.java) }
+        frameLayout.addView(bb, param)
+        return frameLayout
+    }
+}
+
+class SingleInstanceActivity : BaseLifeActivity() {
+    override fun provideView(): View {
+        val frameLayout = LinearLayout(this)
+        frameLayout.orientation = LinearLayout.VERTICAL
+        frameLayout.setBackgroundColor(randomColor())
+        frameLayout.gravity = Gravity.CENTER
+        val button = Button(this)
+        val param = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT
+        )
+        param.gravity = Gravity.CENTER
+        button.text = this::class.java.simpleName
+        button.setOnClickListener {
+            finish()
+        }
+        frameLayout.addView(button, param)
+
+        val bb = Button(this)
+        bb.text = "start standard"
+        bb.setOnClickListener { gotoPage(StandardActivity::class.java) }
         frameLayout.addView(button, param)
         return frameLayout
     }

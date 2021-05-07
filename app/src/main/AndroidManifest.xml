@@ -87,27 +87,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.behavior.lifecycle.ActivityA"
+            android:name=".ui.behavior.lifecycle.PanelActivity"
             android:exported="true" />
-        <activity android:name=".ui.behavior.lifecycle.ActivityB" />
+        <activity android:name=".ui.behavior.lifecycle.StandardActivity" />
         <activity android:name=".ui.behavior.lifecycle.ActivityE" />
         <activity
-            android:name=".ui.behavior.lifecycle.ActivityB1"
+            android:name=".ui.behavior.lifecycle.SingleTopActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".ui.behavior.lifecycle.ActivityB2"
+            android:name=".ui.behavior.lifecycle.SingleTaskActivity"
             android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.behavior.lifecycle.SingleInstanceActivity"
+            android:launchMode="singleInstance" />
         <activity
             android:name=".ui.behavior.lifecycle.ActivityC"
             android:theme="@style/TransparentTheme" />
         <activity
             android:name=".ui.behavior.lifecycle.ActivityD"
             android:process="com.engineer.android.mini.remote" />
-        <activity
-            android:name="io.flutter.embedding.android.FlutterActivity"
-            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-            android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
