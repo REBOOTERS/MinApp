@@ -105,11 +105,35 @@ class BehaviorActivity : AppCompatActivity() {
         }
 
         handler.setOnClickListener {
-            val h = Handler(Looper.getMainLooper())
-            val msg1 = Message.obtain()
-            msg1.what = 100
-            msg1.obj = "100"
-            h.sendMessage(msg1)
+            val h = Handler(Looper.getMainLooper()) { msg ->
+                Log.e(
+                    TAG,
+                    "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg"
+                )
+                true
+            }
+            Thread {
+                val msg1 = Message.obtain()
+                msg1.what = 100
+                msg1.obj = "100"
+                h.sendMessage(msg1)
+            }.start()
+
+            val handlerThread = HandlerThread("subThread")
+            handlerThread.start()
+            val subHandler = Handler(handlerThread.looper) { msg ->
+                Log.e(
+                    TAG,
+                    "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg"
+                )
+                handlerThread.quitSafely()
+                true
+            }
+
+            subHandler.sendEmptyMessageDelayed(200, 1000)
+
+
+
 
             handler.postDelayed({
                 "delay 3000".toast()
@@ -120,24 +144,33 @@ class BehaviorActivity : AppCompatActivity() {
         thread_local.setOnClickListener {
             val tag = "threadLocal"
 
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 ThreadLocal.withInitial { 0 }
             }
             val threadLocal = ThreadLocal<Int>()
             val threadLocal2 = ThreadLocal<String>()
             val threadLocal3 = ThreadLocal<Boolean>()
+
+            threadLocal.set(-1)
+            threadLocal2.set(this::class.java.name)
+
+            fun printAll() {
+                Log.e(tag, "${Thread.currentThread().name} : threadLocal = ${threadLocal.get()}")
+                Log.e(tag, "${Thread.currentThread().name} : threadLocal2 = ${threadLocal2.get()}")
+                Log.e(tag, "${Thread.currentThread().name} : threadLocal3 = ${threadLocal3.get()}")
+            }
+
             val t1 = Thread {
                 threadLocal.set(1)
                 threadLocal2.set("22222")
                 threadLocal3.set(true)
-                Log.e(tag, "${Thread.currentThread().name} : threadLocal = ${threadLocal.get()}")
-
+                printAll()
             }
 
             val t2 = Thread {
                 threadLocal.set(2)
-                Log.e(tag, "${Thread.currentThread().name} : threadLocal = ${threadLocal.get()}")
+                threadLocal3.set(false)
+                printAll()
             }
 
             t1.start()
@@ -147,11 +180,12 @@ class BehaviorActivity : AppCompatActivity() {
             t1.join()
             t2.join()
 
-            Log.e(tag, "${Thread.currentThread().name} : threadLocal = ${threadLocal.get()}")
+            printAll()
+//            Log.e(tag, "${Thread.currentThread().name} : threadLocal = ${threadLocal.get()}")
 
             val magicNumberStr = "0x61c88647"
             val magicNum = magicNumberStr.substring(2)
-            val value = Integer.parseInt(magicNum,16)
+            val value = Integer.parseInt(magicNum, 16)
             val valueBin = Integer.toBinaryString(value)
         }
     }
