@@ -1,11 +1,7 @@
 package com.engineer.android.mini.better.bitmap
 
-import android.graphics.BitmapFactory
-import android.graphics.BitmapRegionDecoder
-import android.graphics.Rect
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.R
 import kotlinx.android.synthetic.main.activity_large_bitmap.*
 
