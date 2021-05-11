@@ -75,7 +75,6 @@ class RootActivity : BaseActivity() {
 
 
         sys_runtime_info.text = sb.toString()
-
         val handler = Handler(Looper.getMainLooper()) {
             it.what.toString().toast()
             true
@@ -86,6 +85,10 @@ class RootActivity : BaseActivity() {
             message.what = 100
             handler.sendMessage(message)
         }.start()
+
+        val id = resources.getIdentifier("jetpack_ui", "id", packageName)
+        "id is $id".toast()
+
 
     }
 

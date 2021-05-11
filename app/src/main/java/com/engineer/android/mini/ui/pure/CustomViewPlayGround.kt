@@ -111,6 +111,15 @@ class LogLinearLayout @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null, style: Int = 0
 ) : LinearLayout(context, attributeSet, style) {
+
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
+        Log.e(
+            "LogLinearLayout",
+            "onLayout() called with: changed = $changed, l = $l, t = $t, r = $r, b = $b"
+        )
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         Log.e(
@@ -119,6 +128,11 @@ class LogLinearLayout @JvmOverloads constructor(
                 MeasureSpec.toString(heightMeasureSpec)
             }"
         )
+    }
+
+    override fun dispatchDraw(canvas: Canvas?) {
+        super.dispatchDraw(canvas)
+        Log.e("LogLinearLayout", "dispatchDraw() called with: canvas = $canvas")
     }
 }
 
@@ -130,7 +144,7 @@ class FirstViewGroup @JvmOverloads constructor(
     init {
         setWillNotDraw(false)
 
-        Log.e("FirstViewGroup","parent is $parent")
+        Log.e("FirstViewGroup", "parent is $parent")
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -160,7 +174,7 @@ class FirstViewGroup @JvmOverloads constructor(
                 "FirstViewGroup",
                 "onLayout: child[$i] w=${child.measuredWidth},h=${child.measuredHeight}"
             )
-            child.layout(l,  i * child.measuredWidth, r, t + (i) * child.measuredWidth)
+            child.layout(l, i * child.measuredWidth, r, t + (i) * child.measuredWidth)
         }
     }
 
@@ -255,9 +269,21 @@ class CustomViewActivity : BaseActivity() {
 }
 
 class WrapContentActivity : BaseActivity() {
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("LogLinearLayout", "onStart() called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("LogLinearLayout", "onResume() called")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wrap_content)
+        Log.e("LogLinearLayout", "onCreate() called with: savedInstanceState = $savedInstanceState")
 
         Log.e("displayMetrics", "density       = ${Resources.getSystem().displayMetrics.density}")
         Log.e(

@@ -11,6 +11,8 @@ import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ImageSpan
@@ -45,6 +47,14 @@ class PureUIActivity : BaseActivity() {
         setUpUi()
 
         TransitionManager.beginDelayedTransition(root_content)
+
+
+        image_view.post {
+            Log.e(TAG, "view.post: " + image_view.width)
+        }
+        Handler(Looper.getMainLooper()).post {
+            Log.e(TAG, "handler.post: " + image_view.width)
+        }
 
         image_view.setOnClickListener {
             // Transition 动画 https://github.com/xiaweizi/TransitionDemo
