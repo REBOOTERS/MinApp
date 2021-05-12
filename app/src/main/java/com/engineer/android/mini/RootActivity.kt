@@ -3,8 +3,13 @@ package com.engineer.android.mini
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.os.*
+import android.media.AudioManager
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.util.Log
+import android.util.LogPrinter
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -31,9 +36,7 @@ import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_root.*
 import kotlinx.coroutines.*
 import radiography.Radiography
-import java.lang.StringBuilder
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 
 class RootActivity : BaseActivity() {
     // https://mp.weixin.qq.com/s/keR7bO-Nu9bBr5Nhevbe1Q  ViewBinding
@@ -49,7 +52,7 @@ class RootActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityRootBinding.inflate(layoutInflater)
-        setContentView(viewBinding.rootView)
+        setContentView(viewBinding.root)
         testLazy
         mainScope = MainScope()
         handlePermissions()
@@ -89,7 +92,10 @@ class RootActivity : BaseActivity() {
         val id = resources.getIdentifier("jetpack_ui", "id", packageName)
         "id is $id".toast()
 
-
+        Looper.myQueue().addIdleHandler {
+            "ha 😄 idle-handler is work".toast()
+            false
+        }
     }
 
     private val disposeOn = CompositeDisposable()
@@ -147,6 +153,8 @@ class RootActivity : BaseActivity() {
         viewBinding.cp.setOnClickListener {
             testPC()
         }
+        val logger = LogPrinter(Log.DEBUG, "ActivityThread")
+        Looper.myLooper()?.setMessageLogging(logger)
     }
 
     private fun handleBlur() {
@@ -154,7 +162,7 @@ class RootActivity : BaseActivity() {
 
         viewBinding.blurView.setOnClickListener {
             if (blur) {
-                Blurry.delete(viewBinding.rootView)
+                Blurry.delete(viewBinding.root)
             } else {
                 val now = System.currentTimeMillis()
                 Blurry.with(this)
@@ -162,7 +170,7 @@ class RootActivity : BaseActivity() {
                     .sampling(1)
                     .color(Color.argb(66, 0, 255, 255))
                     .async()
-                    .onto(viewBinding.rootView)
+                    .onto(viewBinding.root)
                 "time is ${System.currentTimeMillis() - now}".toast()
             }
             blur = !blur

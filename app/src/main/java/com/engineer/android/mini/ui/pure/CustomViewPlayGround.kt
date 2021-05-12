@@ -16,6 +16,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.Lifecycle
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.*
 import com.engineer.android.mini.ui.BaseActivity
@@ -54,7 +55,7 @@ constructor(
             it.drawColor(Color.CYAN)
             it.drawCircle(width / 2.0f, height / 2.0f, 100f, paint)
         }
-        val ss  = String()
+        val ss = String()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -239,6 +240,36 @@ class CustomViewActivity : BaseActivity() {
         setupFlexBox()
 
         MeasureSpec.print()
+
+        var done = false
+        real.setOnClickListener {
+            if (done) {
+                real.visibility = View.GONE
+            }
+            fake.post {
+                val w = fake.width
+                val h = fake.height
+                Log.e(TAG, "w=$w,h=$h")
+                val w1 = real.width
+                val h1 = real.height
+                Log.e(TAG, "w1=${real.width},h1=${real.height}")
+                val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+                val canvas = Canvas(bitmap)
+                fake.draw(canvas)
+                val src = Rect(0, 0, w, h)
+                val dst = Rect(0, 0, (w1 - w) / 2, (h1 - h) / 2)
+                canvas.drawBitmap(bitmap, src, dst, null)
+                real.setImageBitmap(bitmap)
+                done = true
+            }
+        }
+
+        var msg: Class<out Any>? = lifecycle::class.java
+        while (msg != null) {
+            Log.d(TAG, "onCreate() called with: ${msg.name}")
+            msg = msg.superclass
+        }
+
     }
 
     private fun setupFlexBox() {
