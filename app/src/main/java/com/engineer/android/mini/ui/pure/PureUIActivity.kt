@@ -2,6 +2,7 @@ package com.engineer.android.mini.ui.pure
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -21,6 +22,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnticipateInterpolator
 import android.view.animation.LinearInterpolator
+import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.ResourcesCompat
@@ -47,7 +49,6 @@ class PureUIActivity : BaseActivity() {
         setUpUi()
 
         TransitionManager.beginDelayedTransition(root_content)
-
 
         image_view.post {
             Log.e(TAG, "view.post: " + image_view.width)
@@ -80,6 +81,7 @@ class PureUIActivity : BaseActivity() {
 
         custom_view.setOnClickListener { gotoPage(CustomViewActivity::class.java) }
         recycler_view_demo.setOnClickListener { gotoPage(RecyclerViewActivity::class.java) }
+        switch_view.setOnClickListener { gotoPage(SwitchViewActivity::class.java) }
         image_view.resizeMarginTop(getStatusBarHeight())
 
         val p = content_img.layoutParams
@@ -112,6 +114,11 @@ class PureUIActivity : BaseActivity() {
         range_slider.setValues(0.3f)
 
         "view level is ${viewLevel(range_slider)}".toast()
+    }
+
+    override fun onContentChanged() {
+        super.onContentChanged()
+        Log.e(TAG, "onContentChanged() called")
     }
 
     private fun testImageSpan() {
@@ -231,6 +238,12 @@ class PureUIActivity : BaseActivity() {
             }
         }
     }
+}
 
-
+class OldActivity : Activity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val v = FrameLayout(this)
+        setContentView(v)
+    }
 }

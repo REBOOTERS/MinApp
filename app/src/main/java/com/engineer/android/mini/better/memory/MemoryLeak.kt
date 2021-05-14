@@ -15,16 +15,17 @@ fun main() {
 
     // 弱引用
     val weakReference = WeakReference(pair, referenceQueue)
-    println(weakReference)
-    println(referenceQueue.poll())
+    println("weakReference==>" +weakReference.get())
+    println("weakReferenceQueue==>" +referenceQueue.poll())
 
     println("not yet")
 
-    pair = null;
+    pair = null
 
     System.gc()
     Thread.sleep(2000)
 
-    println(referenceQueue.poll())
+    println("weakReference==>" +weakReference.get())
+    println("weakReferenceQueue==>" +referenceQueue.poll())
 
 }

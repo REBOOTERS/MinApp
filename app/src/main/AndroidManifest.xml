@@ -18,6 +18,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.pure.SwitchViewActivity"
+            android:exported="true" />
+        <activity
             android:name=".better.bitmap.LargeBitmapActivity"
             android:exported="true" />
         <activity android:name=".better.BetterActivity" />

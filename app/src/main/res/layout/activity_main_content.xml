@@ -27,7 +27,8 @@
     <RadioGroup
         android:id="@+id/theme_radio"
         style="@style/mw"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:visibility="gone">
 
         <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/follow_system"
@@ -61,13 +62,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="ABCDEFG_HIJKLMN_OPQRST" />
-
-    <ImageView
-        android:id="@+id/temp_bitmap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        tools:src="@drawable/avatar" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -109,15 +103,28 @@
         android:text="full_screen"
         android:textColor="?android:attr/textColorPrimary" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/layout_ac"
-        style="@style/mw_10_margin"
-        android:text="AppCompatButton"
-        android:textColor="?android:attr/textColorPrimary" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/custom_view"
+    <com.google.android.flexbox.FlexboxLayout
         style="@style/mw_10_margin"
-        android:text="custom_view"
-        android:textColor="?android:attr/textColorPrimary" />
+        app:flexWrap="wrap">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/switch_view"
+            style="@style/ww"
+            android:text="AppCompatButton"
+            android:textColor="?android:attr/textColorPrimary" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/layout_ac"
+            style="@style/ww"
+            android:text="AppCompatButton"
+            android:textColor="?android:attr/textColorPrimary" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/custom_view"
+            style="@style/ww"
+            android:text="custom_view"
+            android:textColor="?android:attr/textColorPrimary" />
+    </com.google.android.flexbox.FlexboxLayout>
+
 </LinearLayout>
