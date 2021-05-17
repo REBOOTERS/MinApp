@@ -24,3 +24,7 @@ public fun Activity.gotoActivity(targetClass: Class<out Activity>?) {
         "targetClass is Null".toast()
     })
 }
+
+fun Activity.gotoActivity(targetIntent: Intent) {
+    this.startActivity(targetIntent)
+}

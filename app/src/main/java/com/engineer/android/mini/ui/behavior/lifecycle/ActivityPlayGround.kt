@@ -21,6 +21,7 @@ import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
+import java.io.Serializable
 import kotlin.random.Random
 
 
@@ -115,7 +116,9 @@ class PanelActivity : BaseLifeActivity() {
         val button = Button(this)
         button.text = "standard"
         button.setOnClickListener {
-            gotoActivity(StandardActivity::class.java)
+            val intent = Intent(this, StandardActivity::class.java)
+            intent.putExtra("data", BigData())
+            gotoActivity(intent)
         }
         contentView.addView(button, param)
 
@@ -375,4 +378,10 @@ class ActivityE : BaseLifeActivity() {
         super.onCreate(savedInstanceState)
         finish()
     }
+}
+
+class BigData : Serializable {
+
+    @Transient
+    private val bytes = ByteArray(1024*1024)
 }

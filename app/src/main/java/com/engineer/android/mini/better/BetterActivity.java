@@ -2,6 +2,8 @@ package com.engineer.android.mini.better;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -42,5 +44,7 @@ public class BetterActivity extends AppCompatActivity {
         if (betterDelegate != null) {
             tv.setText(betterDelegate.info());
         }
+        SharedPreferences sp = getSharedPreferences("better", Context.MODE_PRIVATE);
+        sp.edit().putBoolean("ok", true).apply();
     }
 }
