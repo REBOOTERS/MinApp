@@ -9,7 +9,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -19,9 +18,7 @@ import android.text.Spanned
 import android.text.style.ImageSpan
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AnticipateInterpolator
-import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
@@ -88,20 +85,20 @@ class PureUIActivity : BaseActivity() {
 
         testImageSpan()
 
-        range_slider.addOnChangeListener { slider, value, fromUser ->
+        range_slider.addOnChangeListener { _, value, fromUser ->
             Log.e(
                 TAG,
                 "onCreate() called with: value = $value, fromUser = $fromUser"
             )
-            var value = 300 * value
+            var v = 300 * value
             p.width = value.toInt()
             content_img.layoutParams = p
             val desc = getString(R.string.long_chinese_content)
             val target = "快乐的日子"
-            if (value > 0) {
-                value += 20
+            if (v > 0) {
+                v += 20
             }
-            val s = JavaUtil.getSpannableString(value, desc)
+            val s = JavaUtil.getSpannableString(v, desc)
 
 
             val old = BitmapFactory.decodeResource(resources, R.drawable.avatar)
@@ -138,10 +135,10 @@ class PureUIActivity : BaseActivity() {
 
 
     private fun viewLevel(view: View): Int {
-        if (view.parent == null) {
-            return 0
+        return if (view.parent == null) {
+            0
         } else {
-            return viewLevel(view.parent as View) + 1
+            viewLevel(view.parent as View) + 1
         }
     }
 
@@ -228,8 +225,7 @@ class PureUIActivity : BaseActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        val currentMode = newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        when (currentMode) {
+        when (newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_YES -> {
                 "夜间模式 On".toast()
             }
