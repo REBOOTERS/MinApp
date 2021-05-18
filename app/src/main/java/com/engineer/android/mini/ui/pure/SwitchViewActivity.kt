@@ -3,9 +3,10 @@ package com.engineer.android.mini.ui.pure
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.engineer.android.mini.R
+import com.engineer.android.mini.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_switch_view.*
 
-class SwitchViewActivity : AppCompatActivity() {
+class SwitchViewActivity : BaseActivity() {
 
 
     private var hasChange = false

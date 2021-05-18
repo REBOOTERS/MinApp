@@ -183,7 +183,7 @@ class RootActivity : BaseActivity() {
 
 
         myComponent = MyComponent(this)
-        myComponent?.init(this)
+        myComponent?.init()
     }
 
 

@@ -111,7 +111,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/switch_view"
             style="@style/ww"
-            android:text="AppCompatButton"
+            android:text="switch_view"
             android:textColor="?android:attr/textColorPrimary" />
 
         <androidx.appcompat.widget.AppCompatButton

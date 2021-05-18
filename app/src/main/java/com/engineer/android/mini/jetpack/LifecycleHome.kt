@@ -47,8 +47,8 @@ class MyComponent
 
     private var running = false
 
-    fun init(owner: LifecycleOwner) {
-        lifecycleRegistry = LifecycleRegistry(owner)
+    fun init() {
+        lifecycleRegistry = LifecycleRegistry(this)
         lifecycleRegistry.currentState = Lifecycle.State.CREATED
         Thread {
             running = true
