@@ -54,7 +54,9 @@
         <activity
             android:name=".ui.pure.EmptyActivity"
             android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar" />
-        <activity android:name=".net.RxCacheActivity" />
+        <activity
+            android:name=".net.RxCacheActivity"
+            android:exported="true" />
         <activity
             android:name=".ui.behavior.SettingsActivity"
             android:label="@string/title_activity_settings"

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
+import android.util.SparseArray
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import com.engineer.android.mini.R
@@ -73,6 +74,7 @@ class RxCacheActivity : AppCompatActivity() {
             true
         }
         tv_map.setOnClickListener {
+            testSparseArray()
             map[System.currentTimeMillis().toString()] = Random(100).nextInt()
             mapLiveData.value = map
         }
@@ -81,6 +83,16 @@ class RxCacheActivity : AppCompatActivity() {
             mapLiveData.value = map
             true
         }
+
+
+    }
+
+    private fun testSparseArray() {
+        val sa = SparseArray<String>()
+
+        sa.put(1, "A")
+        sa.put(2, "B")
+        Log.e("sparseArray", sa.toString())
     }
 
 
@@ -89,15 +101,15 @@ class RxCacheActivity : AppCompatActivity() {
 
         val millis = TimeUnit.DAYS.toMillis(1)
         val second = TimeUnit.DAYS.toSeconds(1)
-        Log.e("zyq", "millis =$millis")
-        Log.e("zyq", "second =$second")
+        Log.e("zyq", "millis = $millis")
+        Log.e("zyq", "second = $second")
         Net.createService(WanAndroidService::class.java)
             .getWeChatAccountList()
-//            .rxCache(rxCache, "all", FirstCacheTimeoutStrategy(millis))
+            .rxCache(rxCache, "all", FirstCacheTimeoutStrategy(millis))
             .compose(ThreadExTransform())
             .subscribe({
-//                handleCache(it)
-                parseData(it)
+                handleCache(it)
+//                parseData(it)
             }, {
                 it.message.toast()
                 lg(it.message)
