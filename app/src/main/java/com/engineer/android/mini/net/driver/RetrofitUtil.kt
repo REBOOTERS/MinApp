@@ -1,7 +1,9 @@
 package com.engineer.android.mini.net.driver
 
 import com.engineer.android.mini.net.WeChatCountList
+import okhttp3.HttpUrl
 import okhttp3.ResponseBody
+import okhttp3.internal.platform.Platform
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -14,8 +16,18 @@ import retrofit2.http.GET
  */
 
 fun main() {
+
+    val url = HttpUrl.get("https://image.baidu.com/search/albumsdetail?tn=albumsdetail&word=%E4%BA%BA%E7%89%A9&fr=albumslist&album_tab=%E4%BA%BA%E7%89%A9&album_id=45&rn=30")
+    println(url.isHttps)
+    println(url.pathSegments())
+    println(url.encodedPath())
+    println(url.queryParameterNames())
+    println(url.query())
+    println()
+
 //    RetrofitUtil.go()
     RetrofitUtil.go2()
+
 }
 
 interface ApiService {
@@ -32,11 +44,23 @@ object RetrofitUtil {
     val baseUrl = "https://www.wanandroid.com/"
 
 
-
     fun go2() {
+        println(System.getProperty("java.vm.name"))
+        println("platform ==${Platform.get()}")
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .build()
+
+        retrofit.callAdapterFactories().forEach {
+            println(it)
+        }
+        println()
+        retrofit.converterFactories().forEach {
+            println(it)
+        }
+        println()
+        println(retrofit.callbackExecutor())
+
 
         val service = retrofit.create(ApiService::class.java)
 
@@ -55,7 +79,6 @@ object RetrofitUtil {
 
         })
     }
-
 
 
     fun go() {

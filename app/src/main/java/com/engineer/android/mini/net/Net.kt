@@ -345,7 +345,22 @@ object Net {
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
 
-    fun <T> createService(clazz: Class<T>) = retrofit.create(clazz)
+    fun <T> createService(clazz: Class<T>): T {
+        retrofit.converterFactories().forEach {
+            Log.e(TAG, "converterFactories: $it")
+        }
+        retrofit.callAdapterFactories().forEach {
+            Log.e(TAG, "callAdapterFactories: $it")
+        }
+        retrofit.callFactory().let {
+            Log.e(TAG, "callFactory: $it")
+        }
+        retrofit.callbackExecutor().let {
+            Log.e(TAG, "callbackExecutor: $it")
+        }
+        println()
+        return retrofit.create(clazz)
+    }
 
     fun <T> ccc(clazz: Class<T>): T {
         return retrofit.create(clazz)
