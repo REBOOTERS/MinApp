@@ -9,30 +9,25 @@ import androidx.lifecycle.*
 //  https://mp.weixin.qq.com/s/SCNWCz9ZEIOwio9v-Tx0fA  lifecycle
 val LIFECYCLE_TAG = "EasyObserver"
 
-class EasyObserver : LifecycleObserver {
+class EasyObserver : DefaultLifecycleObserver {
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun fun0() {
-        Log.d(LIFECYCLE_TAG, "fun0() called")
+    override fun onCreate(owner: LifecycleOwner) {
+        super.onCreate(owner)
+        Log.d(LIFECYCLE_TAG, "onCreate() called with: owner = $owner")
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun fun1(owner: LifecycleOwner) {
+    override fun onResume(owner: LifecycleOwner) {
+        super.onResume(owner)
         val value = owner.lifecycle.currentState
-        Log.d(LIFECYCLE_TAG, "fun1() called onResume, currentState =$value")
+        Log.d(LIFECYCLE_TAG, "onResume() called onResume, currentState =$value")
         if (value.isAtLeast(Lifecycle.State.STARTED)) {
             Log.d(LIFECYCLE_TAG, "atLeast started")
         }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun fun2() {
-        Log.d(LIFECYCLE_TAG, "fun2() called onPause")
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
-    fun funx(owner: LifecycleOwner,event: Lifecycle.Event) {
-        Log.d(LIFECYCLE_TAG, "funx() called with: owner = $owner, event = $event")
+    override fun onPause(owner: LifecycleOwner) {
+        super.onPause(owner)
+        Log.d(LIFECYCLE_TAG, "onPause() called with: owner = $owner")
     }
 }
 
