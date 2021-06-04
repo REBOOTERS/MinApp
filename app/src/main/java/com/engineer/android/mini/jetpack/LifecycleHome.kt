@@ -9,7 +9,7 @@ import androidx.lifecycle.*
 //  https://mp.weixin.qq.com/s/SCNWCz9ZEIOwio9v-Tx0fA  lifecycle
 val LIFECYCLE_TAG = "EasyObserver"
 
-class EasyObserver : DefaultLifecycleObserver {
+class EasyObserver : DefaultLifecycleObserver, LifecycleEventObserver {
 
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
@@ -29,29 +29,32 @@ class EasyObserver : DefaultLifecycleObserver {
         super.onPause(owner)
         Log.d(LIFECYCLE_TAG, "onPause() called with: owner = $owner")
     }
+
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        Log.d(LIFECYCLE_TAG, "onStateChanged() called with: source = $source, event = $event")
+    }
 }
 
 
-class MyComponent
+class MyLifecycleAwareComponent
 @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null, style: Int = 0
-) : View(context, attributeSet, style), LifecycleOwner {
+) : View(context, attributeSet, style) {
 
-    private lateinit var lifecycleRegistry: LifecycleRegistry
 
     private var running = false
 
-    fun init() {
-        lifecycleRegistry = LifecycleRegistry(this)
-        lifecycleRegistry.currentState = Lifecycle.State.CREATED
+    fun init(provider: LifecycleOwner) {
+
         Thread {
             running = true
             var count = 0
-            while (running) {
+            Log.d(LIFECYCLE_TAG, "init() currentState=${provider.lifecycle.currentState}")
+            while (provider.lifecycle.currentState > Lifecycle.State.DESTROYED) {
                 count++
                 Thread.sleep(1000)
-                if (count >= 10) {
+                if (count >= 1000) {
                     return@Thread
                 }
                 Log.d(LIFECYCLE_TAG, "init() count=$count")
@@ -61,13 +64,5 @@ class MyComponent
 
     }
 
-    fun release() {
-        lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
-        running = false
-    }
-
-    override fun getLifecycle(): Lifecycle {
-        return lifecycleRegistry
-    }
 
 }

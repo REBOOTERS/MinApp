@@ -64,6 +64,7 @@ class FragmentManagerActivity : BaseActivity() {
             refreshStatus()
         }
 
+        playLifecycle()
     }
 
     private fun refreshStatus() {
@@ -100,5 +101,14 @@ class FragmentManagerActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+    }
+
+    private var myComponent: MyLifecycleAwareComponent? = null
+    private fun playLifecycle() {
+        lifecycle.addObserver(EasyObserver())
+
+
+        myComponent = MyLifecycleAwareComponent(this)
+        myComponent?.init(this)
     }
 }

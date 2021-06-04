@@ -3,7 +3,6 @@ package com.engineer.android.mini
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.media.AudioManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -20,10 +19,8 @@ import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.log
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ipc.IpcActivity
-import com.engineer.android.mini.jetpack.EasyObserver
 import com.engineer.android.mini.jetpack.FragmentManagerActivity
 import com.engineer.android.mini.jetpack.LIFECYCLE_TAG
-import com.engineer.android.mini.jetpack.MyComponent
 import com.engineer.android.mini.net.RxCacheActivity
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
@@ -57,7 +54,6 @@ class RootActivity : BaseActivity() {
         mainScope = MainScope()
         handlePermissions()
         setupUI()
-        playLifecycle()
 
         mainScope.launch {
             "111".log()
@@ -177,16 +173,6 @@ class RootActivity : BaseActivity() {
         }
     }
 
-    private var myComponent: MyComponent? = null
-    private fun playLifecycle() {
-        lifecycle.addObserver(EasyObserver())
-
-
-        myComponent = MyComponent(this)
-        myComponent?.init()
-    }
-
-
     override fun onResume() {
         super.onResume()
         Log.d(LIFECYCLE_TAG, "onResume() called")
@@ -201,7 +187,6 @@ class RootActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        myComponent?.release()
         mainScope.cancel()
         disposeOn.dispose()
     }
