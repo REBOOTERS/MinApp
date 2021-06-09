@@ -12,9 +12,9 @@ import androidx.lifecycle.Transformations
  * @author rookie
  */
 class FooViewModel(application: Application) : AndroidViewModel(application) {
-    internal val foo = MutableLiveData<Int>()
+     internal val foo = MutableLiveData<Int>()
 
-    internal val test =MutableLiveData<Boolean>(true)
+    internal val test =MutableLiveData(true)
 
     internal val fooMap = Transformations.map(foo) {
         it * it

@@ -9,105 +9,139 @@
     android:paddingTop="24dp"
     tools:context=".ui.pure.CustomViewActivity">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="#66000000"
-            android:padding="10dp">
-
-            <FrameLayout
-                android:id="@+id/temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/round_bg">
-
-                <TextView
-                    android:id="@+id/content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:text="111111111" />
-            </FrameLayout>
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="10dp"
-                android:layout_alignBottom="@id/temp"
-                android:layout_marginStart="-3dp"
-                android:layout_toEndOf="@id/temp"
-                android:scaleType="fitXY"
-                android:src="@drawable/phone" />
-
-
-        </RelativeLayout>
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/colorAccent"
             android:orientation="vertical">
 
-            <com.engineer.android.mini.ui.pure.SquareImageView
-                android:id="@+id/square_iv"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                tools:src="@drawable/bot" />
-
-        </LinearLayout>
-
-        <com.engineer.android.mini.ui.pure.SimpleViewOne
-            android:id="@+id/simple_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp" />
-
-        <EditText
-            android:id="@+id/et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/chatfrom_bg_normal"
-            android:hint="please input"
-            android:importantForAutofill="no"
-            android:inputType="number"
-            android:textColorHint="@color/white"
-            tools:ignore="HardcodedText" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.flexbox.FlexboxLayout
-                android:id="@+id/flexbox"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="#66000000"
-                app:alignContent="stretch"
-                app:alignItems="stretch"
-                app:flexWrap="wrap"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:padding="10dp">
 
-            <View
-                android:id="@+id/special_line"
-                android:layout_width="0dp"
-                android:layout_height="0.5dp"
-                android:background="@color/white"
-                app:layout_constraintBottom_toBottomOf="@id/flexbox"
-                app:layout_constraintEnd_toEndOf="@id/flexbox"
-                app:layout_constraintStart_toStartOf="@id/flexbox" />
+                <FrameLayout
+                    android:id="@+id/temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_bg">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:text="111111111" />
+                </FrameLayout>
 
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="10dp"
+                    android:layout_alignBottom="@id/temp"
+                    android:layout_marginStart="-3dp"
+                    android:layout_toEndOf="@id/temp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/phone" />
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/colorAccent"
+                android:orientation="vertical">
+
+                <com.engineer.android.mini.ui.pure.SquareImageView
+                    android:id="@+id/square_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    tools:src="@drawable/bot" />
+
+            </LinearLayout>
+
+            <com.engineer.android.mini.ui.pure.SimpleViewOne
+                android:id="@+id/simple_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
+
+            <EditText
+                android:id="@+id/et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/chatfrom_bg_normal"
+                android:hint="please input"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:textColorHint="@color/white"
+                tools:ignore="HardcodedText" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/flexbox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="#66000000"
+                    app:alignContent="stretch"
+                    app:alignItems="stretch"
+                    app:flexWrap="wrap"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/special_line"
+                    android:layout_width="0dp"
+                    android:layout_height="0.5dp"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@id/flexbox"
+                    app:layout_constraintEnd_toEndOf="@id/flexbox"
+                    app:layout_constraintStart_toStartOf="@id/flexbox" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:background="@color/colorAccent"
+                    android:src="@drawable/phone" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:background="@color/colorAccent"
+                    android:src="@drawable/bot" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:background="@color/colorAccent"
+                    android:src="@drawable/android" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 
     <ImageView
@@ -119,9 +153,9 @@
 
     <ImageView
         android:id="@+id/real"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
         android:src="@drawable/android" />
 
 

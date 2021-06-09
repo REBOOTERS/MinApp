@@ -250,15 +250,10 @@ class CustomViewActivity : BaseActivity() {
                 val w = fake.width
                 val h = fake.height
                 Log.e(TAG, "w=$w,h=$h")
-                val w1 = real.width
-                val h1 = real.height
                 Log.e(TAG, "w1=${real.width},h1=${real.height}")
                 val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
                 val canvas = Canvas(bitmap)
                 fake.draw(canvas)
-                val src = Rect(0, 0, w, h)
-                val dst = Rect(0, 0, (w1 - w) / 2, (h1 - h) / 2)
-                canvas.drawBitmap(bitmap, src, dst, null)
                 real.setImageBitmap(bitmap)
                 done = true
             }

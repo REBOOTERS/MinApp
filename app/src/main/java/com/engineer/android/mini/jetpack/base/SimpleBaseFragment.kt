@@ -55,10 +55,11 @@ abstract class SimpleBaseFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
             Log.e(TAG, "onCreate(): param1 = $param1,param2 = $param2")
         }
-        fooViewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(MinApp.INSTANCE)
-        ).get(FooViewModel::class.java)
+        fooViewModel = ViewModelProvider(this).get(FooViewModel::class.java)
+//        fooViewModel = ViewModelProvider(
+//            this,
+//            ViewModelProvider.AndroidViewModelFactory.getInstance(MinApp.INSTANCE)
+//        ).get(FooViewModel::class.java)
     }
 
     override fun onCreateView(
