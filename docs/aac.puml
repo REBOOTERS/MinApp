@@ -3,7 +3,6 @@
 
 interface LifecycleObserver
 
-
 'abstract class AbstractList
 'abstract AbstractCollection
 'interface List
