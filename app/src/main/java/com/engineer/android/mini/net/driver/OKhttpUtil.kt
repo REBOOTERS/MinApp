@@ -5,7 +5,9 @@ import okhttp3.*
 import java.io.IOException
 
 fun main() {
-    OKhttpUtil.go()
+//    OKhttpUtil.asyncCall()
+
+    OKhttpUtil.syncCall()
 }
 
 /**
@@ -27,18 +29,30 @@ object OKhttpUtil {
         }
         .eventListener(DefaultEventListener())
         .build()
-    val call = client.newCall(request)
+    val call: Call = client.newCall(request)
 
-    fun go() {
+    fun asyncCall() {
 
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 println("onFailure() called with: call = $call, e = $e")
+                if (call.isCanceled.not()) {
+                    call.cancel()
+                }
             }
 
             override fun onResponse(call: Call, response: Response) {
                 println("onResponse() called with: call = $call, response = $response")
+                println("call.isExecuted = ${call.isExecuted}")
+                if (call.isExecuted) {
+                    call.cancel()
+                }
             }
         })
+    }
+    
+    fun syncCall() {
+        val response = call.execute()
+        println("response == $response")
     }
 }

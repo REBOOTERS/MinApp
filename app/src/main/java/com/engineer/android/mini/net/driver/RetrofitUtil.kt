@@ -26,7 +26,7 @@ fun main() {
     println()
 
 //    RetrofitUtil.go()
-    RetrofitUtil.go2()
+//    RetrofitUtil.go2()
 
 }
 
