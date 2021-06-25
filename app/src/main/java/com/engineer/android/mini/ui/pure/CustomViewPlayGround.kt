@@ -113,6 +113,11 @@ class LogLinearLayout @JvmOverloads constructor(
     attributeSet: AttributeSet? = null, style: Int = 0
 ) : LinearLayout(context, attributeSet, style) {
 
+    fun test() {
+        requestLayout()
+        invalidate()
+    }
+
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         super.onLayout(changed, l, t, r, b)
         Log.e(
