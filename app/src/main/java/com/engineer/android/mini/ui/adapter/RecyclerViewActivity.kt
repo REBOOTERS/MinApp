@@ -1,6 +1,5 @@
 package com.engineer.android.mini.ui.adapter
 
-import android.database.Observable
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -42,14 +41,23 @@ class RecyclerViewActivity : BaseActivity() {
 
         val pagerSnapHelper = PagerSnapHelper()
 //        pagerSnapHelper.attachToRecyclerView(recyclerView)
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    reflectValue(recyclerView)
+                }
+            }
+        })
 
-        recyclerView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            reflectValue(recyclerView)
-        }
+//        recyclerView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+//            reflectValue(recyclerView)
+//        }
 
         remove.setOnClickListener {
             datas.removeAt(0)
             adapter.notifyItemChanged(0)
+
         }
         add.setOnClickListener {
             datas.add(0, 0.toString())
@@ -58,7 +66,9 @@ class RecyclerViewActivity : BaseActivity() {
             add.post {
                 println(1)
             }
-            add.postDelayed({}, 0)
+            add.postDelayed({
+                reflectValue(recyclerView)
+            }, 300)
         }
 
         val h = HandlerCompat.createAsync(Looper.getMainLooper())
@@ -68,32 +78,41 @@ class RecyclerViewActivity : BaseActivity() {
         val rv = recyclerView.javaClass
         val recycler = rv.getDeclaredField("mRecycler")
         recycler.isAccessible = true
-
-        Log.e("reflect", "recycler: $recycler")
-
         val real = recycler.get(recyclerView)
-
-        Log.e("reflect", "real: $real")
+        Log.e("reflect", "mRecycler: $real")
 
         val recyclerClazz = Class.forName("androidx.recyclerview.widget.RecyclerView\$Recycler")
 
 
         val mAttachedScrap = recyclerClazz.getDeclaredField("mAttachedScrap")
         mAttachedScrap.isAccessible = true
-        Log.e("reflect", "mm: $mAttachedScrap")
         val ccc = mAttachedScrap.get(real)
-        Log.e("reflect", "as: $ccc")
+        Log.e("reflect", "mAttachedScrap: $ccc")
 
-        val mChangedScrap = recyclerClazz.getDeclaredField("mChangedScrap")
-        mChangedScrap.isAccessible = true
-        val cs = mChangedScrap.get(real)
-        Log.e("reflect", "cs: $cs")
+//        val mChangedScrap = recyclerClazz.getDeclaredField("mChangedScrap")
+//        mChangedScrap.isAccessible = true
+//        val cs = mChangedScrap.get(real)
+//        Log.e("reflect", "mChangedScrap: $cs")
 
         val mCachedViews = recyclerClazz.getDeclaredField("mCachedViews")
         mCachedViews.isAccessible = true
-        val cd = mCachedViews.get(real)
-        Log.e("reflect", "cd: $cd")
+        val cv = mCachedViews.get(real)
+        Log.e("reflect", "mCachedViews: $cv")
 
+        val mRecyclerPool = recyclerClazz.getDeclaredField("mRecyclerPool")
+        mRecyclerPool.isAccessible = true
+        val mp = mRecyclerPool.get(real)
+        Log.e("reflect", "mRecyclerPool: $mp")
+        if (mp is RecyclerView.RecycledViewPool) {
+            Log.e(
+                "reflect",
+                "mRecyclerPool: ${mp.getRecycledView(0)},${mp.getRecycledViewCount(0)}"
+            )
+
+        }
+
+
+        Log.e("reflect", "===============================================================")
     }
 
     class MyAdapter(private val datas: List<String>) : RecyclerView.Adapter<MyAdapter.MyHolder>() {
@@ -151,19 +170,4 @@ class RecyclerViewActivity : BaseActivity() {
             Log.e("ach", "onViewDetachedFromWindow() called with: holder = $holder")
         }
     }
-
-
-    private abstract class MyObserver {
-        abstract fun update(str: String)
-    }
-
-    private class MyObservable : Observable<MyObserver>() {
-        fun notifyDataSetChanged() {
-            mObservers.forEach {
-                it.update("aaa")
-            }
-        }
-    }
-
-
 }
