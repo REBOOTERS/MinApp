@@ -4,10 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.collection.LruCache
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.*
 import com.facebook.stetho.Stetho
 
 /**
@@ -47,6 +44,13 @@ class MinApp : Application() {
             private fun onAppBackground() {
                 Log.e("ProcessLife", "ApplicationObserver: app moved to background")
             }
+        })
+
+        ProcessLifecycleOwner.get().lifecycle.addObserver(object :LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                Log.e("ProcessLife", "onStateChanged() called with: source = $source, event = $event")
+            }
+
         })
     }
 
