@@ -10,9 +10,9 @@ public class Demo {
 
     private static volatile Demo mDemo;
 
-    public Demo test() {
+    public static Demo test() {
         if (mDemo == null) {
-            synchronized (this) {
+            synchronized (Demo.class) {
                 if (mDemo == null) {
                     mDemo = new Demo();
                 }
