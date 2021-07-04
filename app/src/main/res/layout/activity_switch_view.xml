@@ -39,4 +39,27 @@
 
     </FrameLayout>
 
+    <com.engineer.android.mini.ui.widget.FloatContainer
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="300dp"
+        android:background="#FF4081">
+
+        <com.engineer.android.mini.ui.widget.SpecialButton
+            android:id="@+id/add_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="add_add" />
+
+        <com.engineer.android.mini.ui.widget.SpecialButton
+            android:id="@+id/plus_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="plus_plus" />
+
+    </com.engineer.android.mini.ui.widget.FloatContainer>
+
+
 </FrameLayout>
