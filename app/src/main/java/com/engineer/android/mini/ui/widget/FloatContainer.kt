@@ -39,11 +39,7 @@ constructor(
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
-        if (ev?.action == MotionEvent.ACTION_DOWN) {
-            return false
-        } else {
-            return true
-        }
+        return ev?.action != MotionEvent.ACTION_DOWN
     }
 }
 
@@ -51,18 +47,36 @@ class SpecialButton @JvmOverloads
 constructor(
     context: Context, attributeSet: AttributeSet? = null,
     style: Int = 0
-) : MaterialButton(context, attributeSet, style) {
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        Log.e("SpecialButton", "onTouchEvent() called with: event = $event")
+) : MaterialButton(context, attributeSet, style), View.OnTouchListener {
 
-        when (event?.action) {
-            MotionEvent.ACTION_DOWN -> {
-                parent.requestDisallowInterceptTouchEvent(true)
-            }
-            MotionEvent.ACTION_MOVE -> {
-                parent.requestDisallowInterceptTouchEvent(false)
-            }
-        }
-        return super.onTouchEvent(event)
+
+//    override fun onTouchEvent(event: MotionEvent?): Boolean {
+//        Log.e("SpecialButton", "onTouchEvent() called with: event = $event")
+//
+//        when (event?.action) {
+//            MotionEvent.ACTION_DOWN -> {
+//                parent.requestDisallowInterceptTouchEvent(true)
+//            }
+//            MotionEvent.ACTION_MOVE -> {
+//                parent.requestDisallowInterceptTouchEvent(false)
+//            }
+//        }
+//        return super.onTouchEvent(event)
+//    }
+
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        var isClick = false
+//        when (event?.action) {
+//            MotionEvent.ACTION_DOWN -> {
+//                isClick = false
+//            }
+//            MotionEvent.ACTION_MOVE -> {
+//                isClick = true
+//            }
+//            MotionEvent.ACTION_UP -> {
+//                isClick = false
+//            }
+//        }
+        return isClick
     }
 }
