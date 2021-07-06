@@ -26,6 +26,7 @@ import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.behavior.lifecycle.PanelActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
+import com.engineer.android.mini.util.AndroidSystem
 import com.engineer.android.mini.util.ProducerConsumerViewModel
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -72,6 +73,8 @@ class RootActivity : BaseActivity() {
         val freeMemory = Runtime.getRuntime().freeMemory() / _1MB
         sb.append("freeMemory=").append(freeMemory).append("MB").append("\n")
 
+        val isHarmonyOS = AndroidSystem.isHarmonyOS()
+        sb.append("isHarmonyOS : $isHarmonyOS").append("\n")
 
         sys_runtime_info.text = sb.toString()
         val handler = Handler(Looper.getMainLooper()) {
