@@ -1,13 +1,11 @@
 package com.engineer.android.mini.ui.adapter
 
 import android.os.Bundle
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.os.HandlerCompat
 import androidx.recyclerview.widget.*
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityRecyclerViewBinding
@@ -40,10 +38,10 @@ class RecyclerViewActivity : BaseActivity() {
         recyclerView.adapter = adapter
 
         val linearSnapHelper = LinearSnapHelper()
-//        linearSnapHelper.attachToRecyclerView(recyclerView)
+        linearSnapHelper.attachToRecyclerView(recyclerView)
 
         val pagerSnapHelper = PagerSnapHelper()
-//        pagerSnapHelper.attachToRecyclerView(recyclerView)
+        pagerSnapHelper.attachToRecyclerView(recyclerView)
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -73,8 +71,6 @@ class RecyclerViewActivity : BaseActivity() {
                 reflectValue(recyclerView)
             }, 300)
         }
-
-        val h = HandlerCompat.createAsync(Looper.getMainLooper())
     }
 
     private fun reflectValue(recyclerView: RecyclerView) {
