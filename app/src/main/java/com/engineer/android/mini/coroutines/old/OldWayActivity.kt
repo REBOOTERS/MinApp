@@ -23,16 +23,14 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.engineer.android.mini.R
+import com.engineer.android.mini.databinding.ActivityOldMainBinding
 import com.engineer.android.mini.ext.toast
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_old_main.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import java.lang.Exception
 import kotlin.random.Random
 
 /**
@@ -41,7 +39,7 @@ import kotlin.random.Random
 private const val TAG = "Coroutines"
 
 class OldWayActivity : AppCompatActivity() {
-
+    private lateinit var viewBinding: ActivityOldMainBinding
 
     private var mainScope: CoroutineScope? = null
 
@@ -50,7 +48,7 @@ class OldWayActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        viewBinding = ActivityOldMainBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_old_main)
         mainScope = MainScope()
         val title: TextView = findViewById(R.id.title)
@@ -89,7 +87,7 @@ class OldWayActivity : AppCompatActivity() {
         // Show a snackbar whenever the [ViewModel.snackbar] is updated a non-null value
         viewModel.snackbar.observe(this) { text ->
             text?.let {
-                Snackbar.make(rootLayout, text, Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(viewBinding.rootLayout, text, Snackbar.LENGTH_SHORT).show()
                 viewModel.onSnackbarShown()
             }
         }
@@ -99,7 +97,7 @@ class OldWayActivity : AppCompatActivity() {
             throwable.message.toast()
         }
 
-        handle.setOnClickListener {
+        viewBinding.handle.setOnClickListener {
             try {
                 mainScope?.launch(errorHandler) {
                     val start = System.currentTimeMillis()
@@ -121,7 +119,7 @@ class OldWayActivity : AppCompatActivity() {
 
         }
 
-        useAwait.setOnClickListener {
+        viewBinding.useAwait.setOnClickListener {
             mainScope?.launch(Dispatchers.Unconfined) {
                 val start = System.currentTimeMillis()
                 printThreadName()
@@ -137,7 +135,7 @@ class OldWayActivity : AppCompatActivity() {
             }
         }
 
-        useFlow.setOnClickListener {
+        viewBinding.useFlow.setOnClickListener {
             lifecycleScope.launchWhenResumed {
                 createFlow()
                     .flowOn(Dispatchers.IO)

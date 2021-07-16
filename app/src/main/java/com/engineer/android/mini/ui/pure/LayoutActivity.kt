@@ -13,23 +13,25 @@ import android.view.*
 import android.widget.*
 import androidx.core.view.setMargins
 import com.engineer.android.mini.R
+import com.engineer.android.mini.databinding.ActivityLayoutBinding
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.google.android.flexbox.FlexboxLayout
-import kotlinx.android.synthetic.main.activity_layout.*
 import java.lang.StringBuilder
 
 class LayoutActivity : BaseActivity() {
+    private lateinit var viewBinding: ActivityLayoutBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewBinding = ActivityLayoutBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_layout)
 
 
         addViewToWindow()
 
-        child_one.setOnClickListener {
+        viewBinding.childOne.setOnClickListener {
             "I'm child_one".toast()
             gotoPage(EmptyActivity::class.java)
         }
@@ -67,7 +69,7 @@ class LayoutActivity : BaseActivity() {
             y = 24.dp
         }
         manager.addView(child, params)
-        child_root.setOnClickListener(null)
+        viewBinding.childRoot.setOnClickListener(null)
     }
 
     private fun genChild(windowManager: WindowManager): View {
@@ -114,7 +116,7 @@ class LayoutActivity : BaseActivity() {
             override fun back(handleBackMenuView: HandleBackMenuView) {
                 "remove self from window".toast()
                 windowManager.removeView(containerShell)
-                child_root.setOnClickListener {
+                viewBinding.childRoot.setOnClickListener {
                     addViewToWindow()
                 }
             }

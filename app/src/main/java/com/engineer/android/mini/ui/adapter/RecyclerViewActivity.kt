@@ -10,9 +10,9 @@ import android.widget.TextView
 import androidx.core.os.HandlerCompat
 import androidx.recyclerview.widget.*
 import com.engineer.android.mini.R
+import com.engineer.android.mini.databinding.ActivityRecyclerViewBinding
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
-import kotlinx.android.synthetic.main.activity_recycler_view.*
 import java.util.concurrent.atomic.AtomicInteger
 
 class RecyclerViewActivity : BaseActivity() {
@@ -26,9 +26,12 @@ class RecyclerViewActivity : BaseActivity() {
         list
     }
 
+    private lateinit var viewBinding:ActivityRecyclerViewBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recycler_view)
+        viewBinding = ActivityRecyclerViewBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
         recyclerView = findViewById(R.id.recycler_view)
         val adapter = MyAdapter(datas)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -54,19 +57,19 @@ class RecyclerViewActivity : BaseActivity() {
 //            reflectValue(recyclerView)
 //        }
 
-        remove.setOnClickListener {
+        viewBinding.remove.setOnClickListener {
             datas.removeAt(0)
             adapter.notifyItemChanged(0)
 
         }
-        add.setOnClickListener {
+        viewBinding.add.setOnClickListener {
             datas.add(0, 0.toString())
             adapter.notifyItemChanged(0)
 
-            add.post {
+            viewBinding.add.post {
                 println(1)
             }
-            add.postDelayed({
+            viewBinding.add.postDelayed({
                 reflectValue(recyclerView)
             }, 300)
         }

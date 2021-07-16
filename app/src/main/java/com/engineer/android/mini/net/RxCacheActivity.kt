@@ -9,6 +9,7 @@ import android.util.SparseArray
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import com.engineer.android.mini.R
+import com.engineer.android.mini.databinding.ActivityRxCacheBinding
 import com.engineer.android.mini.ext.toast
 import com.zchu.rxcache.RxCache
 import com.zchu.rxcache.data.CacheResult
@@ -21,7 +22,6 @@ import io.reactivex.ObservableSource
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_rx_cache.*
 import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
@@ -29,6 +29,8 @@ import kotlin.random.Random
 private const val TAG = "RxCacheActivity"
 
 class RxCacheActivity : AppCompatActivity() {
+
+    private lateinit var viewBinding: ActivityRxCacheBinding
 
     private lateinit var rxCache: RxCache
 
@@ -41,6 +43,7 @@ class RxCacheActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewBinding = ActivityRxCacheBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_rx_cache)
 
 
@@ -58,27 +61,27 @@ class RxCacheActivity : AppCompatActivity() {
         loadData()
 
         arrayLiveData.observe(this) {
-            tv_array.text = "array size is ${it.size} \n $it"
+            viewBinding.tvArray.text = "array size is ${it.size} \n $it"
         }
         mapLiveData.observe(this) {
-            tv_map.text = "map size is ${it.size} \n $it"
+            viewBinding.tvMap.text = "map size is ${it.size} \n $it"
         }
 
-        tv_array.setOnClickListener {
+        viewBinding.tvArray.setOnClickListener {
             array.add(System.currentTimeMillis().toString())
             arrayLiveData.value = array
         }
-        tv_array.setOnLongClickListener {
+        viewBinding.tvArray.setOnLongClickListener {
             array.clear()
             arrayLiveData.value = array
             true
         }
-        tv_map.setOnClickListener {
+        viewBinding.tvMap.setOnClickListener {
             testSparseArray()
             map[System.currentTimeMillis().toString()] = Random(100).nextInt()
             mapLiveData.value = map
         }
-        tv_map.setOnLongClickListener {
+        viewBinding.tvMap.setOnLongClickListener {
             map.clear()
             mapLiveData.value = map
             true
@@ -137,7 +140,7 @@ class RxCacheActivity : AppCompatActivity() {
                 data.forEach {
                     sb.append(it).append("\n\n")
                 }
-                tv.text = sb.toString()
+                viewBinding.tv.text = sb.toString()
             }
         }
     }

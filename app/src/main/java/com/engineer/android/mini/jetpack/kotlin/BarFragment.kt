@@ -3,13 +3,12 @@ package com.engineer.android.mini.jetpack.kotlin
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
+import android.widget.TextView
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.jetpack.base.ARG_PARAM1
 import com.engineer.android.mini.jetpack.base.ARG_PARAM2
 import com.engineer.android.mini.jetpack.base.SimpleBaseFragment
-import kotlinx.android.synthetic.main.fragment_bar.*
 
 
 class BarFragment : SimpleBaseFragment() {
@@ -32,9 +31,10 @@ class BarFragment : SimpleBaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val text = view.findViewById<TextView>(R.id.text)
         fooViewModel.foo.observe(viewLifecycleOwner, {
             text.text = "result is $it"
-            Log.e(TAG,  "$it")
+            Log.e(TAG, "$it")
         })
 
         fooViewModel.fooMap.observe(viewLifecycleOwner, {

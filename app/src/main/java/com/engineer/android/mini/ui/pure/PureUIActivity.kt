@@ -26,6 +26,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import com.engineer.android.mini.R
+import com.engineer.android.mini.databinding.ActivityMainContentBinding
+import com.engineer.android.mini.databinding.ActivityPureUiBinding
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.getStatusBarHeight
 import com.engineer.android.mini.ext.resizeMarginTop
@@ -33,66 +35,77 @@ import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.adapter.RecyclerViewActivity
 import com.engineer.android.mini.util.JavaUtil
-import kotlinx.android.synthetic.main.activity_main_content.*
 
 
 @SuppressLint("SetTextI18n")
 class PureUIActivity : BaseActivity() {
+    private lateinit var viewBinding: ActivityPureUiBinding
+    private lateinit var realBinding: ActivityMainContentBinding
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pure_ui)
+        viewBinding = ActivityPureUiBinding.inflate(layoutInflater)
+        realBinding = viewBinding.includeActivityMainContent
+        setContentView(viewBinding.root)
         setUpUi()
 
-        TransitionManager.beginDelayedTransition(root_content)
+        TransitionManager.beginDelayedTransition(realBinding.rootContent)
 
-        image_view.post {
-            Log.e(TAG, "view.post: " + image_view.width)
+        viewBinding.includeActivityMainContent.imageView.post {
+            Log.e(TAG, "view.post: " + viewBinding.includeActivityMainContent.imageView.width)
         }
         Handler(Looper.getMainLooper()).post {
-            Log.e(TAG, "handler.post: " + image_view.width)
+            Log.e(TAG, "handler.post: " + viewBinding.includeActivityMainContent.imageView.width)
         }
 
-        image_view.setOnClickListener {
+        viewBinding.includeActivityMainContent.imageView.setOnClickListener {
             // Transition 动画 https://github.com/xiaweizi/TransitionDemo
             val changeBounds = ChangeBounds()
 //            changeBounds.interpolator = LinearInterpolator()
             changeBounds.interpolator = AnticipateInterpolator()
-            TransitionManager.beginDelayedTransition(root_content, changeBounds)
-            val params = image_view.layoutParams
-            val hw: Float = image_view.measuredWidth * 1.0f / image_view.measuredHeight
-            if (image_view.measuredWidth >= (resources.displayMetrics.widthPixels - 20.dp)) {
+            TransitionManager.beginDelayedTransition(
+                viewBinding.includeActivityMainContent.rootContent,
+                changeBounds
+            )
+            val params = viewBinding.includeActivityMainContent.imageView.layoutParams
+            val hw: Float =
+                viewBinding.includeActivityMainContent.imageView.measuredWidth * 1.0f / viewBinding.includeActivityMainContent.imageView.measuredHeight
+            if (viewBinding.includeActivityMainContent.imageView.measuredWidth >= (resources.displayMetrics.widthPixels - 20.dp)) {
                 params.width = resources.displayMetrics.widthPixels / 2
                 params.height = ((resources.displayMetrics.widthPixels / 2) * (1 / hw)).toInt()
             } else {
                 params.width = resources.displayMetrics.widthPixels - 20.dp
                 params.height = ((resources.displayMetrics.widthPixels - 20.dp) * (1 / hw)).toInt()
             }
-            image_view.layoutParams = params
+            viewBinding.includeActivityMainContent.imageView.layoutParams = params
         }
 
-        layout_ac.setOnClickListener {
+        realBinding.layoutAc.setOnClickListener {
             gotoPage(LayoutActivity::class.java)
         }
 
-        custom_view.setOnClickListener { gotoPage(CustomViewActivity::class.java) }
-        recycler_view_demo.setOnClickListener { gotoPage(RecyclerViewActivity::class.java) }
-        switch_view.setOnClickListener { gotoPage(SwitchViewActivity::class.java) }
-        image_view.resizeMarginTop(getStatusBarHeight())
+        viewBinding.includeActivityMainContent.customView.setOnClickListener {
+            gotoPage(
+                CustomViewActivity::class.java
+            )
+        }
+        realBinding.recyclerViewDemo.setOnClickListener { gotoPage(RecyclerViewActivity::class.java) }
+        realBinding.switchView.setOnClickListener { gotoPage(SwitchViewActivity::class.java) }
+        viewBinding.includeActivityMainContent.imageView.resizeMarginTop(getStatusBarHeight())
 
-        val p = content_img.layoutParams
+        val p = realBinding.contentImg.layoutParams
 
         testImageSpan()
 
-        range_slider.addOnChangeListener { _, value, fromUser ->
+        realBinding.rangeSlider.addOnChangeListener { _, value, fromUser ->
             Log.e(
                 TAG,
                 "onCreate() called with: value = $value, fromUser = $fromUser"
             )
             var v = 300 * value
             p.width = value.toInt()
-            content_img.layoutParams = p
+            realBinding.contentImg.layoutParams = p
             val desc = getString(R.string.long_chinese_content)
             val target = "快乐的日子"
             if (v > 0) {
@@ -106,11 +119,11 @@ class PureUIActivity : BaseActivity() {
             val imageSpan = CenterImageSpan(this, bitmap)
             val start = desc.indexOf(target)
             s.setSpan(imageSpan, start, start + target.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
-            content_view.text = s
+            realBinding.contentView.text = s
         }
-        range_slider.setValues(0.3f)
+        realBinding.rangeSlider.setValues(0.3f)
 
-        "view level is ${viewLevel(range_slider)}".toast()
+        "view level is ${viewLevel(realBinding.rangeSlider)}".toast()
     }
 
     override fun onContentChanged() {
@@ -130,7 +143,7 @@ class PureUIActivity : BaseActivity() {
         val start = content.indexOf(target)
         val imageSpan = ImageSpan(d, ImageSpan.ALIGN_BASELINE)
         ss.setSpan(imageSpan, start, start + target.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        test_span.text = ss
+        realBinding.testSpan.text = ss
     }
 
 
@@ -167,7 +180,11 @@ class PureUIActivity : BaseActivity() {
 
     private fun setUpUi() {
         systemDayNight()
-        full_screen.setOnClickListener { gotoPage(FullscreenActivity::class.java) }
+        viewBinding.includeActivityMainContent.fullScreen.setOnClickListener {
+            gotoPage(
+                FullscreenActivity::class.java
+            )
+        }
     }
 
     /**
@@ -178,16 +195,17 @@ class PureUIActivity : BaseActivity() {
     private fun systemDayNight() {
         val modeStr = if (isNightMode()) "夜间" else "日间"
         val current = AppCompatDelegate.getDefaultNightMode()
-        current_theme.text = "当前日夜间模式 : $modeStr,mode = $current"
+        viewBinding.includeActivityMainContent.currentTheme.text =
+            "当前日夜间模式 : $modeStr,mode = $current"
         when (current) {
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> follow_system.isChecked = true
-            AppCompatDelegate.MODE_NIGHT_YES -> force_dark.isChecked = true
-            AppCompatDelegate.MODE_NIGHT_NO -> force_light.isChecked = true
-            AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY -> auto_battery.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> realBinding.followSystem.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_YES -> realBinding.forceDark.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_NO -> realBinding.forceLight.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY -> realBinding.autoBattery.isChecked = true
             else -> {
             }
         }
-        theme_radio.setOnCheckedChangeListener { _, checkedId ->
+        realBinding.themeRadio.setOnCheckedChangeListener { _, checkedId ->
             var mode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
             when (checkedId) {
                 R.id.follow_system -> mode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
@@ -199,15 +217,15 @@ class PureUIActivity : BaseActivity() {
         }
         var open = true
         var origin = 0
-        current_theme.setOnClickListener {
-            val p = theme_radio.layoutParams
+        realBinding.currentTheme.setOnClickListener {
+            val p = realBinding.themeRadio.layoutParams
             if (open) {
-                origin = theme_radio.measuredHeight
+                origin = realBinding.themeRadio.measuredHeight
                 val ani = ValueAnimator.ofInt(origin, 0)
                 ani.addUpdateListener {
                     val value = it.animatedValue as Int
                     p.height = value
-                    theme_radio.layoutParams = p
+                    realBinding.themeRadio.layoutParams = p
                 }
                 ani.start()
             } else {
@@ -215,7 +233,7 @@ class PureUIActivity : BaseActivity() {
                 ani.addUpdateListener {
                     val value = it.animatedValue as Int
                     p.height = value
-                    theme_radio.layoutParams = p
+                    realBinding.themeRadio.layoutParams = p
                 }
                 ani.start()
             }

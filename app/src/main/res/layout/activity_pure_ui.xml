@@ -8,6 +8,8 @@
     tools:context=".ui.pure.PureUIActivity"
     tools:ignore="HardcodedText">
 
-    <include layout="@layout/activity_main_content" />
+    <include
+        android:id="@+id/include_activity_main_content"
+        layout="@layout/activity_main_content" />
 
 </androidx.core.widget.NestedScrollView>

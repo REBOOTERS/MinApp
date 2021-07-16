@@ -3,10 +3,10 @@ package com.engineer.android.mini.jetpack
 import android.os.Bundle
 import android.util.Log
 import com.engineer.android.mini.R
+import com.engineer.android.mini.databinding.ActivityJetpackBinding
 import com.engineer.android.mini.jetpack.java.FooFragment
 import com.engineer.android.mini.jetpack.kotlin.BarFragment
 import com.engineer.android.mini.ui.BaseActivity
-import kotlinx.android.synthetic.main.activity_jetpack.*
 import kotlinx.coroutines.*
 
 class FragmentManagerActivity : BaseActivity() {
@@ -15,22 +15,25 @@ class FragmentManagerActivity : BaseActivity() {
 //        FooFragment.newInstance("Foo", "Foo1")
 //    }
 
+    private lateinit var viewBinding: ActivityJetpackBinding
+
     private lateinit var fooFragment: FooFragment
 
     private var hide = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_jetpack)
+        viewBinding = ActivityJetpackBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
         fooFragment = FooFragment.newInstance("Foo", "Foo1")
-        up_fab.setOnClickListener {
+        viewBinding.upFab.setOnClickListener {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.up_content, fooFragment)
                 .commitAllowingStateLoss()
             refreshStatus()
         }
 
-        up_fab_minus.setOnClickListener {
+        viewBinding.upFabMinus.setOnClickListener {
             supportFragmentManager.beginTransaction()
                 .remove(fooFragment)
                 .commitAllowingStateLoss()
@@ -38,14 +41,14 @@ class FragmentManagerActivity : BaseActivity() {
             refreshStatus()
         }
 
-        up_fab_hide.setOnClickListener {
+        viewBinding.upFabHide.setOnClickListener {
             if (hide.not()) {
-                up_fab_hide.setImageResource(R.drawable.ic_baseline_panorama_fish_eye_24)
+                viewBinding.upFabHide.setImageResource(R.drawable.ic_baseline_panorama_fish_eye_24)
                 supportFragmentManager.beginTransaction()
                     .hide(fooFragment)
                     .commitAllowingStateLoss()
             } else {
-                up_fab_hide.setImageResource(R.drawable.ic_baseline_remove_red_eye_24)
+                viewBinding.upFabHide.setImageResource(R.drawable.ic_baseline_remove_red_eye_24)
                 supportFragmentManager.beginTransaction()
                     .show(fooFragment)
                     .commitAllowingStateLoss()
@@ -56,7 +59,7 @@ class FragmentManagerActivity : BaseActivity() {
             refreshStatus()
         }
 
-        down_fab.setOnClickListener {
+        viewBinding.downContent.setOnClickListener {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.down_content, BarFragment.newInstance("Bar", "Bar1"))
                 .commitAllowingStateLoss()

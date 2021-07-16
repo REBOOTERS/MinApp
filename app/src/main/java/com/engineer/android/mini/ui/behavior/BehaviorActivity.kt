@@ -15,11 +15,11 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.R
+import com.engineer.android.mini.databinding.ActivityBehaviorBinding
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
 import com.engineer.android.mini.util.SystemTools
-import kotlinx.android.synthetic.main.activity_behavior.*
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.File
@@ -34,8 +34,11 @@ const val PICK_FILE = 1
 const val PICK_GIF = 2
 
 class BehaviorActivity : AppCompatActivity() {
+    private lateinit var viewBinding:ActivityBehaviorBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewBinding = ActivityBehaviorBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_behavior)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 //            setUpStorageInfo()
@@ -43,35 +46,35 @@ class BehaviorActivity : AppCompatActivity() {
         val dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         Log.e(TAG, "onCreate: dir =$dir")
 
-        storage_query.setOnClickListener {
+        viewBinding.storageQuery.setOnClickListener {
             PictureBottomDialog().show(supportFragmentManager, "picture")
         }
 
-        addImageToAlbum.setOnClickListener {
+        viewBinding.addImageToAlbum.setOnClickListener {
             val bitmap = BitmapFactory.decodeResource(resources, R.drawable.phone)
             val displayName = "${System.currentTimeMillis()}.jpg"
             val mimeType = "image/jpeg"
             val compressFormat = Bitmap.CompressFormat.JPEG
             addBitmapToAlbum(bitmap, displayName, mimeType, compressFormat)
         }
-        downloadFile.setOnClickListener {
+        viewBinding.downloadFile.setOnClickListener {
             val fileUrl = "http://guolin.tech/android.txt"
             val fileName = "android.txt"
             downloadFile(fileUrl, fileName)
         }
-        pickFile.setOnClickListener {
+        viewBinding.pickFile.setOnClickListener {
             pickFileAndCopyUriToExternalFilesDir()
         }
 
-        pickGif.setOnClickListener {
+        viewBinding.pickGif.setOnClickListener {
             pickGifAndCopyUriToExternal()
         }
 
-        settings.setOnClickListener {
+        viewBinding.settings.setOnClickListener {
             gotoActivity(SettingsActivity::class.java)
         }
 
-        use_hide_api.setOnClickListener {
+        viewBinding.useHideApi.setOnClickListener {
             val downloadManager: DownloadManager =
                 getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
 
@@ -104,7 +107,7 @@ class BehaviorActivity : AppCompatActivity() {
             }
         }
 
-        handler.setOnClickListener {
+        viewBinding.handler.setOnClickListener {
             val h = Handler(Looper.getMainLooper()) { msg ->
                 Log.e(
                     TAG,
@@ -135,13 +138,13 @@ class BehaviorActivity : AppCompatActivity() {
 
 
 
-            handler.postDelayed({
+            viewBinding.handler.postDelayed({
                 "delay 3000".toast()
             }, 3000)
 
         }
 
-        thread_local.setOnClickListener {
+        viewBinding.threadLocal.setOnClickListener {
             val tag = "threadLocal"
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -349,7 +352,7 @@ class BehaviorActivity : AppCompatActivity() {
         sb.append("dataDir :$dataDir").append("\n")
         sb.append("filesDir :$filesDir").append("\n")
         sb.append("picDir :$picDir").append("\n")
-        storage_info.text = sb
+        viewBinding.storageInfo.text = sb
         Log.e(TAG, "setUpStorageInfo:\n $sb")
     }
 

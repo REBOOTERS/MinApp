@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.engineer.android.mini.MinApp
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.adapter.AlbumAdapter
 import com.engineer.android.mini.ui.viewmodel.CursorQueryViewModel
 import com.engineer.android.mini.util.SystemTools
-import kotlinx.android.synthetic.main.bottom_sheet_layout.*
 import kotlin.concurrent.thread
 
 /**
@@ -46,10 +46,10 @@ class PictureBottomDialog : BaseBottomSheetDialog() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         val columns = 3
         val imageSize = resources.displayMetrics.widthPixels / columns
-        adapter = AlbumAdapter(context!!, imageList, imageSize)
+        adapter = AlbumAdapter(view.context, imageList, imageSize)
         recyclerView.layoutManager = GridLayoutManager(context, columns)
         recyclerView.adapter = adapter
 

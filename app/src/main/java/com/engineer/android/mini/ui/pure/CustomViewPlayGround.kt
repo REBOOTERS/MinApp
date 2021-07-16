@@ -18,6 +18,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
 import com.engineer.android.mini.R
+import com.engineer.android.mini.databinding.ActivityCustomViewBinding
 import com.engineer.android.mini.ext.*
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.pure.helper.MeasureSpec
@@ -25,7 +26,6 @@ import com.engineer.android.mini.util.ImagePool
 import com.engineer.android.mini.util.KeyBoardUtil
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.internal.TextWatcherAdapter
-import kotlinx.android.synthetic.main.activity_custom_view.*
 import kotlin.random.Random
 
 
@@ -194,33 +194,36 @@ class CustomViewActivity : BaseActivity() {
         private var maybeLeakView: View? = null
     }
 
+    private lateinit var viewBinding : ActivityCustomViewBinding
+
     private val list = ArrayList<View>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewBinding = ActivityCustomViewBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_custom_view)
-        maybeLeakView = simple_view
-        simple_view.setOnClickListener {
+        maybeLeakView = viewBinding.simpleView
+        viewBinding.simpleView.setOnClickListener {
             for (i in 0..10000) {
                 list.add(ImageView(this))
             }
             list.size.toString().toast()
         }
-        square_iv.setOnClickListener {
+        viewBinding.squareIv.setOnClickListener {
             val resId = ImagePool.images.random()
             val resStr = resources.getResourceName(resId)
             "$resId show $resStr".toast()
-            square_iv.setImageResource(resId)
+            viewBinding.squareIv.setImageResource(resId)
         }
 
-        KeyBoardUtil.checkVisible(et) {
+        KeyBoardUtil.checkVisible(viewBinding.et) {
             if (it) {
-                val parentView = et.parent as ViewGroup
+                val parentView = viewBinding.et.parent as ViewGroup
                 parentView.setOnClickListener {
-                    KeyBoardUtil.hideKeyboard(et)
+                    KeyBoardUtil.hideKeyboard(viewBinding.et)
                 }
             } else {
-                val parentView = et.parent as ViewGroup
+                val parentView = viewBinding.et.parent as ViewGroup
                 parentView.setOnClickListener(null)
             }
         }
@@ -235,31 +238,31 @@ class CustomViewActivity : BaseActivity() {
             }
         }
 
-        et.addTextChangedListener(object : TextWatcherAdapter() {
+        viewBinding.et.addTextChangedListener(object : TextWatcherAdapter() {
             override fun afterTextChanged(s: Editable) {
-                content.text = s.toString()
+                viewBinding.content.text = s.toString()
             }
         })
-        content.maxWidth = screenWidth - 92.dp
+        viewBinding.content.maxWidth = screenWidth - 92.dp
 
         setupFlexBox()
 
         MeasureSpec.print()
 
         var done = false
-        real.setOnClickListener {
+        viewBinding.real.setOnClickListener {
             if (done) {
-                real.visibility = View.GONE
+                viewBinding.real.visibility = View.GONE
             }
-            fake.post {
-                val w = fake.width
-                val h = fake.height
+            viewBinding.fake.post {
+                val w = viewBinding.fake.width
+                val h = viewBinding.fake.height
                 Log.e(TAG, "w=$w,h=$h")
-                Log.e(TAG, "w1=${real.width},h1=${real.height}")
+                Log.e(TAG, "w1=${viewBinding.real.width},h1=${viewBinding.real.height}")
                 val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
                 val canvas = Canvas(bitmap)
-                fake.draw(canvas)
-                real.setImageBitmap(bitmap)
+                viewBinding.fake.draw(canvas)
+                viewBinding.real.setImageBitmap(bitmap)
                 done = true
             }
         }
@@ -286,14 +289,14 @@ class CustomViewActivity : BaseActivity() {
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
             p.setMargins(10.dp, 10.dp, 10.dp, 10.dp)
-            flexbox.addView(tv, p)
+            viewBinding.flexbox.addView(tv, p)
         }
         // 用一种 hack 的方式给 FlexboxLayout 添加分割线
-        special_line.post {
-            val parmas = special_line.layoutParams as ConstraintLayout.LayoutParams
+        viewBinding.specialLine.post {
+            val parmas = viewBinding.specialLine.layoutParams as ConstraintLayout.LayoutParams
             val viewHeight = tv?.measuredHeight ?: 0
             parmas.bottomMargin = 20.dp + viewHeight
-            special_line.layoutParams = parmas
+            viewBinding.specialLine.layoutParams = parmas
         }
 
     }

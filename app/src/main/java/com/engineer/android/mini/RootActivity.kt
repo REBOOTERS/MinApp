@@ -31,7 +31,6 @@ import com.engineer.android.mini.util.ProducerConsumerViewModel
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import jp.wasabeef.blurry.Blurry
-import kotlinx.android.synthetic.main.activity_root.*
 import kotlinx.coroutines.*
 import radiography.Radiography
 import java.util.concurrent.TimeUnit
@@ -76,7 +75,7 @@ class RootActivity : BaseActivity() {
         val isHarmonyOS = AndroidSystem.isHarmonyOS()
         sb.append("isHarmonyOS : $isHarmonyOS").append("\n")
 
-        sys_runtime_info.text = sb.toString()
+        viewBinding.sysRuntimeInfo.text = sb.toString()
         val handler = Handler(Looper.getMainLooper()) {
             it.what.toString().toast()
             true
