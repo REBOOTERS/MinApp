@@ -31,7 +31,7 @@ class FooViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun doFoo2() {
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             foo.value = 2000
         }, 3000)
     }
