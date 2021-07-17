@@ -22,6 +22,7 @@ import com.engineer.android.mini.ipc.IpcActivity
 import com.engineer.android.mini.jetpack.FragmentManagerActivity
 import com.engineer.android.mini.jetpack.LIFECYCLE_TAG
 import com.engineer.android.mini.net.RxCacheActivity
+import com.engineer.android.mini.net.ThreadExTransform
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.behavior.lifecycle.PanelActivity
@@ -54,6 +55,7 @@ class RootActivity : BaseActivity() {
         mainScope = MainScope()
         handlePermissions()
         setupUI()
+        printSysInfo()
 
         mainScope.launch {
             "111".log()
@@ -63,19 +65,7 @@ class RootActivity : BaseActivity() {
             "333".log()
         }
 
-        val oneMB = 1024 * 1024f
-        val sb = StringBuilder()
 
-        val maxMemory = Runtime.getRuntime().maxMemory() / oneMB
-        sb.append("maxMemory=").append(maxMemory).append("MB").append("\n")
-
-        val freeMemory = Runtime.getRuntime().freeMemory() / oneMB
-        sb.append("freeMemory=").append(freeMemory).append("MB").append("\n")
-
-        val isHarmonyOS = AndroidSystem.isHarmonyOS()
-        sb.append("isHarmonyOS : $isHarmonyOS").append("\n")
-
-        viewBinding.sysRuntimeInfo.text = sb.toString()
         val handler = Handler(Looper.getMainLooper()) {
             it.what.toString().toast()
             true
@@ -97,6 +87,28 @@ class RootActivity : BaseActivity() {
     }
 
     private val disposeOn = CompositeDisposable()
+
+
+    private fun printSysInfo() {
+        val d = Observable.interval(0L,1L,TimeUnit.SECONDS)
+            .compose(ThreadExTransform())
+            .subscribe {
+                val oneMB = 1024 * 1024f
+                val sb = StringBuilder()
+
+                val maxMemory = Runtime.getRuntime().maxMemory() / oneMB
+                sb.append("maxMemory=").append(maxMemory).append("MB").append("\n")
+
+                val freeMemory = Runtime.getRuntime().freeMemory() / oneMB
+                sb.append("freeMemory=").append(freeMemory).append("MB").append("\n")
+
+                val isHarmonyOS = AndroidSystem.isHarmonyOS()
+                sb.append("isHarmonyOS : $isHarmonyOS").append("\n")
+                viewBinding.sysRuntimeInfo.text = sb.toString()
+            }
+        disposeOn.add(d)
+    }
+
     private fun testPC() {
         if (disposeOn.size() > 0) {
             "producer and consumer is doing".toast()

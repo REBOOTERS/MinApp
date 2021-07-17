@@ -148,16 +148,4 @@ class RxCacheActivity : AppCompatActivity() {
     private fun lg(msg: String?) {
         Log.e(TAG, "msg ====>  $msg")
     }
-
-    class ThreadExTransform<T> : ObservableTransformer<T, T> {
-
-        override fun apply(upstream: Observable<T>): ObservableSource<T> {
-            return upstream
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap {
-                    Observable.just(it)
-                }
-        }
-    }
 }
