@@ -1,3 +1,5 @@
+[![Android CI](https://github.com/REBOOTERS/MinApp/actions/workflows/android.yml/badge.svg)](https://github.com/REBOOTERS/MinApp/actions/workflows/android.yml)
+
 # MinApp
 
  - Android 版的 Hello World 最小可以有多小
