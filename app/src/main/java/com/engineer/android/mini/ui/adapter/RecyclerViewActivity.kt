@@ -40,8 +40,8 @@ class RecyclerViewActivity : BaseActivity() {
         val linearSnapHelper = LinearSnapHelper()
         linearSnapHelper.attachToRecyclerView(recyclerView)
 
-        val pagerSnapHelper = PagerSnapHelper()
-        pagerSnapHelper.attachToRecyclerView(recyclerView)
+//        val pagerSnapHelper = PagerSnapHelper()
+//        pagerSnapHelper.attachToRecyclerView(recyclerView)
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)

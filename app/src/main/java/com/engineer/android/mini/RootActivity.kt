@@ -3,10 +3,7 @@ package com.engineer.android.mini
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
+import android.os.*
 import android.util.Log
 import android.util.LogPrinter
 import android.widget.Toast
@@ -104,6 +101,12 @@ class RootActivity : BaseActivity() {
 
                 val isHarmonyOS = AndroidSystem.isHarmonyOS()
                 sb.append("isHarmonyOS : $isHarmonyOS").append("\n")
+
+                val systemTime = System.currentTimeMillis()
+                sb.append("System.currentTimeMillis()=$systemTime").append("\n")
+
+                val clockTime = SystemClock.uptimeMillis()
+                sb.append("SystemClock.uptimeMillis()=$clockTime").append("\n")
                 viewBinding.sysRuntimeInfo.text = sb.toString()
             }
         disposeOn.add(d)

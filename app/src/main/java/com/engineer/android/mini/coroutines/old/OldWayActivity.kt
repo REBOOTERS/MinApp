@@ -49,7 +49,7 @@ class OldWayActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityOldMainBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_old_main)
+        setContentView(viewBinding.root)
         mainScope = MainScope()
         val title: TextView = findViewById(R.id.title)
         val taps: Button = findViewById(R.id.taps)

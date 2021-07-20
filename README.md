@@ -27,6 +27,15 @@
 
 [ImageView](https://mp.weixin.qq.com/s/xGD68ia_9VgL-qgbZM4m3g)
 
+## Hacks
+
+ - 反射调用被标记为 ```@UnsupportedAppUsage(maxTargetSdk = 28) ``` 的字段或方法
+   命令行执行
+    ```shell
+        adb shell settings put global hidden_api_policy  1
+
+    ```
+    即可，详细参考[Android 10 中有关限制非 SDK 接口的更新](https://developer.android.google.cn/about/versions/10/non-sdk-q?hl=zh-cn)
 
 # Kotlin 
 

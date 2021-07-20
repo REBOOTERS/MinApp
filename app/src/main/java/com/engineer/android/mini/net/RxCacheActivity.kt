@@ -3,7 +3,6 @@ package com.engineer.android.mini.net
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Environment
-import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.util.SparseArray
 import androidx.appcompat.app.AppCompatActivity
@@ -17,13 +16,11 @@ import com.zchu.rxcache.data.ResultFrom
 import com.zchu.rxcache.diskconverter.GsonDiskConverter
 import com.zchu.rxcache.kotlin.rxCache
 import com.zchu.rxcache.stategy.FirstCacheTimeoutStrategy
-import io.reactivex.Observable
-import io.reactivex.ObservableSource
-import io.reactivex.ObservableTransformer
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import java.io.File
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 import kotlin.random.Random
 
 private const val TAG = "RxCacheActivity"
@@ -44,7 +41,7 @@ class RxCacheActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityRxCacheBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_rx_cache)
+        setContentView(viewBinding.root)
 
 
         lg("dir 1 is ${getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)}")
@@ -91,11 +88,35 @@ class RxCacheActivity : AppCompatActivity() {
     }
 
     private fun testSparseArray() {
-        val sa = SparseArray<String>()
+        val sa = SparseArray<Char>()
 
-        sa.put(1, "A")
-        sa.put(2, "B")
+        for (i in 0..10) {
+            sa.put(i, 'A' + i)
+        }
+
         Log.e("sparseArray", sa.toString())
+        Log.e("sparseArray", sa.indexOfKey(1).toString())
+        Log.e("sparseArray", sa.indexOfValue('K').toString())
+
+        reflectValue(sa)
+    }
+
+    private fun reflectValue(sa: SparseArray<Char>) {
+        try {
+            val array = ReflectUtil.getFiled(sa, "mKeys")
+            if (array is IntArray) {
+                Log.e("sparseArray", Arrays.toString(array))
+            }
+
+            Log.e("sparseArray", "========================")
+
+            val values = ReflectUtil.getFiled(sa, "mValues")
+            val list = values as Array<*>
+            Log.e("sparseArray", list.contentToString())
+        } catch (e: Exception) {
+            Log.e("sparseArray", e.message ?: "")
+        }
+
     }
 
 
