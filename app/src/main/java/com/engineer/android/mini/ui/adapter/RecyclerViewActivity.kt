@@ -37,8 +37,8 @@ class RecyclerViewActivity : BaseActivity() {
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = adapter
 
-        val linearSnapHelper = LinearSnapHelper()
-        linearSnapHelper.attachToRecyclerView(recyclerView)
+//        val linearSnapHelper = LinearSnapHelper()
+//        linearSnapHelper.attachToRecyclerView(recyclerView)
 
 //        val pagerSnapHelper = PagerSnapHelper()
 //        pagerSnapHelper.attachToRecyclerView(recyclerView)
@@ -145,7 +145,7 @@ class RecyclerViewActivity : BaseActivity() {
                 "BindHolder",
                 "onBindViewHolder() called with: holder = $holder, position = $position"
             )
-            holder.title.text = holder.hashCode().toString()
+            holder.title.text = ('A'+ position).toString()
             holder.index.text = datas[position]
         }
 
@@ -156,7 +156,10 @@ class RecyclerViewActivity : BaseActivity() {
 
         override fun onViewRecycled(holder: MyHolder) {
             super.onViewRecycled(holder)
-            Log.d("onViewRecycled", "onViewRecycled() called with: holder = $holder")
+            val view = holder.itemView.findViewById<TextView>(R.id.title_tv)
+            val s = view.text.toString()
+            Log.d("onViewRecycled", "onViewRecycled() called with: holder = $holder , s=$s")
+
         }
 
         override fun onViewAttachedToWindow(holder: MyHolder) {
