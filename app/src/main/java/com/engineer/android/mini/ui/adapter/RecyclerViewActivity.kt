@@ -1,5 +1,7 @@
 package com.engineer.android.mini.ui.adapter
 
+import android.content.Context
+import android.graphics.*
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.*
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityRecyclerViewBinding
+import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import java.util.concurrent.atomic.AtomicInteger
@@ -24,7 +27,7 @@ class RecyclerViewActivity : BaseActivity() {
         list
     }
 
-    private lateinit var viewBinding:ActivityRecyclerViewBinding
+    private lateinit var viewBinding: ActivityRecyclerViewBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +36,8 @@ class RecyclerViewActivity : BaseActivity() {
         recyclerView = findViewById(R.id.recycler_view)
         val adapter = MyAdapter(datas)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.addItemDecoration(DividerItemDecoration(this, RecyclerView.VERTICAL))
+        recyclerView.addItemDecoration(MyDecoration(this))
+//        recyclerView.addItemDecoration(DividerItemDecoration(this, RecyclerView.VERTICAL))
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = adapter
 
@@ -145,7 +149,7 @@ class RecyclerViewActivity : BaseActivity() {
                 "BindHolder",
                 "onBindViewHolder() called with: holder = $holder, position = $position"
             )
-            holder.title.text = ('A'+ position).toString()
+            holder.title.text = ('A' + position).toString()
             holder.index.text = datas[position]
         }
 
@@ -170,6 +174,63 @@ class RecyclerViewActivity : BaseActivity() {
         override fun onViewDetachedFromWindow(holder: MyHolder) {
             super.onViewDetachedFromWindow(holder)
             Log.e("ach", "onViewDetachedFromWindow() called with: holder = $holder")
+        }
+    }
+}
+
+class MyDecoration(context: Context) : RecyclerView.ItemDecoration() {
+
+    private var decorationHeight = 0
+    private var paint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private var bitmapTag: Bitmap = BitmapFactory.decodeResource(
+        context.resources,
+        R.drawable.phone
+    )
+
+    init {
+        paint.color = Color.RED
+    }
+
+
+    override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+        super.onDrawOver(c, parent, state)
+        val childCount = parent.childCount
+        for (i in 0 until childCount) {
+            val child = parent.getChildAt(i)
+            val top = child.top + child.height / 2f
+            val left = child.width / 2f
+            c.drawBitmap(bitmapTag, left, top, paint)
+        }
+    }
+
+    override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+        super.onDraw(c, parent, state)
+        val childCount = parent.childCount
+        for (i in 0 until childCount) {
+            val child = parent.getChildAt(i)
+            val index = parent.getChildAdapterPosition(child)
+            if (index == 0) {
+                continue
+            }
+            val top = child.top - decorationHeight
+            val left = parent.paddingLeft
+            val bottom = child.top
+            val right = parent.width - parent.paddingRight
+            val rect = Rect(left, top, right, bottom)
+            c.drawRect(rect, paint)
+        }
+    }
+
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
+        super.getItemOffsets(outRect, view, parent, state)
+        if (parent.getChildAdapterPosition(view) != 0) {
+            outRect.top = 5.dp
+            decorationHeight = 5.dp
         }
     }
 }

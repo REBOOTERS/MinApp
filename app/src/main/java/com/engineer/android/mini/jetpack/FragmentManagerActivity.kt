@@ -11,10 +11,6 @@ import kotlinx.coroutines.*
 
 class FragmentManagerActivity : BaseActivity() {
 
-//    private val fooFragment: FooFragment by lazy {
-//        FooFragment.newInstance("Foo", "Foo1")
-//    }
-
     private lateinit var viewBinding: ActivityJetpackBinding
 
     private lateinit var fooFragment: FooFragment
