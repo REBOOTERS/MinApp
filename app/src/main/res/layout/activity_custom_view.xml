@@ -139,24 +139,31 @@
                     android:src="@drawable/android" />
             </LinearLayout>
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@color/black_overlay">
+
+                <ImageView
+                    android:id="@+id/fake"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/avatar"
+                    android:visibility="invisible"
+                    tools:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/real"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:src="@drawable/android" />
+            </FrameLayout>
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-
-    <ImageView
-        android:id="@+id/fake"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/avatar"
-        android:visibility="invisible" />
-
-    <ImageView
-        android:id="@+id/real"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:src="@drawable/android" />
 
 
 </FrameLayout>

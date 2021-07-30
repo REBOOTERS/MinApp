@@ -3,6 +3,7 @@ package com.engineer.android.mini.ui.pure
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.NinePatchDrawable
 import android.os.Bundle
 import android.text.Editable
@@ -77,6 +78,7 @@ constructor(
                 MeasureSpec.toString(heightMeasureSpec)
             }"
         )
+        Log.e("SimpleViewOne", "===============")
         setMeasuredDimension(rW, rH)
 //        setMeasuredDimension(widthMeasureSpec,heightMeasureSpec)
     }
@@ -87,24 +89,63 @@ class SquareImageView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null, style: Int = 0
 ) : AppCompatImageView(context, attributeSet, style) {
 
+
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        Log.d(
+        Log.e(
             "SquareImageView",
             "onMeasure() called with: widthMeasureSpec = $widthMeasureSpec, heightMeasureSpec = $heightMeasureSpec"
         )
-        Log.e("SquareImageView", "w = ${MeasureSpec.toString(widthMeasureSpec)}")
-        Log.e("SquareImageView", "h = ${MeasureSpec.toString(heightMeasureSpec)}")
+        if (drawable != null) {
+
+            Log.e("SquareImageView", "drawable =${drawable.javaClass.name}")
+            Log.e("SquareImageView", "drawable =${drawable.bounds}")
+        }
+
+        Log.e("SquareImageView", "widthMeasureSpec  = ${MeasureSpec.toString(widthMeasureSpec)}")
+        Log.e("SquareImageView", "heightMeasureSpec = ${MeasureSpec.toString(heightMeasureSpec)}")
 
         var w = measuredWidth
         var h = measuredHeight
 
-        if (w > h) {
-            h = w
-        } else {
-            w = h
+        Log.e("SquareImageView", "w = $w")
+        Log.e("SquareImageView", "h = $h")
+
+
+        val modeW = MeasureSpec.getMode(widthMeasureSpec)
+        val modeH = MeasureSpec.getMode(heightMeasureSpec)
+        var sizeW = MeasureSpec.getSize(widthMeasureSpec)
+        var sizeH = MeasureSpec.getSize(heightMeasureSpec)
+
+        Log.e(
+            "SquareImageView",
+            "screenW = ${screenWidth} 10dp=${10.dp},modeW=$modeW,sizeW=$sizeW,modeH=$modeH,sizeH=$sizeH"
+        )
+
+
+//
+//        if (modeW != MeasureSpec.EXACTLY) {
+//            sizeW = 100.dp
+//        }
+//        if (modeH != MeasureSpec.EXACTLY) {
+//            sizeH = 100.dp
+//        }
+        var size = 100.dp
+        if (drawable != null) {
+            size = drawable.bounds.right.coerceAtMost(drawable.bounds.bottom)
         }
-        setMeasuredDimension(w, h)
+
+        sizeW = resolveSize(size, widthMeasureSpec)
+        sizeH = resolveSize(size, heightMeasureSpec)
+
+//        if (sizeW > sizeH) {
+//            sizeH = sizeW
+//        } else {
+//            sizeW = sizeH
+//        }
+        setMeasuredDimension(sizeW, sizeH)
+        Log.e("SquareImageView", "===============")
     }
 }
 
@@ -194,14 +235,14 @@ class CustomViewActivity : BaseActivity() {
         private var maybeLeakView: View? = null
     }
 
-    private lateinit var viewBinding : ActivityCustomViewBinding
+    private lateinit var viewBinding: ActivityCustomViewBinding
 
     private val list = ArrayList<View>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityCustomViewBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_custom_view)
+        setContentView(viewBinding.root)
         maybeLeakView = viewBinding.simpleView
         viewBinding.simpleView.setOnClickListener {
             for (i in 0..10000) {
