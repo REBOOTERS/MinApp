@@ -5,6 +5,7 @@ import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.NinePatchDrawable
+import android.icu.text.DisplayContext
 import android.os.Bundle
 import android.text.Editable
 import android.util.AttributeSet
@@ -89,7 +90,24 @@ class SquareImageView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null, style: Int = 0
 ) : AppCompatImageView(context, attributeSet, style) {
 
+    private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
+    init {
+        paint.color = Color.WHITE
+        paint.textSize = 10.sp
+    }
+
+    private var textContent =""
+
+    fun setTextContext(content:String) {
+        textContent = content
+        invalidate()
+    }
+
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
+        canvas?.drawText(textContent, 0f, 20f, paint)
+    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -106,44 +124,18 @@ class SquareImageView @JvmOverloads constructor(
         Log.e("SquareImageView", "widthMeasureSpec  = ${MeasureSpec.toString(widthMeasureSpec)}")
         Log.e("SquareImageView", "heightMeasureSpec = ${MeasureSpec.toString(heightMeasureSpec)}")
 
-        var w = measuredWidth
-        var h = measuredHeight
-
-        Log.e("SquareImageView", "w = $w")
-        Log.e("SquareImageView", "h = $h")
+        Log.e("SquareImageView", "w = $measuredWidth")
+        Log.e("SquareImageView", "h = $measuredHeight")
 
 
-        val modeW = MeasureSpec.getMode(widthMeasureSpec)
-        val modeH = MeasureSpec.getMode(heightMeasureSpec)
-        var sizeW = MeasureSpec.getSize(widthMeasureSpec)
-        var sizeH = MeasureSpec.getSize(heightMeasureSpec)
-
-        Log.e(
-            "SquareImageView",
-            "screenW = ${screenWidth} 10dp=${10.dp},modeW=$modeW,sizeW=$sizeW,modeH=$modeH,sizeH=$sizeH"
-        )
-
-
-//
-//        if (modeW != MeasureSpec.EXACTLY) {
-//            sizeW = 100.dp
-//        }
-//        if (modeH != MeasureSpec.EXACTLY) {
-//            sizeH = 100.dp
-//        }
         var size = 100.dp
         if (drawable != null) {
             size = drawable.bounds.right.coerceAtMost(drawable.bounds.bottom)
         }
 
-        sizeW = resolveSize(size, widthMeasureSpec)
-        sizeH = resolveSize(size, heightMeasureSpec)
+        val sizeW = resolveSize(size, widthMeasureSpec)
+        val sizeH = resolveSize(size, heightMeasureSpec)
 
-//        if (sizeW > sizeH) {
-//            sizeH = sizeW
-//        } else {
-//            sizeW = sizeH
-//        }
         setMeasuredDimension(sizeW, sizeH)
         Log.e("SquareImageView", "===============")
     }
@@ -251,10 +243,11 @@ class CustomViewActivity : BaseActivity() {
             list.size.toString().toast()
         }
         viewBinding.squareIv.setOnClickListener {
-            val resId = ImagePool.images.random()
+            val resId = ImagePool.next()
             val resStr = resources.getResourceName(resId)
             "$resId show $resStr".toast()
             viewBinding.squareIv.setImageResource(resId)
+            viewBinding.squareIv.setTextContext(resStr)
         }
 
         KeyBoardUtil.checkVisible(viewBinding.et) {

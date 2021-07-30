@@ -64,5 +64,12 @@ class MinApp : Application() {
         map.keys.forEach {
             Log.e(MINI, "key=$it,value=${lruCache[it]}")
         }
+
+        val range = 0..10
+        Log.d("what", range.javaClass.name)
+        val range1 = 0 until 10
+        Log.d("what", range1.javaClass.name)
+
+
     }
 }

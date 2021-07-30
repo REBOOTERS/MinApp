@@ -13,3 +13,5 @@ fun Int?.toast() {
 val Number.dp get():Int = (this.toInt() * (Resources.getSystem().displayMetrics.density)).toInt()
 
 val Number.px get():Int = (this.toInt() / (Resources.getSystem().displayMetrics.density)).toInt()
+
+val Number.sp get() = (toFloat() * Resources.getSystem().displayMetrics.scaledDensity)

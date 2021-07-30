@@ -8,9 +8,18 @@ import com.engineer.android.mini.R
  */
 class ImagePool {
     companion object {
+        var index = 0
+
         val images = arrayOf(
             R.drawable.android, R.drawable.android_bot, R.drawable.avatar,
-            R.drawable.bot, R.drawable.phone
+            R.drawable.bot, R.drawable.phone, R.drawable.cute, R.drawable.wall,
+            R.drawable.spring
         )
+
+        fun next(): Int {
+            val i = index % images.size
+            index++
+            return images[i]
+        }
     }
 }
