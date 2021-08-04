@@ -84,6 +84,9 @@ class PureUIActivity : BaseActivity() {
         realBinding.layoutAc.setOnClickListener {
             gotoPage(LayoutActivity::class.java)
         }
+        realBinding.layoutWrapContent.setOnClickListener {
+            gotoPage(WrapContentActivity::class.java)
+        }
 
         viewBinding.includeActivityMainContent.customView.setOnClickListener {
             gotoPage(
