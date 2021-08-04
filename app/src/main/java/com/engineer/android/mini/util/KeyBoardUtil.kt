@@ -26,7 +26,6 @@ object KeyBoardUtil {
             } else {
                 callback?.invoke(false)
             }
-            //                view.viewTreeObserver.removeOnGlobalLayoutListener(this)
         }
         view.viewTreeObserver.addOnGlobalLayoutListener(listener)
     }

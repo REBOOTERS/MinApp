@@ -26,7 +26,7 @@ class LayoutActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityLayoutBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_layout)
+        setContentView(viewBinding.root)
 
 
         addViewToWindow()
@@ -183,8 +183,8 @@ class EmptyActivity : BaseActivity() {
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-//        tv.layoutParams = params
-//        setContentView(tv)
+        tv.layoutParams = params
+        setContentView(tv)
 
         Choreographer.getInstance().postFrameCallback {}
         Choreographer.getInstance().removeFrameCallback { }

@@ -12,6 +12,12 @@ import android.provider.MediaStore
  * @author rookie
  */
 object SystemTools {
+
+    fun printMethodTrace(tag: String) {
+        val trace = Exception(tag)
+        trace.printStackTrace()
+    }
+
     fun getImageFilePathFromUri(context: Context, uri: Uri?): String? {
         if (null == uri) return null
         val scheme: String? = uri.scheme

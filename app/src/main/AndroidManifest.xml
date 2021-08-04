@@ -53,6 +53,7 @@
             android:exported="true" />
         <activity
             android:name=".ui.pure.EmptyActivity"
+            android:exported="true"
             android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar" />
         <activity
             android:name=".net.RxCacheActivity"

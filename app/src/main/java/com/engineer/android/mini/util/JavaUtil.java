@@ -14,4 +14,13 @@ public class JavaUtil {
         spannableString.setSpan(leadingMarginSpan, 0, description.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         return spannableString;
     }
+
+
+    public <T extends String> String test(T input) {
+        String aaa = "abcdefg";
+        String sub = "ace";
+        int a = aaa.indexOf(sub);
+        T  subStr = (T) input.substring(3);
+        return subStr;
+    }
 }

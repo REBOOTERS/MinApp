@@ -26,6 +26,7 @@ import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.pure.helper.MeasureSpec
 import com.engineer.android.mini.util.ImagePool
 import com.engineer.android.mini.util.KeyBoardUtil
+import com.engineer.android.mini.util.SystemTools
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.internal.TextWatcherAdapter
 import kotlin.random.Random
@@ -82,6 +83,7 @@ constructor(
         Log.e("SimpleViewOne", "===============")
         setMeasuredDimension(rW, rH)
 //        setMeasuredDimension(widthMeasureSpec,heightMeasureSpec)
+        SystemTools.printMethodTrace("SimpleViewOne")
     }
 }
 
@@ -346,11 +348,13 @@ class WrapContentActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         Log.d("LogLinearLayout", "onResume() called")
+        SystemTools.printMethodTrace("onResume")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wrap_content)
+        SystemTools.printMethodTrace("onCreate")
         Log.e("LogLinearLayout", "onCreate() called with: savedInstanceState = $savedInstanceState")
 
         Log.e("displayMetrics", "density       = ${Resources.getSystem().displayMetrics.density}")
