@@ -29,6 +29,7 @@ import com.engineer.android.mini.util.KeyBoardUtil
 import com.engineer.android.mini.util.SystemTools
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.internal.TextWatcherAdapter
+import java.lang.StringBuilder
 import kotlin.random.Random
 
 
@@ -42,7 +43,7 @@ constructor(
     AttributeSet? = null, style: Int = 0
 ) : View(context, attributeSet, style) {
 
-    val paint: Paint = Paint()
+    private val paint: Paint = Paint()
 
     init {
         paint.isAntiAlias = true
@@ -58,7 +59,6 @@ constructor(
             it.drawColor(Color.CYAN)
             it.drawCircle(width / 2.0f, height / 2.0f, 100f, paint)
         }
-        val ss = String()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -99,9 +99,9 @@ class SquareImageView @JvmOverloads constructor(
         paint.textSize = 10.sp
     }
 
-    private var textContent =""
+    private var textContent = ""
 
-    fun setTextContext(content:String) {
+    fun setTextContext(content: String) {
         textContent = content
         invalidate()
     }
@@ -349,6 +349,35 @@ class WrapContentActivity : BaseActivity() {
         super.onResume()
         Log.d("LogLinearLayout", "onResume() called")
         SystemTools.printMethodTrace("onResume")
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            traversalPrintViewTree(window.decorView)
+        }
+    }
+
+    private fun traversalPrintViewTree(view: View?, space: Int = 0) {
+        if (view == null) {
+            return
+        }
+        val sb = StringBuilder()
+        sb.append("|")
+        repeat(space) {
+            sb.append("__")
+        }
+        sb.append(
+            " ${view.javaClass.name} w:${view.width} h:${view.height} left:${view.left}," +
+                    "top:${view.top},right:${view.right},bottom:${view.bottom}"
+        )
+        Log.e("ViewTree", sb.toString())
+        if (view is ViewGroup) {
+            val step = space + 1
+            for (i in 0 until view.childCount) {
+                traversalPrintViewTree(view.getChildAt(i), step)
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
