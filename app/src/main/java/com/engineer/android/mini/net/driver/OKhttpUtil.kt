@@ -50,9 +50,12 @@ object OKhttpUtil {
             }
         })
     }
-    
+
     fun syncCall() {
-        val response = call.execute()
-        println("response == $response")
+        kotlin.runCatching {
+            val response = call.execute()
+            println("response == $response")
+        }.onFailure { println("fail") }
+            .onSuccess { println("success") }
     }
 }

@@ -2,33 +2,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#8BC34A"
     android:orientation="vertical"
+    android:padding="30dp"
     tools:context=".ui.pure.WrapContentActivity">
+
+    <View
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DD8E88" />
 
     <com.engineer.android.mini.ui.pure.SimpleViewOne
         android:id="@+id/one_list"
-        android:layout_width="102dp"
-        android:layout_height="102dp" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible" />
 
 
-        <com.engineer.android.mini.ui.pure.FirstViewGroup
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="match_parent">
+    <com.engineer.android.mini.ui.pure.FirstViewGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
-            <ImageView
-                android:scaleType="fitXY"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/avatar" />
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/avatar" />
 
-            <ImageView
-                android:scaleType="fitXY"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/phone" />
-        </com.engineer.android.mini.ui.pure.FirstViewGroup>
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/phone" />
+    </com.engineer.android.mini.ui.pure.FirstViewGroup>
 </LinearLayout>

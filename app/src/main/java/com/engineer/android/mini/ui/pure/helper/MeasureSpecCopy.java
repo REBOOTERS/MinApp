@@ -5,7 +5,7 @@ import androidx.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-public class MeasureSpec {
+public class MeasureSpecCopy {
     private static final int MODE_SHIFT = 30;
     private static final int MODE_MASK = 0x3 << MODE_SHIFT;
 

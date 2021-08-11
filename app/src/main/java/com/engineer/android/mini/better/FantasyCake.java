@@ -59,4 +59,8 @@ public class FantasyCake {
 
         return base;
     }
+
+    public static void main(String[] args) {
+        System.out.println("main");
+    }
 }

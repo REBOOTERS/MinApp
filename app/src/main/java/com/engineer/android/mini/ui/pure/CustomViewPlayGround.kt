@@ -3,9 +3,7 @@ package com.engineer.android.mini.ui.pure
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.NinePatchDrawable
-import android.icu.text.DisplayContext
 import android.os.Bundle
 import android.text.Editable
 import android.util.AttributeSet
@@ -17,13 +15,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.Lifecycle
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityCustomViewBinding
 import com.engineer.android.mini.ext.*
 import com.engineer.android.mini.ui.BaseActivity
-import com.engineer.android.mini.ui.pure.helper.MeasureSpec
+import com.engineer.android.mini.ui.pure.helper.MeasureSpecCopy
 import com.engineer.android.mini.util.ImagePool
 import com.engineer.android.mini.util.KeyBoardUtil
 import com.engineer.android.mini.util.SystemTools
@@ -69,11 +65,20 @@ constructor(
                 MeasureSpec.toString(heightMeasureSpec)
             }"
         )
+        val wMode = MeasureSpec.getMode(widthMeasureSpec)
+        var wSize = MeasureSpec.getMode(widthMeasureSpec)
+        val hMode = MeasureSpec.getMode(heightMeasureSpec)
+        var hSize = MeasureSpec.getSize(heightMeasureSpec)
 
-        val w = 210
-        val h = 210
-        val rW = resolveSize(w, widthMeasureSpec)
-        val rH = resolveSize(h, heightMeasureSpec)
+        if (wMode != MeasureSpec.EXACTLY) {
+            wSize = resolveSize(210, widthMeasureSpec)
+        }
+
+        if (hMode != MeasureSpec.EXACTLY) {
+            hSize = resolveSize(210, heightMeasureSpec)
+        }
+
+
         Log.e(
             "SimpleViewOne",
             "w1 = ${MeasureSpec.toString(widthMeasureSpec)},h1 = ${
@@ -81,7 +86,7 @@ constructor(
             }"
         )
         Log.e("SimpleViewOne", "===============")
-        setMeasuredDimension(rW, rH)
+        setMeasuredDimension(wSize, hSize)
 //        setMeasuredDimension(widthMeasureSpec,heightMeasureSpec)
         SystemTools.printMethodTrace("SimpleViewOne")
     }
@@ -283,7 +288,7 @@ class CustomViewActivity : BaseActivity() {
 
         setupFlexBox()
 
-        MeasureSpec.print()
+        MeasureSpecCopy.print()
 
         var done = false
         viewBinding.real.setOnClickListener {
