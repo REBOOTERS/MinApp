@@ -50,10 +50,12 @@ constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+        Log.d("whywhy", "onDraw() called with: canvas = $canvas ,w=$width,h=$height")
         canvas?.let {
 //            canvas.translate(width / 2.0f, height / 2.0f)
             it.drawColor(Color.CYAN)
-            it.drawCircle(width / 2.0f, height / 2.0f, 100f, paint)
+            val radius = width.coerceAtMost(height) / 2f - 5.dp
+            it.drawCircle(width / 2.0f, height / 2.0f, radius, paint)
         }
     }
 
@@ -66,7 +68,7 @@ constructor(
             }"
         )
         val wMode = MeasureSpec.getMode(widthMeasureSpec)
-        var wSize = MeasureSpec.getMode(widthMeasureSpec)
+        var wSize = MeasureSpec.getSize(widthMeasureSpec)
         val hMode = MeasureSpec.getMode(heightMeasureSpec)
         var hSize = MeasureSpec.getSize(heightMeasureSpec)
 
@@ -209,6 +211,7 @@ class FirstViewGroup @JvmOverloads constructor(
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        hackInfo()
         Log.e(
             "FirstViewGroup",
             "onLayout() called with: changed = $changed, l = $l, t = $t, r = $r, b = $b"
@@ -222,6 +225,26 @@ class FirstViewGroup @JvmOverloads constructor(
             )
             child.layout(l, i * child.measuredWidth, r, t + (i) * child.measuredWidth)
         }
+    }
+
+    private fun hackInfo(): Pair<Int, Int> {
+        var w = 0
+        var h = 0
+        try {
+            val clazz = this.javaClass
+            val getViewRootImpl = clazz.getMethod("getViewRootImpl")
+            val result = getViewRootImpl.invoke(parent.parent)
+            val mWidth = result.javaClass.getDeclaredField("mWidth")
+            val mHeight = result.javaClass.getDeclaredField("mHeight")
+            mWidth.isAccessible = true
+            mHeight.isAccessible = true
+            w = mWidth.get(result) as Int
+            h = mHeight.get(result) as Int
+
+            Log.e("hackInfo", "w=$w,h=$h")
+        } catch (e: Exception) {
+        }
+        return Pair(w, h)
     }
 
 }
@@ -385,9 +408,12 @@ class WrapContentActivity : BaseActivity() {
         }
     }
 
+    private lateinit var simpleViewOne: SimpleViewOne
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wrap_content)
+        simpleViewOne = findViewById(R.id.one_list)
         SystemTools.printMethodTrace("onCreate")
         Log.e("LogLinearLayout", "onCreate() called with: savedInstanceState = $savedInstanceState")
 
@@ -412,7 +438,7 @@ class WrapContentActivity : BaseActivity() {
         )
         Log.e("displayMetrics", "displayMetrics= ${Resources.getSystem().displayMetrics}")
 
-        Log.e("SimpleViewOne", "screenW = ${screenWidth}, screenH = $screenHeight")
-        Log.e("SimpleViewOne", "screenW = ${screenWidth.px}, screenH = ${screenHeight.px}")
+        Log.e("displayMetrics", "screenW = ${screenWidth}, screenH = $screenHeight")
+        Log.e("displayMetrics", "screenW = ${screenWidth.px}, screenH = ${screenHeight.px}")
     }
 }
