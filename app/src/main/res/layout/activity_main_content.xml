@@ -17,6 +17,31 @@
         android:src="@drawable/android"
         app:shapeAppearance="@style/StyleShapeAppearanceImage" />
 
+    <TextView
+        android:id="@+id/ann_text"
+        android:layout_width="312dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/middle_chinese_content"
+        android:textColor="#fff"
+        android:textSize="12sp" />
+
+    <com.engineer.android.mini.ui.widget.MarqueeTextView
+        android:id="@+id/marquee_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:gravity="center"
+        android:marqueeRepeatLimit="1"
+        android:singleLine="true"
+        android:text="@string/middle_chinese_content"
+        android:textColor="#fff" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/current_theme"
         style="@style/mw_10_margin"

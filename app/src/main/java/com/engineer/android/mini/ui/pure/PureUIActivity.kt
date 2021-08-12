@@ -42,6 +42,8 @@ class PureUIActivity : BaseActivity() {
     private lateinit var viewBinding: ActivityPureUiBinding
     private lateinit var realBinding: ActivityMainContentBinding
 
+    private var animator : ValueAnimator? = null
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +53,21 @@ class PureUIActivity : BaseActivity() {
         setUpUi()
 
         TransitionManager.beginDelayedTransition(realBinding.rootContent)
+
+
+        animator = ValueAnimator.ofInt(0, 1000).setDuration(4000)
+        animator?.addUpdateListener {
+            val value = it.animatedValue as Int
+            realBinding.annText.scrollBy(1, 0)
+            Log.e("ddd", "x = ${realBinding.annText.scrollX} , value = $value")
+        }
+        animator?.start()
+
+
+
+
+
+        realBinding.marqueeTv.isMarqueeEnable = true
 
         viewBinding.includeActivityMainContent.imageView.post {
             Log.e(TAG, "view.post: " + viewBinding.includeActivityMainContent.imageView.width)
@@ -254,6 +271,11 @@ class PureUIActivity : BaseActivity() {
                 "夜间模式 Off".toast()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        animator?.cancel()
     }
 }
 
