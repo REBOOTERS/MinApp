@@ -29,6 +29,11 @@
         android:textColor="#fff"
         android:textSize="12sp" />
 
+    <com.engineer.android.mini.ui.widget.MarqueeView
+        android:id="@+id/marquee_view"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"/>
+
     <com.engineer.android.mini.ui.widget.MarqueeTextView
         android:id="@+id/marquee_tv"
         android:layout_width="wrap_content"

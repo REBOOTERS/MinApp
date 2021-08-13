@@ -201,12 +201,16 @@ class FirstViewGroup @JvmOverloads constructor(
             "FirstViewGroup",
             "w = ${MeasureSpec.toString(widthMeasureSpec)},h = ${
                 MeasureSpec.toString(heightMeasureSpec)
-            }"
+            }，childCount= $childCount"
         )
-        Log.e("FirstViewGroup", "childCount= $childCount")
+
         for (i in 0 until childCount) {
             val child = getChildAt(i)
             child.measure(widthMeasureSpec, heightMeasureSpec)
+            Log.e(
+                "FirstViewGroup",
+                "onMeasure() called with: widthMeasureSpec = $widthMeasureSpec, heightMeasureSpec = $heightMeasureSpec"
+            )
         }
     }
 
@@ -221,7 +225,7 @@ class FirstViewGroup @JvmOverloads constructor(
             val child = getChildAt(i)
             Log.e(
                 "FirstViewGroup",
-                "onLayout: child[$i] w=${child.measuredWidth},h=${child.measuredHeight}"
+                "onLayout: i = $i child[$i] w=${child.measuredWidth},h=${child.measuredHeight}"
             )
             child.layout(l, i * child.measuredWidth, r, t + (i) * child.measuredWidth)
         }

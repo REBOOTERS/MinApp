@@ -58,13 +58,16 @@ class PureUIActivity : BaseActivity() {
         animator = ValueAnimator.ofInt(0, 1000).setDuration(4000)
         animator?.addUpdateListener {
             val value = it.animatedValue as Int
-            realBinding.annText.scrollBy(1, 0)
+            realBinding.annText.scrollBy(1,0)
+            realBinding.annText.text = "春秋战国时期会出现百家争鸣现象的原因是什么？春秋战国时期会出现百家争鸣现象的原因是什么？"
+//            realBinding.annText.requestLayout()
+//            realBinding.annText.invalidate()
             Log.e("ddd", "x = ${realBinding.annText.scrollX} , value = $value")
         }
         animator?.start()
 
 
-
+        realBinding.marqueeView.setContent(getString(R.string.middle_chinese_content))
 
 
         realBinding.marqueeTv.isMarqueeEnable = true
