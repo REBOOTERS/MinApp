@@ -7,19 +7,90 @@
     android:background="#C4E1A3"
     android:orientation="vertical"
     android:padding="30dp"
-    tools:context=".ui.pure.WrapContentActivity">
+    tools:context=".ui.pure.WrapContentActivity"
+    tools:ignore="HardcodedText">
 
     <com.engineer.android.mini.ui.pure.SimpleViewOne
         android:id="@+id/one_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible" />
+        android:visibility="gone" />
+
+    <com.engineer.android.mini.ui.pure.MyFlowLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#9568E8">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="113331" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="124343431" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="113331" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="124343431" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="113331" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="124343431" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="1333351" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="1333351" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="1333351" />
+
+    </com.engineer.android.mini.ui.pure.MyFlowLayout>
 
 
     <com.engineer.android.mini.ui.pure.FirstViewGroup
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="invisible">
 
         <ImageView
             android:layout_width="100dp"

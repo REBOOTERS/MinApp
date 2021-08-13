@@ -9,6 +9,7 @@ import android.text.Editable
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.view.View.MeasureSpec
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -251,6 +252,74 @@ class FirstViewGroup @JvmOverloads constructor(
         return Pair(w, h)
     }
 
+}
+
+class MyFlowLayout @JvmOverloads
+constructor(context: Context, attributeSet: AttributeSet? = null, style: Int = 0) :
+    ViewGroup(context, attributeSet, style) {
+
+
+    override fun generateLayoutParams(p: LayoutParams?): LayoutParams {
+        super.generateLayoutParams(p)
+        return MarginLayoutParams(p)
+    }
+
+    override fun generateLayoutParams(attrs: AttributeSet?): LayoutParams {
+        return MarginLayoutParams(context, attrs)
+    }
+
+    override fun generateDefaultLayoutParams(): LayoutParams {
+        return MarginLayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+
+        //获得宽高的测量模式和测量值
+        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
+        var widthSize = MeasureSpec.getSize(widthMeasureSpec)
+        var heightSize = MeasureSpec.getSize(heightMeasureSpec)
+        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
+
+        var perLineWidth = 0 // 每一行总宽度
+        var perLineMaxH = 0 // 每一行最多高度
+        var maxH = 0 // 当前 ViewGroup 总高度
+
+        for (i in 0 until childCount) {
+            val childView: View = getChildAt(i)
+
+            measureChild(childView, widthMeasureSpec, heightMeasureSpec)
+            val marginLp = childView.layoutParams as MarginLayoutParams
+            val childWidth = childView.measuredWidth + marginLp.leftMargin + marginLp.rightMargin;
+            val childHeight = childView.measuredHeight + marginLp.topMargin + marginLp.bottomMargin
+
+            // 需要换行
+            if (perLineWidth + childWidth > widthSize) {
+                // 高度累加
+                maxH += perLineMaxH
+                // 开始新的一行
+                perLineWidth = childWidth
+                perLineMaxH = childHeight
+            } else { // 不需要换行
+                // 行宽度累加
+                perLineWidth += childWidth
+                // 当前行最大高度
+                perLineMaxH = Math.max(perLineMaxH, childHeight)
+            }
+            //当该View已是最后一个View时，将该行最大高度添加到totalHeight中
+            if (i == childCount - 1) {
+                maxH += perLineMaxH
+            }
+        }
+        if (heightMode != MeasureSpec.EXACTLY) {
+            heightSize = maxH
+        }
+        setMeasuredDimension(widthSize, heightSize)
+    }
+
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+
+    }
 }
 
 
