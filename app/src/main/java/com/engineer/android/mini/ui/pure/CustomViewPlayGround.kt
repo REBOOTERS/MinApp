@@ -314,11 +314,78 @@ constructor(context: Context, attributeSet: AttributeSet? = null, style: Int = 0
         if (heightMode != MeasureSpec.EXACTLY) {
             heightSize = maxH
         }
+        Log.e(
+            "MyFlowLayout",
+            "onMeasure() called with: w=$widthSize,h=$heightSize"
+        )
         setMeasuredDimension(widthSize, heightSize)
     }
 
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+    //存放容器中所有的View
+    private val mAllViews: ArrayList<List<View>> = ArrayList()
 
+    //存放每一行最高View的高度
+    private val mPerLineMaxHeight: ArrayList<Int> = ArrayList()
+
+    //每一行存放的 view
+    private var mLineViews = ArrayList<View>()
+
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        mAllViews.clear()
+        mPerLineMaxHeight.clear()
+
+        var lineWidth = 0 // 每一行已经占用的宽度
+        var lineMaxH = 0  // 每一行最大的高度
+
+        for (i in 0 until childCount) {
+            Log.e("MyFlowLayout","i=$i")
+            val childView = getChildAt(i)
+            val marginLp = childView.layoutParams as MarginLayoutParams
+            val childWidth = childView.measuredWidth + marginLp.leftMargin + marginLp.rightMargin
+            val childHeight = childView.measuredHeight + marginLp.topMargin + marginLp.bottomMargin
+
+            if(lineWidth + childWidth > width) { // 累计宽度超过一行的宽度
+                // 已累计的一行添加到列表中
+                mAllViews.add(mLineViews)
+                mPerLineMaxHeight.add(lineMaxH)
+                // 重置累计变量
+                lineWidth = 0
+                lineMaxH = 0
+                mLineViews = ArrayList()
+            }
+            // 在同一行中的元素做累计
+            lineWidth += childWidth
+            lineMaxH = lineMaxH.coerceAtLeast(childHeight)
+            mLineViews.add(childView)
+        }
+        // 最后一行特殊处理
+        mAllViews.add(mLineViews)
+        mPerLineMaxHeight.add(lineMaxH)
+        Log.e("MyFlowLayout","allViews ${mAllViews}")
+        Log.e("MyFlowLayout","allHight ${mPerLineMaxHeight.size}")
+        // 遍历集合中的 view
+        var childLeft = 0
+        var childTop = 0
+        for ( i in 0 until mAllViews.size) {
+            val perLineViews = mAllViews[i] // 每一行的所有 views
+            val perLineH = mPerLineMaxHeight[i] // 每一行的最大高度
+            for (j in perLineViews.indices) {
+                val childView = perLineViews[j]
+                if (childView is TextView) {
+                    Log.e("MyFlowLayout","value is ${childView.text}")
+                }
+                val lp = childView.layoutParams as MarginLayoutParams
+                val l = childLeft + lp.leftMargin
+                val t = childTop  + lp.topMargin
+                val r = l + childView.measuredWidth
+                val b = t + childView.measuredHeight
+                Log.e("MyFlowLayout","l=$l,t=$t,r=$r,b=$b")
+                childView.layout(l,t,r,b)
+                childLeft += lp.leftMargin + childView.measuredWidth + lp.rightMargin
+            }
+            childLeft = 0
+            childTop += perLineH
+        }
     }
 }
 
