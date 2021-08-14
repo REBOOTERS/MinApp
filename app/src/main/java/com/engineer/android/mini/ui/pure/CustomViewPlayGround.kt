@@ -190,10 +190,26 @@ class FirstViewGroup @JvmOverloads constructor(
     attributeSet: AttributeSet? = null, style: Int = 0
 ) : ViewGroup(context, attributeSet, style) {
 
+    private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
     init {
         setWillNotDraw(false)
-
+        paint.textSize = 12.sp
+        paint.color = Color.RED
+        paint.textAlign = Paint.Align.CENTER
         Log.e("FirstViewGroup", "parent is $parent")
+    }
+
+    override fun generateLayoutParams(attrs: AttributeSet?): LayoutParams {
+        return MarginLayoutParams(context, attrs)
+    }
+
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
+        canvas?.let {
+            it.drawText("FirstViewGroup", width / 2f, height / 2f, paint)
+            it.drawText("FirstViewGroup", width / 2f, 25f, paint)
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -204,15 +220,24 @@ class FirstViewGroup @JvmOverloads constructor(
                 MeasureSpec.toString(heightMeasureSpec)
             }，childCount= $childCount"
         )
-
+        var selfWidth = 0
+        var selfHeight = 0
         for (i in 0 until childCount) {
             val child = getChildAt(i)
-            child.measure(widthMeasureSpec, heightMeasureSpec)
+            val lp = child.layoutParams as MarginLayoutParams
+            measureChild(child, widthMeasureSpec, heightMeasureSpec)
+            val w = child.measuredWidth
+            val h = child.measuredHeight
             Log.e(
                 "FirstViewGroup",
-                "onMeasure() called with: widthMeasureSpec = $widthMeasureSpec, heightMeasureSpec = $heightMeasureSpec"
+                "onMeasure() called with: w=$w,h=$h"
             )
+            selfWidth = selfWidth.coerceAtLeast(w + lp.leftMargin + lp.rightMargin)
+            selfHeight += h + lp.topMargin + lp.bottomMargin
         }
+        val width = resolveSize(selfWidth, widthMeasureSpec)
+        val height = resolveSize(selfHeight, heightMeasureSpec)
+        setMeasuredDimension(width, height)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
@@ -222,13 +247,22 @@ class FirstViewGroup @JvmOverloads constructor(
             "onLayout() called with: changed = $changed, l = $l, t = $t, r = $r, b = $b"
         )
         val count = childCount
+        var childTop = 0
         for (i in 0 until count) {
             val child = getChildAt(i)
+            val lp = child.layoutParams as MarginLayoutParams
+            val left = lp.leftMargin
+            val top = childTop + lp.topMargin
+            val right = left + child.measuredWidth
+            val bottom = top + child.measuredHeight
             Log.e(
                 "FirstViewGroup",
                 "onLayout: i = $i child[$i] w=${child.measuredWidth},h=${child.measuredHeight}"
             )
-            child.layout(l, i * child.measuredWidth, r, t + (i) * child.measuredWidth)
+
+//            child.layout(0, childTop, child.measuredWidth, childTop + child.measuredHeight)
+            child.layout(left, top, right, bottom)
+            childTop += childTop + child.measuredHeight + lp.topMargin + lp.bottomMargin
         }
     }
 
@@ -338,13 +372,13 @@ constructor(context: Context, attributeSet: AttributeSet? = null, style: Int = 0
         var lineMaxH = 0  // 每一行最大的高度
 
         for (i in 0 until childCount) {
-            Log.e("MyFlowLayout","i=$i")
+            Log.e("MyFlowLayout", "i=$i")
             val childView = getChildAt(i)
             val marginLp = childView.layoutParams as MarginLayoutParams
             val childWidth = childView.measuredWidth + marginLp.leftMargin + marginLp.rightMargin
             val childHeight = childView.measuredHeight + marginLp.topMargin + marginLp.bottomMargin
 
-            if(lineWidth + childWidth > width) { // 累计宽度超过一行的宽度
+            if (lineWidth + childWidth > width) { // 累计宽度超过一行的宽度
                 // 已累计的一行添加到列表中
                 mAllViews.add(mLineViews)
                 mPerLineMaxHeight.add(lineMaxH)
@@ -361,26 +395,26 @@ constructor(context: Context, attributeSet: AttributeSet? = null, style: Int = 0
         // 最后一行特殊处理
         mAllViews.add(mLineViews)
         mPerLineMaxHeight.add(lineMaxH)
-        Log.e("MyFlowLayout","allViews ${mAllViews}")
-        Log.e("MyFlowLayout","allHight ${mPerLineMaxHeight.size}")
+        Log.e("MyFlowLayout", "allViews ${mAllViews}")
+        Log.e("MyFlowLayout", "allHight ${mPerLineMaxHeight.size}")
         // 遍历集合中的 view
         var childLeft = 0
         var childTop = 0
-        for ( i in 0 until mAllViews.size) {
+        for (i in 0 until mAllViews.size) {
             val perLineViews = mAllViews[i] // 每一行的所有 views
             val perLineH = mPerLineMaxHeight[i] // 每一行的最大高度
             for (j in perLineViews.indices) {
                 val childView = perLineViews[j]
                 if (childView is TextView) {
-                    Log.e("MyFlowLayout","value is ${childView.text}")
+                    Log.e("MyFlowLayout", "value is ${childView.text}")
                 }
                 val lp = childView.layoutParams as MarginLayoutParams
                 val l = childLeft + lp.leftMargin
-                val t = childTop  + lp.topMargin
+                val t = childTop + lp.topMargin
                 val r = l + childView.measuredWidth
                 val b = t + childView.measuredHeight
-                Log.e("MyFlowLayout","l=$l,t=$t,r=$r,b=$b")
-                childView.layout(l,t,r,b)
+                Log.e("MyFlowLayout", "l=$l,t=$t,r=$r,b=$b")
+                childView.layout(l, t, r, b)
                 childLeft += lp.leftMargin + childView.measuredWidth + lp.rightMargin
             }
             childLeft = 0

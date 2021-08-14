@@ -14,7 +14,7 @@
         android:id="@+id/one_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <com.engineer.android.mini.ui.pure.MyFlowLayout
         android:layout_width="wrap_content"
@@ -102,17 +102,20 @@
 
 
     <com.engineer.android.mini.ui.pure.FirstViewGroup
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ff0"
+        android:visibility="visible">
 
         <ImageView
+            android:layout_margin="10dp"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:scaleType="fitXY"
             android:src="@drawable/avatar" />
 
         <ImageView
+            android:layout_margin="10dp"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:scaleType="fitXY"
