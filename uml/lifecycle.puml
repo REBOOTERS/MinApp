@@ -1,0 +1,72 @@
+@startuml
+
+
+abstract class Lifecycle {
+    + abstract addObserver(LifecycleObserver observer)
+    + abstract removeObserver(LifecycleObserver observer)
+    + abstract getCurrentState(): State
+}
+
+enum Event {
+        ON_CREATE,
+        ON_START,
+        ON_RESUME,
+        ON_PAUSE,
+        ON_STOP,
+        ON_DESTROY,
+        ON_ANY;
+}
+enum State {
+        DESTROYED,
+        INITIALIZED,
+        CREATED,
+        STARTED,
+        RESUMED;
+}
+
+Lifecycle +-- Event
+Lifecycle +-- State
+
+interface LifecycleOwner {
+    getLifecycle(): Lifecycle
+}
+note left: 我们的 Activity/Fragment 都实现了该接口，\n用以声明它是一个能够提供生命周期事件的宿主。\n同时必须复写getLifecycle()方法提供一个Lifecycle对象
+
+class LifecycleRegistry {
+    + markState(@NonNull State state)
+    - moveToState(State next)
+}
+note left: Lifecycle 的唯一实现类，\n主要用来负责注册 Observer，\n以及分发宿主状态事件给它们
+
+class ObserverWithState {
+    ~ dispatchEvent(LifecycleOwner owner, Event event)
+}
+
+LifecycleRegistry +-- ObserverWithState
+
+Lifecycle <|-- LifecycleRegistry
+
+interface LifecycleObserver {}
+
+interface FullLifecycleObserver {
+   + onCreate(LifecycleOwner owner)
+   + onStart(LifecycleOwner owner)
+   + onResume(LifecycleOwner owner)
+   + onPause(LifecycleOwner owner)
+   + onStop(LifecycleOwner owner)
+   + onDestroy(LifecycleOwner owner)
+}
+
+interface DefaultLifecycleObserver {
+    // FullLifecycleObserver 的 default 版本
+}
+
+interface LifecycleEventObserver {
+    + onStateChanged(LifecycleOwner source, Lifecycle.Event event)
+}
+
+LifecycleObserver <|- FullLifecycleObserver
+FullLifecycleObserver <|- DefaultLifecycleObserver
+LifecycleObserver <|-- LifecycleEventObserver
+
+@enduml

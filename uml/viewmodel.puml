@@ -1,0 +1,75 @@
+@startuml
+'https://plantuml.com/class-diagram
+package Jetpack-ViewModel #ff0{
+
+interface ViewModelStoreOwner {
+    getViewModelStore(): ViewModelStore
+}
+
+interface HasDefaultViewModelProviderFactory {
+    getDefaultViewModelProviderFactory():ViewModelProvider.Factory
+}
+
+interface SavedStateRegistryOwner {
+    getSavedStateRegistry():SavedStateRegistry
+}
+
+class FragmentViewLifecycleOwner {
+}
+class ComponentActivity {}
+class Fragment {
+    ~ FragmentViewLifecycleOwner mViewLifecycleOwner
+}
+
+
+FragmentViewLifecycleOwner ..* Fragment
+ViewModelStoreOwner <|.. FragmentViewLifecycleOwner
+ViewModelStoreOwner <|... ComponentActivity
+HasDefaultViewModelProviderFactory <|.. FragmentViewLifecycleOwner
+SavedStateRegistryOwner <|.. FragmentViewLifecycleOwner
+
+class ViewModelProvider {
+    - Factory mFactory
+    - ViewModelStore mViewModelStore
+
+    ViewModelProvider(ViewModelStoreOwner owner)
+    ViewModelProvider(ViewModelStoreOwner owner, Factory factory)
+    ViewModelProvider(ViewModelStore store, Factory factory)
+
+    get(String key, Class<T> modelClass): <T extends ViewModel> T
+}
+
+interface Factory {
+create(@NonNull Class<T> modelClass): <T extends ViewModel> T
+}
+
+ViewModelProvider +-- Factory
+
+class NewInstanceFactory {
+}
+
+class AndroidViewModelFactory {
+}
+
+Factory <|.. NewInstanceFactory
+NewInstanceFactory <|-- AndroidViewModelFactory
+
+class ViewModelStore {
+    - HashMap<String, ViewModel> mMap
+    ~ void put(String key, ViewModel viewModel)
+    ~ get(String key): ViewModel
+}
+
+ViewModelStore *.. ViewModel
+
+abstract class ViewModel {
+    ~ onCleared()
+}
+
+abstract class AndroidViewModel {
+    - Application mApplication
+}
+
+ViewModel <|-- AndroidViewModel
+}
+@enduml

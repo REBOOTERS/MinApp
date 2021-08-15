@@ -9,7 +9,10 @@ import androidx.lifecycle.*
 //  https://mp.weixin.qq.com/s/SCNWCz9ZEIOwio9v-Tx0fA  lifecycle
 val LIFECYCLE_TAG = "EasyObserver"
 
-class EasyObserver : DefaultLifecycleObserver, LifecycleEventObserver {
+class EasyObserver : LifecycleObserver,DefaultLifecycleObserver, LifecycleEventObserver {
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun foo() {}
 
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)

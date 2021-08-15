@@ -1,0 +1,56 @@
+@startuml
+'https://plantuml.com/class-diagram
+package Jetpack-LiveData #ff0 {
+
+interface Observer<T> {
+    onChanged(T t)
+}
+
+abstract class LiveData<T> {
+    * START_VERSION = -1
+    * Object NOT_SET
+
+    * setValue(T value)
+    * postValue(T value)
+
+    + observe(LifecycleOwner owner, Observer<? super T> observer)
+    * dispatchingValue(@Nullable ObserverWrapper initiator)
+    - considerNotify(ObserverWrapper observer)
+}
+
+abstract class ObserverWrapper {
+    Observer<? super T> mObserver
+    boolean mActive
+    int mLastVersion = START_VERSION
+
+    abstract shouldBeActive():boolean
+    isAttachedTo(LifecycleOwner owner):boolean
+    activeStateChanged(boolean newActive)
+}
+
+class AlwaysActiveObserver {
+    shouldBeActive() = true
+}
+
+interface LifecycleEventObserver {}
+class LifecycleBoundObserver {
+    * LifecycleOwner mOwner
+}
+
+Observer .* LiveData
+LiveData +.. ObserverWrapper
+LiveData +.. AlwaysActiveObserver
+LiveData +.. LifecycleBoundObserver
+
+ObserverWrapper <|.. AlwaysActiveObserver
+ObserverWrapper <|.. LifecycleBoundObserver
+LifecycleEventObserver <|-- LifecycleBoundObserver
+
+class MutableLiveData<T> {
+    + setValue(T value)
+    + postValue(T value)
+}
+
+LiveData <|- MutableLiveData
+}
+@enduml
