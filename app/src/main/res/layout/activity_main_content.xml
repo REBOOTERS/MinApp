@@ -18,34 +18,39 @@
         app:shapeAppearance="@style/StyleShapeAppearanceImage" />
 
     <TextView
-        android:id="@+id/ann_text"
-        android:layout_width="312dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:gravity="center"
-        android:singleLine="true"
-        android:text="@string/middle_chinese_content"
-        android:textColor="#fff"
-        android:textSize="12sp" />
-
-    <com.engineer.android.mini.ui.widget.MarqueeView
-        android:id="@+id/marquee_view"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"/>
-
-    <com.engineer.android.mini.ui.widget.MarqueeTextView
-        android:id="@+id/marquee_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_margin="12dp"
-        android:ellipsize="marquee"
-        android:focusable="true"
-        android:gravity="center"
-        android:marqueeRepeatLimit="1"
+        android:id="@+id/real_marquee"
+        android:text="Single-line text view that scrolls automatically if the text is too long to fit in the widget"
         android:singleLine="true"
-        android:text="@string/middle_chinese_content"
-        android:textColor="#fff" />
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit ="1"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollHorizontally="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <HorizontalScrollView
+        android:layout_margin="12dp"
+        android:scrollbars="none"
+
+        android:id="@+id/ann_text_scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/ann_text"
+            android:layout_width="312dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/middle_chinese_content"
+            android:textColor="#fff"
+            android:textSize="12sp" />
+    </HorizontalScrollView>
+
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/current_theme"

@@ -15,6 +15,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.SpannableString
 import android.text.Spanned
+import android.text.method.ScrollingMovementMethod
 import android.text.style.ImageSpan
 import android.util.Log
 import android.view.View
@@ -42,7 +43,7 @@ class PureUIActivity : BaseActivity() {
     private lateinit var viewBinding: ActivityPureUiBinding
     private lateinit var realBinding: ActivityMainContentBinding
 
-    private var animator : ValueAnimator? = null
+    private var animator: ValueAnimator? = null
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,22 +56,15 @@ class PureUIActivity : BaseActivity() {
         TransitionManager.beginDelayedTransition(realBinding.rootContent)
 
 
-        animator = ValueAnimator.ofInt(0, 1000).setDuration(4000)
+        animator = ValueAnimator.ofInt(0, 4000).setDuration(4000)
         animator?.addUpdateListener {
             val value = it.animatedValue as Int
-            realBinding.annText.scrollBy(1,0)
-            realBinding.annText.text = "春秋战国时期会出现百家争鸣现象的原因是什么？春秋战国时期会出现百家争鸣现象的原因是什么？"
-//            realBinding.annText.requestLayout()
-//            realBinding.annText.invalidate()
+            realBinding.annText.scrollBy(2, 0)
             Log.e("ddd", "x = ${realBinding.annText.scrollX} , value = $value")
         }
         animator?.start()
-
-
-        realBinding.marqueeView.setContent(getString(R.string.middle_chinese_content))
-
-
-        realBinding.marqueeTv.isMarqueeEnable = true
+        realBinding.annTextScroll.setOnTouchListener { v, event ->  true}
+        realBinding.realMarquee.isSelected = true
 
         viewBinding.includeActivityMainContent.imageView.post {
             Log.e(TAG, "view.post: " + viewBinding.includeActivityMainContent.imageView.width)

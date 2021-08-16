@@ -43,5 +43,17 @@ class BarFragment : SimpleBaseFragment() {
 
         fooViewModel.doFoo()
         fooViewModel.doFoo2()
+
+        testSetAndPost()
+    }
+
+    private fun testSetAndPost() {
+        fooViewModel.mainValue.observe(viewLifecycleOwner, {
+            Log.e("testSetAndPost", "mainValue =$it")
+        })
+        fooViewModel.threadValue.observe(viewLifecycleOwner, {
+            Log.e("testSetAndPost", "threadValue =$it")
+        })
+        fooViewModel.doUpdate()
     }
 }

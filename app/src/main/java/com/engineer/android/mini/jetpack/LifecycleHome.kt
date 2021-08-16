@@ -16,7 +16,11 @@ class EasyObserver : LifecycleObserver,DefaultLifecycleObserver, LifecycleEventO
 
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
+        val value = owner.lifecycle.currentState
         Log.d(LIFECYCLE_TAG, "onCreate() called with: owner = $owner")
+        if (value.isAtLeast(Lifecycle.State.STARTED)) {
+            Log.d(LIFECYCLE_TAG, "onCreate ？ atLeast started")
+        }
     }
 
     override fun onResume(owner: LifecycleOwner) {
@@ -24,7 +28,7 @@ class EasyObserver : LifecycleObserver,DefaultLifecycleObserver, LifecycleEventO
         val value = owner.lifecycle.currentState
         Log.d(LIFECYCLE_TAG, "onResume() called onResume, currentState =$value")
         if (value.isAtLeast(Lifecycle.State.STARTED)) {
-            Log.d(LIFECYCLE_TAG, "atLeast started")
+            Log.d(LIFECYCLE_TAG, "onResume ？atLeast started")
         }
     }
 
