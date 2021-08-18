@@ -54,7 +54,9 @@ object OKhttpUtil {
     fun syncCall() {
         kotlin.runCatching {
             val response = call.execute()
-            println("response == $response")
+            println("response == ${response.body()?.string()}")
+            println("executed ？ ${call.isExecuted}")
+            println("canceled ？ ${call.isCanceled}")
         }.onFailure { println("fail") }
             .onSuccess { println("success") }
     }
