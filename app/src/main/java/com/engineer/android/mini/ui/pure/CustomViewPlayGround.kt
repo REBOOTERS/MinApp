@@ -51,7 +51,6 @@ constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        Log.d("whywhy", "onDraw() called with: canvas = $canvas ,w=$width,h=$height")
         canvas?.let {
 //            canvas.translate(width / 2.0f, height / 2.0f)
             it.drawColor(Color.CYAN)
@@ -73,13 +72,9 @@ constructor(
         val hMode = MeasureSpec.getMode(heightMeasureSpec)
         var hSize = MeasureSpec.getSize(heightMeasureSpec)
 
-        if (wMode != MeasureSpec.EXACTLY) {
-            wSize = resolveSize(210, widthMeasureSpec)
-        }
 
-        if (hMode != MeasureSpec.EXACTLY) {
-            hSize = resolveSize(210, heightMeasureSpec)
-        }
+        wSize = resolveSize(210, widthMeasureSpec)
+        hSize = resolveSize(210, heightMeasureSpec)
 
 
         Log.e(
@@ -110,7 +105,11 @@ class SquareImageView @JvmOverloads constructor(
     private var textContent = ""
 
     fun setTextContext(content: String) {
-        textContent = content
+        val sb = StringBuilder()
+        sb.append("width=$width").append(" height=$height").append("\n")
+        sb.append(content)
+        textContent = sb.toString()
+
         invalidate()
     }
 
@@ -137,16 +136,8 @@ class SquareImageView @JvmOverloads constructor(
         Log.e("SquareImageView", "w = $measuredWidth")
         Log.e("SquareImageView", "h = $measuredHeight")
 
-
-        var size = 100.dp
-        if (drawable != null) {
-            size = drawable.bounds.right.coerceAtMost(drawable.bounds.bottom)
-        }
-
-        val sizeW = resolveSize(size, widthMeasureSpec)
-        val sizeH = resolveSize(size, heightMeasureSpec)
-
-        setMeasuredDimension(sizeW, sizeH)
+        val wh = measuredWidth.coerceAtMost(measuredHeight)
+        setMeasuredDimension(wh,wh)
         Log.e("SquareImageView", "===============")
     }
 }
@@ -453,6 +444,7 @@ class CustomViewActivity : BaseActivity() {
             viewBinding.squareIv.setImageResource(resId)
             viewBinding.squareIv.setTextContext(resStr)
         }
+        viewBinding.squareIv.setImageResource(ImagePool.next())
 
         KeyBoardUtil.checkVisible(viewBinding.et) {
             if (it) {
