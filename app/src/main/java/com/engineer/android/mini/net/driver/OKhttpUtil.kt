@@ -22,6 +22,12 @@ object OKhttpUtil {
     val request = Request.Builder()
         .url(url).build()
 
+    val customInterceptor = object :Interceptor {
+        override fun intercept(chain: Interceptor.Chain): Response {
+            return chain.proceed(chain.request())
+        }
+    }
+
     val client = OkHttpClient.Builder()
         .addInterceptor {
             println("just test intercept")

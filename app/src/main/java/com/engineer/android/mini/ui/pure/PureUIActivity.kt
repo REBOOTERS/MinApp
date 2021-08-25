@@ -45,7 +45,6 @@ class PureUIActivity : BaseActivity() {
 
     private var animator: ValueAnimator? = null
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityPureUiBinding.inflate(layoutInflater)
