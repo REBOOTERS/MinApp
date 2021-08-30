@@ -33,7 +33,7 @@
     <HorizontalScrollView
         android:layout_margin="12dp"
         android:scrollbars="none"
-
+        android:background="#F44336"
         android:id="@+id/ann_text_scroll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
