@@ -52,7 +52,7 @@ class RootActivity : BaseActivity() {
         mainScope = MainScope()
         handlePermissions()
         setupUI()
-        printSysInfo()
+//        printSysInfo()
 
         mainScope.launch {
             "111".log()

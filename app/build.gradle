@@ -86,7 +86,7 @@ dependencies {
 
     implementation project(path: ':thirdlib')
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
     implementation "com.google.android:flexbox:1.0.0"
 }

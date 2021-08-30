@@ -11,6 +11,7 @@ import android.net.Uri
 import android.os.*
 import android.provider.MediaStore
 import android.util.Log
+import android.util.LogPrinter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -39,7 +40,7 @@ class BehaviorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityBehaviorBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_behavior)
+        setContentView(viewBinding.root)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 //            setUpStorageInfo()
         }
@@ -108,6 +109,7 @@ class BehaviorActivity : AppCompatActivity() {
         }
 
         viewBinding.handler.setOnClickListener {
+            Log.e(TAG,"\n")
             val h = Handler(Looper.getMainLooper()) { msg ->
                 Log.e(
                     TAG,
@@ -115,32 +117,42 @@ class BehaviorActivity : AppCompatActivity() {
                 )
                 true
             }
-            Thread {
-                val msg1 = Message.obtain()
-                msg1.what = 100
-                msg1.obj = "100"
-                h.sendMessage(msg1)
-            }.start()
 
             val handlerThread = HandlerThread("subThread")
             handlerThread.start()
+            handlerThread.looper.setMessageLogging(LogPrinter(Log.DEBUG, "ActivityThread"))
             val subHandler = Handler(handlerThread.looper) { msg ->
                 Log.e(
                     TAG,
                     "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg"
                 )
-                handlerThread.quitSafely()
+                // 为了方便调试多次方法，正常情况下，用完后记得立即关闭
+//                handlerThread.quitSafely()
                 true
             }
 
+            Thread {
+                val msg1 = Message.obtain()
+                msg1.what = 1000
+                msg1.obj = "1000"
+                h.sendMessage(msg1)
+
+                val msg2 = Message.obtain()
+                msg2.what = 2000
+                msg2.obj = "2000"
+                subHandler.sendMessage(msg2)
+            }.start()
+
+
+            h.sendEmptyMessageDelayed(100,1000)
             subHandler.sendEmptyMessageDelayed(200, 1000)
+            System.currentTimeMillis()
 
 
 
-
-            viewBinding.handler.postDelayed({
-                "delay 3000".toast()
-            }, 3000)
+//            viewBinding.handler.postDelayed({
+//                "delay 3000".toast()
+//            }, 3000)
 
         }
 
