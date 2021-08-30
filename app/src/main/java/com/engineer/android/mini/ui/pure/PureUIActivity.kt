@@ -45,7 +45,7 @@ class PureUIActivity : BaseActivity() {
 
     private var animator: ValueAnimator? = null
 
-    private  var x = 0
+    private var x = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,21 +56,24 @@ class PureUIActivity : BaseActivity() {
 
         TransitionManager.beginDelayedTransition(realBinding.rootContent)
 
-
-        animator = ValueAnimator.ofInt(0, 1424 - 312.dp).setDuration(5000)
+        val len = realBinding.annText.paint.measureText(realBinding.annText.text.toString())
+        animator = ValueAnimator.ofInt(0, (len - 312.dp - 12.dp).toInt()).setDuration(5000)
         animator?.addUpdateListener {
             val value = it.animatedValue as Int
-            realBinding.annText.scrollTo(x+value,0)
+            realBinding.annText.scrollTo(x + value, 0)
 
             Log.e("ddd", "x = ${realBinding.annText.scrollX} , value = $value")
         }
         realBinding.annText.post {
-            Log.e("ddd","sss = ${realBinding.annText.paint.measureText(realBinding.annText.text.toString())}")
+            Log.e(
+                "ddd",
+                "sss = ${realBinding.annText.paint.measureText(realBinding.annText.text.toString())}"
+            )
             x = realBinding.annText.scrollX
             animator?.start()
         }
 
-        realBinding.annTextScroll.setOnTouchListener { v, event ->  true}
+        realBinding.annTextScroll.setOnTouchListener { v, event -> true }
         realBinding.realMarquee.isSelected = true
 
         viewBinding.includeActivityMainContent.imageView.post {
