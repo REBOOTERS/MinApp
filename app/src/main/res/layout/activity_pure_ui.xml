@@ -1,15 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:fitsSystemWindows="false"
+    android:orientation="vertical"
     tools:context=".ui.pure.PureUIActivity"
     tools:ignore="HardcodedText">
 
-    <include
-        android:id="@+id/include_activity_main_content"
-        layout="@layout/activity_main_content" />
+    <LinearLayout
+        android:id="@+id/root_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/wall"
+        android:orientation="vertical"
+        tools:context=".ui.pure.PureUIActivity"
+        tools:ignore="HardcodedText">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_view"
+            style="@style/mw_10_margin"
+            android:background="@color/colorPrimary"
+            android:src="@drawable/android"
+            app:shapeAppearance="@style/StyleShapeAppearanceImage" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/current_theme"
+            style="@style/mw_10_margin"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="15sp"
+            tools:text="current theme" />
+
+        <RadioGroup
+            android:id="@+id/theme_radio"
+            style="@style/mw"
+            android:orientation="vertical"
+            tools:visibility="visible">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/follow_system"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="跟随系统" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/force_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="force_dark" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/force_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="force_light" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/auto_battery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="auto_battery" />
+
+        </RadioGroup>
+
+        <com.google.android.flexbox.FlexboxLayout
+            style="@style/mw_10_margin"
+            android:padding="10dp"
+            app:flexWrap="wrap">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/recycler_view_demo"
+                style="@style/ww"
+                android:text="recycler_view_demo"
+                android:textColor="?android:attr/textColorPrimary" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/full_screen"
+                style="@style/ww"
+                android:text="full_screen"
+                android:textColor="?android:attr/textColorPrimary" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/messy_view"
+                style="@style/ww"
+                android:text="messy_view"
+                android:textColor="?android:attr/textColorPrimary" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/switch_view"
+                style="@style/ww"
+                android:text="switch_view"
+                android:textColor="?android:attr/textColorPrimary" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/layout_wrap_content"
+                style="@style/ww"
+                android:text="WrapContent_Activity"
+                android:textColor="?android:attr/textColorPrimary" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/layout_ac"
+                style="@style/ww"
+                android:text="AppCompatButton"
+                android:textColor="?android:attr/textColorPrimary" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/custom_view"
+                style="@style/ww"
+                android:text="custom_view"
+                android:textColor="?android:attr/textColorPrimary" />
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+    </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

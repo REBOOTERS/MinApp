@@ -17,41 +17,6 @@
         android:src="@drawable/android"
         app:shapeAppearance="@style/StyleShapeAppearanceImage" />
 
-    <TextView
-        android:layout_margin="12dp"
-        android:id="@+id/real_marquee"
-        android:text="Single-line text view that scrolls automatically if the text is too long to fit in the widget"
-        android:singleLine="true"
-        android:ellipsize="marquee"
-        android:marqueeRepeatLimit ="1"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:scrollHorizontally="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <HorizontalScrollView
-        android:layout_margin="12dp"
-        android:scrollbars="none"
-        android:background="#fff"
-        android:id="@+id/ann_text_scroll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/ann_text"
-            android:layout_width="312dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="@string/middle_chinese_content"
-            android:textColor="#fff"
-            android:textSize="12sp" />
-    </HorizontalScrollView>
-
-
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/current_theme"
         style="@style/mw_10_margin"
@@ -91,41 +56,6 @@
 
     </RadioGroup>
 
-    <TextView
-        android:id="@+id/test_span"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="ABCDEFG_HIJKLMN_OPQRST" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/content_view"
-            style="@style/mw_10_margin"
-            android:text="@string/long_chinese_content" />
-
-        <ImageView
-            android:id="@+id/content_img"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_alignStart="@id/content_view"
-            android:layout_alignTop="@id/content_view"
-            android:scaleType="fitXY"
-            android:src="@drawable/phone"
-            tools:layout_width="100dp" />
-
-    </RelativeLayout>
-
-
-    <com.google.android.material.slider.Slider style="@style/mw_10_margin" />
-
-    <com.google.android.material.slider.RangeSlider
-        android:id="@+id/range_slider"
-        style="@style/mw_10_margin" />
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/recycler_view_demo"
         style="@style/mw_10_margin"
@@ -142,6 +72,12 @@
     <com.google.android.flexbox.FlexboxLayout
         style="@style/mw_10_margin"
         app:flexWrap="wrap">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/messy_view"
+            style="@style/ww"
+            android:text="messy_view"
+            android:textColor="?android:attr/textColorPrimary" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/switch_view"
