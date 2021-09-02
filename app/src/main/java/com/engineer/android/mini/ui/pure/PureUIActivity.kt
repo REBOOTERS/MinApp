@@ -2,37 +2,21 @@ package com.engineer.android.mini.ui.pure
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Context
 import android.content.res.Configuration
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.method.ScrollingMovementMethod
-import android.text.style.ImageSpan
 import android.util.Log
-import android.view.View
 import android.view.animation.AnticipateInterpolator
 import android.widget.FrameLayout
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.res.ResourcesCompat
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import com.engineer.android.mini.R
-import com.engineer.android.mini.databinding.ActivityMainContentBinding
 import com.engineer.android.mini.databinding.ActivityPureUiBinding
 import com.engineer.android.mini.ext.*
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.adapter.RecyclerViewActivity
-import com.engineer.android.mini.util.JavaUtil
 
 
 @SuppressLint("SetTextI18n")
@@ -43,9 +27,9 @@ class PureUIActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         realBinding = ActivityPureUiBinding.inflate(layoutInflater)
         setContentView(realBinding.root)
-        val p = realBinding.root.layoutParams as FrameLayout.LayoutParams
-        p.topMargin = getStatusBarHeight()
-        realBinding.root.layoutParams = p
+//        val p = realBinding.root.layoutParams as FrameLayout.LayoutParams
+//        p.topMargin = getStatusBarHeight()
+//        realBinding.root.layoutParams = p
 
         TransitionManager.beginDelayedTransition(realBinding.rootContent)
 

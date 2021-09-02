@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/wall"
     android:fitsSystemWindows="false"
     android:orientation="vertical"
     tools:context=".ui.pure.PureUIActivity"
@@ -13,7 +14,6 @@
         android:id="@+id/root_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/wall"
         android:orientation="vertical"
         tools:context=".ui.pure.PureUIActivity"
         tools:ignore="HardcodedText">
@@ -22,7 +22,8 @@
             android:id="@+id/image_view"
             style="@style/mw_10_margin"
             android:background="@color/colorPrimary"
-            android:src="@drawable/android"
+            android:src="@drawable/cute"
+            android:visibility="visible"
             app:shapeAppearance="@style/StyleShapeAppearanceImage" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -66,48 +67,47 @@
 
         <com.google.android.flexbox.FlexboxLayout
             style="@style/mw_10_margin"
-            android:padding="10dp"
             app:flexWrap="wrap">
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/recycler_view_demo"
-                style="@style/ww"
+                style="@style/ww_10_margin"
                 android:text="recycler_view_demo"
                 android:textColor="?android:attr/textColorPrimary" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/full_screen"
-                style="@style/ww"
+                style="@style/ww_10_margin"
                 android:text="full_screen"
                 android:textColor="?android:attr/textColorPrimary" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/messy_view"
-                style="@style/ww"
+                style="@style/ww_10_margin"
                 android:text="messy_view"
                 android:textColor="?android:attr/textColorPrimary" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/switch_view"
-                style="@style/ww"
+                style="@style/ww_10_margin"
                 android:text="switch_view"
                 android:textColor="?android:attr/textColorPrimary" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/layout_wrap_content"
-                style="@style/ww"
+                style="@style/ww_10_margin"
                 android:text="WrapContent_Activity"
                 android:textColor="?android:attr/textColorPrimary" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/layout_ac"
-                style="@style/ww"
+                style="@style/ww_10_margin"
                 android:text="AppCompatButton"
                 android:textColor="?android:attr/textColorPrimary" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/custom_view"
-                style="@style/ww"
+                style="@style/ww_10_margin"
                 android:text="custom_view"
                 android:textColor="?android:attr/textColorPrimary" />
 
