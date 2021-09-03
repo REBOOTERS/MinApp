@@ -22,7 +22,7 @@
             android:id="@+id/image_view"
             style="@style/mw_10_margin"
             android:background="@color/colorPrimary"
-            android:src="@drawable/cute"
+            android:src="@drawable/cat"
             android:visibility="visible"
             app:shapeAppearance="@style/StyleShapeAppearanceImage" />
 
