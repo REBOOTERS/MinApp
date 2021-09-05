@@ -26,7 +26,22 @@ fun main() {
     println()
 
 //    RetrofitUtil.go()
-//    RetrofitUtil.go2()
+    RetrofitUtil.go2()
+
+    val service = FakeRetrofit.getInstance().create(ApiService::class.java)
+    val r1 = service.getAccountJson()
+    val r2 = service.getAccountList()
+
+    val dd = object :ApiService {
+        override fun getAccountList(): Call<WeChatCountList> {
+            TODO("Not yet implemented")
+        }
+
+        override fun getAccountJson(): Call<ResponseBody> {
+            TODO("Not yet implemented")
+        }
+
+    }
 
 }
 
@@ -63,7 +78,8 @@ object RetrofitUtil {
 
 
         val service = retrofit.create(ApiService::class.java)
-
+        println("service is $service")
+        println("service is ${service.javaClass.name}")
         val call = service.getAccountJson()
 
         call.enqueue(object : retrofit2.Callback<ResponseBody> {
@@ -82,6 +98,7 @@ object RetrofitUtil {
 
 
     fun go() {
+
 
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)

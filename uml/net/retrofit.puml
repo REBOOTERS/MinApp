@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:service = Retrofit.create(ApiService.class);
+:service.getData();
+:loadServiceMethod(Method method);
+:val result = serviceMethodCache.get(method);
+if (result == null) then (yes)
+    :result = ServiceMethod<T> parseAnnotations(Retrofit retrofit, Method method);
+    :requestFactory = RequestFactory.parseAnnotations(retrofit, method);
+    note left: 根据注解信息创建 request
+    :HttpServiceMethod.parseAnnotations(retrofit, method, requestFactory);
+    :callAdapter = createCallAdapter(retrofit, method, adapterType, annotations);;
+    :return new CallAdapted<>(requestFactory, callFactory, responseConverter, callAdapter);
+else
+    :return result;
+endif
+:result.invoke(args);
+:HttpServiceMethod.invoke();
+:Call<ResponseT> call = new OkHttpCall<>(requestFactory, args, callFactory, responseConverter);
+:adapt;
+:callAdapter.adapt(call);
+:DefaultCallAdapterFactory.adapt(call);
+:return call;
+stop
+
+@enduml
