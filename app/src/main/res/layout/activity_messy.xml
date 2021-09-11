@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/wall"
     android:orientation="vertical"
+    android:paddingTop="58dp"
     tools:context=".ui.pure.MessyActivity">
 
     <TextView

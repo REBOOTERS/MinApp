@@ -39,7 +39,10 @@ class MessyActivity : BaseActivity() {
     }
 
     private fun setupUI() {
+        val len1 =
+            realBinding.contentView.paint.measureText(realBinding.contentView.text.toString())
         val len = realBinding.annText.paint.measureText(realBinding.annText.text.toString())
+        Log.e("len-measure","len1=$len1,len=$len")
         val w = screenWidth - 24.dp
         animator = ValueAnimator.ofInt(0, (len - w).toInt()).setDuration(3000)
         animator?.addUpdateListener {
@@ -87,6 +90,10 @@ class MessyActivity : BaseActivity() {
             val start = desc.indexOf(target)
             s.setSpan(imageSpan, start, start + target.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
             realBinding.contentView.text = s
+
+            val lenn =
+                realBinding.contentView.paint.measureText(realBinding.contentView.text.toString())
+            Log.e("len-measure","lenn=$lenn")
         }
         realBinding.rangeSlider.setValues(0.3f)
 
