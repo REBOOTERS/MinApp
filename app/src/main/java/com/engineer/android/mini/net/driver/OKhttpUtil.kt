@@ -22,7 +22,7 @@ object OKhttpUtil {
     val request = Request.Builder()
         .url(url).build()
 
-    val customInterceptor = object :Interceptor {
+    val customInterceptor = object : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
             return chain.proceed(chain.request())
         }
@@ -31,7 +31,10 @@ object OKhttpUtil {
     val client = OkHttpClient.Builder()
         .addInterceptor {
             println("just test intercept")
-            it.proceed(it.request())
+            println("request is ${request.body()}")
+            val response = it.proceed(it.request())
+            println("response is ${response.body()}")
+            response
         }
         .eventListener(DefaultEventListener())
         .build()
@@ -63,7 +66,8 @@ object OKhttpUtil {
             println("response == ${response.body()?.string()}")
             println("executed ？ ${call.isExecuted}")
             println("canceled ？ ${call.isCanceled}")
-        }.onFailure { println("fail") }
+        }
+            .onFailure { println("fail") }
             .onSuccess { println("success") }
     }
 }
