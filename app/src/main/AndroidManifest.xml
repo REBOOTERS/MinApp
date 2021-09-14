@@ -18,6 +18,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".media.MediaActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.pure.MessyActivity"
             android:exported="true" />
         <activity

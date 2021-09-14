@@ -18,6 +18,7 @@ import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ipc.IpcActivity
 import com.engineer.android.mini.jetpack.FragmentManagerActivity
 import com.engineer.android.mini.jetpack.LIFECYCLE_TAG
+import com.engineer.android.mini.media.MediaActivity
 import com.engineer.android.mini.net.RxCacheActivity
 import com.engineer.android.mini.net.ThreadExTransform
 import com.engineer.android.mini.ui.BaseActivity
@@ -52,7 +53,7 @@ class RootActivity : BaseActivity() {
         mainScope = MainScope()
         handlePermissions()
         setupUI()
-//        printSysInfo()
+        printSysInfo()
 
         mainScope.launch {
             "111".log()
@@ -166,6 +167,7 @@ class RootActivity : BaseActivity() {
         viewBinding.cp.setOnClickListener {
             testPC()
         }
+        viewBinding.media.setOnClickListener { gotoActivity(MediaActivity::class.java) }
         val logger = LogPrinter(Log.DEBUG, "ActivityThread")
         Looper.myLooper()?.setMessageLogging(logger)
     }
