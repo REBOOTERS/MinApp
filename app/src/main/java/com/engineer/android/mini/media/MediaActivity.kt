@@ -31,6 +31,7 @@ class MediaActivity : BaseActivity() {
             viewBinding.videoView.requestFocus()
         } else {
             "$path not exist".toast()
+            viewBinding.imageView.setImageResource(R.drawable.spring)
         }
 
         viewBinding.fullScreen.setOnClickListener {

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#6A5454"
-    tools:context=".media.MediaActivity">
+    tools:context=".media.MediaActivity"
+    tools:ignore="ContentDescription">
 
     <VideoView
         android:id="@+id/video_view"
@@ -15,11 +16,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
         android:id="@+id/full_screen"
-        android:layout_marginTop="48dp"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_margin="10dp"
+        android:layout_marginTop="48dp"
         android:src="@drawable/ic_baseline_fullscreen_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -19,6 +19,7 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".media.MediaActivity"
+            android:configChanges="screenSize|orientation"
             android:exported="true" />
         <activity
             android:name=".ui.pure.MessyActivity"
