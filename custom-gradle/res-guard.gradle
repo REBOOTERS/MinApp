@@ -35,7 +35,7 @@ andResGuard {
     ]
     sevenzip {
 //        artifact = 'com.tencent.mm:SevenZip:1.2.20'
-//        artifact = "com.tencent.mm:SevenZip:${ext.AndResGuard_gradle_plugin}"
+        artifact = "com.tencent.mm:SevenZip:${ext.AndResGuard_gradle_plugin}"
         //path = "/usr/local/bin/7za"
     }
 

@@ -1,6 +1,7 @@
 package com.engineer.android.mini
 
 import android.app.Application
+import android.os.Process
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.collection.LruCache
@@ -28,8 +29,14 @@ class MinApp : Application() {
 
         appLifecycle()
         lruTest()
+        val defaultExc = Thread.getDefaultUncaughtExceptionHandler();
+        Thread.setDefaultUncaughtExceptionHandler { t, e ->
+            Log.e(MINI, "current process    : ${Process.myPid()}")
+            Log.e(MINI, "current thread     : id = ${t.id}, name = ${t.name}")
+            Log.e(MINI, "current exception  : ${Log.getStackTraceString(e)}")
+            defaultExc?.uncaughtException(t, e)
+        }
     }
-
 
 
     private fun appLifecycle() {
@@ -46,9 +53,12 @@ class MinApp : Application() {
             }
         })
 
-        ProcessLifecycleOwner.get().lifecycle.addObserver(object :LifecycleEventObserver {
+        ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                Log.e("ProcessLife", "onStateChanged() called with: source = $source, event = $event")
+                Log.e(
+                    "ProcessLife",
+                    "onStateChanged() called with: source = $source, event = $event"
+                )
             }
 
         })

@@ -32,6 +32,7 @@ import io.reactivex.disposables.CompositeDisposable
 import jp.wasabeef.blurry.Blurry
 import kotlinx.coroutines.*
 import radiography.Radiography
+import java.lang.IllegalStateException
 import java.util.concurrent.TimeUnit
 
 class RootActivity : BaseActivity() {
@@ -168,6 +169,7 @@ class RootActivity : BaseActivity() {
             testPC()
         }
         viewBinding.media.setOnClickListener { gotoActivity(MediaActivity::class.java) }
+        viewBinding.crash.setOnClickListener { throw IllegalStateException() }
         val logger = LogPrinter(Log.DEBUG, "ActivityThread")
         Looper.myLooper()?.setMessageLogging(logger)
     }
