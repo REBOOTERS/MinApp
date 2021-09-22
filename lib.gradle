@@ -18,6 +18,6 @@ ext {
     material = '1.4.0'
 
 
-
+    compose_version = '1.0.1'
 
 }

@@ -27,6 +27,7 @@ import com.engineer.android.mini.ui.behavior.lifecycle.PanelActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
 import com.engineer.android.mini.util.AndroidSystem
 import com.engineer.android.mini.util.ProducerConsumerViewModel
+import com.engineer.compose.ui.MainComposeActivity
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import jp.wasabeef.blurry.Blurry
@@ -170,6 +171,7 @@ class RootActivity : BaseActivity() {
         }
         viewBinding.media.setOnClickListener { gotoActivity(MediaActivity::class.java) }
         viewBinding.crash.setOnClickListener { throw IllegalStateException() }
+        viewBinding.compose.setOnClickListener { gotoActivity(MainComposeActivity::class.java) }
         val logger = LogPrinter(Log.DEBUG, "ActivityThread")
         Looper.myLooper()?.setMessageLogging(logger)
     }
