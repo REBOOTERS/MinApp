@@ -8,15 +8,18 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.animation.AnticipateInterpolator
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityPureUiBinding
-import com.engineer.android.mini.ext.*
+import com.engineer.android.mini.ext.dp
+import com.engineer.android.mini.ext.getStatusBarHeight
+import com.engineer.android.mini.ext.resizeMarginTop
+import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.adapter.RecyclerViewActivity
+import radiography.Radiography
 
 
 @SuppressLint("SetTextI18n")
@@ -144,6 +147,12 @@ class PureUIActivity : BaseActivity() {
                 "夜间模式 Off".toast()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val prettyHierarchy = Radiography.scan()
+        Log.e("Radiography", "onResume: $prettyHierarchy")
     }
 }
 
