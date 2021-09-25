@@ -8,6 +8,9 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ImageSpan
@@ -30,12 +33,40 @@ class MessyActivity : BaseActivity() {
     private var x = 0
     private var animator: ValueAnimator? = null
 
+    private val testLazy by lazy {
+        Log.e("RootActivity", "testLazy triggle")
+        "just a value"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         realBinding = ActivityMessyBinding.inflate(layoutInflater)
         setContentView(realBinding.root)
-
+        testLazy
         setupUI()
+
+        handlerTest()
+    }
+
+    private fun handlerTest() {
+        val handler = Handler(Looper.getMainLooper()) {
+            it.what.toString().toast()
+            true
+        }
+        Thread {
+            Thread.sleep(1000)
+            val message = Message.obtain(handler)
+            message.what = 100
+            handler.sendMessage(message)
+        }.start()
+
+        val id = resources.getIdentifier("jetpack_ui", "id", packageName)
+        "id is $id".toast()
+
+        Looper.myQueue().addIdleHandler {
+            "ha 😄 idle-handler is work".toast()
+            false
+        }
     }
 
     private fun setupUI() {
