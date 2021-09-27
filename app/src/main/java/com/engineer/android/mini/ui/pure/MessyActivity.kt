@@ -1,5 +1,7 @@
 package com.engineer.android.mini.ui.pure
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
@@ -16,6 +18,7 @@ import android.text.Spanned
 import android.text.style.ImageSpan
 import android.util.Log
 import android.view.View
+import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
 import com.engineer.android.mini.R
@@ -74,6 +77,8 @@ class MessyActivity : BaseActivity() {
             realBinding.contentView.paint.measureText(realBinding.contentView.text.toString())
         val len = realBinding.annText.paint.measureText(realBinding.annText.text.toString())
         Log.e("len-measure","len1=$len1,len=$len")
+
+
         val w = screenWidth - 24.dp
         animator = ValueAnimator.ofInt(0, (len - w).toInt()).setDuration(3000)
         animator?.addUpdateListener {
@@ -91,8 +96,8 @@ class MessyActivity : BaseActivity() {
             x = realBinding.annText.scrollX
             animator?.start()
         }
-
         realBinding.annTextScroll.setOnTouchListener { v, event -> true }
+
         realBinding.realMarquee.isSelected = true
 
         val p = realBinding.contentImg.layoutParams
@@ -124,11 +129,13 @@ class MessyActivity : BaseActivity() {
 
             val lenn =
                 realBinding.contentView.paint.measureText(realBinding.contentView.text.toString())
-            Log.e("len-measure","lenn=$lenn")
+            Log.e("len-measure", "lenn=$lenn")
         }
         realBinding.rangeSlider.setValues(0.3f)
 
         "view level is ${viewLevel(realBinding.rangeSlider)}".toast()
+
+        initTimeAnimator()
     }
 
     private fun testImageSpan() {
@@ -175,6 +182,34 @@ class MessyActivity : BaseActivity() {
             canvas.restore()
         }
     }
+
+
+    private fun initTimeAnimator() {
+        val TOTAL_TIME = 4 * 1000
+        val timeAnimator = ValueAnimator()
+        timeAnimator.setIntValues(TOTAL_TIME, 0)
+        timeAnimator.duration = TOTAL_TIME.toLong()
+        timeAnimator.interpolator = LinearInterpolator()
+        timeAnimator.addUpdateListener {
+            val time = it.animatedValue as Int
+            updateProgress(time)
+        }
+        timeAnimator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationStart(animation: Animator?) {
+                updateProgress(TOTAL_TIME)
+            }
+        })
+
+        realBinding.progressBar.max = TOTAL_TIME
+        realBinding.progressBar.setOnClickListener {
+            timeAnimator.start()
+        }
+    }
+
+    private fun updateProgress(progress: Int) {
+        realBinding.progressBar.progress = progress
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

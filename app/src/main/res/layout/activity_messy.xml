@@ -76,4 +76,35 @@
         android:id="@+id/range_slider"
         style="@style/mw_10_margin" />
 
+    <FrameLayout
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="10dp"
+        android:background="#66000000">
+
+        <FrameLayout
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_gravity="center"
+            android:background="@drawable/mini_gift_bg" />
+
+        <ImageView
+            android:id="@+id/gift_iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/flower" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_gravity="center"
+            android:indeterminate="false"
+            android:progressDrawable="@drawable/mini_progress_bar" />
+
+    </FrameLayout>
+
+
 </LinearLayout>
