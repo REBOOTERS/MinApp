@@ -196,6 +196,13 @@
             android:layout_margin="10dp"
             android:text="crash" />
 
+        <Button
+            android:id="@+id/compose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="compose" />
+
     </com.google.android.flexbox.FlexboxLayout>
 
     <TextView

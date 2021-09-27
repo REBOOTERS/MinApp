@@ -3,9 +3,7 @@ package com.engineer.android.mini
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.os.Bundle
-import android.os.Looper
-import android.os.SystemClock
+import android.os.*
 import android.util.Log
 import android.util.LogPrinter
 import android.widget.Toast
@@ -28,6 +26,7 @@ import com.engineer.android.mini.ui.behavior.lifecycle.PanelActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
 import com.engineer.android.mini.util.AndroidSystem
 import com.engineer.android.mini.util.ProducerConsumerViewModel
+import com.engineer.compose.ui.MainComposeActivity
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import jp.wasabeef.blurry.Blurry
@@ -158,6 +157,9 @@ class RootActivity : BaseActivity() {
         viewBinding.cp.setOnClickListener { testPC() }
         viewBinding.media.setOnClickListener { gotoActivity(MediaActivity::class.java) }
         viewBinding.crash.setOnClickListener { throw IllegalStateException() }
+        viewBinding.compose.setOnClickListener { gotoActivity(MainComposeActivity::class.java) }
+        val logger = LogPrinter(Log.DEBUG, "ActivityThread")
+        Looper.myLooper()?.setMessageLogging(logger)
     }
 
     private fun handleBlur() {
