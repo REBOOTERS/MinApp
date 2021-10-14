@@ -94,7 +94,7 @@ class RootActivity : BaseActivity() {
     }
 
     private fun testPC() {
-        if (disposeOn.size() > 0) {
+        if (disposeOn.size() > 1) {
             "producer and consumer is doing".toast()
             return
         }
