@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.MotionEvent
 import android.view.animation.AnticipateInterpolator
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.transition.ChangeBounds
@@ -49,18 +50,28 @@ class PureUIActivity : BaseActivity() {
         systemDayNight()
     }
 
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        Log.e(TAG, "onTouchEvent: event = ${event?.action}")
+        return super.onTouchEvent(event)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        Log.e(TAG, "dispatchTouchEvent() called with: ev = $ev")
+        return super.dispatchTouchEvent(ev)
+    }
+
     private fun boundsAnimation() {
         // Transition 动画 https://github.com/xiaweizi/TransitionDemo
         val changeBounds = ChangeBounds()
 //            changeBounds.interpolator = LinearInterpolator()
         changeBounds.interpolator = AnticipateInterpolator()
         TransitionManager.beginDelayedTransition(
-            realBinding.rootContent,
-            changeBounds
+                realBinding.rootContent,
+                changeBounds
         )
         val params = realBinding.imageView.layoutParams
         val hw: Float =
-            realBinding.imageView.measuredWidth * 1.0f / realBinding.imageView.measuredHeight
+                realBinding.imageView.measuredWidth * 1.0f / realBinding.imageView.measuredHeight
         if (realBinding.imageView.measuredWidth >= (resources.displayMetrics.widthPixels - 20.dp)) {
             params.width = resources.displayMetrics.widthPixels / 2
             params.height = ((resources.displayMetrics.widthPixels / 2) * (1 / hw)).toInt()
@@ -92,7 +103,7 @@ class PureUIActivity : BaseActivity() {
         val modeStr = if (isNightMode()) "夜间" else "日间"
         val current = AppCompatDelegate.getDefaultNightMode()
         realBinding.currentTheme.text =
-            "当前日夜间模式 : $modeStr,mode = $current"
+                "当前日夜间模式 : $modeStr,mode = $current"
         when (current) {
             AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> realBinding.followSystem.isChecked = true
             AppCompatDelegate.MODE_NIGHT_YES -> realBinding.forceDark.isChecked = true
