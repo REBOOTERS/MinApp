@@ -18,15 +18,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".RootActivity" android:exported="true">
+        <activity
+            android:name=".ui.pure.DuDuActivity"
+            android:exported="true" />
+        <activity
+            android:name=".RootActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".media.MediaActivity"
             android:configChanges="screenSize|orientation"
