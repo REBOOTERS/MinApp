@@ -112,6 +112,12 @@
                 android:text="custom_view"
                 android:textColor="?android:attr/textColorPrimary" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/force_bottom"
+                style="@style/ww_10_margin"
+                android:text="force_bottom"
+                android:textColor="?android:attr/textColorPrimary" />
+
         </com.google.android.flexbox.FlexboxLayout>
 
     </LinearLayout>

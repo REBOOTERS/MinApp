@@ -51,6 +51,10 @@ class BehaviorActivity : AppCompatActivity() {
             PictureBottomDialog().show(supportFragmentManager, "picture")
         }
 
+        viewBinding.deeplink.setOnClickListener {
+            startTheApp()
+        }
+
         viewBinding.addImageToAlbum.setOnClickListener {
             val bitmap = BitmapFactory.decodeResource(resources, R.drawable.phone)
             val displayName = "${System.currentTimeMillis()}.jpg"
@@ -203,6 +207,16 @@ class BehaviorActivity : AppCompatActivity() {
             val value = Integer.parseInt(magicNum, 16)
             val valueBin = Integer.toBinaryString(value)
         }
+    }
+
+    /**
+     *  deep link 的方式，打开另外一个 App
+     */
+    private fun startTheApp() {
+        val intent = Intent()
+        intent.data = Uri.parse("phoenix://easy_link")
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
     }
 
 

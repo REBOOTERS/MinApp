@@ -34,6 +34,11 @@
         android:layout_height="1dp"
         android:background="?android:attr/listDivider" />
 
+    <Button
+        android:id="@+id/deeplink"
+        style="@style/mw_10_margin"
+        android:text="Open The Activity By Url" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/storage_query"
         style="@style/mw_10_margin"

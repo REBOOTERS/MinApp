@@ -2,6 +2,7 @@ package com.engineer.android.mini.ui.pure
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
@@ -19,7 +20,9 @@ import com.engineer.android.mini.ext.getStatusBarHeight
 import com.engineer.android.mini.ext.resizeMarginTop
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
+import com.engineer.android.mini.ui.ForceBottomActivity
 import com.engineer.android.mini.ui.adapter.RecyclerViewActivity
+import com.engineer.android.mini.util.DisplayUtil
 import radiography.Radiography
 
 
@@ -41,6 +44,7 @@ class PureUIActivity : BaseActivity() {
         realBinding.layoutAc.setOnClickListener { gotoPage(LayoutActivity::class.java) }
         realBinding.layoutWrapContent.setOnClickListener { gotoPage(WrapContentActivity::class.java) }
         realBinding.customView.setOnClickListener { gotoPage(CustomViewActivity::class.java) }
+        realBinding.forceBottom.setOnClickListener { gotoPage(ForceBottomActivity::class.java) }
         realBinding.recyclerViewDemo.setOnClickListener { gotoPage(RecyclerViewActivity::class.java) }
         realBinding.switchView.setOnClickListener { gotoPage(SwitchViewActivity::class.java) }
         realBinding.fullScreen.setOnClickListener { gotoPage(FullscreenActivity::class.java) }
@@ -50,15 +54,15 @@ class PureUIActivity : BaseActivity() {
         systemDayNight()
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        Log.e(TAG, "onTouchEvent: event = ${event?.action}")
-        return super.onTouchEvent(event)
-    }
-
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        Log.e(TAG, "dispatchTouchEvent() called with: ev = $ev")
-        return super.dispatchTouchEvent(ev)
-    }
+//    override fun onTouchEvent(event: MotionEvent?): Boolean {
+//        Log.e(TAG, "onTouchEvent: event = ${event?.action}")
+//        return super.onTouchEvent(event)
+//    }
+//
+//    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+//        Log.e(TAG, "dispatchTouchEvent() called with: ev = $ev")
+//        return super.dispatchTouchEvent(ev)
+//    }
 
     private fun boundsAnimation() {
         // Transition 动画 https://github.com/xiaweizi/TransitionDemo
@@ -66,12 +70,12 @@ class PureUIActivity : BaseActivity() {
 //            changeBounds.interpolator = LinearInterpolator()
         changeBounds.interpolator = AnticipateInterpolator()
         TransitionManager.beginDelayedTransition(
-                realBinding.rootContent,
-                changeBounds
+            realBinding.rootContent,
+            changeBounds
         )
         val params = realBinding.imageView.layoutParams
         val hw: Float =
-                realBinding.imageView.measuredWidth * 1.0f / realBinding.imageView.measuredHeight
+            realBinding.imageView.measuredWidth * 1.0f / realBinding.imageView.measuredHeight
         if (realBinding.imageView.measuredWidth >= (resources.displayMetrics.widthPixels - 20.dp)) {
             params.width = resources.displayMetrics.widthPixels / 2
             params.height = ((resources.displayMetrics.widthPixels / 2) * (1 / hw)).toInt()
@@ -87,6 +91,7 @@ class PureUIActivity : BaseActivity() {
         Handler(Looper.getMainLooper()).post {
             Log.e(TAG, "handler.post: " + realBinding.imageView.width)
         }
+        getScreenInfo(this)
     }
 
     override fun onContentChanged() {
@@ -103,7 +108,7 @@ class PureUIActivity : BaseActivity() {
         val modeStr = if (isNightMode()) "夜间" else "日间"
         val current = AppCompatDelegate.getDefaultNightMode()
         realBinding.currentTheme.text =
-                "当前日夜间模式 : $modeStr,mode = $current"
+            "当前日夜间模式 : $modeStr,mode = $current"
         when (current) {
             AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> realBinding.followSystem.isChecked = true
             AppCompatDelegate.MODE_NIGHT_YES -> realBinding.forceDark.isChecked = true
@@ -146,6 +151,33 @@ class PureUIActivity : BaseActivity() {
             }
             open = !open
         }
+
+        Looper.myQueue().addIdleHandler {
+            getScreenInfo(this)
+            false
+        }
+
+
+    }
+
+    private fun getScreenInfo(activity: Activity) {
+        val screenRealSize = DisplayUtil.getScreenRealSize(activity).y
+
+        val navHeight =
+            if (DisplayUtil.isNavigationBarShowing(activity))
+                DisplayUtil.getNavigationBarHeight(activity) else 0
+
+        val statusBarHeight = DisplayUtil.getStatusBarHeight2(activity)
+        val dp45 = DisplayUtil.dp2px(45f)
+        DisplayUtil.visibleHeight = screenRealSize - navHeight - statusBarHeight
+        Log.d(
+            TAG, "getScreenInfo() called with:" +
+                    " screenRealSize = $screenRealSize," +
+                    "navH = $navHeight," +
+                    "statusBarH = $statusBarHeight," +
+                    "dp45 = $dp45," +
+                    "visibleH = ${DisplayUtil.visibleHeight}"
+        )
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -163,7 +195,7 @@ class PureUIActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         val prettyHierarchy = Radiography.scan()
-        Log.e("Radiography", "onResume: $prettyHierarchy")
+//        Log.e("Radiography", "onResume: $prettyHierarchy")
     }
 }
 
