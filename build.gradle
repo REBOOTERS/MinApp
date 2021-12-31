@@ -20,6 +20,9 @@ buildscript {
         // 组件依赖图谱 https://github.com/nekocode/gradle-dependency-graph
         classpath "com.github.nekocode:gradle-dependency-graph:1.2"
 //        classpath "com.github.dcendents:android-maven-gradle-plugin:1.5"
+
+        // hilt
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$android_hilt_version"
     }
 }
 
