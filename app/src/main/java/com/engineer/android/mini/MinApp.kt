@@ -7,11 +7,13 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.collection.LruCache
 import androidx.lifecycle.*
 import com.facebook.stetho.Stetho
+import dagger.hilt.android.HiltAndroidApp
 
 /**
  * Created on 2020/9/13.
  * @author rookie
  */
+@HiltAndroidApp
 class MinApp : Application() {
 
     companion object {

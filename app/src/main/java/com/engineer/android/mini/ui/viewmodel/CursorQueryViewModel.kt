@@ -7,12 +7,15 @@ import android.provider.MediaStore
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.engineer.android.mini.MinApp
+import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlin.concurrent.thread
 
 /**
  * Created on 2020/10/18.
  * @author rookie
  */
+@HiltViewModel
 class CursorQueryViewModel(application: Application) : AndroidViewModel(application) {
     internal val imageResults = MutableLiveData<List<Uri>>()
     internal val videoResults = MutableLiveData<List<Uri>>()

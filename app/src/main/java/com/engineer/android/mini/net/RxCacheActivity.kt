@@ -13,23 +13,27 @@ import com.engineer.android.mini.ext.toast
 import com.zchu.rxcache.RxCache
 import com.zchu.rxcache.data.CacheResult
 import com.zchu.rxcache.data.ResultFrom
-import com.zchu.rxcache.diskconverter.GsonDiskConverter
 import com.zchu.rxcache.kotlin.rxCache
 import com.zchu.rxcache.stategy.FirstCacheTimeoutStrategy
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import kotlin.random.Random
 
 private const val TAG = "RxCacheActivity"
 
+@AndroidEntryPoint
 class RxCacheActivity : AppCompatActivity() {
 
-    private lateinit var viewBinding: ActivityRxCacheBinding
+    @Inject
+    lateinit var viewBinding: ActivityRxCacheBinding
 
-    private lateinit var rxCache: RxCache
+    @Inject
+    lateinit var rxCache: RxCache
 
     private val arrayLiveData = MutableLiveData<ArrayList<String>>()
     private val mapLiveData = MutableLiveData<HashMap<String, Int>>()
@@ -40,19 +44,11 @@ class RxCacheActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = ActivityRxCacheBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
 
         lg("dir 1 is ${getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)}")
         lg("dir 2 is ${cacheDir.toString() + File.separator + getString(R.string.app_name)}")
-
-        rxCache = RxCache.Builder()
-            .appVersion(7)
-            .diskConverter(GsonDiskConverter())
-            .diskDir(File(cacheDir.toString() + File.separator + getString(R.string.app_name)))
-            .setDebug(true)
-            .build()
 
 
         loadData()

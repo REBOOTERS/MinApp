@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,9 @@ import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.adapter.AlbumAdapter
 import com.engineer.android.mini.ui.viewmodel.CursorQueryViewModel
 import com.engineer.android.mini.util.SystemTools
+import dagger.Provides
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlin.concurrent.thread
 
 /**
@@ -23,16 +27,23 @@ import kotlin.concurrent.thread
  */
 private const val TAG = "PictureBottomDialog"
 
+
+@AndroidEntryPoint
 class PictureBottomDialog : BaseBottomSheetDialog() {
-    private val imageList = ArrayList<Uri>()
-    private lateinit var adapter: AlbumAdapter
-    private lateinit var cursorQueryViewModel: CursorQueryViewModel
+
+    @Inject
+    lateinit var imageList: ArrayList<Uri>
+
+    @Inject
+    lateinit var adapter: AlbumAdapter
+
+    private val cursorQueryViewModel: CursorQueryViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        cursorQueryViewModel = ViewModelProvider(
-            this, ViewModelProvider.AndroidViewModelFactory.getInstance(MinApp.INSTANCE)
-        )[CursorQueryViewModel::class.java]
+//        cursorQueryViewModel = ViewModelProvider(
+//            this, ViewModelProvider.AndroidViewModelFactory.getInstance(MinApp.INSTANCE)
+//        )[CursorQueryViewModel::class.java]
 
     }
 
@@ -48,8 +59,6 @@ class PictureBottomDialog : BaseBottomSheetDialog() {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         val columns = 3
-        val imageSize = resources.displayMetrics.widthPixels / columns
-        adapter = AlbumAdapter(view.context, imageList, imageSize)
         recyclerView.layoutManager = GridLayoutManager(context, columns)
         recyclerView.adapter = adapter
 

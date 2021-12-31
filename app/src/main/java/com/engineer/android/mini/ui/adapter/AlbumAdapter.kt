@@ -10,6 +10,33 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.engineer.android.mini.R
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.FragmentComponent
+import dagger.hilt.android.qualifiers.ActivityContext
+
+
+@Module
+@InstallIn(FragmentComponent::class)
+object AlbumAdapterProvider {
+
+    private lateinit var list: ArrayList<Uri>
+
+    @Provides
+    fun provideList(): ArrayList<Uri> {
+        list = ArrayList()
+        return list
+    }
+
+    @Provides
+    fun providerAdapter(
+        @ActivityContext context: Context,
+    ): AlbumAdapter {
+        val size = context.resources.displayMetrics.widthPixels / 3
+        return AlbumAdapter(context, list, size)
+    }
+}
 
 class AlbumAdapter(val context: Context, val imageList: ArrayList<Uri>, val imageSize: Int) :
     RecyclerView.Adapter<AlbumAdapter.ViewHolder>() {

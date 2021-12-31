@@ -6,4 +6,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 dependencies {
     implementation "com.google.dagger:hilt-android:$android_hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$android_hilt_version"
+
+    implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha01'
+    kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha01'
 }

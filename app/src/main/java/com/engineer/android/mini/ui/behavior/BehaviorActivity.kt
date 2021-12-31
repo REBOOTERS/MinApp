@@ -21,6 +21,7 @@ import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
 import com.engineer.android.mini.util.SystemTools
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.File
@@ -34,6 +35,7 @@ private const val TAG = "BehaviorActivity"
 const val PICK_FILE = 1
 const val PICK_GIF = 2
 
+@AndroidEntryPoint
 class BehaviorActivity : AppCompatActivity() {
     private lateinit var viewBinding:ActivityBehaviorBinding
 
