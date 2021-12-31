@@ -1,12 +1,12 @@
 ext {
-    compileSdkVersion = 30
+    compileSdkVersion = 31
     minSdkVersion = 23
-    targetSdkVersion = 30
+    targetSdkVersion = 31
     buildToolsVersion = "30.0.3"
 
 
     kotlin_version = '1.5.21'
-    gradle_version = '7.0.3'
+    gradle_version = '7.0.4'
 
     kotlin_coroutines = '1.4.1'
 
