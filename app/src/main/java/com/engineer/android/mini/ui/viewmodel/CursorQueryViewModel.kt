@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import com.engineer.android.mini.MinApp
 import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlin.concurrent.thread
 
 /**
@@ -16,7 +17,7 @@ import kotlin.concurrent.thread
  * @author rookie
  */
 @HiltViewModel
-class CursorQueryViewModel(application: Application) : AndroidViewModel(application) {
+class CursorQueryViewModel @Inject constructor(app: Application) : AndroidViewModel(app) {
     internal val imageResults = MutableLiveData<List<Uri>>()
     internal val videoResults = MutableLiveData<List<Uri>>()
     fun loadImages() {

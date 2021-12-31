@@ -39,14 +39,6 @@ class PictureBottomDialog : BaseBottomSheetDialog() {
 
     private val cursorQueryViewModel: CursorQueryViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        cursorQueryViewModel = ViewModelProvider(
-//            this, ViewModelProvider.AndroidViewModelFactory.getInstance(MinApp.INSTANCE)
-//        )[CursorQueryViewModel::class.java]
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
