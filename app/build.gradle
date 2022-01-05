@@ -93,7 +93,7 @@ dependencies {
     implementation "com.google.android:flexbox:1.0.0"
 }
 
-apply from: file("../custom-gradle/test-dep.gradle") // unit test
+//apply from: file("../custom-gradle/test-dep.gradle") // unit test
 apply from: file("../custom-gradle/res-guard.gradle") // res-guard
 apply from: file("../custom-gradle/viewmodel-dep.gradle") // view-model-lifecycle 全家桶
 apply from: file("../custom-gradle/coroutines-dep.gradle") // kotlin coroutines

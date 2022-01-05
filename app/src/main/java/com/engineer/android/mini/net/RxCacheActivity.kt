@@ -10,6 +10,8 @@ import androidx.lifecycle.MutableLiveData
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityRxCacheBinding
 import com.engineer.android.mini.ext.toast
+import com.engineer.android.mini.net.hilt.AnalyticsService
+import com.engineer.android.mini.net.hilt.MiniEntryHelper
 import com.zchu.rxcache.RxCache
 import com.zchu.rxcache.data.CacheResult
 import com.zchu.rxcache.data.ResultFrom
@@ -35,6 +37,9 @@ class RxCacheActivity : AppCompatActivity() {
     @Inject
     lateinit var rxCache: RxCache
 
+    @Inject
+    lateinit var service: AnalyticsService
+
     private val arrayLiveData = MutableLiveData<ArrayList<String>>()
     private val mapLiveData = MutableLiveData<HashMap<String, Int>>()
 
@@ -50,7 +55,9 @@ class RxCacheActivity : AppCompatActivity() {
         lg("dir 1 is ${getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)}")
         lg("dir 2 is ${cacheDir.toString() + File.separator + getString(R.string.app_name)}")
 
-
+        service.analyticsMethods()
+        MiniEntryHelper.entryPoint.flyMachine().start()
+        MiniEntryHelper.entryPoint.videoPlayer().play()
         loadData()
 
         arrayLiveData.observe(this) {
@@ -164,5 +171,11 @@ class RxCacheActivity : AppCompatActivity() {
 
     private fun lg(msg: String?) {
         Log.e(TAG, "msg ====>  $msg")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        MiniEntryHelper.entryPoint.flyMachine().stop()
+        MiniEntryHelper.entryPoint.videoPlayer().stop()
     }
 }
