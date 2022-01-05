@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 
 public class DisplayUtil {
     private static final String TAG = "DisplayUtil";
+
     public DisplayUtil() {
     }
 
@@ -151,21 +152,24 @@ public class DisplayUtil {
         if (haveNavigationBar && Build.VERSION.SDK_INT >= 17) {
             String brand = Build.BRAND;
             String mDeviceInfo;
-            if (brand.equalsIgnoreCase("HUAWEI")) {
-                mDeviceInfo = "navigationbar_is_min";
-            } else if (brand.equalsIgnoreCase("XIAOMI")) {
-                mDeviceInfo = "force_fsg_nav_bar";
-            } else if (brand.equalsIgnoreCase("VIVO")) {
-                mDeviceInfo = "navigation_gesture_on";
-            } else if (brand.equalsIgnoreCase("OPPO")) {
-                mDeviceInfo = "navigation_gesture_on";
-            } else {
-                mDeviceInfo = "navigationbar_is_min";
+            if (brand != null) {
+                if ("HUAWEI".equalsIgnoreCase(brand)) {
+                    mDeviceInfo = "navigationbar_is_min";
+                } else if (brand.equalsIgnoreCase("XIAOMI")) {
+                    mDeviceInfo = "force_fsg_nav_bar";
+                } else if (brand.equalsIgnoreCase("VIVO")) {
+                    mDeviceInfo = "navigation_gesture_on";
+                } else if (brand.equalsIgnoreCase("OPPO")) {
+                    mDeviceInfo = "navigation_gesture_on";
+                } else {
+                    mDeviceInfo = "navigationbar_is_min";
+                }
+
+                if (Settings.Global.getInt(context.getContentResolver(), mDeviceInfo, 0) == 0) {
+                    return true;
+                }
             }
 
-            if (Settings.Global.getInt(context.getContentResolver(), mDeviceInfo, 0) == 0) {
-                return true;
-            }
         }
 
         return false;

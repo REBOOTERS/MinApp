@@ -1,0 +1,11 @@
+apply plugin: 'checkstyle'
+
+
+task checkstyle(type: Checkstyle) {
+    source 'src/main/java'
+    exclude '**/gen/**'
+    exclude '**/test/**'
+    exclude '**/androidTest/**'
+    configFile new File(rootDir, "checkstyle.xml")
+    classpath = files()
+}

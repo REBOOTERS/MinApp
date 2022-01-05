@@ -21,10 +21,15 @@ import java.lang.reflect.Field;
 public class DragContainer implements View.OnTouchListener {
     private Builder mBuilder;
 
-    private int mStatusBarHeight, mScreenWidth, mScreenHeight;
+    private int mStatusBarHeight;
+    private int mScreenWidth;
+    private int mScreenHeight;
 
     //手指按下位置
-    private int mStartX, mStartY, mLastX, mLastY;
+    private int mStartX;
+    private int mStartY;
+    private int mLastX;
+    private int mLastY;
     private boolean mTouchResult = false;
 
     private DragContainer(Builder builder) {

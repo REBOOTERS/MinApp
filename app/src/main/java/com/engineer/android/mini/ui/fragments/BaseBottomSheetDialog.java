@@ -15,23 +15,23 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
  * @author rookie
  */
 public class BaseBottomSheetDialog extends BottomSheetDialogFragment {
-    private FrameLayout bottomSheet;
-    public BottomSheetBehavior<FrameLayout> behavior;
+    private FrameLayout mBottomSheet;
+    public BottomSheetBehavior<FrameLayout> mBehavior;
 
     @Override
     public void onStart() {
         super.onStart();
 
         BottomSheetDialog dialog = (BottomSheetDialog) getDialog();
-        bottomSheet = dialog.getDelegate().findViewById(com.google.android.material.R.id.design_bottom_sheet);
-        if (bottomSheet != null) {
-            CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomSheet.getLayoutParams();
+        mBottomSheet = dialog.getDelegate().findViewById(com.google.android.material.R.id.design_bottom_sheet);
+        if (mBottomSheet != null) {
+            CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) mBottomSheet.getLayoutParams();
             layoutParams.height = getHeight();
-            bottomSheet.setLayoutParams(layoutParams);
-            behavior = BottomSheetBehavior.from(bottomSheet);
-            behavior.setPeekHeight(getHeight());
+            mBottomSheet.setLayoutParams(layoutParams);
+            mBehavior = BottomSheetBehavior.from(mBottomSheet);
+            mBehavior.setPeekHeight(getHeight());
             // 初始为展开状态
-            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         }
     }
 
