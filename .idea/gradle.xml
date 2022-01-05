@@ -13,7 +13,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/book-plugin" />
             <option value="$PROJECT_DIR$/compose" />
+            <option value="$PROJECT_DIR$/music-plugin" />
             <option value="$PROJECT_DIR$/thirdlib" />
           </set>
         </option>

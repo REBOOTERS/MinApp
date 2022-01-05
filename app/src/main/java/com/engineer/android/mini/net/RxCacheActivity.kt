@@ -12,6 +12,7 @@ import com.engineer.android.mini.databinding.ActivityRxCacheBinding
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.net.hilt.AnalyticsService
 import com.engineer.android.mini.net.hilt.MiniEntryHelper
+import com.engineer.book.models.Book
 import com.zchu.rxcache.RxCache
 import com.zchu.rxcache.data.CacheResult
 import com.zchu.rxcache.data.ResultFrom
@@ -56,8 +57,10 @@ class RxCacheActivity : AppCompatActivity() {
         lg("dir 2 is ${cacheDir.toString() + File.separator + getString(R.string.app_name)}")
 
         service.analyticsMethods()
-        MiniEntryHelper.entryPoint.flyMachine().start()
-        MiniEntryHelper.entryPoint.videoPlayer().play()
+
+        MiniEntryHelper.entryPoint.musicPlayer().play()
+        MiniEntryHelper.entryPoint.bookManager().addBook(Book("mike","peace",100))
+        lg(MiniEntryHelper.entryPoint.bookManager().getAll().toString())
         loadData()
 
         arrayLiveData.observe(this) {
@@ -175,7 +178,6 @@ class RxCacheActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        MiniEntryHelper.entryPoint.flyMachine().stop()
-        MiniEntryHelper.entryPoint.videoPlayer().stop()
+        MiniEntryHelper.entryPoint.musicPlayer().stop()
     }
 }

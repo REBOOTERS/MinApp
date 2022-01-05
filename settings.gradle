@@ -16,3 +16,5 @@ include ':app'
 
 
 include ':compose'
+include ':book-plugin'
+include ':music-plugin'
