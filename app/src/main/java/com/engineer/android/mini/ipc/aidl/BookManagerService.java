@@ -12,6 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class BookManagerService extends Service {
     private static final String TAG = "BookManagerService";
+
     public BookManagerService() {
     }
 
@@ -19,19 +20,21 @@ public class BookManagerService extends Service {
 
     private final Binder mBinder = new IBookInterface.Stub() {
         @Override
-        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
+        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat,
+                               double aDouble, String aString) throws RemoteException {
 
         }
 
         @Override
         public List<Book> getBookList() throws RemoteException {
-            Log.e(TAG, "getBookList() called on Thread "+Thread.currentThread().getName());
+            Log.e(TAG, "getBookList() called on Thread " + Thread.currentThread().getName());
             return mBookList;
         }
 
         @Override
         public void addBook(Book book) throws RemoteException {
-            Log.e(TAG, "addBook() called with: book = [" + book + "] called on Thread "+Thread.currentThread().getName());
+            Log.e(TAG, "addBook() called with: book = [" + book + "]" + " called on Thread "
+                    + Thread.currentThread().getName());
             mBookList.add(book);
         }
     };

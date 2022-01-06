@@ -28,7 +28,7 @@ fun main() {
 //    RetrofitUtil.go()
     RetrofitUtil.go2()
 
-    val service = FakeRetrofit.getInstance().create(ApiService::class.java)
+    val service = FakeRetrofit.getsInstance().create(ApiService::class.java)
     val r1 = service.getAccountJson()
     val r2 = service.getAccountList()
 

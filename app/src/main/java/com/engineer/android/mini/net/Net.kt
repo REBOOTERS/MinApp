@@ -14,7 +14,7 @@ private const val TAG = "Net"
 
 object Net {
 
-    val baseUrl = "https://www.wanandroid.com/"
+    private const val baseUrl = "https://www.wanandroid.com/"
 
     private val eventListener = object : EventListener() {
         /**
@@ -57,7 +57,8 @@ object Net {
         ) {
             Log.e(
                 TAG,
-                "dnsEnd() called with: call = $call, domainName = $domainName, inetAddressList = $inetAddressList"
+                "dnsEnd() called with: call = $call, domainName = $domainName, " +
+                        "inetAddressList = $inetAddressList"
             )
         }
 
@@ -79,7 +80,8 @@ object Net {
         ) {
             Log.e(
                 TAG,
-                "connectStart() called with: call = $call, inetSocketAddress = $inetSocketAddress, proxy = $proxy"
+                "connectStart() called with: call = $call, " +
+                        "inetSocketAddress = $inetSocketAddress, proxy = $proxy"
             )
         }
 
@@ -125,16 +127,20 @@ object Net {
         ) {
             Log.e(
                 TAG,
-                "connectEnd() called with: call = $call, inetSocketAddress = $inetSocketAddress, proxy = $proxy, protocol = $protocol"
+                "connectEnd() called with: call = $call, " +
+                        "inetSocketAddress = $inetSocketAddress," +
+                        " proxy = $proxy, protocol = $protocol"
             )
         }
 
         /**
-         * Invoked when a connection attempt fails. This failure is not terminal if further routes are
+         * Invoked when a connection attempt fails.
+         * This failure is not terminal if further routes are
          * available and failure recovery is enabled.
          *
          *
-         * If the `call` uses HTTPS, this will be invoked after [.secureConnectEnd], otherwise it will invoked after [.connectStart].
+         * If the `call` uses HTTPS, this will be invoked after [.secureConnectEnd],
+         * otherwise it will invoked after [.connectStart].
          */
         override fun connectFailed(
             call: Call?, inetSocketAddress: InetSocketAddress?, proxy: Proxy?,
@@ -142,7 +148,9 @@ object Net {
         ) {
             Log.e(
                 TAG,
-                "connectFailed() called with: call = $call, inetSocketAddress = $inetSocketAddress, proxy = $proxy, protocol = $protocol, ioe = $ioe"
+                "connectFailed() called with: call = $call, " +
+                        "inetSocketAddress = $inetSocketAddress, " +
+                        "proxy = $proxy, protocol = $protocol, ioe = $ioe"
             )
         }
 
@@ -206,7 +214,8 @@ object Net {
         }
 
         /**
-         * Invoked just prior to sending a request body.  Will only be invoked for request allowing and
+         * Invoked just prior to sending a request body.
+         * Will only be invoked for request allowing and
          * having a request body to send.
          *
          *
@@ -263,7 +272,8 @@ object Net {
          *
          * This method is always invoked after [.responseHeadersStart].
          *
-         * @param response the response received over the network. It is an error to access the body of
+         * @param response the response received over the network.
+         * It is an error to access the body of
          * this response.
          */
         override fun responseHeadersEnd(call: Call?, response: Response?) {

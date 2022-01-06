@@ -45,6 +45,7 @@ public class MoveGestureDetector extends BaseGestureDetector {
                     mPreMotionEvent.recycle();
                     mPreMotionEvent = MotionEvent.obtain(event);
                 }
+            default:
                 break;
 
         }
@@ -55,12 +56,13 @@ public class MoveGestureDetector extends BaseGestureDetector {
         int actionCode = event.getAction() & MotionEvent.ACTION_MASK;
         switch (actionCode) {
             case MotionEvent.ACTION_DOWN:
-                resetState();//防止没有接收到CANCEL or UP ,保险起见
+                resetState(); // 防止没有接收到CANCEL or UP ,保险起见
                 mPreMotionEvent = MotionEvent.obtain(event);
                 updateStateByEvent(event);
                 break;
             case MotionEvent.ACTION_MOVE:
                 mGestureInProgress = mListenter.onMoveBegin(this);
+            default:
                 break;
         }
 
@@ -74,11 +76,11 @@ public class MoveGestureDetector extends BaseGestureDetector {
 
         //Log.e("TAG", mPrePointer.toString() + " ,  " + mCurrentPointer);
 
-        boolean mSkipThisMoveEvent = prev.getPointerCount() != event.getPointerCount();
+        boolean skipmovement = prev.getPointerCount() != event.getPointerCount();
 
         //Log.e("TAG", "mSkipThisMoveEvent = " + mSkipThisMoveEvent);
-        mExtenalPointer.x = mSkipThisMoveEvent ? 0 : mCurrentPointer.x - mPrePointer.x;
-        mExtenalPointer.y = mSkipThisMoveEvent ? 0 : mCurrentPointer.y - mPrePointer.y;
+        mExtenalPointer.x = skipmovement ? 0 : mCurrentPointer.x - mPrePointer.x;
+        mExtenalPointer.y = skipmovement ? 0 : mCurrentPointer.y - mPrePointer.y;
 
     }
 
@@ -114,11 +116,11 @@ public class MoveGestureDetector extends BaseGestureDetector {
 
 
     public interface OnMoveGestureListener {
-        public boolean onMoveBegin(MoveGestureDetector detector);
+        boolean onMoveBegin(MoveGestureDetector detector);
 
-        public boolean onMove(MoveGestureDetector detector);
+        boolean onMove(MoveGestureDetector detector);
 
-        public void onMoveEnd(MoveGestureDetector detector);
+        void onMoveEnd(MoveGestureDetector detector);
     }
 
     public static class SimpleMoveGestureDetector implements OnMoveGestureListener {

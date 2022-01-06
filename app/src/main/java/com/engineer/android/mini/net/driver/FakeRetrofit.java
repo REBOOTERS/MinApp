@@ -1,17 +1,10 @@
 package com.engineer.android.mini.net.driver;
 
-import androidx.annotation.NonNull;
-
-import com.engineer.android.mini.net.WeChatCountList;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
 
 /**
  * Created on 2021/9/4.
@@ -19,17 +12,17 @@ import retrofit2.Call;
  * @author rookie
  */
 public class FakeRetrofit {
-    private static volatile FakeRetrofit instance = null;
+    private static volatile FakeRetrofit sInstance = null;
 
-    public static FakeRetrofit getInstance() {
-        if (instance == null) {
+    public static FakeRetrofit getsInstance() {
+        if (sInstance == null) {
             synchronized (FakeRetrofit.class) {
-                if (instance == null) {
-                    instance = new FakeRetrofit();
+                if (sInstance == null) {
+                    sInstance = new FakeRetrofit();
                 }
             }
         }
-        return instance;
+        return sInstance;
     }
 
     private FakeRetrofit() {

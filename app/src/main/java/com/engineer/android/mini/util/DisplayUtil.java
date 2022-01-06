@@ -18,7 +18,7 @@ public class DisplayUtil {
     public DisplayUtil() {
     }
 
-    public static int visibleHeight = 0;
+    public static int sVisibleHeight = 0;
 
     /**
      * @deprecated
@@ -151,21 +151,21 @@ public class DisplayUtil {
         boolean haveNavigationBar = checkDeviceHasNavigationBar(context);
         if (haveNavigationBar && Build.VERSION.SDK_INT >= 17) {
             String brand = Build.BRAND;
-            String mDeviceInfo;
+            String deviceInfo;
             if (brand != null) {
                 if ("HUAWEI".equalsIgnoreCase(brand)) {
-                    mDeviceInfo = "navigationbar_is_min";
-                } else if (brand.equalsIgnoreCase("XIAOMI")) {
-                    mDeviceInfo = "force_fsg_nav_bar";
-                } else if (brand.equalsIgnoreCase("VIVO")) {
-                    mDeviceInfo = "navigation_gesture_on";
-                } else if (brand.equalsIgnoreCase("OPPO")) {
-                    mDeviceInfo = "navigation_gesture_on";
+                    deviceInfo = "navigationbar_is_min";
+                } else if ("XIAOMI".equalsIgnoreCase(brand)) {
+                    deviceInfo = "force_fsg_nav_bar";
+                } else if ("VIVO".equalsIgnoreCase(brand)) {
+                    deviceInfo = "navigation_gesture_on";
+                } else if ("OPPO".equalsIgnoreCase(brand)) {
+                    deviceInfo = "navigation_gesture_on";
                 } else {
-                    mDeviceInfo = "navigationbar_is_min";
+                    deviceInfo = "navigationbar_is_min";
                 }
 
-                if (Settings.Global.getInt(context.getContentResolver(), mDeviceInfo, 0) == 0) {
+                if (Settings.Global.getInt(context.getContentResolver(), deviceInfo, 0) == 0) {
                     return true;
                 }
             }

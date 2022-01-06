@@ -8,16 +8,16 @@ public class Demo {
     private Demo() {
     }
 
-    private static volatile Demo mDemo;
+    private static volatile Demo sDemo;
 
     public static Demo test() {
-        if (mDemo == null) {
+        if (sDemo == null) {
             synchronized (Demo.class) {
-                if (mDemo == null) {
-                    mDemo = new Demo();
+                if (sDemo == null) {
+                    sDemo = new Demo();
                 }
             }
         }
-        return mDemo;
+        return sDemo;
     }
 }

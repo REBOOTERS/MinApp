@@ -9,8 +9,6 @@ import android.util.Log;
 import com.engineer.android.mini.R;
 import com.engineer.android.mini.better.BetterDelegate;
 
-import java.io.File;
-
 /**
  * Created on 2021/5/1.
  *
@@ -69,7 +67,7 @@ public class BitmapDelegate extends BetterDelegate {
         sb.append("width=").append(width).append("\n");
         sb.append("height=").append(height).append("\n");
         sb.append("density=").append(bitmap.getDensity()).append("\n");
-        sb.append("size=").append(bitmap.getAllocationByteCount() / _1MB).append("MB\n");
+        sb.append("size=").append(bitmap.getAllocationByteCount() / ONE_MB).append("MB\n");
         sb.append("byte=").append(bitmap.getAllocationByteCount());
         sb.append("\n\n");
         sb.append("sys-density=").append(getResources().getDisplayMetrics().density).append("\n");

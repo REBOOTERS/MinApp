@@ -1,6 +1,5 @@
 package com.engineer.android.mini.net
 
-import android.util.Log
 import okhttp3.*
 import java.io.IOException
 import java.net.InetAddress
@@ -12,7 +11,6 @@ import java.net.Proxy
  * @author rookie
  */
 open class DefaultEventListener : EventListener() {
-    private val TAG = "DefaultEventListener"
 
     /**
      * Invoked as soon as a call is enqueued or executed by a client. In case of thread or stream
@@ -20,7 +18,8 @@ open class DefaultEventListener : EventListener() {
      *
      *
      * This will be invoked only once for a single [Call]. Retries of different routes
-     * or redirects will be handled within the boundaries of a single callStart and [ ][.callEnd]/[.callFailed] pair.
+     * or redirects will be handled within the boundaries
+     * of a single callStart and [ ][.callEnd]/[.callFailed] pair.
      */
     override fun callStart(call: Call?) {
         println("callStart() called with: call = $call")
@@ -103,7 +102,8 @@ open class DefaultEventListener : EventListener() {
      * available and failure recovery is enabled.
      *
      *
-     * If the `call` uses HTTPS, this will be invoked after [.secureConnectEnd], otherwise it will invoked after [.connectStart].
+     * If the `call` uses HTTPS, this will be invoked after [.secureConnectEnd],
+     * otherwise it will invoked after [.connectStart].
      */
     override fun connectFailed(
         call: Call?, inetSocketAddress: InetSocketAddress?, proxy: Proxy?,

@@ -6,8 +6,8 @@ package com.engineer.android.mini.better;
  * @author rookie
  */
 public interface InformationProvider {
-    float _1kb = 1024f;
-    float _1MB = 1024 * _1kb;
+    float ONE_KB = 1024f;
+    float ONE_MB = 1024 * ONE_KB;
 
     String info();
 }

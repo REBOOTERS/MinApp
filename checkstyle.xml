@@ -53,13 +53,13 @@
             <message key="name.invalidPattern"
                 value="Local variable name ''{0}'' must match pattern ''{1}''."/>
         </module>
-        <module name="MemberName">
-            <property name="format" value="^m[a-zA-Z0-9]*$"/>
-            <property name="applyToPublic" value="false"/>
-            <message key="name.invalidPattern"
-                value="Member ''{0}'' must start with a lowercase ''m'' (checked pattern ''{1}'')."
-            />
-        </module>
+<!--        <module name="MemberName">-->
+<!--            <property name="format" value="^m[a-zA-Z0-9]*$"/>-->
+<!--            <property name="applyToPublic" value="false"/>-->
+<!--            <message key="name.invalidPattern"-->
+<!--                value="Member ''{0}'' must start with a lowercase ''m'' (checked pattern ''{1}'')."-->
+<!--            />-->
+<!--        </module>-->
         <module name="MethodName">
             <property name="format" value="^[a-z][a-zA-Z0-9_]*$"/>
         </module>

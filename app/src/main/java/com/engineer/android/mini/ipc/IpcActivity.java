@@ -1,7 +1,5 @@
 package com.engineer.android.mini.ipc;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +10,8 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
-import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.engineer.android.mini.R;
 import com.engineer.android.mini.ipc.aidl.Book;
@@ -26,12 +25,13 @@ public class IpcActivity extends AppCompatActivity {
 
     private static final String TAG = "IpcActivity";
 
-    private Messenger mRepliedMessenger = MessengerDelegate.provideMessenger();
+    private final Messenger mRepliedMessenger = MessengerDelegate.provideMessenger();
 
-    private ServiceConnection mConnection = new ServiceConnection() {
+    private final ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.e(TAG, "onServiceConnected() called with: name = [" + name + "], service = [" + service + "]");
+            Log.e(TAG, "onServiceConnected() called with: "
+                    + "name = [" + name + "]," + " service = [" + service + "]");
             Messenger messenger = new Messenger(service);
             Message message = Message.obtain(null, IPCConstants.MESSAGE_FROM_CLIENT);
             Bundle bundle = new Bundle();
@@ -56,36 +56,31 @@ public class IpcActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ipc);
-        findViewById(R.id.messenger).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(IpcActivity.this, MessengerService.class);
-                bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-            }
+        findViewById(R.id.messenger).setOnClickListener(v -> {
+            Intent intent = new Intent(IpcActivity.this, MessengerService.class);
+            bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         });
-        findViewById(R.id.aidl).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startBookManger();
-            }
-        });
+        findViewById(R.id.aidl).setOnClickListener(v -> startBookManger());
     }
 
-    private ServiceConnection mBookconn = new ServiceConnection() {
+    private final ServiceConnection mBookconn = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            IBookInterface iBookInterface = IBookInterface.Stub.asInterface(service);
+            IBookInterface ibookinterface = IBookInterface.Stub.asInterface(service);
 
             try {
-                Log.e(TAG, "onServiceConnected: thread on " + Thread.currentThread().getName());
-                List<Book> books = iBookInterface.getBookList();
-                Log.e(TAG, "onServiceConnected: list type is " + books.getClass().getCanonicalName());
+                Log.e(TAG, "onServiceConnected: thread on "
+                        + Thread.currentThread().getName());
+                List<Book> books = ibookinterface.getBookList();
+                Log.e(TAG, "onServiceConnected: list type is "
+                        + books.getClass().getCanonicalName());
                 Log.e(TAG, "onServiceConnected: books = " + books.toString());
 
 
                 Book book = new Book(102, "人类群星闪耀时");
-                iBookInterface.addBook(book);
-                Log.e(TAG, "onServiceConnected: after add " + (iBookInterface.getBookList().toString()));
+                ibookinterface.addBook(book);
+                Log.e(TAG, "onServiceConnected: "
+                        + "after add " + (ibookinterface.getBookList().toString()));
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

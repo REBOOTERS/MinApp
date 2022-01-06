@@ -6,9 +6,9 @@ package com.engineer.android.mini.better;
  * @author rookie
  */
 public class FantasyCake {
-    public static final int FLAG_ADD_POTATO_SHREDS  = 0x00000001; // 加土豆丝
+    public static final int FLAG_ADD_POTATO_SHREDS = 0x00000001; // 加土豆丝
     public static final int FLAG_ADD_SEAWEED_STRIPS = 0x00000002; // 加海带丝
-    public static final int FLAG_ADD_LETTUCE        = 0x00000004; // 加生菜
+    public static final int FLAG_ADD_LETTUCE = 0x00000004; // 加生菜
 
     private int style = 0; // 默认
 
@@ -19,9 +19,7 @@ public class FantasyCake {
             System.err.println("without add seaweed_strips");
         }
 
-        return "FantasyCake{" +
-                "style=" + Integer.toBinaryString(this.style) +
-                '}';
+        return "FantasyCake{" + "style=" + Integer.toBinaryString(this.style) + '}';
     }
 
     public void addLettuce() {

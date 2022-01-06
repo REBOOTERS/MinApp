@@ -29,6 +29,7 @@ public class Book implements Parcelable {
         dest.writeInt(bookId);
         dest.writeString(bookName);
     }
+
     public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>() {
 
         @Override
@@ -49,9 +50,6 @@ public class Book implements Parcelable {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "bookId=" + bookId +
-                ", bookName='" + bookName + '\'' +
-                '}';
+        return "Book{" + "bookId=" + bookId + ", bookName='" + bookName + '\'' + '}';
     }
 }

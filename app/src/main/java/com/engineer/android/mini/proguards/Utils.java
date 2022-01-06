@@ -10,6 +10,7 @@ import android.util.Log;
  */
 public class Utils {
     private static final String TAG = "Utils";
+
     public static void test1() {
         Log.d(TAG, "test1() called");
     }
@@ -17,7 +18,7 @@ public class Utils {
     public static void test3(Context context) {
         int w = context.getResources().getDisplayMetrics().widthPixels;
         int h = context.getResources().getDisplayMetrics().heightPixels;
-        Log.d(TAG, "test3: w="+w+", h ="+h);
+        Log.d(TAG, "test3: w=" + w + ", h =" + h);
     }
 
     public static void test2() {
@@ -27,6 +28,7 @@ public class Utils {
 
     public static class MyBuilder {
         public String name;
+
         public void setName(String name) {
             this.name = name;
         }

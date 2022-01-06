@@ -23,14 +23,14 @@ public class MeasureSpecCopy {
 
     public static final int AT_MOST = 2 << MODE_SHIFT;
 
-    public  static void print() {
+    public static void print() {
 
         System.out.println("MODE_MASK==" + Integer.toBinaryString(MODE_MASK));
         System.out.println("EXACTLY  ==" + Integer.toBinaryString(EXACTLY));
         System.out.println("AT_MOST  ==" + Integer.toBinaryString(AT_MOST));
 
 
-        System.out.println("MODE_MASK & EXACTLY = "+ (EXACTLY & MODE_MASK) );
-        System.out.println("MODE_MASK & AT_MOST = "+ (AT_MOST & MODE_MASK) );
+        System.out.println("MODE_MASK & EXACTLY = " + (EXACTLY & MODE_MASK));
+        System.out.println("MODE_MASK & AT_MOST = " + (AT_MOST & MODE_MASK));
     }
 }

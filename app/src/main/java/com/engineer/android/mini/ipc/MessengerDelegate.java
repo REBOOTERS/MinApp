@@ -24,7 +24,7 @@ public class MessengerDelegate {
     }
 
     private static class MessengerHandler extends Handler {
-        public MessengerHandler(Looper looper) {
+        MessengerHandler(Looper looper) {
             super(looper);
         }
 

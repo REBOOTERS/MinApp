@@ -1,6 +1,5 @@
 package com.engineer.android.mini.ui.widget
 
-import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
@@ -52,7 +51,7 @@ class BindBottomLayout @JvmOverloads constructor(
 
         // 计算扩展高度，以保持前两个item保持在屏幕底部
 //        mExtentHeight = (parent as ViewGroup).height - top3Height
-        mExtentHeight = DisplayUtil.visibleHeight - top3Height
+        mExtentHeight = DisplayUtil.sVisibleHeight - top3Height
         if (mExtentHeight > 0) {
             mTotalLength += mExtentHeight
         }

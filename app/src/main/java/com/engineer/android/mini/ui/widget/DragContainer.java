@@ -117,8 +117,10 @@ public class DragContainer implements View.OnTouchListener {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mTouchResult = false;
-                mStartX = mLastX = (int) event.getRawX();
-                mStartY = mLastY = (int) event.getRawY();
+                mStartX = (int) event.getRawX();
+                mLastX = (int) event.getRawX();
+                mStartY = (int) event.getRawY();
+                mLastY = (int) event.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
                 int left, top, right, bottom;
@@ -159,6 +161,7 @@ public class DragContainer implements View.OnTouchListener {
                     //是否每次都移至屏幕边沿
                     moveNearEdge();
                 }
+            default:
                 break;
         }
         return mTouchResult;

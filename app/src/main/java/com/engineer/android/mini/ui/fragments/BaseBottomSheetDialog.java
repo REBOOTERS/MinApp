@@ -23,9 +23,11 @@ public class BaseBottomSheetDialog extends BottomSheetDialogFragment {
         super.onStart();
 
         BottomSheetDialog dialog = (BottomSheetDialog) getDialog();
-        mBottomSheet = dialog.getDelegate().findViewById(com.google.android.material.R.id.design_bottom_sheet);
+        mBottomSheet = dialog.getDelegate()
+                .findViewById(com.google.android.material.R.id.design_bottom_sheet);
         if (mBottomSheet != null) {
-            CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) mBottomSheet.getLayoutParams();
+            CoordinatorLayout.LayoutParams layoutParams =
+                    (CoordinatorLayout.LayoutParams) mBottomSheet.getLayoutParams();
             layoutParams.height = getHeight();
             mBottomSheet.setLayoutParams(layoutParams);
             mBehavior = BottomSheetBehavior.from(mBottomSheet);

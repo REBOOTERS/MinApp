@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.MotionEvent
 import android.view.animation.AnticipateInterpolator
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.transition.ChangeBounds
@@ -169,14 +168,14 @@ class PureUIActivity : BaseActivity() {
 
         val statusBarHeight = DisplayUtil.getStatusBarHeight2(activity)
         val dp45 = DisplayUtil.dp2px(45f)
-        DisplayUtil.visibleHeight = screenRealSize - navHeight - statusBarHeight
+        DisplayUtil.sVisibleHeight = screenRealSize - navHeight - statusBarHeight
         Log.d(
             TAG, "getScreenInfo() called with:" +
                     " screenRealSize = $screenRealSize," +
                     "navH = $navHeight," +
                     "statusBarH = $statusBarHeight," +
                     "dp45 = $dp45," +
-                    "visibleH = ${DisplayUtil.visibleHeight}"
+                    "visibleH = ${DisplayUtil.sVisibleHeight}"
         )
     }
 

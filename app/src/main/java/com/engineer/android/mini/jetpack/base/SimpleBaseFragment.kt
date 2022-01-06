@@ -64,7 +64,8 @@ abstract class SimpleBaseFragment : Fragment() {
     ): View? {
         Log.e(
             TAG,
-            "onCreateView() called with: inflater = $inflater, container = $container, savedInstanceState = $savedInstanceState"
+            "onCreateView() called with: inflater = $inflater, " +
+                    "container = $container, savedInstanceState = $savedInstanceState"
         )
         // Inflate the layout for this fragment
         return inflater.inflate(provideLayoutId(), container, false)

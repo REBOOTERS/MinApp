@@ -140,8 +140,6 @@ public class LargeImageView extends View {
         drawRect.top = (ih - h) / 2;
         drawRect.right = drawRect.left + w;
         drawRect.bottom = drawRect.top + h;
-        Log.d(TAG, "onMeasure() called with: widthMeasureSpec " +
-                "= [" + widthMeasureSpec + "], heightMeasureSpec = [" + heightMeasureSpec + "]");
 
         Log.d(TAG, "w=" + w + ",h=" + h);
         Log.d(TAG, "iw=" + iw + ",ih=" + ih);
