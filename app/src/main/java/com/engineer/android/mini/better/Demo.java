@@ -1,12 +1,33 @@
 package com.engineer.android.mini.better;
 
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 public class Demo {
     public static void main(String[] args) {
+        Observable.intervalRange(0L, 200L, 0, 1L, TimeUnit.SECONDS)
+//                .observeOn(Schedulers.computation())
+                .doOnNext(aLong -> {
+                    int m = Calendar.getInstance().get(Calendar.MINUTE);
+                    int s = Calendar.getInstance().get(Calendar.SECOND);
+                    System.out.printf("%d,%s:%s\n", aLong, m, s);
+                })
+                .doOnComplete(() -> System.out.println("complete")).subscribe();
 
+        try {
+            Thread.sleep(200000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    private Demo() {
-    }
+//    private Demo() {
+//    }
 
     private static volatile Demo sDemo;
 
