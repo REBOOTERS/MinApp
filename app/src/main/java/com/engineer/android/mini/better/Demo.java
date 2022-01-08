@@ -3,10 +3,7 @@ package com.engineer.android.mini.better;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 public class Demo {
     public static void main(String[] args) {
@@ -26,8 +23,8 @@ public class Demo {
         }
     }
 
-//    private Demo() {
-//    }
+    private Demo() {
+    }
 
     private static volatile Demo sDemo;
 
