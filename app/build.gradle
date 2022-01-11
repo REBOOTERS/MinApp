@@ -99,3 +99,4 @@ apply from: file("../custom-gradle/viewmodel-dep.gradle") // view-model-lifecycl
 apply from: file("../custom-gradle/coroutines-dep.gradle") // kotlin coroutines
 apply from: file("../custom-gradle/rx-retrofit-dep.gradle") // rxjava retrofit gson 网络全家桶
 apply from: file("../custom-gradle/hilt-dep.gradle") // hilt 全家桶
+apply from: file("../custom-gradle/media.gradle") // media lib

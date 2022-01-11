@@ -19,6 +19,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".media.AudioActivity"
+            android:exported="false" />
+        <activity
+            android:name=".media.MediaRootActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.ForceBottomActivity"
             android:exported="false" />
         <activity
@@ -34,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".media.MediaActivity"
+            android:name=".media.VideoActivity"
             android:configChanges="screenSize|orientation"
             android:exported="true" />
         <activity

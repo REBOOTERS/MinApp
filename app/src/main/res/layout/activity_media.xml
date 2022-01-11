@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#6A5454"
-    tools:context=".media.MediaActivity"
+    tools:context=".media.VideoActivity"
     tools:ignore="ContentDescription">
 
     <VideoView
@@ -24,8 +24,8 @@
         android:id="@+id/media_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="100dp"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,10 +34,11 @@
         android:id="@+id/full_screen"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        android:elevation="10dp"
         android:src="@drawable/ic_baseline_fullscreen_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,7 +19,7 @@ import com.engineer.android.mini.ui.BaseActivity
 import java.io.File
 import java.lang.StringBuilder
 
-class MediaActivity : BaseActivity() {
+class VideoActivity : BaseActivity() {
 
     private lateinit var viewBinding: ActivityMediaBinding
     val path = Environment.getExternalStorageDirectory().absolutePath + "/Movies/vv.mp4"
@@ -70,6 +70,16 @@ class MediaActivity : BaseActivity() {
             val filter = IntentFilter()
             filter.addAction(action)
             registerReceiver(it, filter)
+        }
+    }
+
+    override fun onBackPressed() {
+        if (landscape) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            viewBinding.fullScreen.setImageResource(R.drawable.ic_baseline_fullscreen_24)
+            landscape = !landscape
+        } else {
+            super.onBackPressed()
         }
     }
 

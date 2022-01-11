@@ -17,7 +17,8 @@ import com.engineer.android.mini.ext.log
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ipc.IpcActivity
 import com.engineer.android.mini.jetpack.FragmentManagerActivity
-import com.engineer.android.mini.media.MediaActivity
+import com.engineer.android.mini.media.MediaRootActivity
+import com.engineer.android.mini.media.VideoActivity
 import com.engineer.android.mini.net.RxCacheActivity
 import com.engineer.android.mini.net.ThreadExTransform
 import com.engineer.android.mini.ui.BaseActivity
@@ -58,38 +59,38 @@ class RootActivity : BaseActivity() {
 
     private fun printSysInfo() {
         val d = Observable.interval(0L, 1L, TimeUnit.SECONDS)
-                .compose(ThreadExTransform())
-                .subscribe {
-                    val oneMB = 1024 * 1024f
-                    val sb = StringBuilder()
+            .compose(ThreadExTransform())
+            .subscribe {
+                val oneMB = 1024 * 1024f
+                val sb = StringBuilder()
 
-                    sb.append("count=").append(it).append("\n")
-                    if (it > 10 && (it % 20 == 0L)) {
-                        Runtime.getRuntime().gc()
-                        "gc() called".toast()
-                    }
-                    val maxMemory = Runtime.getRuntime().maxMemory() / oneMB
-                    sb.append("maxMemory=").append(maxMemory).append("MB").append("\n")
-
-                    val totalMemory = Runtime.getRuntime().totalMemory() / oneMB
-                    sb.append("totalMemory=").append(totalMemory).append("MB").append("\n")
-
-                    val freeMemory = Runtime.getRuntime().freeMemory() / oneMB
-                    sb.append("freeMemory=").append(freeMemory).append("MB").append("\n")
-
-                    val availableProcessor = Runtime.getRuntime().availableProcessors()
-                    sb.append("availableProcessor=").append(availableProcessor).append("\n")
-
-                    val isHarmonyOS = AndroidSystem.isHarmonyOS()
-                    sb.append("isHarmonyOS : $isHarmonyOS").append("\n")
-
-                    val systemTime = System.currentTimeMillis()
-                    sb.append("System.currentTimeMillis()=$systemTime").append("\n")
-
-                    val clockTime = SystemClock.uptimeMillis()
-                    sb.append("SystemClock.uptimeMillis()=$clockTime").append("\n")
-                    viewBinding.sysRuntimeInfo.text = sb.toString()
+                sb.append("count=").append(it).append("\n")
+                if (it > 10 && (it % 20 == 0L)) {
+                    Runtime.getRuntime().gc()
+                    "gc() called".toast()
                 }
+                val maxMemory = Runtime.getRuntime().maxMemory() / oneMB
+                sb.append("maxMemory=").append(maxMemory).append("MB").append("\n")
+
+                val totalMemory = Runtime.getRuntime().totalMemory() / oneMB
+                sb.append("totalMemory=").append(totalMemory).append("MB").append("\n")
+
+                val freeMemory = Runtime.getRuntime().freeMemory() / oneMB
+                sb.append("freeMemory=").append(freeMemory).append("MB").append("\n")
+
+                val availableProcessor = Runtime.getRuntime().availableProcessors()
+                sb.append("availableProcessor=").append(availableProcessor).append("\n")
+
+                val isHarmonyOS = AndroidSystem.isHarmonyOS()
+                sb.append("isHarmonyOS : $isHarmonyOS").append("\n")
+
+                val systemTime = System.currentTimeMillis()
+                sb.append("System.currentTimeMillis()=$systemTime").append("\n")
+
+                val clockTime = SystemClock.uptimeMillis()
+                sb.append("SystemClock.uptimeMillis()=$clockTime").append("\n")
+                viewBinding.sysRuntimeInfo.text = sb.toString()
+            }
         disposeOn.add(d)
     }
 
@@ -102,14 +103,14 @@ class RootActivity : BaseActivity() {
         viewModel.consumer()
 
         val d = Observable.interval(0, 2, TimeUnit.SECONDS)
-                .subscribe {
-                    viewModel.add(it.toString())
-                }
+            .subscribe {
+                viewModel.add(it.toString())
+            }
 
         val d1 = Observable.interval(0, 2500, TimeUnit.MILLISECONDS)
-                .subscribe {
-                    viewModel.consumer()
-                }
+            .subscribe {
+                viewModel.consumer()
+            }
         disposeOn.add(d1)
         disposeOn.add(d)
     }
@@ -155,7 +156,7 @@ class RootActivity : BaseActivity() {
             gotoActivity(IpcActivity::class.java)
         }
         viewBinding.cp.setOnClickListener { testPC() }
-        viewBinding.media.setOnClickListener { gotoActivity(MediaActivity::class.java) }
+        viewBinding.media.setOnClickListener { gotoActivity(MediaRootActivity::class.java) }
         viewBinding.crash.setOnClickListener { throw IllegalStateException() }
         viewBinding.compose.setOnClickListener { gotoActivity(MainComposeActivity::class.java) }
         val logger = LogPrinter(Log.DEBUG, "ActivityThread")
@@ -170,11 +171,11 @@ class RootActivity : BaseActivity() {
             } else {
                 val now = System.currentTimeMillis()
                 Blurry.with(this)
-                        .radius(25)
-                        .sampling(1)
-                        .color(Color.argb(66, 0, 255, 255))
-                        .async()
-                        .onto(viewBinding.root)
+                    .radius(25)
+                    .sampling(1)
+                    .color(Color.argb(66, 0, 255, 255))
+                    .async()
+                    .onto(viewBinding.root)
                 "time is ${System.currentTimeMillis() - now}".toast()
             }
             blur = !blur
@@ -191,16 +192,16 @@ class RootActivity : BaseActivity() {
     private fun handlePermissions() {
         val permissionsToRequire = ArrayList<String>()
         if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             permissionsToRequire.add(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
         if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             permissionsToRequire.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
@@ -210,16 +211,16 @@ class RootActivity : BaseActivity() {
     }
 
     override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 0) {
             for (result in grantResults) {
                 if (result != PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "You must allow all the permissions.", Toast.LENGTH_SHORT)
-                            .show()
+                        .show()
 //                    finish()
                 }
             }
