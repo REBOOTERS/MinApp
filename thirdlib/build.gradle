@@ -31,6 +31,6 @@ android {
 
 dependencies {
     api 'com.github.weijiaxing:LogcatViewer:1.0.3'
-    api 'jp.wasabeef:blurry:4.0.0'
-    api 'com.squareup.radiography:radiography:2.3.0'
+    api 'jp.wasabeef:blurry:4.0.1'
+    api 'com.squareup.radiography:radiography:2.4.1'
 }

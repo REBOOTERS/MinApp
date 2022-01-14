@@ -3,7 +3,6 @@ apply plugin: "dep-extract"
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
-
 def ext = rootProject.ext
 
 android {
@@ -80,7 +79,7 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.1.1'
 
     implementation 'com.facebook.stetho:stetho:1.6.0'
-    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.6.0'
 
     implementation 'com.github.z-chu.RxCache:rxcache:2.3.5'
     implementation 'com.github.z-chu.RxCache:rxcache-kotlin:2.3.5'
@@ -88,7 +87,7 @@ dependencies {
     implementation project(path: ':thirdlib')
     implementation project(path: ':compose')
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
 
     implementation "com.google.android:flexbox:1.0.0"
 }
