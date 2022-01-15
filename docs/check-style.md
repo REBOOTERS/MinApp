@@ -23,6 +23,27 @@ else
   against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
 fi
 
+global_repository_email=$(git config --global user.email)
+global_repository_name=$(git config --global user.name)
+repository_email=$(git config user.email)
+repository_name=$(git config user.name)
+real_email="yingkongshi11@gmail.com"
+real_name="rookie"
+
+echo "global-git-config ====> $global_repository_email , $global_repository_name"
+echo "local--git-config ====> $repository_email , $repository_name"
+if test $repository_email != $real_email
+then
+  echo "email = $repository_email need change!!!!"
+  exit 1
+fi
+
+if test $repository_name != $real_name
+then
+  echo "name = $repository_name need change!!!!"
+  exit 1
+fi
+
 SCRIPT_DIR=$(dirname "$0")
 SCRIPT_ABS_PATH=`cd "$SCRIPT_DIR"; pwd`
 $SCRIPT_ABS_PATH/../../gradlew checkstyle

@@ -4,9 +4,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.LeadingMarginSpan;
 
-/**
- * r
- */
 public class JavaUtil {
     /**
      * set span for text,
