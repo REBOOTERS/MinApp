@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.media.AudioManager
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -36,18 +37,19 @@ class VideoActivity : BaseActivity() {
 
         setMediaInfo()
 
-        if (File(path).exists()) {
-            viewBinding.videoView.setVideoPath(path)
-            val control = MediaController(this)
-            viewBinding.videoView.setMediaController(control)
-            viewBinding.videoView.requestFocus()
-            viewBinding.videoView.setOnPreparedListener {
-                Log.e(TAG, "onPrepared() called")
-                it.setVolume(0.2f, 0.2f)
-            }
-        } else {
+        viewBinding.videoView.setVideoPath(path)
+        viewBinding.videoView.setOnErrorListener { mp, what, extra ->
+            Log.e(TAG, "onError() called with: mp = $mp, what = $what, extra = $extra")
             "$path not exist".toast()
             viewBinding.imageView.setImageResource(R.drawable.spring)
+            true
+        }
+        val control = MediaController(this)
+        viewBinding.videoView.setMediaController(control)
+        viewBinding.videoView.requestFocus()
+        viewBinding.videoView.setOnPreparedListener {
+            Log.e(TAG, "onPrepared() called")
+            it.setVolume(0.2f, 0.2f)
         }
 
         viewBinding.fullScreen.setOnClickListener {
