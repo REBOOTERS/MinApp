@@ -24,10 +24,7 @@ import androidx.lifecycle.viewModelScope
 import com.engineer.android.mini.coroutines.old.util.BACKGROUND
 import com.engineer.android.mini.coroutines.old.util.singleArgViewModelFactory
 import com.engineer.android.mini.ext.toast
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 /**
  * MainViewModel designed to store and manage UI-related data in a lifecycle conscious way. This
@@ -166,8 +163,15 @@ class MainViewModel(private val repository: TitleRepository) : ViewModel() {
         }
         return viewModelScope.launch(errorHandler) {
             try {
+                val threadName = Thread.currentThread().name
+                Log.e("MainViewModel", "threadName1 is $threadName")
+
                 _spinner.value = true
-                block()
+                withContext(Dispatchers.IO) {
+                    val threadName = Thread.currentThread().name
+                    Log.e("MainViewModel", "threadName2 is $threadName")
+                    block()
+                }
             } catch (e: Exception) {
                 _snackBar.value = e.message
             } finally {

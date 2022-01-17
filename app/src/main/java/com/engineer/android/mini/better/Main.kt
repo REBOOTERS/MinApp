@@ -1,17 +1,19 @@
 package com.engineer.android.mini.better
 
 import io.reactivex.Observable
+import org.json.JSONObject
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.HashMap
 
 /**
  * Created on 2021/8/9.
  * @author rookie
  */
 fun main() {
+}
 
-
-
+private fun testInterval() {
     Observable.intervalRange(0L, 20.toLong(), 0, 1L, TimeUnit.SECONDS)
         .doOnNext {
 //            println(it)

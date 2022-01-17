@@ -1,6 +1,12 @@
 package com.engineer.android.mini.better;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -11,7 +17,48 @@ public class Demo {
     private static Disposable sDisposable;
 
     public static void main(String[] args) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", "mike");
+        map.put("age", 12);
+        map.put("address", "中国北京");
 
+        Map<String, Object> result = new HashMap<>();
+        result.put("result", map);
+        result.put("level", 1);
+        result.put("isVip", false);
+        result.put("card", null);
+        result.put("time", System.currentTimeMillis());
+
+
+        String json = JSON.toJSONString(result);
+        JSONObject jsonObject = JSONObject.parseObject(json);
+        String beauty = JSON.toJSONString(jsonObject,
+                SerializerFeature.PrettyFormat,
+                SerializerFeature.SortField,
+                SerializerFeature.WriteMapNullValue,
+                SerializerFeature.WriteDateUseDateFormat);
+        System.out.println(beauty);
+
+    }
+
+    private Demo() {
+    }
+
+    private static volatile Demo sDemo;
+
+    public static Demo test() {
+        if (sDemo == null) {
+            synchronized (Demo.class) {
+                if (sDemo == null) {
+                    sDemo = new Demo();
+                }
+            }
+        }
+        return sDemo;
+    }
+
+
+    private static void testInterval() {
         Observable.intervalRange(0L, 10L, 0, 1L, TimeUnit.SECONDS)
 //                .observeOn(Schedulers.computation())
                 .doOnNext(aLong -> {
@@ -39,21 +86,5 @@ public class Demo {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    private Demo() {
-    }
-
-    private static volatile Demo sDemo;
-
-    public static Demo test() {
-        if (sDemo == null) {
-            synchronized (Demo.class) {
-                if (sDemo == null) {
-                    sDemo = new Demo();
-                }
-            }
-        }
-        return sDemo;
     }
 }

@@ -95,27 +95,28 @@ class OldWayActivity : AppCompatActivity() {
 
         val errorHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
             throwable.message.toast()
+            Log.e(TAG,"errorHandler -> "+throwable.stackTraceToString())
         }
 
         viewBinding.handle.setOnClickListener {
-            try {
-                mainScope?.launch(errorHandler) {
-                    val start = System.currentTimeMillis()
-                    printThreadName()
-                    val x = mockNet(10)
-                    lg(x)
-                    val y = mockNet(30)
-                    lg(y)
-                    val z = mockNet(-1)
-//                lg(z)
-                    val result = x + y
-                    printThreadName()
-                    printMethodCost(start)
-                    "result is $result".toast()
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "catch a coroutine ex $e")
+//            try {
+            mainScope?.launch(errorHandler) {
+                val start = System.currentTimeMillis()
+                printThreadName()
+                val x = mockNet(10)
+                lg(x)
+                val y = mockNet(30)
+                lg(y)
+                val z = mockNet(-1)
+                lg(z)
+                val result = x + y
+                printThreadName()
+                printMethodCost(start)
+                "result is $result".toast()
             }
+//            } catch (e: Exception) {
+//                Log.e(TAG, "catch a coroutine ex $e")
+//            }
 
         }
 
