@@ -15,6 +15,7 @@
         <com.engineer.android.mini.ui.widget.BindBottomLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FF5722"
             android:orientation="vertical">
 
             <View
@@ -23,9 +24,10 @@
                 android:background="#99f" />
 
             <LinearLayout
+                android:id="@+id/ll_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#2196F3" />
+                android:orientation="vertical" />
 
             <View
                 android:layout_width="match_parent"

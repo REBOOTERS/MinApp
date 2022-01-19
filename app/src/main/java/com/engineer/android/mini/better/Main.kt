@@ -11,6 +11,10 @@ import kotlin.collections.HashMap
  * @author rookie
  */
 fun main() {
+    val list = arrayListOf("11", "cdd", "d", "cat")
+    println(list)
+    val str = list.joinToString(",")
+    println(str)
 }
 
 private fun testInterval() {

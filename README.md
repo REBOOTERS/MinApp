@@ -57,6 +57,11 @@ how to make a minimal app
 implementation 'com.google.android.material:material:1.2.0'
 ```
 
+## App 签名
+```shell
+apksigner verify -verbose -print-certs xxx.apk
+```
+
 ### CI
 
 [Continuous Integration for Flutter with GitHub Actions](https://admcpr.com/continuous-integration-for-flutter-with-github-actions/)
