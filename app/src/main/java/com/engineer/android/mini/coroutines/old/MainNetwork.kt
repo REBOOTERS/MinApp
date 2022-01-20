@@ -20,6 +20,7 @@ import com.engineer.android.mini.coroutines.old.util.SkipNetworkInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.Result
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 
@@ -46,6 +47,9 @@ interface MainNetwork {
     @GET("next_title.json")
 //    fun fetchNextTitle(): Call<String>
     suspend fun fetchNextTitle(): String
+
+    @GET("next_title")
+    suspend fun fetchNextTitle1(): String
 }
 
 

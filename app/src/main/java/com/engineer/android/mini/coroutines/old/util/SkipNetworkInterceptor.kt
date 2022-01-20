@@ -18,6 +18,7 @@ package com.engineer.android.mini.coroutines.old.util
 
 import com.google.gson.Gson
 import okhttp3.*
+import retrofit2.adapter.rxjava2.Result
 
 /**
  * A list of fake results to return.

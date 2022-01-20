@@ -28,6 +28,7 @@ import androidx.lifecycle.lifecycleScope
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityOldMainBinding
 import com.engineer.android.mini.ext.toast
+import com.engineer.android.mini.ui.BaseActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -38,7 +39,7 @@ import kotlin.random.Random
  */
 private const val TAG = "Coroutines"
 
-class OldWayActivity : AppCompatActivity() {
+class OldWayActivity : BaseActivity() {
     private lateinit var viewBinding: ActivityOldMainBinding
 
     private var mainScope: CoroutineScope? = null
@@ -51,6 +52,96 @@ class OldWayActivity : AppCompatActivity() {
         viewBinding = ActivityOldMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         mainScope = MainScope()
+
+
+        val errorHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+            throwable.message.toast()
+            Log.e(TAG, "errorHandler -> " + throwable.stackTraceToString())
+        }
+
+        var job: Job? = null
+        viewBinding.handle.setOnClickListener {
+            job = mainScope?.launch(errorHandler) {
+                job?.let {
+                    Log.e(TAG, "job is ${it.isActive}")
+                }
+                val start = System.currentTimeMillis()
+                printThreadName()
+                val x = mockNet(10)
+                lg(x)
+                val y = mockNet(30)
+                lg(y)
+//                val z = mockNet(0)
+//                lg(z)
+                val result = x + y
+                printThreadName()
+                printMethodCost(start)
+                "result is $result".toast()
+                job?.let {
+                    Log.e(TAG, "job is ${it.isActive}")
+                }
+            }
+
+        }
+
+        viewBinding.useAwait.setOnClickListener {
+            mainScope?.launch(Dispatchers.Unconfined) {
+                val start = System.currentTimeMillis()
+                printThreadName("1")
+                val x = async { mockNet(10) }
+                val y = async { mockNet(30) }
+                val result = x.await() + y.await()
+                printThreadName("2")
+                withContext(Dispatchers.Main) {
+                    printThreadName("3")
+                    "result is $result".toast()
+                    printMethodCost(start)
+                }
+
+            }
+        }
+
+        viewBinding.useFlow.setOnClickListener {
+            lifecycleScope.launchWhenResumed {
+                createFlow()
+                    .flowOn(Dispatchers.IO)
+//                    .map {
+//                        if (it > 5) {
+//                            it % 0
+//                        }
+//                    }
+                    .catch {
+                        Log.e(TAG, this.toString())
+                    }
+                    .onCompletion {
+                        Log.e(TAG, "onCompletion")
+                    }
+                    .collect {
+                        if (it > 5) {
+                            it / 0
+                        }
+                        Log.e(TAG, "collect ,it = $it")
+                    }
+            }
+        }
+
+        coroutinesSimple()
+    }
+
+
+    private fun createFlow(): Flow<Int> {
+        return (1..10).asFlow()
+    }
+
+    private suspend fun mockNet(input: Int): Int {
+        withContext(Dispatchers.Default) {
+            delay(1000)
+            printThreadName("mockNet")
+        }
+        return Random.nextInt(input)
+    }
+
+    private fun coroutinesSimple() {
         val title: TextView = findViewById(R.id.title)
         val taps: Button = findViewById(R.id.taps)
         val spinner: ProgressBar = findViewById(R.id.spinner)
@@ -91,82 +182,6 @@ class OldWayActivity : AppCompatActivity() {
                 viewModel.onSnackbarShown()
             }
         }
-
-
-        val errorHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
-            throwable.message.toast()
-            Log.e(TAG,"errorHandler -> "+throwable.stackTraceToString())
-        }
-
-        viewBinding.handle.setOnClickListener {
-//            try {
-            mainScope?.launch(errorHandler) {
-                val start = System.currentTimeMillis()
-                printThreadName()
-                val x = mockNet(10)
-                lg(x)
-                val y = mockNet(30)
-                lg(y)
-                val z = mockNet(-1)
-                lg(z)
-                val result = x + y
-                printThreadName()
-                printMethodCost(start)
-                "result is $result".toast()
-            }
-//            } catch (e: Exception) {
-//                Log.e(TAG, "catch a coroutine ex $e")
-//            }
-
-        }
-
-        viewBinding.useAwait.setOnClickListener {
-            mainScope?.launch(Dispatchers.Unconfined) {
-                val start = System.currentTimeMillis()
-                printThreadName()
-                val x = async { mockNet(10) }
-                val y = async { mockNet(30) }
-                val result = x.await() + y.await()
-                printThreadName()
-                printMethodCost(start)
-                withContext(Dispatchers.Main) {
-                    "result is $result".toast()
-                }
-
-            }
-        }
-
-        viewBinding.useFlow.setOnClickListener {
-            lifecycleScope.launchWhenResumed {
-                createFlow()
-                    .flowOn(Dispatchers.IO)
-                    .catch {
-
-                    }
-                    .onCompletion {
-                        Log.e(TAG, "onCompletion")
-                    }
-                    .collect {
-                        Log.e(TAG, "collect ,it = $it")
-                    }
-            }
-        }
-    }
-
-    private fun createFlow(): Flow<Int> {
-        return (1..10).asFlow()
-    }
-
-    private suspend fun mockNet(input: Int): Int {
-        withContext(Dispatchers.Default) {
-            delay(1000)
-            printThreadName()
-        }
-        if (input > 0) {
-            return Random(input).nextInt()
-        } else {
-            throw Exception("error")
-        }
     }
 
     override fun onDestroy() {
@@ -174,8 +189,8 @@ class OldWayActivity : AppCompatActivity() {
         mainScope?.cancel()
     }
 
-    private fun printThreadName() {
-        Log.e(TAG, "thread == ${Thread.currentThread().name}")
+    private fun printThreadName(method: String? = "main") {
+        Log.e(TAG, "in method $method , thread == ${Thread.currentThread().name}")
     }
 
     private fun lg(value: Int) {

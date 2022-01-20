@@ -96,6 +96,9 @@ class TitleRepository(val network: MainNetwork, val titleDao: TitleDao) {
         try {
             val result = network.fetchNextTitle()
             titleDao.insertTitle(Title(result))
+
+            val result1 = network.fetchNextTitle1()
+            titleDao.insertTitle(Title(result1.uppercase()))
         } catch (e: Exception) {
             throw TitleRefreshError("Unable to refresh title", e)
         }
