@@ -38,19 +38,22 @@ class MinApp : Application() {
             Log.e(MINI, "current exception  : ${Log.getStackTraceString(e)}")
             defaultExc?.uncaughtException(t, e)
         }
+
+        if (BuildConfig.DEBUG) {
+            Log.e(MINI, BuildConfig.FLAVOR)
+        }
     }
 
 
     private fun appLifecycle() {
-        ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleObserver {
-
-            @OnLifecycleEvent(Lifecycle.Event.ON_START)
-            private fun onAppForeground() {
+        ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onStart(owner: LifecycleOwner) {
+                super.onStart(owner)
                 Log.e("ProcessLife", "ApplicationObserver: app moved to foreground")
             }
 
-            @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-            private fun onAppBackground() {
+            override fun onStop(owner: LifecycleOwner) {
+                super.onStop(owner)
                 Log.e("ProcessLife", "ApplicationObserver: app moved to background")
             }
         })
@@ -62,7 +65,6 @@ class MinApp : Application() {
                     "onStateChanged() called with: source = $source, event = $event"
                 )
             }
-
         })
     }
 

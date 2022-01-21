@@ -65,6 +65,25 @@ android {
 //            aidl.srcDirs = ['src/main/aidl']
         }
     }
+    flavorDimensions "channel", "type"
+    productFlavors {
+        xiaomi {
+            dimension "channel"
+        }
+        oppo {
+            dimension "channel"
+        }
+        huawei {
+            dimension "channel"
+        }
+
+        global {
+            dimension "type"
+        }
+        local {
+            dimension "type"
+        }
+    }
 }
 
 dependencies {
