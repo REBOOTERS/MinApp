@@ -26,13 +26,13 @@ public class BookManagerService extends Service {
         }
 
         @Override
-        public List<Book> getBookList() throws RemoteException {
+        public List<Book> getBookList() {
             Log.e(TAG, "getBookList() called on Thread " + Thread.currentThread().getName());
             return mBookList;
         }
 
         @Override
-        public void addBook(Book book) throws RemoteException {
+        public void addBook(Book book) {
             Log.e(TAG, "addBook() called with: book = [" + book + "]" + " called on Thread "
                     + Thread.currentThread().getName());
             mBookList.add(book);

@@ -88,7 +88,7 @@ public class IpcActivity extends AppCompatActivity {
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-
+            Log.e(TAG, "onServiceDisconnected() called with: name = [" + name + "]");
         }
     };
 

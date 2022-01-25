@@ -3,10 +3,13 @@ package com.engineer.android.mini.better;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.engineer.android.mini.util.TimeUtil;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -17,6 +20,36 @@ public class Demo {
     private static Disposable sDisposable;
 
     public static void main(String[] args) {
+        TimeZone china = TimeZone.getTimeZone("GMT+08:00");
+        Calendar calendar = Calendar.getInstance(china);
+        calendar.setTime(new Date());
+        calendar.set(Calendar.SECOND, 0);
+        long curTime = calendar.getTimeInMillis();
+        long sysTime = System.currentTimeMillis();
+        System.out.println("curTime = " + curTime + ", date = " + TimeUtil.getTime(curTime));
+        System.out.println("sysTime = " + sysTime + ", date = " + TimeUtil.getTime(sysTime));
+    }
+
+
+
+    private Demo() {
+    }
+
+    private static volatile Demo sDemo;
+
+    public static Demo test() {
+        if (sDemo == null) {
+            synchronized (Demo.class) {
+                if (sDemo == null) {
+                    sDemo = new Demo();
+                }
+            }
+        }
+        return sDemo;
+    }
+
+
+    private static void testJson() {
         Map<String, Object> map = new HashMap<>();
         map.put("name", "mike");
         map.put("age", 12);
@@ -38,23 +71,6 @@ public class Demo {
                 SerializerFeature.WriteMapNullValue,
                 SerializerFeature.WriteDateUseDateFormat);
         System.out.println(beauty);
-
-    }
-
-    private Demo() {
-    }
-
-    private static volatile Demo sDemo;
-
-    public static Demo test() {
-        if (sDemo == null) {
-            synchronized (Demo.class) {
-                if (sDemo == null) {
-                    sDemo = new Demo();
-                }
-            }
-        }
-        return sDemo;
     }
 
 
