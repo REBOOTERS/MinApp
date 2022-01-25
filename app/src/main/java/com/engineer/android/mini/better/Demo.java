@@ -102,5 +102,26 @@ public class Demo {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        try {
+            test2();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+//            test1();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private static void test1() {
+        throw new VerifyError();
+    }
+
+    private static void test2() throws Exception {
+        throw new Exception("null");
     }
 }
