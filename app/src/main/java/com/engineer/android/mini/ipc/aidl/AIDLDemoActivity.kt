@@ -26,7 +26,6 @@ class AIDLDemoActivity : AppCompatActivity() {
 
     private var count = 0
 
-    private var disposable: Disposable? = null
     private var textView: TextView? = null
     private var button: Button? = null
 
@@ -102,7 +101,7 @@ class AIDLDemoActivity : AppCompatActivity() {
         textView?.movementMethod = ScrollingMovementMethod.getInstance()
     }
 
-    private inner class MyCallback constructor(activity: AIDLDemoActivity) :
+    private class MyCallback constructor(activity: AIDLDemoActivity) :
         IBookInfoCallback.Stub() {
 
         private val activityWeakReference: WeakReference<AIDLDemoActivity> = WeakReference(activity)
@@ -169,9 +168,6 @@ class AIDLDemoActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (disposable != null) {
-            disposable!!.dispose()
-        }
         if (isBookServiceRegistered) {
             unbindService(mBookconn)
         }

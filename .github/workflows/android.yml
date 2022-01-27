@@ -24,4 +24,4 @@ jobs:
     - name: check-style
       run: ./gradlew checkstyle
     - name: Build with Gradle
-      run: ./gradlew app:assembleRelease
+      run: ./gradlew app:assembleHuaweiGlobalRelease
