@@ -12,7 +12,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.functions.Action;
 
 public class BookManagerService extends Service {
     private static final String TAG = "BookManagerService";
@@ -64,21 +63,18 @@ public class BookManagerService extends Service {
 
         @Override
         public void addBookToRepo(Book book) {
-            Observable.timer(2, TimeUnit.SECONDS)
-                    .doOnComplete(new Action() {
-                        @Override
-                        public void run() throws Exception {
-                            if (mBinder.isBinderAlive()) {
-                                if (iBookInfoCallback != null) {
-                                    mBookList.add(book);
-                                    iBookInfoCallback.operationSuccess("addBookToRepo");
-                                    iBookInfoCallback.notifyBookInfo(mBookList);
-                                }
-                            } else {
-                                Log.d(TAG, "run() called " + mBinder.isBinderAlive());
+            Observable.timer(5, TimeUnit.SECONDS)
+                    .doOnComplete(() -> {
+                        if (mBinder.isBinderAlive()) {
+                            if (iBookInfoCallback != null) {
+                                mBookList.add(book);
+                                iBookInfoCallback.operationSuccess("addBookToRepo");
+                                iBookInfoCallback.notifyBookInfo(mBookList);
                             }
-
+                        } else {
+                            Log.e(TAG, "run() called " + mBinder.isBinderAlive());
                         }
+
                     }).subscribe();
         }
 

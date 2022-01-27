@@ -19,6 +19,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ipc.aidl.AIDLDemoActivity"
+            android:exported="true" />
+        <activity
             android:name=".media.AudioActivity"
             android:exported="false" />
         <activity
