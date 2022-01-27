@@ -3,6 +3,8 @@ package com.engineer.android.mini.ipc.aidl;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 /**
  * Created on 2021/3/29.
  *
@@ -46,6 +48,19 @@ public class Book implements Parcelable {
     private Book(Parcel in) {
         bookId = in.readInt();
         bookName = in.readString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return bookId == book.bookId && Objects.equals(bookName, book.bookName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookId, bookName);
     }
 
     @Override

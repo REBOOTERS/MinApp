@@ -13,9 +13,53 @@
         style="@style/mw_10_margin"
         android:text="messenger" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/grey" />
+
     <Button
         android:id="@+id/aidl"
         style="@style/mw_10_margin"
         android:text="aidl" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/grey" />
+
+    <Button
+        android:id="@+id/add_book"
+        style="@style/mw_10_margin"
+        android:text="add_book" />
+
+    <Button
+        android:id="@+id/get_book"
+        style="@style/mw_10_margin"
+        android:text="get_book" />
+
+    <Button
+        android:id="@+id/del_book"
+        style="@style/mw_10_margin"
+        android:text="del_book" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/grey" />
+
+    <Button
+        android:id="@+id/async_callback"
+        style="@style/mw_10_margin"
+        android:text="async_callback" />
+
+    <TextView
+        android:scrollbars="vertical"
+        android:id="@+id/async_result"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="10dp"
+        android:text="" />
+
 
 </LinearLayout>
