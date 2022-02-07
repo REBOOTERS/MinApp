@@ -57,7 +57,7 @@ public class BookManagerService extends Service {
 
         @Override
         public void unregisterCallback(IBookInfoCallback callback) {
-            callback = null;
+            iBookInfoCallback = null;
         }
 
 
@@ -65,7 +65,9 @@ public class BookManagerService extends Service {
         public void addBookToRepo(Book book) {
             Observable.timer(5, TimeUnit.SECONDS)
                     .doOnComplete(() -> {
-                        if (mBinder.isBinderAlive()) {
+                        Log.e(TAG, "mBinder.pingBinder() = " + mBinder.pingBinder()
+                                + ",iBookInfoCallback = " + iBookInfoCallback);
+                        if (mBinder.pingBinder()) {
                             if (iBookInfoCallback != null) {
                                 mBookList.add(book);
                                 iBookInfoCallback.operationSuccess("addBookToRepo");
