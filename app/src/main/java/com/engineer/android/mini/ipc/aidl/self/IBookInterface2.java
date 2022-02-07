@@ -45,7 +45,8 @@ public interface IBookInterface2 extends IInterface {
         }
 
         @Override
-        protected boolean onTransact(int code, @NonNull Parcel data, @Nullable Parcel reply, int flags) throws RemoteException {
+        protected boolean onTransact(int code, @NonNull Parcel data,
+                                     @Nullable Parcel reply, int flags) throws RemoteException {
             return super.onTransact(code, data, reply, flags);
         }
 
