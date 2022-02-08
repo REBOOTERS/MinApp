@@ -72,6 +72,8 @@ public class BookManagerService extends Service {
                                 mBookList.add(book);
                                 iBookInfoCallback.operationSuccess("addBookToRepo");
                                 iBookInfoCallback.notifyBookInfo(mBookList);
+                            } else {
+                                Log.e(TAG, "iBookInfoCallback is null, just return");
                             }
                         } else {
                             Log.e(TAG, "run() called " + mBinder.isBinderAlive());
@@ -103,6 +105,13 @@ public class BookManagerService extends Service {
     public IBinder onBind(Intent intent) {
         Log.e(TAG, "onBind() called with: intent = [" + intent + "]");
         return mBinder;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.e(TAG, "onStartCommand() called with: intent = [" + intent + "], flags = [" + flags
+                + "], startId = [" + startId + "]");
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override

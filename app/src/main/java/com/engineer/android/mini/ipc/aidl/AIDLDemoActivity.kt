@@ -30,6 +30,8 @@ class AIDLDemoActivity : AppCompatActivity() {
     private var button: Button? = null
 
     val mainHandler = Handler(Looper.getMainLooper())
+    private var remoteIntent: Intent? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,6 +99,9 @@ class AIDLDemoActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
+        findViewById<View>(R.id.stop_remote).setOnClickListener {
+            stopRemote()
+        }
         textView = findViewById(R.id.async_result)
         textView?.movementMethod = ScrollingMovementMethod.getInstance()
     }
@@ -116,6 +121,11 @@ class AIDLDemoActivity : AppCompatActivity() {
                 activity.mainHandler.post {
                     activity.textView?.text = books.toString()
                     activity.button?.performClick()
+
+                    Log.e(
+                        "MyCallback",
+                        "**************************************************************"
+                    )
                 }
             }
         }
@@ -140,7 +150,7 @@ class AIDLDemoActivity : AppCompatActivity() {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             mIBookInterface = IBookInterface.Stub.asInterface(service)
             Log.e(
-                TAG, "onServiceConnected: thread on "
+                "ServiceConnection", "onServiceConnected: thread on "
                         + Thread.currentThread().name
             )
             if (myCallback == null) {
@@ -154,15 +164,15 @@ class AIDLDemoActivity : AppCompatActivity() {
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
-            Log.e(TAG, "onServiceDisconnected() called with: name = [$name]")
+            Log.e("ServiceConnection", "onServiceDisconnected() called with: name = [$name]")
             releaseCallback()
         }
     }
 
     private fun startBookManger() {
         Log.e(TAG, "startBookManger() called")
-        val intent = Intent(this, BookManagerService::class.java)
-        isBookServiceRegistered = bindService(intent, mBookconn, BIND_AUTO_CREATE)
+        remoteIntent = Intent(this, BookManagerService::class.java)
+        isBookServiceRegistered = bindService(remoteIntent, mBookconn, BIND_AUTO_CREATE)
     }
 
 
@@ -170,6 +180,7 @@ class AIDLDemoActivity : AppCompatActivity() {
         super.onDestroy()
         if (isBookServiceRegistered) {
             unbindService(mBookconn)
+            isBookServiceRegistered = false
         }
         releaseCallback()
         Log.e(TAG, "onDestroy() called")
@@ -184,5 +195,18 @@ class AIDLDemoActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun stopRemote() {
+        Log.e(TAG, "stopRemote() called")
+        remoteIntent?.let {
+            stopService(it)
+        }
+        if (isBookServiceRegistered) {
+            unbindService(mBookconn)
+            isBookServiceRegistered = false
+        }
+        releaseCallback()
+
     }
 }
