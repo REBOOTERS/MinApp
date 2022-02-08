@@ -136,7 +136,7 @@ class LayoutActivity : BaseActivity() {
         try {
             val clazz = Class.forName("android.view.ViewRootImpl")
             val fileds = clazz.declaredFields
-            fileds?.forEach {
+            fileds.forEach {
                 Log.e(TAG, "it name =  ${it.name}, it type = ${it.type}")
             }
         } catch (e: Exception) {

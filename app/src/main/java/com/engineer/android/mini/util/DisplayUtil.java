@@ -165,9 +165,7 @@ public class DisplayUtil {
                     deviceInfo = "navigationbar_is_min";
                 }
 
-                if (Settings.Global.getInt(context.getContentResolver(), deviceInfo, 0) == 0) {
-                    return true;
-                }
+                return Settings.Global.getInt(context.getContentResolver(), deviceInfo, 0) == 0;
             }
 
         }

@@ -78,7 +78,7 @@ class BindBottomLayout @JvmOverloads constructor(
             )
             currentY += child.measuredHeight + lp.bottomMargin
             if (i == 0 && mExtentHeight > 0) {
-                Log.e(TAG,"mExtentHeight: " + mExtentHeight);
+                Log.e(TAG,"mExtentHeight: " + mExtentHeight)
                 currentY += mExtentHeight
             }
         }

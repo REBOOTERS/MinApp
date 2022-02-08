@@ -82,10 +82,10 @@ open class BaseActivity : AppCompatActivity() {
             }
 
             defaultInsets.replaceSystemWindowInsets(
-                defaultInsets.getSystemWindowInsetLeft(),
+                defaultInsets.systemWindowInsetLeft,
                 0,
-                defaultInsets.getSystemWindowInsetRight(),
-                defaultInsets.getSystemWindowInsetBottom()
+                defaultInsets.systemWindowInsetRight,
+                defaultInsets.systemWindowInsetBottom
 
             )
         }

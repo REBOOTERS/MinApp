@@ -19,7 +19,7 @@ import java.lang.reflect.Field;
  */
 
 public class DragContainer implements View.OnTouchListener {
-    private Builder mBuilder;
+    private final Builder mBuilder;
 
     private int mStatusBarHeight;
     private int mScreenWidth;

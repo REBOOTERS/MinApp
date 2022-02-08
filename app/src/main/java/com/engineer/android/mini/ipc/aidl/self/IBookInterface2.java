@@ -52,7 +52,7 @@ public interface IBookInterface2 extends IInterface {
 
         private static class Proxy implements IBookInterface2 {
 
-            private IBinder mRemote;
+            private final IBinder mRemote;
 
             Proxy(IBinder iBinder) {
                 mRemote = iBinder;

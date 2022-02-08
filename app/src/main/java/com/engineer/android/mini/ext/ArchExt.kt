@@ -9,7 +9,7 @@ import android.content.Intent
  * @author rookie
  */
 
-public fun <T, R> T.easy(block: (T) -> R, ifNull: () -> Unit) {
+fun <T, R> T.easy(block: (T) -> R, ifNull: () -> Unit) {
     if (this != null) {
         block(this)
     } else {
@@ -17,7 +17,7 @@ public fun <T, R> T.easy(block: (T) -> R, ifNull: () -> Unit) {
     }
 }
 
-public fun Activity.gotoActivity(targetClass: Class<out Activity>?) {
+fun Activity.gotoActivity(targetClass: Class<out Activity>?) {
     targetClass?.easy({
         this.startActivity(Intent(this, it))
     }, {

@@ -31,7 +31,7 @@ class MinApp : Application() {
 
         appLifecycle()
         lruTest()
-        val defaultExc = Thread.getDefaultUncaughtExceptionHandler();
+        val defaultExc = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler { t, e ->
             Log.e(MINI, "current process    : ${Process.myPid()}")
             Log.e(MINI, "current thread     : id = ${t.id}, name = ${t.name}")

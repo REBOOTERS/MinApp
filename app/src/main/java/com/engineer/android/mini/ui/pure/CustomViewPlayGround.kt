@@ -315,7 +315,7 @@ constructor(context: Context, attributeSet: AttributeSet? = null, style: Int = 0
 
             measureChild(childView, widthMeasureSpec, heightMeasureSpec)
             val marginLp = childView.layoutParams as MarginLayoutParams
-            val childWidth = childView.measuredWidth + marginLp.leftMargin + marginLp.rightMargin;
+            val childWidth = childView.measuredWidth + marginLp.leftMargin + marginLp.rightMargin
             val childHeight = childView.measuredHeight + marginLp.topMargin + marginLp.bottomMargin
 
             // 需要换行

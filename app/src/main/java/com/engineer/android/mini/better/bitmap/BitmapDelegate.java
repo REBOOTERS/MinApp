@@ -16,7 +16,7 @@ import com.engineer.android.mini.better.BetterDelegate;
  */
 public class BitmapDelegate extends BetterDelegate {
     private static final String TAG = "BitmapDelegate";
-    private Context context;
+    private final Context context;
     private Bitmap bitmap;
 
     public BitmapDelegate(Context c) {

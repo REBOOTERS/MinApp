@@ -98,10 +98,6 @@ class FragmentManagerActivity : BaseActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     private var myComponent: MyLifecycleAwareComponent? = null
     private fun playLifecycle() {
         lifecycle.addObserver(EasyObserver())

@@ -2,23 +2,23 @@
 
 ```kotlin
     @MainThread
-    public void observe(@NonNull LifecycleOwner owner, @NonNull Observer<? super T> observer) {
-        assertMainThread("observe");
-        if (owner.getLifecycle().getCurrentState() == DESTROYED) {
-            // ignore
-            return;
-        }
-        LifecycleBoundObserver wrapper = new LifecycleBoundObserver(owner, observer);
-        ObserverWrapper existing = mObservers.putIfAbsent(observer, wrapper);
-        if (existing != null && !existing.isAttachedTo(owner)) {
-            throw new IllegalArgumentException("Cannot add the same observer"
-                    + " with different lifecycles");
-        }
-        if (existing != null) {
-            return;
-        }
-        owner.getLifecycle().addObserver(wrapper);
+public void observe(@NonNull LifecycleOwner owner, @NonNull Observer < ? super T > observer) {
+    assertMainThread("observe")
+    if (owner.getLifecycle().getCurrentState() == DESTROYED) {
+        // ignore
+        return
     }
+    LifecycleBoundObserver wrapper = new LifecycleBoundObserver(owner, observer)
+    ObserverWrapper existing = mObservers . putIfAbsent (observer, wrapper)
+    if (existing != null && !existing.isAttachedTo(owner)) {
+        throw new IllegalArgumentException ("Cannot add the same observer"
+                + " with different lifecycles")
+    }
+    if (existing != null) {
+        return
+    }
+    owner.getLifecycle().addObserver(wrapper)
+}
 ```
 
 code

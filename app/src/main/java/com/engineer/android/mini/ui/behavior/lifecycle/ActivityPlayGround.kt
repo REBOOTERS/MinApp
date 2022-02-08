@@ -38,11 +38,6 @@ open class BaseLifeActivity : BaseActivity() {
     }
 
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-//        Log.e(TAG, "onPostCreate() called with: savedInstanceState = $savedInstanceState")
-    }
-
     override fun onStart() {
         super.onStart()
         Log.e(TAG, "onStart() called")
@@ -51,11 +46,6 @@ open class BaseLifeActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         Log.e(TAG, "onResume() called")
-    }
-
-    override fun onPostResume() {
-        super.onPostResume()
-//        Log.e(TAG, "onPostResume: ")
     }
 
     override fun onPause() {

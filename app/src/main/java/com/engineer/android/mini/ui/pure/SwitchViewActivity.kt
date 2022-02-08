@@ -53,7 +53,7 @@ class SwitchViewActivity : BaseActivity() {
             .setNeedNearEdge(false)//拖动停止后，是否移到边沿
             .setSize(600)//DragView大小
             .setView(subBinding.root)//设置自定义的DragView，切记不可为空
-            .build();
+            .build()
     }
 
     private fun switchView() {

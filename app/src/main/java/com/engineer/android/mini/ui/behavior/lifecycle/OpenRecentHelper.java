@@ -25,7 +25,7 @@ public class OpenRecentHelper {
                     .getInterfaceDescriptor());
             Object statusBarObject = statusBarClass.getClasses()[0].getMethod(
                     "asInterface", IBinder.class).invoke(null,
-                    new Object[]{retbinder});
+                    retbinder);
             Method clearAll = statusBarClass.getMethod("toggleRecentApps");
             clearAll.setAccessible(true);
             clearAll.invoke(statusBarObject);

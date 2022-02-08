@@ -16,12 +16,12 @@ public class MoveGestureDetector extends BaseGestureDetector {
     private PointF mCurrentPointer;
     private PointF mPrePointer;
     //仅仅为了减少创建内存
-    private PointF mDeltaPointer = new PointF();
+    private final PointF mDeltaPointer = new PointF();
 
     //用于记录最终结果，并返回
-    private PointF mExtenalPointer = new PointF();
+    private final PointF mExtenalPointer = new PointF();
 
-    private OnMoveGestureListener mListenter;
+    private final OnMoveGestureListener mListenter;
 
 
     public MoveGestureDetector(Context context, OnMoveGestureListener listener) {
