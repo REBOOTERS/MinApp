@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.engineer.android.mini">
+        package="com.engineer.android.mini">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -8,34 +8,34 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
-        android:name=".MinApp"
-        android:allowBackup="true"
-        android:fullBackupOnly="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:requestLegacyExternalStorage="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+            android:name=".MinApp"
+            android:allowBackup="true"
+            android:fullBackupOnly="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:requestLegacyExternalStorage="true"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme"
+            android:usesCleartextTraffic="true">
         <activity
-            android:name=".ipc.aidl.AIDLDemoActivity"
-            android:exported="true" />
+                android:name=".ipc.aidl.AIDLDemoActivity"
+                android:exported="true" />
         <activity
-            android:name=".media.AudioActivity"
-            android:exported="false" />
+                android:name=".media.AudioActivity"
+                android:exported="false" />
         <activity
-            android:name=".media.MediaRootActivity"
-            android:exported="true" />
+                android:name=".media.MediaRootActivity"
+                android:exported="true" />
         <activity
-            android:name=".ui.ForceBottomActivity"
-            android:exported="true" />
+                android:name=".ui.ForceBottomActivity"
+                android:exported="true" />
         <activity
-            android:name=".ui.pure.DuDuActivity"
-            android:exported="true" />
+                android:name=".ui.pure.DuDuActivity"
+                android:exported="true" />
         <activity
-            android:name=".RootActivity"
-            android:exported="true">
+                android:name=".RootActivity"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,98 +43,114 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".media.VideoActivity"
-            android:configChanges="screenSize|orientation"
-            android:exported="true" />
+                android:name=".media.VideoActivity"
+                android:configChanges="screenSize|orientation"
+                android:exported="true" />
         <activity
-            android:name=".ui.pure.MessyActivity"
-            android:exported="true" />
+                android:name=".ui.pure.MessyActivity"
+                android:exported="true" />
         <activity
-            android:name=".ui.pure.SwitchViewActivity"
-            android:exported="true" />
+                android:name=".ui.pure.SwitchViewActivity"
+                android:exported="true" />
         <activity
-            android:name=".better.bitmap.LargeBitmapActivity"
-            android:exported="true" />
+                android:name=".better.bitmap.LargeBitmapActivity"
+                android:exported="true" />
         <activity android:name=".better.BetterActivity" />
 
         <service
-            android:name=".ipc.aidl.BookManagerService"
-            android:enabled="true"
-            android:exported="false"
-            android:process=":remoteBook" />
+                android:name=".ipc.aidl.BookManagerService"
+                android:enabled="true"
+                android:exported="false"
+                android:process=":remoteBook" />
 
         <activity
-            android:name=".ipc.IpcActivity"
-            android:exported="true" />
+                android:name=".ipc.IpcActivity"
+                android:exported="true" />
 
         <service
-            android:name=".ipc.messenger.MessengerService"
-            android:enabled="true"
-            android:exported="false"
-            android:process=":remote" />
+                android:name=".ipc.messenger.MessengerService"
+                android:enabled="true"
+                android:exported="false"
+                android:process=":remote" />
+
+        <service
+                android:name=".ui.pure.MyScreenSaver"
+                android:exported="true"
+                android:icon="@drawable/cute"
+                android:label="@string/app_name"
+                android:permission="android.permission.BIND_DREAM_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.dreams.DreamService" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <!-- Point to additional information for this dream (optional) -->
+            <meta-data
+                    android:name="android.service.dream"
+                    android:resource="@xml/my_dream" />
+        </service>
 
         <activity
-            android:name=".ui.adapter.RecyclerViewActivity"
-            android:exported="true" />
+                android:name=".ui.adapter.RecyclerViewActivity"
+                android:exported="true" />
         <activity
-            android:name=".flutter.FlutterRootActivity"
-            android:exported="true"
-            android:label="@string/title_activity_flutter_root" />
+                android:name=".flutter.FlutterRootActivity"
+                android:exported="true"
+                android:label="@string/title_activity_flutter_root" />
         <activity
-            android:name=".ui.pure.LayoutActivity"
-            android:exported="true" />
+                android:name=".ui.pure.LayoutActivity"
+                android:exported="true" />
         <activity
-            android:name=".ui.pure.EmptyActivity"
-            android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar" />
+                android:name=".ui.pure.EmptyActivity"
+                android:exported="true"
+                android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar" />
         <activity
-            android:name=".net.RxCacheActivity"
-            android:exported="true" />
+                android:name=".net.RxCacheActivity"
+                android:exported="true" />
         <activity
-            android:name=".ui.behavior.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:theme="@style/AppThemeWithActionBar" />
+                android:name=".ui.behavior.SettingsActivity"
+                android:label="@string/title_activity_settings"
+                android:theme="@style/AppThemeWithActionBar" />
         <activity
-            android:name=".ui.behavior.BehaviorActivity"
-            android:exported="true" />
+                android:name=".ui.behavior.BehaviorActivity"
+                android:exported="true" />
         <activity
-            android:name=".ui.pure.PureUIActivity"
-            android:exported="true" />
+                android:name=".ui.pure.PureUIActivity"
+                android:exported="true" />
         <activity
-            android:name=".coroutines.old.OldWayActivity"
-            android:exported="true" />
+                android:name=".coroutines.old.OldWayActivity"
+                android:exported="true" />
         <activity
-            android:name=".ui.pure.CustomViewActivity"
-            android:exported="true" />
+                android:name=".ui.pure.CustomViewActivity"
+                android:exported="true" />
         <activity
-            android:name=".ui.pure.WrapContentActivity"
-            android:exported="true" />
+                android:name=".ui.pure.WrapContentActivity"
+                android:exported="true" />
         <activity
-            android:name=".ui.pure.FullscreenActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_fullscreen"
-            android:theme="@style/FullscreenTheme" />
+                android:name=".ui.pure.FullscreenActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/title_activity_fullscreen"
+                android:theme="@style/FullscreenTheme" />
         <activity android:name=".jetpack.FragmentManagerActivity" />
         <activity
-            android:name=".ui.behavior.lifecycle.PanelActivity"
-            android:exported="true" />
+                android:name=".ui.behavior.lifecycle.PanelActivity"
+                android:exported="true" />
         <activity android:name=".ui.behavior.lifecycle.StandardActivity" />
         <activity android:name=".ui.behavior.lifecycle.ActivityE" />
         <activity
-            android:name=".ui.behavior.lifecycle.SingleTopActivity"
-            android:launchMode="singleTop" />
+                android:name=".ui.behavior.lifecycle.SingleTopActivity"
+                android:launchMode="singleTop" />
         <activity
-            android:name=".ui.behavior.lifecycle.SingleTaskActivity"
-            android:launchMode="singleTask" />
+                android:name=".ui.behavior.lifecycle.SingleTaskActivity"
+                android:launchMode="singleTask" />
         <activity
-            android:name=".ui.behavior.lifecycle.SingleInstanceActivity"
-            android:launchMode="singleInstance" />
+                android:name=".ui.behavior.lifecycle.SingleInstanceActivity"
+                android:launchMode="singleInstance" />
         <activity
-            android:name=".ui.behavior.lifecycle.ActivityC"
-            android:theme="@style/TransparentTheme" />
+                android:name=".ui.behavior.lifecycle.ActivityC"
+                android:theme="@style/TransparentTheme" />
         <activity
-            android:name=".ui.behavior.lifecycle.ActivityD"
-            android:process="com.engineer.android.mini.remote" />
+                android:name=".ui.behavior.lifecycle.ActivityD"
+                android:process="com.engineer.android.mini.remote" />
     </application>
 
 </manifest>

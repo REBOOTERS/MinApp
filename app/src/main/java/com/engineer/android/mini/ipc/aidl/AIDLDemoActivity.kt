@@ -148,7 +148,9 @@ class AIDLDemoActivity : AppCompatActivity() {
 
     private val mBookconn: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            Log.e("TGA_TAG", "service is $service")
             mIBookInterface = IBookInterface.Stub.asInterface(service)
+            Log.e("TGA_TAG", "interface is $mIBookInterface")
             Log.e(
                 "ServiceConnection", "onServiceConnected: thread on "
                         + Thread.currentThread().name
