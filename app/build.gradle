@@ -115,6 +115,8 @@ dependencies {
 
     implementation 'com.alibaba:fastjson:1.1.72.android'
     implementation "org.jetbrains.kotlin:kotlin-script-runtime:1.6.0"
+
+//    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
 
 //apply from: file("../custom-gradle/test-dep.gradle") // unit test

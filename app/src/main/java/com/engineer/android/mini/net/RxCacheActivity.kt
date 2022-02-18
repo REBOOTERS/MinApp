@@ -12,6 +12,7 @@ import com.engineer.android.mini.databinding.ActivityRxCacheBinding
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.net.hilt.AnalyticsService
 import com.engineer.android.mini.net.hilt.MiniEntryHelper
+import com.engineer.android.mini.util.JsonUtil
 import com.zchu.rxcache.RxCache
 import com.zchu.rxcache.data.CacheResult
 import com.zchu.rxcache.data.ResultFrom
@@ -87,7 +88,7 @@ class RxCacheActivity : AppCompatActivity() {
             true
         }
 
-
+        JsonUtil.parseSpecialJson()
     }
 
     private fun testSparseArray() {
