@@ -2,10 +2,9 @@ ext {
     compileSdkVersion = 31
     minSdkVersion = 23
     targetSdkVersion = 31
-    buildToolsVersion = "30.0.3"
 
 
-    kotlin_version = '1.5.21'
+    kotlin_version = '1.6.10'
     gradle_version = '7.1.1'
 
     kotlin_coroutines = '1.4.1'
@@ -18,7 +17,7 @@ ext {
     material = '1.4.0'
 
 
-    compose_version = '1.0.1'
+    compose_version = '1.1.0'
 
     android_hilt_version = "2.38.1"
 
