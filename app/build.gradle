@@ -6,12 +6,12 @@ apply plugin: 'kotlin-kapt'
 def ext = rootProject.ext
 
 android {
-    compileSdkVersion ext.compileSdkVersion
+    compileSdk ext.compileSdkVersion
 
     defaultConfig {
         applicationId "com.engineer.android.mini"
-        minSdkVersion ext.minSdkVersion
-        targetSdkVersion ext.targetSdkVersion
+        minSdk ext.minSdkVersion
+        targetSdk ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -119,7 +119,7 @@ dependencies {
 //    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
 
-//apply from: file("../custom-gradle/test-dep.gradle") // unit test
+apply from: file("../custom-gradle/test-dep.gradle") // unit test
 apply from: file("../custom-gradle/res-guard.gradle") // res-guard
 apply from: file("../custom-gradle/viewmodel-dep.gradle") // view-model-lifecycle 全家桶
 apply from: file("../custom-gradle/coroutines-dep.gradle") // kotlin coroutines

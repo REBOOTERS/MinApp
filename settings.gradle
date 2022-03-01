@@ -16,3 +16,4 @@ include ':app'
 
 
 include ':compose'
+include ':other'

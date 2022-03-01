@@ -4,11 +4,11 @@ plugins {
 }
 def ext = rootProject.ext
 android {
-    compileSdkVersion ext.compileSdkVersion
+    compileSdk ext.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion ext.minSdkVersion
-        targetSdkVersion ext.targetSdkVersion
+        minSdk ext.minSdkVersion
+        targetSdk ext.targetSdkVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
