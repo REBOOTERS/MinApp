@@ -10,6 +10,8 @@ import androidx.lifecycle.MutableLiveData
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityRxCacheBinding
 import com.engineer.android.mini.ext.toast
+import com.engineer.android.mini.net.driver.createFlowUp
+import com.engineer.android.mini.net.driver.registerFlow
 import com.engineer.android.mini.net.hilt.AnalyticsService
 import com.engineer.android.mini.net.hilt.MiniEntryHelper
 import com.engineer.android.mini.util.JsonUtil
@@ -89,6 +91,9 @@ class RxCacheActivity : AppCompatActivity() {
         }
 
         JsonUtil.parseSpecialJson()
+
+        createFlowUp()
+        registerFlow()
     }
 
     private fun testSparseArray() {
