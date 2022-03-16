@@ -15,5 +15,5 @@ fun String?.toast() {
 }
 
 fun String.log() {
-    Log.e("MyLog", this)
+    Log.e("MyLog-${Thread.currentThread().name}", this)
 }

@@ -49,9 +49,6 @@ class RootActivity : BaseActivity() {
         setupUI()
         printSysInfo()
         coroutineTest()
-
-        val logger = LogPrinter(Log.DEBUG, "ActivityThread")
-        Looper.myLooper()?.setMessageLogging(logger)
     }
 
     private val disposeOn = CompositeDisposable()
@@ -118,9 +115,9 @@ class RootActivity : BaseActivity() {
     private fun coroutineTest() {
         mainScope.launch {
             "111".log()
-            timeToggle(2000)
+            timeToggle(200)
             "222".log()
-            timeToggle(3000)
+            timeToggle(300)
             "333".log()
         }
     }
@@ -128,6 +125,7 @@ class RootActivity : BaseActivity() {
     private suspend fun timeToggle(i: Long) {
         withContext(Dispatchers.IO) {
             delay(i)
+            this.hashCode().toString().log()
         }
     }
 

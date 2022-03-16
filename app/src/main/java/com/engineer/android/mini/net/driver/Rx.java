@@ -25,9 +25,10 @@ public class Rx {
 
     public static void main(String[] args) {
         System.out.println("Rx");
-        testMap();
+//        testMap();
 //        testFor();
 //        testRxFlow();
+        System.out.println(testReturnFinal());
     }
 
     private static void testMap() {
@@ -61,6 +62,21 @@ public class Rx {
         treeSet.add("ABC");
         System.out.println(treeSet);
 
+    }
+
+    private static int testReturnFinal() {
+
+        try {
+            System.out.println(11111);
+//            System.out.println(1/0);// make a exception
+//            System.exit(0); // final will execute ?
+            return 1;
+        } catch (Exception e) {
+            System.out.println(33333);
+        } finally {
+            System.out.println(22222);
+        }
+        return 2;
     }
 
     private static void testFor() {
