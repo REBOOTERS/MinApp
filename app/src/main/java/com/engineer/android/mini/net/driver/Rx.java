@@ -1,5 +1,7 @@
 package com.engineer.android.mini.net.driver;
 
+import static com.engineer.android.mini.coroutines.old.CoroutinesPlaygroudKt.log;
+
 import org.reactivestreams.Subscription;
 
 import java.util.HashMap;
@@ -28,7 +30,29 @@ public class Rx {
 //        testMap();
 //        testFor();
 //        testRxFlow();
-        System.out.println(testReturnFinal());
+//        System.out.println(testReturnFinal());
+        testInterval();
+    }
+
+    private static long start = 0L;
+
+    private static void testInterval() {
+        log("step-1");
+//        long start = System.currentTimeMillis();
+        Observable.intervalRange(0L, 11L, 0, 1L, TimeUnit.SECONDS)
+                .doOnComplete(() -> {
+                    log("diff = " + (System.currentTimeMillis() - start));
+                    log("complete");
+                })
+                .doOnNext(aLong -> {
+                    if (aLong == 0) {
+                        start = System.currentTimeMillis();
+                    }
+                    log("along == " + aLong);
+                }).subscribe();
+        log("step-2");
+        waitXSeconds(12);
+        log("step-3");
     }
 
     private static void testMap() {
@@ -176,6 +200,4 @@ public class Rx {
             void onCallback(int num);
         }
     }
-
-
 }

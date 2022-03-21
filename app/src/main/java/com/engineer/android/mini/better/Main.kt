@@ -15,6 +15,17 @@ fun main() {
     println(list)
     val str = list.joinToString(",")
     println(str)
+
+    val timeStamp = System.currentTimeMillis();
+    val date = Date(timeStamp)
+    Calendar.getInstance().time = date
+    println(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))
+    println(Calendar.getInstance().get(Calendar.WEEK_OF_YEAR))
+    println(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+    println(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
+    println(Calendar.getInstance().get(Calendar.DAY_OF_WEEK_IN_MONTH))
+    println(Calendar.getInstance().get(Calendar.DAY_OF_YEAR))
+
 }
 
 private fun testInterval() {
