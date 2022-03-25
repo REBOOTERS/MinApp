@@ -12,8 +12,8 @@ fun main() {
 //    blockWay()
 //    runWay()
 //    launchWay()
-//    asyncWay()
-    androidWay()
+    asyncWay()
+//    androidWay()
 }
 
 private fun androidWay() {
@@ -34,7 +34,10 @@ private fun androidWay() {
 
 private fun asyncWay() {
     log("main-0")
-    GlobalScope.launch {
+    val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+        log("find ex: $throwable")
+    }
+    GlobalScope.launch(exceptionHandler) {
         log("before async")
         val defer1 = async {
             delay(2000)
