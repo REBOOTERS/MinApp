@@ -9,6 +9,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.RoundRectShape
+import android.graphics.drawable.shapes.Shape
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -27,6 +30,7 @@ import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.screenWidth
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
+import com.engineer.android.mini.ui.widget.RoundDrawable
 import com.engineer.android.mini.util.JavaUtil
 
 class MessyActivity : BaseActivity() {
@@ -73,6 +77,9 @@ class MessyActivity : BaseActivity() {
     }
 
     private fun setupUI() {
+        val  floatArray = floatArrayOf(55f, 55f, 5f, 5f, 5f, 5f, 5f, 5f)
+//        realBinding.nullBgTv.background = ShapeDrawable(RoundRectShape(floatArray,null,null))
+
         val len1 =
             realBinding.contentView.paint.measureText(realBinding.contentView.text.toString())
         val len = realBinding.annText.paint.measureText(realBinding.annText.text.toString())

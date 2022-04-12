@@ -118,6 +118,8 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.1.72.android'
     implementation "org.jetbrains.kotlin:kotlin-script-runtime:1.6.10"
 
+//    implementation 'com.facebook.shimmer:shimmer:0.6.0'
+
 //    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
 

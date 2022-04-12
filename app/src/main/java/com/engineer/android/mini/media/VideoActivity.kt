@@ -23,7 +23,7 @@ import java.lang.StringBuilder
 class VideoActivity : BaseActivity() {
 
     private lateinit var viewBinding: ActivityMediaBinding
-    val path = Environment.getExternalStorageDirectory().absolutePath + "/Movies/vv.mp4"
+    val path = Environment.getExternalStorageDirectory().absolutePath + "/Movies/tt.mp4"
 
     private var landscape = false
 
@@ -38,20 +38,28 @@ class VideoActivity : BaseActivity() {
         setMediaInfo()
 
         viewBinding.videoView.setVideoPath(path)
-        viewBinding.videoView.setOnErrorListener { mp, what, extra ->
-            Log.e(TAG, "onError() called with: mp = $mp, what = $what, extra = $extra")
-            "$path not exist".toast()
-            viewBinding.imageView.setImageResource(R.drawable.spring)
-            true
+        val listener = object : VideoPlayAdapterListener {
+            override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
+                "$path not exist".toast()
+                viewBinding.imageView.setImageResource(R.drawable.spring)
+                return super.onError(mp, what, extra)
+            }
+
+            override fun onPrepared(mp: MediaPlayer?) {
+                super.onPrepared(mp)
+                mp?.setVolume(0.2f, 0.2f)
+                mp?.start()
+                mp?.setOnVideoSizeChangedListener(this)
+            }
         }
+        viewBinding.videoView.setOnErrorListener(listener)
+        viewBinding.videoView.setOnCompletionListener(listener)
+        viewBinding.videoView.setOnPreparedListener(listener)
+        viewBinding.videoView.setOnInfoListener(listener)
+
         val control = MediaController(this)
         viewBinding.videoView.setMediaController(control)
         viewBinding.videoView.requestFocus()
-        viewBinding.videoView.setOnPreparedListener {
-            Log.e(TAG, "onPrepared() called")
-            it.setVolume(0.2f, 0.2f)
-        }
-
         viewBinding.fullScreen.setOnClickListener {
             if (landscape) {
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
