@@ -3,7 +3,7 @@ package com.engineer.android.mini.media
 import android.media.MediaPlayer
 import android.util.Log
 
-private val TAG = "VideoPlayAdapter"
+private const val TAG = "VideoPlayAdapter"
 
 interface VideoPlayAdapterListener : MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener,
     MediaPlayer.OnCompletionListener, MediaPlayer.OnInfoListener,

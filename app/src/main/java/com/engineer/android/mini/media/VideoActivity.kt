@@ -7,11 +7,14 @@ import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.media.AudioManager
 import android.media.MediaPlayer
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
+import android.view.WindowManager
 import android.widget.MediaController
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityMediaBinding
@@ -24,8 +27,11 @@ class VideoActivity : BaseActivity() {
 
     private lateinit var viewBinding: ActivityMediaBinding
     val path = Environment.getExternalStorageDirectory().absolutePath + "/Movies/tt.mp4"
+    private val netVideoPath = "https://cdn.videvo.net/videvo_files/video/free/2020-07" +
+            "/large_watermarked/06_1596083776_preview.mp4"
 
     private var landscape = false
+    private lateinit var control: MediaController
 
     private var receiver: MyVolumeReceiver? = null
     private val action = "android.media.VOLUME_CHANGED_ACTION"
@@ -34,10 +40,13 @@ class VideoActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMediaBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-
+        hideNavigationBar()
         setMediaInfo()
-
-        viewBinding.videoView.setVideoPath(path)
+        if (File(path).exists()) {
+            viewBinding.videoView.setVideoPath(path)
+        } else {
+            viewBinding.videoView.setVideoURI(Uri.parse(netVideoPath))
+        }
         val listener = object : VideoPlayAdapterListener {
             override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
                 "$path not exist".toast()
@@ -50,6 +59,8 @@ class VideoActivity : BaseActivity() {
                 mp?.setVolume(0.2f, 0.2f)
                 mp?.start()
                 mp?.setOnVideoSizeChangedListener(this)
+                mp?.isLooping = false
+                control.show(Int.MAX_VALUE)
             }
         }
         viewBinding.videoView.setOnErrorListener(listener)
@@ -57,7 +68,8 @@ class VideoActivity : BaseActivity() {
         viewBinding.videoView.setOnPreparedListener(listener)
         viewBinding.videoView.setOnInfoListener(listener)
 
-        val control = MediaController(this)
+        control = MediaController(this)
+
         viewBinding.videoView.setMediaController(control)
         viewBinding.videoView.requestFocus()
         viewBinding.fullScreen.setOnClickListener {
@@ -72,6 +84,13 @@ class VideoActivity : BaseActivity() {
         }
 
         register()
+    }
+
+    private fun hideNavigationBar() {
+
+        val uiFlag = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        window.decorView.systemUiVisibility = uiFlag
     }
 
     private fun register() {
