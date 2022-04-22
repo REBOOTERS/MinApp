@@ -7,6 +7,7 @@ import android.util.Log
 import android.util.SparseArray
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
+import com.alibaba.fastjson.JSON
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityRxCacheBinding
 import com.engineer.android.mini.ext.toast
@@ -14,7 +15,9 @@ import com.engineer.android.mini.net.driver.createFlowUp
 import com.engineer.android.mini.net.driver.registerFlow
 import com.engineer.android.mini.net.hilt.AnalyticsService
 import com.engineer.android.mini.net.hilt.MiniEntryHelper
+import com.engineer.android.mini.net.model.SiteWrapper
 import com.engineer.android.mini.util.JsonUtil
+import com.engineer.third.util.AndroidFileUtils
 import com.zchu.rxcache.RxCache
 import com.zchu.rxcache.data.CacheResult
 import com.zchu.rxcache.data.ResultFrom
@@ -25,8 +28,6 @@ import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 import kotlin.random.Random
 
 private const val TAG = "RxCacheActivity"
@@ -94,6 +95,14 @@ class RxCacheActivity : AppCompatActivity() {
 
         createFlowUp()
         registerFlow()
+        jsonSerialize()
+    }
+
+    private fun jsonSerialize() {
+        val jsonString = AndroidFileUtils.getStringFromAssets(this, "mock.json")
+//        Log.d(TAG, "jsonSerialize() called $jsonString")
+        val siteWrapper = JSON.parseObject(jsonString, SiteWrapper::class.java)
+        Log.d(TAG, "jsonSerialize() called $siteWrapper")
     }
 
     private fun testSparseArray() {

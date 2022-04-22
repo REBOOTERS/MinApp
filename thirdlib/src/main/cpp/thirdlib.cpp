@@ -15,3 +15,19 @@
 //         System.loadLibrary("thirdlib")
 //      }
 //    }
+
+#include <jni.h>
+#include <string>
+
+using namespace std;
+
+extern "C" {
+JNIEXPORT jstring JNICALL
+Java_com_engineer_third_CppActivity_getHello(JNIEnv *env, jobject) {
+    string hello = "Hello From C++";
+    char info[40000] = {0};
+    sprintf(info,"11111111");
+    hello = to_string(env->GetVersion()) + hello;
+    return env->NewStringUTF(hello.c_str());
+}
+}

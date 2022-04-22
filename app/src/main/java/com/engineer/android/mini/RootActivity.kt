@@ -28,6 +28,7 @@ import com.engineer.android.mini.ui.pure.PureUIActivity
 import com.engineer.android.mini.util.AndroidSystem
 import com.engineer.android.mini.util.ProducerConsumerViewModel
 import com.engineer.compose.ui.MainComposeActivity
+import com.engineer.third.CppActivity
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import jp.wasabeef.blurry.Blurry
@@ -37,6 +38,7 @@ import java.util.concurrent.TimeUnit
 class RootActivity : BaseActivity() {
     // https://mp.weixin.qq.com/s/keR7bO-Nu9bBr5Nhevbe1Q  ViewBinding
     private lateinit var viewBinding: ActivityRootBinding
+    private lateinit var disposeOn: CompositeDisposable
 
     private lateinit var mainScope: CoroutineScope
 
@@ -47,11 +49,8 @@ class RootActivity : BaseActivity() {
         mainScope = MainScope()
         handlePermissions()
         setupUI()
-        printSysInfo()
         coroutineTest()
     }
-
-    private val disposeOn = CompositeDisposable()
 
 
     private fun printSysInfo() {
@@ -115,18 +114,24 @@ class RootActivity : BaseActivity() {
     private fun coroutineTest() {
         mainScope.launch {
             "111".log()
-            timeToggle(200)
+            timeToggle(1000)
             "222".log()
-            timeToggle(300)
+            timeToggle(2000)
             "333".log()
         }
     }
 
     private suspend fun timeToggle(i: Long) {
-        withContext(Dispatchers.IO) {
+        val job = withContext(Dispatchers.IO + CoroutineName("timeToggle")) {
             delay(i)
-            this.hashCode().toString().log()
+            this.javaClass.toString().log()
+            this.coroutineContext.javaClass.toString().log()
+            this.coroutineContext.isActive.toString().log()
+            this.coroutineContext.job.javaClass.toString().log()
+            this.coroutineContext.toString().log()
+             1
         }
+        job.javaClass.toString().log()
     }
 
     private fun setupUI() {
@@ -157,7 +162,8 @@ class RootActivity : BaseActivity() {
         viewBinding.media.setOnClickListener { gotoActivity(MediaRootActivity::class.java) }
         viewBinding.crash.setOnClickListener { throw IllegalStateException() }
         viewBinding.compose.setOnClickListener { gotoActivity(MainComposeActivity::class.java) }
-        val logger = LogPrinter(Log.DEBUG, "ActivityThread")
+        viewBinding.cpp.setOnClickListener { gotoActivity(CppActivity::class.java) }
+        val logger = LogPrinter(Log.DEBUG, "MiniApp_ActivityThread")
         Looper.myLooper()?.setMessageLogging(logger)
     }
 
@@ -180,10 +186,22 @@ class RootActivity : BaseActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume() called")
+        disposeOn = CompositeDisposable()
+        printSysInfo()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause() called")
+        disposeOn.dispose()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         mainScope.cancel()
-        disposeOn.dispose()
     }
 
     // <editor-fold defaultstate="collapsed" desc="permission">

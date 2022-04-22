@@ -203,6 +203,13 @@
             android:layout_margin="10dp"
             android:text="compose" />
 
+        <Button
+            android:id="@+id/cpp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="cpp" />
+
     </com.google.android.flexbox.FlexboxLayout>
 
     <TextView
