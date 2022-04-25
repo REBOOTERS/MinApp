@@ -14,9 +14,8 @@ public class SiteWrapper {
 
     @Override
     public String toString() {
-        return "SiteWrapper{" +
-                "sites=" + sites +
-                ", token='" + token + '\'' +
-                '}';
+        return "SiteWrapper{"
+                + "sites=" + sites
+                + ", token=" + token + "}";
     }
 }

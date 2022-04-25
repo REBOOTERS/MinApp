@@ -17,4 +17,5 @@
 .cxx
 /history
 *.apk
-*.json
+# 这样可以只忽略当前文件夹下的 json 文件，而不是全局任意地方的
+/*.json
