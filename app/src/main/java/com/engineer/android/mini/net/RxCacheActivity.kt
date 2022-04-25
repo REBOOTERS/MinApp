@@ -15,6 +15,7 @@ import com.engineer.android.mini.net.driver.createFlowUp
 import com.engineer.android.mini.net.driver.registerFlow
 import com.engineer.android.mini.net.hilt.AnalyticsService
 import com.engineer.android.mini.net.hilt.MiniEntryHelper
+import com.engineer.android.mini.net.model.Site
 import com.engineer.android.mini.net.model.SiteWrapper
 import com.engineer.android.mini.util.JsonUtil
 import com.engineer.third.util.AndroidFileUtils
@@ -95,15 +96,32 @@ class RxCacheActivity : AppCompatActivity() {
 
         createFlowUp()
         registerFlow()
-        jsonSerialize()
+//        jsonSerialize()
+        jsonDeserialize()
     }
 
     private fun jsonSerialize() {
-        val jsonString = AndroidFileUtils.getStringFromAssets(this, "mock.json")
-//        Log.d(TAG, "jsonSerialize() called $jsonString")
-        val siteWrapper = JSON.parseObject(jsonString, SiteWrapper::class.java)
-        Log.d(TAG, "jsonSerialize() called $siteWrapper")
+        val sites = ArrayList<Site>()
+        for (i in 0..3) {
+            val site = Site(i.toString(), "mike_$i", i.hashCode().toString())
+            sites.add(site)
+        }
+        val wrapper = SiteWrapper()
+        wrapper.token = "2222"
+        wrapper.sites = sites
+        val result = JSON.toJSONString(wrapper)
+        Log.e(TAG, "jsonSerialize: result $result")
     }
+
+    private fun jsonDeserialize() {
+        val jsonString = AndroidFileUtils.getStringFromAssets(this, "mock.json")
+        Log.e(TAG, "jsonDeserialize() json =  $jsonString")
+        val siteWrapper = JSON.parseObject(jsonString, SiteWrapper::class.java)
+        Log.e(TAG, "jsonDeserialize() obj  = $siteWrapper")
+
+    }
+
+
 
     private fun testSparseArray() {
         val sa = SparseArray<Char>()
