@@ -1,0 +1,54 @@
+{
+  "2022-02-01": [
+    {
+      "time": "mike",
+      "value": "北京"
+    },
+    {
+      "time": "mike1",
+      "value": "北京1"
+    },
+    {
+      "time": "mike2",
+      "value": "北京2"
+    }
+  ],
+  "2022-02-02": [
+    {
+      "time": "lucy",
+      "value": "南京"
+    },
+    {
+      "time": "lucy1",
+      "value": "南京1"
+    }
+  ],
+  "2022-02-03": [
+    {
+      "time": "lily",
+      "value": "西安"
+    },
+    {
+      "time": "lily1",
+      "value": "西安1"
+    },
+    {
+      "time": "lily2",
+      "value": "西安2"
+    }
+  ],
+  "2022-02-04": [
+    {
+      "time": "tom",
+      "value": "tokyo"
+    },
+    {
+      "time": "tom1",
+      "value": "tokyo1"
+    },
+    {
+      "time": "tom2",
+      "value": "tokyo2"
+    }
+  ]
+}

@@ -7,9 +7,9 @@ package com.engineer.third.internal;
  */
 public class NativeMethodsFactory {
 
-    public native int plus(int a,int b);
+    public native int plus(int a, int b);
 
-    public static native int staticPlus(int a,int b);
+    public static native int staticPlus(int a, int b);
 
     public native String transToNativeString(String input);
 }

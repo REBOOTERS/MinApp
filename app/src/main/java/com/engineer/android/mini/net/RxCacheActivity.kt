@@ -7,7 +7,6 @@ import android.util.Log
 import android.util.SparseArray
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
-import com.alibaba.fastjson.JSON
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityRxCacheBinding
 import com.engineer.android.mini.ext.toast
@@ -15,10 +14,8 @@ import com.engineer.android.mini.net.driver.createFlowUp
 import com.engineer.android.mini.net.driver.registerFlow
 import com.engineer.android.mini.net.hilt.AnalyticsService
 import com.engineer.android.mini.net.hilt.MiniEntryHelper
-import com.engineer.android.mini.net.model.Site
-import com.engineer.android.mini.net.model.SiteWrapper
+import com.engineer.android.mini.net.model.JsonSerializeTest
 import com.engineer.android.mini.util.JsonUtil
-import com.engineer.third.util.AndroidFileUtils
 import com.zchu.rxcache.RxCache
 import com.zchu.rxcache.data.CacheResult
 import com.zchu.rxcache.data.ResultFrom
@@ -92,35 +89,13 @@ class RxCacheActivity : AppCompatActivity() {
             true
         }
 
-        JsonUtil.parseSpecialJson()
+        JsonUtil.parseSpecialJson(this)
 
         createFlowUp()
         registerFlow()
-//        jsonSerialize()
-        jsonDeserialize()
+//        JsonSerializeTest.jsonSerialize()
+        JsonSerializeTest.jsonDeserialize(this)
     }
-
-    private fun jsonSerialize() {
-        val sites = ArrayList<Site>()
-        for (i in 0..3) {
-            val site = Site(i.toString(), "mike_$i", i.hashCode().toString())
-            sites.add(site)
-        }
-        val wrapper = SiteWrapper()
-        wrapper.token = "2222"
-        wrapper.sites = sites
-        val result = JSON.toJSONString(wrapper)
-        Log.e(TAG, "jsonSerialize: result $result")
-    }
-
-    private fun jsonDeserialize() {
-        val jsonString = AndroidFileUtils.getStringFromAssets(this, "mock.json")
-        Log.e(TAG, "jsonDeserialize() json =  $jsonString")
-        val siteWrapper = JSON.parseObject(jsonString, SiteWrapper::class.java)
-        Log.e(TAG, "jsonDeserialize() obj  = $siteWrapper")
-
-    }
-
 
 
     private fun testSparseArray() {
