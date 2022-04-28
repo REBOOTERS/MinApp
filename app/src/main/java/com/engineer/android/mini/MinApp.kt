@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.collection.LruCache
 import androidx.lifecycle.*
+import com.engineer.android.mini.better.testCalendar
 import com.facebook.stetho.Stetho
 import dagger.hilt.android.HiltAndroidApp
 
@@ -42,6 +43,7 @@ class MinApp : Application() {
         if (BuildConfig.DEBUG) {
             Log.e(MINI, BuildConfig.FLAVOR)
         }
+        testCalendar()
     }
 
 
@@ -83,7 +85,5 @@ class MinApp : Application() {
         Log.d("what", range.javaClass.name)
         val range1 = 0 until 10
         Log.d("what", range1.javaClass.name)
-
-
     }
 }

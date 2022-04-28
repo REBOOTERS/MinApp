@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.engineer.android.mini.better.BetterActivity
 import com.engineer.android.mini.coroutines.old.OldWayActivity
 import com.engineer.android.mini.databinding.ActivityRootBinding
 import com.engineer.android.mini.ext.gotoActivity
@@ -163,6 +164,7 @@ class RootActivity : BaseActivity() {
         viewBinding.crash.setOnClickListener { throw IllegalStateException() }
         viewBinding.compose.setOnClickListener { gotoActivity(MainComposeActivity::class.java) }
         viewBinding.cpp.setOnClickListener { gotoActivity(CppActivity::class.java) }
+        viewBinding.better.setOnClickListener { gotoPage(BetterActivity::class.java) }
         val logger = LogPrinter(Log.DEBUG, "MiniApp_ActivityThread")
         Looper.myLooper()?.setMessageLogging(logger)
     }

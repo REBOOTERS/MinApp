@@ -210,6 +210,13 @@
             android:layout_margin="10dp"
             android:text="cpp" />
 
+        <Button
+            android:id="@+id/better"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="better" />
+
     </com.google.android.flexbox.FlexboxLayout>
 
     <TextView

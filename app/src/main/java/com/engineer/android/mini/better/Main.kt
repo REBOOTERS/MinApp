@@ -1,5 +1,6 @@
 package com.engineer.android.mini.better
 
+import com.engineer.android.mini.util.TimeUtil
 import io.reactivex.Observable
 import org.json.JSONObject
 import java.util.*
@@ -16,17 +17,32 @@ fun main() {
     val str = list.joinToString(",")
     println(str)
 
-    val timeStamp = System.currentTimeMillis();
+
+}
+
+fun testCalendar() {
+    //    val timeStamp = System.currentTimeMillis();
+    val timeStamp = 1650245574000
+    println("format date is " + TimeUtil.getTime(timeStamp))
     val date = Date(timeStamp)
-    Calendar.getInstance().time = date
+    val calendar = Calendar.getInstance()
+    calendar.time = date
+    println(calendar.toString())
+    println(calendar.get(Calendar.HOUR_OF_DAY))
+
+    println("===============now=================")
+    println(System.currentTimeMillis())
+    println(TimeUtil.getTime(System.currentTimeMillis()))
+    println(Calendar.getInstance().toString())
     println(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))
     println(Calendar.getInstance().get(Calendar.WEEK_OF_YEAR))
     println(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
     println(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
     println(Calendar.getInstance().get(Calendar.DAY_OF_WEEK_IN_MONTH))
     println(Calendar.getInstance().get(Calendar.DAY_OF_YEAR))
-
+    println("===============now=================")
 }
+
 
 private fun testInterval() {
     Observable.intervalRange(0L, 20.toLong(), 0, 1L, TimeUnit.SECONDS)

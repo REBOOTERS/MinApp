@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.engineer.android.mini.R;
 import com.engineer.android.mini.ipc.aidl.AIDLDemoActivity;
+import com.engineer.android.mini.ipc.messenger.MessengerDelegate;
 import com.engineer.android.mini.ipc.messenger.MessengerService;
 
 public class IpcActivity extends AppCompatActivity {
@@ -23,11 +24,13 @@ public class IpcActivity extends AppCompatActivity {
 
     private boolean isConnectionRegistered = false;
 
-    private final Messenger mRepliedMessenger = MessengerDelegate.provideMessenger();
+    private final Messenger mRepliedMessenger = MessengerDelegate.provideMessenger(true);
 
     private final ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.e(TAG, "onServiceConnected() called with: "
+                    + "thread " + Thread.currentThread().getName());
             Log.e(TAG, "onServiceConnected() called with: "
                     + "name = [" + name + "]," + " service = [" + service + "]");
             Messenger messenger = new Messenger(service);

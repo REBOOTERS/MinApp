@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,10 +19,40 @@ import com.engineer.android.mini.better.bitmap.BitmapDelegate;
 import java.util.HashMap;
 
 public class BetterActivity extends AppCompatActivity {
+
+    private static final String TAG = "BetterActivity";
     private TextView tv;
 
 
     private BetterDelegate betterDelegate;
+
+    private final Handler mHandler1 = new Handler(Looper.getMainLooper());
+    private final Handler mHandler2 = new Handler(Looper.getMainLooper());
+    private final MyRunnable myRunnable1 = new MyRunnable(1, "run1");
+    private final MyRunnable myRunnable2 = new MyRunnable(3, "run2");
+
+    private class MyRunnable implements Runnable {
+        private int i;
+        private String tag;
+
+        MyRunnable(int i, String tag) {
+            this.i = i;
+            this.tag = tag;
+        }
+
+        @Override
+        public void run() {
+            while (i < 10) {
+                try {
+                    Thread.sleep(100);
+                    Log.e(TAG, "run:" + tag + ", i = " + i);
+                    i++;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +66,19 @@ public class BetterActivity extends AppCompatActivity {
         showInfo();
 
         spTest();
+
+        mHandler1.postDelayed(myRunnable1, 1000);
+        mHandler2.postDelayed(myRunnable2, 1000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.e(TAG, "onDestroy() called");
+        super.onDestroy();
+        mHandler1.removeCallbacksAndMessages(myRunnable1);
+        mHandler2.removeCallbacksAndMessages(myRunnable2);
+        mHandler1.removeCallbacksAndMessages(null);
+        mHandler2.removeCallbacksAndMessages(null);
     }
 
     private void spTest() {

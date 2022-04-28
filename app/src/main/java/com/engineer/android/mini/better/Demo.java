@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
@@ -18,6 +19,8 @@ import io.reactivex.functions.Consumer;
 
 public class Demo {
     private static Disposable sDisposable;
+
+    private static final AtomicBoolean S_INIT = new AtomicBoolean();
 
     public static void main(String[] args) {
         TimeZone china = TimeZone.getTimeZone("GMT+08:00");
@@ -28,8 +31,13 @@ public class Demo {
         long sysTime = System.currentTimeMillis();
         System.out.println("curTime = " + curTime + ", date = " + TimeUtil.getTime(curTime));
         System.out.println("sysTime = " + sysTime + ", date = " + TimeUtil.getTime(sysTime));
+        System.out.println("========");
+        System.out.println("atomicBoolean current1 = " + S_INIT.get());
+        System.out.println("atomicBoolean ==1 " + S_INIT.compareAndSet(false, true));
+        System.out.println("atomicBoolean current2 = " + S_INIT.get());
+        System.out.println("atomicBoolean ==2 " + S_INIT.compareAndSet(false, true));
+        System.out.println("atomicBoolean current3 = " + S_INIT.get());
     }
-
 
 
     private Demo() {
