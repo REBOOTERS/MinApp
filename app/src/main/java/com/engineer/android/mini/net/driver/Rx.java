@@ -32,6 +32,10 @@ public class Rx {
 //        testRxFlow();
 //        System.out.println(testReturnFinal());
         testInterval();
+
+        KotlinSAMInterface kotlinSAMInterface = () -> {
+
+        };
     }
 
     private static long start = 0L;
