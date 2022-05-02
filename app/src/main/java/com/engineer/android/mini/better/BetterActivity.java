@@ -42,7 +42,7 @@ public class BetterActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-            while (i < 10) {
+            while (i < 20) {
                 try {
                     Thread.sleep(100);
                     Log.e(TAG, "run:" + tag + ", i = " + i);
@@ -67,17 +67,17 @@ public class BetterActivity extends AppCompatActivity {
 
         spTest();
 
-        mHandler1.postDelayed(myRunnable1, 1000);
-        mHandler2.postDelayed(myRunnable2, 1000);
+        mHandler1.postDelayed(myRunnable1, 2000);
+        mHandler2.postDelayed(myRunnable2, 2000);
     }
 
     @Override
     protected void onDestroy() {
         Log.e(TAG, "onDestroy() called");
         super.onDestroy();
-        mHandler1.removeCallbacksAndMessages(myRunnable1);
-        mHandler2.removeCallbacksAndMessages(myRunnable2);
-        mHandler1.removeCallbacksAndMessages(null);
+//        mHandler1.removeCallbacksAndMessages(myRunnable1);
+//        mHandler2.removeCallbacks(myRunnable2);
+//        mHandler1.removeCallbacksAndMessages(null);
         mHandler2.removeCallbacksAndMessages(null);
     }
 
