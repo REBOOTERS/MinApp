@@ -1,6 +1,8 @@
 package com.engineer.android.mini
 
+import android.app.ActivityManager
 import android.app.Application
+import android.content.Context
 import android.os.Process
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
@@ -44,8 +46,28 @@ class MinApp : Application() {
             Log.e(MINI, BuildConfig.FLAVOR)
         }
         testCalendar()
+        applicationProcessInfo()
     }
 
+    private fun applicationProcessInfo() {
+        val am: ActivityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val processList = am.runningAppProcesses
+        val mainPackageName = packageName
+        val pid = Process.myPid()
+        Log.e("ProcessInfo", "applicationProcessInfo() called")
+        Log.e("ProcessInfo", "mainPackageName $mainPackageName")
+        Log.e("ProcessInfo", "pid             $pid")
+        for ((index, value) in processList.withIndex()) {
+            Log.e(
+                "ProcessInfo",
+                "index = $index, value =${value.processName},${value.pid}" +
+                        ",${value.uid},${value.lastTrimLevel}"
+            )
+            value.pkgList.forEachIndexed { i, s ->
+                Log.e("ProcessInfo", "i=$i,s=$s")
+            }
+        }
+    }
 
     private fun appLifecycle() {
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {

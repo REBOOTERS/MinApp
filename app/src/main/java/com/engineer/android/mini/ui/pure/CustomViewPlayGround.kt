@@ -9,7 +9,6 @@ import android.text.Editable
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-import android.view.View.MeasureSpec
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -20,13 +19,13 @@ import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityCustomViewBinding
 import com.engineer.android.mini.ext.*
 import com.engineer.android.mini.ui.BaseActivity
+import com.engineer.android.mini.ui.adapter.TextWatcherSimpleAdapter
 import com.engineer.android.mini.ui.pure.helper.MeasureSpecCopy
 import com.engineer.android.mini.util.ImagePool
 import com.engineer.android.mini.util.KeyBoardUtil
 import com.engineer.android.mini.util.SystemTools
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.internal.TextWatcherAdapter
-import java.lang.StringBuilder
 import kotlin.random.Random
 
 
@@ -468,11 +467,12 @@ class CustomViewActivity : BaseActivity() {
             }
         }
 
-        viewBinding.et.addTextChangedListener(object : TextWatcherAdapter() {
-            override fun afterTextChanged(s: Editable) {
+        viewBinding.et.addTextChangedListener(object : TextWatcherSimpleAdapter() {
+            override fun afterTextChanged(s: Editable?) {
                 viewBinding.content.text = s.toString()
             }
         })
+        viewBinding.et.setSelection(2)
         viewBinding.content.maxWidth = screenWidth - 92.dp
 
         setupFlexBox()

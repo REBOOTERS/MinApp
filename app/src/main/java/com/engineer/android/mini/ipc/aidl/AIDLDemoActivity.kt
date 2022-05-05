@@ -1,29 +1,23 @@
 package com.engineer.android.mini.ipc.aidl
 
-import android.content.ComponentName
 import android.content.Intent
-import android.content.ServiceConnection
 import android.os.*
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.R
-import io.reactivex.disposables.Disposable
-import java.lang.ref.WeakReference
 
 private const val TAG = "AIDLDemoActivity"
 
+// debug log-tag  BookManagerService|ServiceBinder|AIDLDemoActivity|MyCallback
 class AIDLDemoActivity : AppCompatActivity() {
 
     private var isBookServiceRegistered = false
 
-    private var mIBookInterface: IBookInterface? = null
-    private var myCallback: MyCallback? = null
-
+    private lateinit var binderBridge: BinderBridge
     private var count = 0
 
     private var textView: TextView? = null
@@ -35,6 +29,7 @@ class AIDLDemoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.e(TAG, "onCreate() called on thread :${Process.myPid()}-${Thread.currentThread().id}")
         setContentView(R.layout.activity_aidldemo)
 
         findViewById<View>(R.id.aidl).setOnClickListener {
@@ -50,7 +45,7 @@ class AIDLDemoActivity : AppCompatActivity() {
                 Book(count, "人类群星闪耀时$count")
             try {
                 Log.e(TAG, "onViewClicked() called add book $book")
-                mIBookInterface?.addBook(book)
+                getIBookInterface()?.addBook(book)
             } catch (e: RemoteException) {
                 e.printStackTrace()
             }
@@ -61,7 +56,7 @@ class AIDLDemoActivity : AppCompatActivity() {
             }
             try {
                 val books =
-                    mIBookInterface?.bookList
+                    getIBookInterface()?.bookList
                 Log.e(TAG, "onViewClicked() called get book $books")
             } catch (e: RemoteException) {
                 e.printStackTrace()
@@ -75,7 +70,7 @@ class AIDLDemoActivity : AppCompatActivity() {
                 val book =
                     Book(count, "人类群星闪耀时$count")
                 Log.e(TAG, "onViewClicked() called delete book $book")
-                mIBookInterface?.deleteBook(book)
+                getIBookInterface()?.deleteBook(book)
             } catch (e: RemoteException) {
                 e.printStackTrace()
             }
@@ -86,6 +81,7 @@ class AIDLDemoActivity : AppCompatActivity() {
             if (isBookServiceRegistered.not()) {
                 return@setOnClickListener
             }
+            registerAsyncCallback()
             count++
             val book =
                 Book(count, "人类群星闪耀时$count")
@@ -94,7 +90,7 @@ class AIDLDemoActivity : AppCompatActivity() {
                     TAG,
                     "onViewClicked() called add book to repo $book"
                 )
-                mIBookInterface?.addBookToRepo(book)
+                getIBookInterface()?.addBookToRepo(book)
             } catch (e: RemoteException) {
                 e.printStackTrace()
             }
@@ -106,97 +102,56 @@ class AIDLDemoActivity : AppCompatActivity() {
         textView?.movementMethod = ScrollingMovementMethod.getInstance()
     }
 
-    private class MyCallback constructor(activity: AIDLDemoActivity) :
-        IBookInfoCallback.Stub() {
 
-        private val activityWeakReference: WeakReference<AIDLDemoActivity> = WeakReference(activity)
+    private fun startBookManger() {
+        Log.e(TAG, "startBookManger() called")
+        binderBridge = BinderBridge()
+        remoteIntent = Intent(this, BookManagerService::class.java)
+        isBookServiceRegistered = bindService(remoteIntent, binderBridge, BIND_AUTO_CREATE)
+    }
 
-        override fun notifyBookInfo(books: List<Book>) {
-            val activity: AIDLDemoActivity? = activityWeakReference.get()
-            if (activity != null) {
+    private fun registerAsyncCallback() {
+        binderBridge.asyncCallback = object : BinderBridge.AsyncProcessCallback {
+            override fun notifyBookInfo(books: List<Book>) {
                 Log.e(
                     "MyCallback", "On Thread " + Thread.currentThread().name
                             + ",notifyBookInfo() called with: books = [" + books + "] "
                 )
-                activity.mainHandler.post {
-                    activity.textView?.text = books.toString()
-                    activity.button?.performClick()
+                mainHandler.post {
+                    textView?.text = books.toString()
+                    button?.performClick()
 
                     Log.e(
                         "MyCallback",
                         "**************************************************************"
                     )
                 }
-            }
-        }
 
-        override fun operationSuccess(action: String) {
-            val activity = activityWeakReference.get()
-            activity?.let {
-                it.mainHandler.post {
-                    Toast.makeText(it, "action = $action", Toast.LENGTH_SHORT).show()
-                }
+            }
+
+            override fun operationSuccess(action: String) {
                 Log.e(
                     "MyCallback", "On Thread " + Thread.currentThread().name
                             + ",operationSuccess() called with: action = [" + action + "]"
                 )
             }
-
         }
-
-    }
-
-    private val mBookconn: ServiceConnection = object : ServiceConnection {
-        override fun onServiceConnected(name: ComponentName, service: IBinder) {
-            Log.e("TGA_TAG", "service is $service")
-            mIBookInterface = IBookInterface.Stub.asInterface(service)
-            Log.e("TGA_TAG", "interface is $mIBookInterface")
-            Log.e(
-                "ServiceConnection", "onServiceConnected: thread on "
-                        + Thread.currentThread().name
-            )
-            if (myCallback == null) {
-                myCallback = MyCallback(this@AIDLDemoActivity)
-            }
-            try {
-                mIBookInterface?.registerCallback(myCallback)
-            } catch (e: RemoteException) {
-                e.printStackTrace()
-            }
-        }
-
-        override fun onServiceDisconnected(name: ComponentName) {
-            Log.e("ServiceConnection", "onServiceDisconnected() called with: name = [$name]")
-            releaseCallback()
-        }
-    }
-
-    private fun startBookManger() {
-        Log.e(TAG, "startBookManger() called")
-        remoteIntent = Intent(this, BookManagerService::class.java)
-        isBookServiceRegistered = bindService(remoteIntent, mBookconn, BIND_AUTO_CREATE)
     }
 
 
     override fun onDestroy() {
         super.onDestroy()
         if (isBookServiceRegistered) {
-            unbindService(mBookconn)
+            unbindService(binderBridge)
             isBookServiceRegistered = false
         }
-        releaseCallback()
+        binderBridge.releaseCallback()
         Log.e(TAG, "onDestroy() called")
     }
 
-    private fun releaseCallback() {
-        if (mIBookInterface != null && myCallback != null) {
-            try {
-                mIBookInterface?.unregisterCallback(myCallback)
-                myCallback = null
-            } catch (e: RemoteException) {
-                e.printStackTrace()
-            }
-        }
+
+    private fun getIBookInterface(): IBookInterface? {
+        return binderBridge.provideIBookInterface()
     }
 
     private fun stopRemote() {
@@ -205,10 +160,10 @@ class AIDLDemoActivity : AppCompatActivity() {
             stopService(it)
         }
         if (isBookServiceRegistered) {
-            unbindService(mBookconn)
+            unbindService(binderBridge)
             isBookServiceRegistered = false
         }
-        releaseCallback()
+        binderBridge.releaseCallback()
 
     }
 }
