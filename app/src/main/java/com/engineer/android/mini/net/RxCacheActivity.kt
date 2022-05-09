@@ -72,6 +72,8 @@ class RxCacheActivity : AppCompatActivity() {
         viewBinding.tvArray.setOnClickListener {
             array.add(System.currentTimeMillis().toString())
             arrayLiveData.value = array
+
+            JsonUtil.parseSpecialJson(this)
         }
         viewBinding.tvArray.setOnLongClickListener {
             array.clear()
@@ -89,7 +91,6 @@ class RxCacheActivity : AppCompatActivity() {
             true
         }
 
-        JsonUtil.parseSpecialJson(this)
 
         createFlowUp()
         registerFlow()

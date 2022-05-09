@@ -18,7 +18,7 @@
 
 #include <jni.h>
 #include <string>
-#include "logcat/androidlog.h"
+#include "androidlog.h"
 
 using namespace std;
 

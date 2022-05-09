@@ -115,12 +115,11 @@ dependencies {
 
     implementation "com.google.android:flexbox:1.0.0"
 
-    implementation 'com.alibaba:fastjson:1.1.72.android'
+    implementation 'com.alibaba:fastjson:1.1.73.android'
+//    implementation 'com.alibaba:fastjson:2.0.2.android'
     implementation 'org.jetbrains.kotlin:kotlin-script-runtime:1.6.21'
 
 //    implementation 'com.facebook.shimmer:shimmer:0.6.0'
-
-//    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
 
 apply from: file("../custom-gradle/test-dep.gradle") // unit test
