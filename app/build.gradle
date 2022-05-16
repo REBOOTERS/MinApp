@@ -86,6 +86,7 @@ android {
             dimension "type"
         }
     }
+    namespace 'com.engineer.android.mini'
 }
 
 dependencies {

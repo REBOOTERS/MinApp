@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
@@ -50,6 +51,7 @@ class VideoActivity : BaseActivity() {
         val listener = object : VideoPlayAdapterListener {
             override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
                 "$path not exist".toast()
+                Log.d(TAG, "onError() called with: mp = $mp, what = $what, extra = $extra")
                 viewBinding.imageView.setImageResource(R.drawable.spring)
                 return super.onError(mp, what, extra)
             }
@@ -61,6 +63,11 @@ class VideoActivity : BaseActivity() {
                 mp?.setOnVideoSizeChangedListener(this)
                 mp?.isLooping = false
                 control.show(Int.MAX_VALUE)
+            }
+
+            override fun onCompletion(mp: MediaPlayer?) {
+                super.onCompletion(mp)
+                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
             }
         }
         viewBinding.videoView.setOnErrorListener(listener)
@@ -84,6 +91,12 @@ class VideoActivity : BaseActivity() {
         }
 
         register()
+        Log.d(TAG, "onCreate() called with: or = $requestedOrientation")
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        Log.d(TAG, "onConfigurationChanged() called with: newConfig = $newConfig")
     }
 
     private fun hideNavigationBar() {
