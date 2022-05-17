@@ -164,7 +164,7 @@ class RootActivity : BaseActivity() {
         viewBinding.crash.setOnClickListener { throw IllegalStateException() }
         viewBinding.compose.setOnClickListener { gotoActivity(MainComposeActivity::class.java) }
         viewBinding.cpp.setOnClickListener { gotoActivity(CppActivity::class.java) }
-        viewBinding.better.setOnClickListener { gotoPage(BetterActivity::class.java) }
+        viewBinding.better.setOnClickListener { gotoActivity(BetterActivity::class.java) }
         val logger = LogPrinter(Log.DEBUG, "MiniApp_ActivityThread")
         Looper.myLooper()?.setMessageLogging(logger)
     }

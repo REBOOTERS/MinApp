@@ -14,10 +14,7 @@ import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityPureUiBinding
-import com.engineer.android.mini.ext.dp
-import com.engineer.android.mini.ext.getStatusBarHeight
-import com.engineer.android.mini.ext.resizeMarginTop
-import com.engineer.android.mini.ext.toast
+import com.engineer.android.mini.ext.*
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.ForceBottomActivity
 import com.engineer.android.mini.ui.adapter.RecyclerViewActivity
@@ -40,14 +37,14 @@ class PureUIActivity : BaseActivity() {
         TransitionManager.beginDelayedTransition(realBinding.rootContent)
 
         realBinding.imageView.setOnClickListener { boundsAnimation() }
-        realBinding.layoutAc.setOnClickListener { gotoPage(LayoutActivity::class.java) }
-        realBinding.layoutWrapContent.setOnClickListener { gotoPage(WrapContentActivity::class.java) }
-        realBinding.customView.setOnClickListener { gotoPage(CustomViewActivity::class.java) }
-        realBinding.forceBottom.setOnClickListener { gotoPage(ForceBottomActivity::class.java) }
-        realBinding.recyclerViewDemo.setOnClickListener { gotoPage(RecyclerViewActivity::class.java) }
-        realBinding.switchView.setOnClickListener { gotoPage(SwitchViewActivity::class.java) }
-        realBinding.fullScreen.setOnClickListener { gotoPage(FullscreenActivity::class.java) }
-        realBinding.messyView.setOnClickListener { gotoPage(MessyActivity::class.java) }
+        realBinding.layoutAc.setOnClickListener { gotoActivity(LayoutActivity::class.java) }
+        realBinding.layoutWrapContent.setOnClickListener { gotoActivity(WrapContentActivity::class.java) }
+        realBinding.customView.setOnClickListener { gotoActivity(CustomViewActivity::class.java) }
+        realBinding.forceBottom.setOnClickListener { gotoActivity(ForceBottomActivity::class.java) }
+        realBinding.recyclerViewDemo.setOnClickListener { gotoActivity(RecyclerViewActivity::class.java) }
+        realBinding.switchView.setOnClickListener { gotoActivity(SwitchViewActivity::class.java) }
+        realBinding.fullScreen.setOnClickListener { gotoActivity(FullscreenActivity::class.java) }
+        realBinding.messyView.setOnClickListener { gotoActivity(MessyActivity::class.java) }
         realBinding.imageView.resizeMarginTop(getStatusBarHeight())
 
         systemDayNight()

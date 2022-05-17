@@ -15,6 +15,7 @@ import androidx.core.view.setMargins
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityLayoutBinding
 import com.engineer.android.mini.ext.dp
+import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.google.android.flexbox.FlexboxLayout
@@ -33,7 +34,7 @@ class LayoutActivity : BaseActivity() {
 
         viewBinding.childOne.setOnClickListener {
             "I'm child_one".toast()
-            gotoPage(EmptyActivity::class.java)
+            gotoActivity(EmptyActivity::class.java)
         }
 
         val looper = Looper.myLooper()

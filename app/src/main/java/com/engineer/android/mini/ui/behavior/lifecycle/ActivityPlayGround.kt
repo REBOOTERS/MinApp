@@ -205,7 +205,7 @@ class StandardActivity : BaseLifeActivity() {
 
         val button1 = Button(this)
         button1.setOnClickListener {
-            gotoPage(SingleTopActivity::class.java)
+            gotoActivity(SingleTopActivity::class.java)
         }
         button1.text = "Start A SingleTop"
         cont.addView(button1, param)
@@ -243,14 +243,14 @@ class SingleTopActivity : BaseLifeActivity() {
         bb1.text = "start-self " + hashCode()
 //        param.topMargin = 10.dp
         bb1.setOnClickListener {
-            gotoPage(SingleTopActivity::class.java)
+            gotoActivity(SingleTopActivity::class.java)
         }
         cont.addView(bb1, param)
 
         val bb2 = Button(this)
         bb2.text = "start-a-normal"
         bb2.setOnClickListener {
-            gotoPage(StandardActivity::class.java)
+            gotoActivity(StandardActivity::class.java)
         }
         cont.addView(bb2, param)
 
@@ -278,7 +278,7 @@ class SingleTaskActivity : BaseLifeActivity() {
 
         val bb = Button(this)
         bb.text = "start standard"
-        bb.setOnClickListener { gotoPage(StandardActivity::class.java) }
+        bb.setOnClickListener { gotoActivity(StandardActivity::class.java) }
         frameLayout.addView(bb, param)
         return frameLayout
     }
@@ -304,7 +304,7 @@ class SingleInstanceActivity : BaseLifeActivity() {
 
         val bb = Button(this)
         bb.text = "start standard"
-        bb.setOnClickListener { gotoPage(StandardActivity::class.java) }
+        bb.setOnClickListener { gotoActivity(StandardActivity::class.java) }
         frameLayout.addView(button, param)
         return frameLayout
     }

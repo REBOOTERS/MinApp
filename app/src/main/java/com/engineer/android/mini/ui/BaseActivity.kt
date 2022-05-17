@@ -28,10 +28,6 @@ open class BaseActivity : AppCompatActivity() {
         fullStatusBar()
     }
 
-    internal fun gotoPage(clazz: Class<out Activity>) {
-        startActivity(Intent(this, clazz))
-    }
-
     internal fun isNightMode(): Boolean {
         val flag = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         return flag == Configuration.UI_MODE_NIGHT_YES
