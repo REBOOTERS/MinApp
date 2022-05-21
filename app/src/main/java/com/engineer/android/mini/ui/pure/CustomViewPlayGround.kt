@@ -472,7 +472,7 @@ class CustomViewActivity : BaseActivity() {
                 viewBinding.content.text = s.toString()
             }
         })
-        viewBinding.et.setSelection(2)
+//        viewBinding.et.setSelection(2)
         viewBinding.content.maxWidth = screenWidth - 92.dp
 
         setupFlexBox()

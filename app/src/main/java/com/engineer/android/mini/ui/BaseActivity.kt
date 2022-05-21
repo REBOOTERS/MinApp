@@ -1,7 +1,5 @@
 package com.engineer.android.mini.ui
 
-import android.app.Activity
-import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle

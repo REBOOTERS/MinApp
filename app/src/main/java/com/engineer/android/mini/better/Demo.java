@@ -1,7 +1,6 @@
 package com.engineer.android.mini.better;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.engineer.android.mini.util.TimeUtil;
 
@@ -37,6 +36,8 @@ public class Demo {
         System.out.println("atomicBoolean current2 = " + S_INIT.get());
         System.out.println("atomicBoolean ==2 " + S_INIT.compareAndSet(false, true));
         System.out.println("atomicBoolean current3 = " + S_INIT.get());
+
+        testJson();
     }
 
 
@@ -71,9 +72,7 @@ public class Demo {
         result.put("time", System.currentTimeMillis());
 
 
-        String json = JSON.toJSONString(result);
-        JSONObject jsonObject = JSONObject.parseObject(json);
-        String beauty = JSON.toJSONString(jsonObject,
+        String beauty = JSON.toJSONString(result,
                 SerializerFeature.PrettyFormat,
                 SerializerFeature.SortField,
                 SerializerFeature.WriteMapNullValue,
@@ -111,6 +110,9 @@ public class Demo {
             e.printStackTrace();
         }
 
+    }
+
+    public static void testTryCatch() {
         try {
             test2();
         } catch (Exception e) {
@@ -121,8 +123,6 @@ public class Demo {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     private static void test1() {
