@@ -37,7 +37,7 @@ const val PICK_GIF = 2
 
 @AndroidEntryPoint
 class BehaviorActivity : AppCompatActivity() {
-    private lateinit var viewBinding:ActivityBehaviorBinding
+    private lateinit var viewBinding: ActivityBehaviorBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +51,10 @@ class BehaviorActivity : AppCompatActivity() {
 
         viewBinding.storageQuery.setOnClickListener {
             PictureBottomDialog().show(supportFragmentManager, "picture")
+        }
+
+        viewBinding.notificationCase.setOnClickListener {
+            gotoActivity(NotifyActivity::class.java)
         }
 
         viewBinding.deeplink.setOnClickListener {
@@ -115,7 +119,7 @@ class BehaviorActivity : AppCompatActivity() {
         }
 
         viewBinding.handler.setOnClickListener {
-            Log.e(TAG,"\n")
+            Log.e(TAG, "\n")
             val h = Handler(Looper.getMainLooper()) { msg ->
                 Log.e(
                     TAG,
@@ -150,10 +154,9 @@ class BehaviorActivity : AppCompatActivity() {
             }.start()
 
 
-            h.sendEmptyMessageDelayed(100,1000)
+            h.sendEmptyMessageDelayed(100, 1000)
             subHandler.sendEmptyMessageDelayed(200, 1000)
             System.currentTimeMillis()
-
 
 
 //            viewBinding.handler.postDelayed({

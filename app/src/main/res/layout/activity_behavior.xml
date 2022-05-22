@@ -8,10 +8,15 @@
     tools:ignore="HardcodedText">
 
     <Button
-        tools:visibility="invisible"
         android:id="@+id/settings"
         style="@style/mw_10_margin"
-        android:text="Settings" />
+        android:text="Settings"
+        tools:visibility="invisible" />
+
+    <Button
+        android:id="@+id/notification_case"
+        style="@style/mw_10_margin"
+        android:text="NotificationCase" />
 
     <Button
         android:id="@+id/handler"

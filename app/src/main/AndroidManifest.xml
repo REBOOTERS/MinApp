@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!--前台服务-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
         android:name=".MinApp"
@@ -155,6 +157,12 @@
         <activity
             android:name=".ui.behavior.lifecycle.ActivityD"
             android:process="com.engineer.android.mini.remote" />
+        <activity
+            android:name=".ui.behavior.NotifyActivity"
+            android:exported="true" />
+
+        <service android:name=".ui.behavior.MyForegroundService" android:exported="false"/>
+        <receiver android:name=".ui.behavior.SimpleBroadcastReceiver" />
     </application>
 
 </manifest>
