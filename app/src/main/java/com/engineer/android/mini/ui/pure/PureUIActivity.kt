@@ -17,6 +17,7 @@ import com.engineer.android.mini.databinding.ActivityPureUiBinding
 import com.engineer.android.mini.ext.*
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.ForceBottomActivity
+import com.engineer.android.mini.ui.MD3Activity
 import com.engineer.android.mini.ui.adapter.RecyclerViewActivity
 import com.engineer.android.mini.util.DisplayUtil
 import radiography.Radiography
@@ -35,7 +36,7 @@ class PureUIActivity : BaseActivity() {
 //        realBinding.root.layoutParams = p
 
         TransitionManager.beginDelayedTransition(realBinding.rootContent)
-
+        realBinding.materialDesign3.setOnClickListener { gotoActivity(MD3Activity::class.java) }
         realBinding.imageView.setOnClickListener { boundsAnimation() }
         realBinding.layoutAc.setOnClickListener { gotoActivity(LayoutActivity::class.java) }
         realBinding.layoutWrapContent.setOnClickListener { gotoActivity(WrapContentActivity::class.java) }

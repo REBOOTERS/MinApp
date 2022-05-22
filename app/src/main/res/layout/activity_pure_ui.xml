@@ -11,10 +11,10 @@
     tools:ignore="HardcodedText">
 
     <LinearLayout
-        android:layout_marginTop="100dp"
         android:id="@+id/root_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
         android:orientation="vertical"
         tools:context=".ui.pure.PureUIActivity"
         tools:ignore="HardcodedText">
@@ -69,6 +69,13 @@
         <com.google.android.flexbox.FlexboxLayout
             style="@style/mw_10_margin"
             app:flexWrap="wrap">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/material_design_3"
+                style="@style/ww_10_margin"
+                android:text="material_design_3"
+                android:textColor="?android:attr/textColorPrimary" />
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/recycler_view_demo"
