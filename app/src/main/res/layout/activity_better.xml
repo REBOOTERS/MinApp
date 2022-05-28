@@ -16,7 +16,6 @@
     <TextView
         android:id="@+id/tv"
         tools:text="@string/large_text"
-        android:textColor="#000"
         android:lineSpacingExtra="14dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -510,7 +510,7 @@ class CustomViewActivity : BaseActivity() {
         val random = Random(10000)
         for (i in 0..10) {
             tv = TextView(this)
-            tv.setTextColor(Color.BLACK)
+
             tv.setPadding(8.dp, 4.dp, 8.dp, 4.dp)
             tv.setBackgroundResource(R.drawable.tv_tag_bg)
             tv.text = random.nextInt().toString()

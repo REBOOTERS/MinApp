@@ -15,7 +15,6 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
-        app:cardBackgroundColor="@color/colorAccent"
         app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="@id/v_center"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +37,6 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
-        app:cardBackgroundColor="@color/colorAccent"
         app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/v_center"
@@ -60,7 +58,6 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
-        app:cardBackgroundColor="@color/colorAccent"
         app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="@id/v_center"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +79,6 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
-        app:cardBackgroundColor="@color/colorAccent"
         app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/v_center"
@@ -104,7 +100,6 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
-        app:cardBackgroundColor="@color/colorAccent"
         app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="@id/v_center"
         app:layout_constraintStart_toStartOf="parent"
@@ -115,7 +110,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text=" Cache "
-
             android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -125,7 +119,6 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
-        app:cardBackgroundColor="@color/colorAccent"
         app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/v_center"

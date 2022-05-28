@@ -9,9 +9,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.shapes.RoundRectShape
-import android.graphics.drawable.shapes.Shape
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -30,7 +27,6 @@ import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.screenWidth
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
-import com.engineer.android.mini.ui.widget.RoundDrawable
 import com.engineer.android.mini.util.JavaUtil
 
 class MessyActivity : BaseActivity() {

@@ -38,7 +38,6 @@
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/middle_chinese_content"
-            android:textColor="#fff"
             android:textSize="12sp" />
     </HorizontalScrollView>
 
