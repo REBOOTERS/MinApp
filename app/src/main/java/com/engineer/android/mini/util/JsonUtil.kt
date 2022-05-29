@@ -6,14 +6,14 @@ import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.JSONArray
 import com.alibaba.fastjson.JSONObject
 import com.alibaba.fastjson.serializer.SerializerFeature
-import com.engineer.android.mini.net.RxCacheActivity
+import com.engineer.android.mini.util.model.Item
 import com.engineer.android.mini.util.model.KotlinPeople
-import com.engineer.android.mini.util.model.PeopleJava
 import com.engineer.third.util.AndroidFileUtils
 
 
 object JsonUtil {
     private const val TAG = "JsonUtil"
+
     private fun <T> convertJSONArrayToTypeList(jsonArray: JSONArray, clazz: Class<T>): List<T> {
         if (jsonArray.isEmpty()) return emptyList()
 
@@ -38,29 +38,32 @@ object JsonUtil {
                 "    }"
         val people = JSONObject.parseObject(json, KotlinPeople::class.java)
         Log.d(TAG, "simpleParse() called people = $people")
+        val jsonStr = JSONObject.toJSONString(people)
     }
 
 
     fun parseSpecialJson(context: Context) {
-        simpleParse()
-        return
         val specialJson = AndroidFileUtils.getStringFromAssets(context, "special_json.json")
         val map = JSONObject.parseObject(specialJson, Map::class.java)
+//        Log.e(TAG, map.javaClass.name)
 
         for (key in map.keys) {
+            // 这里当强转，就是人类意志的胜利
             val item = map[key] as JSONArray
-            val list = convertJSONArrayToTypeList(item, PeopleJava::class.java)
+            val list = convertJSONArrayToTypeList(item, Item::class.java)
             Log.d(TAG, "parseSpecialJson() called key = $key, list = $list")
         }
-//        val result = printBeautyJson(JSON.toJSONString(map))
-//        Log.e(TAG, "parseSpecialJson: $result")
+        val result = printBeautyJson(map)
+        Log.e(TAG, "parseSpecialJson:\n $result")
 
     }
 
-    fun printBeautyJson(json: String): String {
-        val jsonObj = JSONObject.parse(json)
+    /**
+     * 这里的参数是 Any ,因此只要是一个合法的 Json, 无论是字符串还是数据模型都可以打印
+     */
+    fun printBeautyJson(json: Any): String {
         return JSON.toJSONString(
-            jsonObj,
+            json,
             SerializerFeature.PrettyFormat,
             SerializerFeature.SortField,
             SerializerFeature.WriteDateUseDateFormat,

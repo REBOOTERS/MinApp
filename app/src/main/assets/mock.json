@@ -1,1 +1,24 @@
-{"token":"1234","key":"mute","simple":{"age":11},"sites":[{"id":"1","name":"菜鸟教程","url":"www.runoob.com"},{"id":"2","name":"菜鸟工具","url":"c.runoob.com"},{"id":"3","name":"Google","url":"www.google.com"}]}
+{
+  "token": "1234",
+  "key": "mute",
+  "simple": {
+    "age": 11
+  },
+  "sites": [
+    {
+      "id": "1",
+      "name": "菜鸟教程",
+      "url": "www.runoob.com"
+    },
+    {
+      "id": "2",
+      "name": "菜鸟工具",
+      "url": "c.runoob.com"
+    },
+    {
+      "id": "3",
+      "name": "Google",
+      "url": "www.google.com"
+    }
+  ]
+}
