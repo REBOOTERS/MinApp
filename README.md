@@ -9,6 +9,7 @@
  通过各种手段，对编译产物 apk 进行压缩，看看一个最基础的 App 可以有多小。
 
 # ReLearn Android
+
 ## 适配
 
  ### icon 适配
@@ -28,6 +29,10 @@
 ## Android SourceCode
 
 [ImageView](https://mp.weixin.qq.com/s/xGD68ia_9VgL-qgbZM4m3g)
+
+## Activity Results API
+
+[你好，Activity Results API！](https://mp.weixin.qq.com/s/jcnFN73d002OfRXRx6u3yA)
 
 ## Hacks
 

@@ -13,6 +13,10 @@ import android.provider.MediaStore
 import android.util.Log
 import android.util.LogPrinter
 import android.widget.Toast
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultRegistry
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.registerForActivityResult
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.R
@@ -32,8 +36,11 @@ import java.net.URL
 import kotlin.concurrent.thread
 
 private const val TAG = "BehaviorActivity"
-const val PICK_FILE = 1
-const val PICK_GIF = 2
+
+
+/**
+ * https://mp.weixin.qq.com/s/jcnFN73d002OfRXRx6u3yA
+ */
 
 @AndroidEntryPoint
 class BehaviorActivity : AppCompatActivity() {
@@ -304,45 +311,29 @@ class BehaviorActivity : AppCompatActivity() {
     }
 
     private fun pickFileAndCopyUriToExternalFilesDir() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.type = "*/*"
-        startActivityForResult(intent, PICK_FILE)
+        pickFileLauncher.launch("选择文件")
     }
 
 
     private fun pickGifAndCopyUriToExternal() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.type = "image/gif"
-        startActivityForResult(intent, PICK_GIF)
+        pickGifLauncher.launch("选择 Gif")
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            PICK_FILE -> {
-                if (resultCode == Activity.RESULT_OK && data != null) {
-                    val uri = data.data
-                    if (uri != null) {
-                        val fileName = SystemTools.getFileNameByUri(this, uri)
-                        copyUriToExternalFilesDir(uri, fileName)
-                    }
-                }
-            }
-            PICK_GIF -> {
-                if (resultCode == Activity.RESULT_OK && data != null) {
-                    val uri = data.data
-                    if (uri != null) {
-                        val fileName = SystemTools.getFileNameByUri(this, uri)
-//                        copyUriToExternalFilesDir(uri, fileName,)
-                        copyUriToAlbumDir(this, uri, fileName, "image/gif")
-                    }
-                }
-            }
+    private val pickFileLauncher = registerForActivityResult(PickFileResultContract()) { result ->
+        if (result != null) {
+            val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
+//            copyUriToExternalFilesDir(result, fileName)
+            fileName.toast()
         }
     }
 
+    private val pickGifLauncher = registerForActivityResult(PickGifResultContract()) { result ->
+        if (result != null) {
+            val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
+//            copyUriToAlbumDir(this, result, fileName, "image/gif")
+            fileName.toast()
+        }
+    }
 
     private fun copyUriToExternalFilesDir(uri: Uri, fileName: String) {
         thread {
@@ -388,7 +379,7 @@ class BehaviorActivity : AppCompatActivity() {
     }
 
 
-    fun copyUriToAlbumDir(
+    private fun copyUriToAlbumDir(
         context: Context,
         inputUri: Uri,
         displayName: String,
@@ -434,4 +425,35 @@ class BehaviorActivity : AppCompatActivity() {
 
     }
 
+    class PickFileResultContract : ActivityResultContract<String, Uri?>() {
+        override fun createIntent(context: Context, input: String?): Intent {
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.type = "*/*"
+            return intent
+        }
+
+        override fun parseResult(resultCode: Int, intent: Intent?): Uri? {
+            if (resultCode == Activity.RESULT_OK && intent != null) {
+                return intent.data
+            }
+            return null
+        }
+    }
+
+    class PickGifResultContract : ActivityResultContract<String, Uri?>() {
+        override fun createIntent(context: Context, input: String?): Intent {
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.type = "image/gif"
+            return intent
+        }
+
+        override fun parseResult(resultCode: Int, intent: Intent?): Uri? {
+            if (resultCode == Activity.RESULT_OK && intent != null) {
+                return intent.data
+            }
+            return null
+        }
+    }
 }
