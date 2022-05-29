@@ -1,0 +1,31 @@
+task androidJavadocs(type: Javadoc) {
+    doLast {
+        source = project.android.sourceSets.main.java.srcDirs
+        // 需要生成 doc 的 代码路径
+        classpath += project.files(project.android.getBootClasspath().join(File.pathSeparator))
+        failOnError = false // javadoc 解析错误时task 不会异常停止
+    }
+}
+
+// 解决 JavaDoc 中文注释生成失败的问题
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    doLast {
+        //archiveFileName  The archive name. If the name has not been explicitly set
+        // , the pattern for the name is:
+        //[archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
+        // 存档名称的分类器部分，名称后面加的类别区分的名字.e.g. xxxx-javadoc.jar。
+        classifier = 'javadoc'
+        from androidJavadocs.destinationDir
+    }
+}
+
+artifacts {
+    // aar包增加注释
+    archives androidJavadocsJar
+}

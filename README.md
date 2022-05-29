@@ -62,6 +62,11 @@ how to make a minimal app
 implementation 'com.google.android.material:material:1.2.0'
 ```
 
+# 发布一个仓库
+
+[maven-publish](https://www.cnblogs.com/h--d/p/14768794.html)
+[Android：发布aar包到maven仓库以及 maven插件 和 maven-publish 插件的区别](https://juejin.cn/post/7017608469901475847)
+
 ## App 签名
 ```shell
 apksigner verify -verbose -print-certs xxx.apk

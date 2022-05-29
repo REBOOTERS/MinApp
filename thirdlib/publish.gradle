@@ -1,0 +1,45 @@
+apply plugin: 'maven-publish'
+
+
+apply from: file("publish-doc.gradle") // publish-doc
+
+// 1. 增加上传源码的task
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier = "sources"
+}
+
+task copyAarToMain(type:Copy) {
+
+}
+
+afterEvaluate {
+    println("afterEvaluate in thirdlib")
+    println("${rootDir}/local_repo/")
+
+    publishing {
+        // 配置maven 仓库
+        repositories { RepositoryHandler handler ->
+            handler.mavenLocal()
+            handler.maven {
+                url "${rootDir}/local_repo/"
+            }
+        }
+        publications { PublicationContainer publicationContainer ->
+            debug(MavenPublication) {
+                from components.debug // 注释1:使用 Android Gradle 插件生成的组件，作为发布的内容
+                artifact sourceJar // 上传源码
+                groupId = "com.engineer.third"
+                artifactId = "base_api"
+                version = "1.0.0-SNAPSHOT"
+            }
+            release(MavenPublication) {
+                from components.release // 注释1:使用 Android Gradle 插件生成的组件，作为发布的内容
+                artifact sourceJar // 上传源码
+                groupId = "com.engineer.third"
+                artifactId = "base_api"
+                version = "1.0.0"
+            }
+        }
+    }
+}

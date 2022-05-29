@@ -1,0 +1,167 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.engineer.third",
+    "module": "base_api",
+    "version": "1.0.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.3.3"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.github.weijiaxing",
+          "module": "LogcatViewer",
+          "version": {
+            "requires": "1.0.3"
+          }
+        },
+        {
+          "group": "jp.wasabeef",
+          "module": "blurry",
+          "version": {
+            "requires": "4.0.1"
+          }
+        },
+        {
+          "group": "com.squareup.radiography",
+          "module": "radiography",
+          "version": {
+            "requires": "2.4.1"
+          }
+        },
+        {
+          "group": "org.apache.commons",
+          "module": "commons-io",
+          "version": {
+            "requires": "1.3.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "base_api-1.0.0.aar",
+          "url": "base_api-1.0.0.aar",
+          "size": 387219,
+          "sha512": "3b63cb944b8e605a464d9ba5ec0d888c87303be4eec4f605def73d0318d7ae7d8f57ed2a9a2d24373317fe4b5b064b2d8775d02edc2cb854e3fbee4c8e89bf2e",
+          "sha256": "04a04405f990131c8a1c8ce331df0427e7b680d717a67767d7aa3a8fcf12a832",
+          "sha1": "751f66de7cceb98006a1a1e3bb753d1a6de35b73",
+          "md5": "f979c15514418c8730d2e971aafe5e9e"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.github.weijiaxing",
+          "module": "LogcatViewer",
+          "version": {
+            "requires": "1.0.3"
+          }
+        },
+        {
+          "group": "jp.wasabeef",
+          "module": "blurry",
+          "version": {
+            "requires": "4.0.1"
+          }
+        },
+        {
+          "group": "com.squareup.radiography",
+          "module": "radiography",
+          "version": {
+            "requires": "2.4.1"
+          }
+        },
+        {
+          "group": "org.apache.commons",
+          "module": "commons-io",
+          "version": {
+            "requires": "1.3.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.4.0"
+          }
+        },
+        {
+          "group": "com.google.android.material",
+          "module": "material",
+          "version": {
+            "requires": "1.4.0"
+          }
+        },
+        {
+          "group": "androidx.constraintlayout",
+          "module": "constraintlayout",
+          "version": {
+            "requires": "2.1.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "base_api-1.0.0.aar",
+          "url": "base_api-1.0.0.aar",
+          "size": 387219,
+          "sha512": "3b63cb944b8e605a464d9ba5ec0d888c87303be4eec4f605def73d0318d7ae7d8f57ed2a9a2d24373317fe4b5b064b2d8775d02edc2cb854e3fbee4c8e89bf2e",
+          "sha256": "04a04405f990131c8a1c8ce331df0427e7b680d717a67767d7aa3a8fcf12a832",
+          "sha1": "751f66de7cceb98006a1a1e3bb753d1a6de35b73",
+          "md5": "f979c15514418c8730d2e971aafe5e9e"
+        }
+      ]
+    }
+  ]
+}
