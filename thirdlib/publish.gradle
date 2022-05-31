@@ -18,6 +18,7 @@ afterEvaluate {
     println("${rootDir}/local_repo/")
 
     publishing {
+        println("${rootDir}/local_repo/")
         // 配置maven 仓库
         repositories { RepositoryHandler handler ->
             handler.mavenLocal()
