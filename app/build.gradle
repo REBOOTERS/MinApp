@@ -110,10 +110,10 @@ dependencies {
     implementation 'com.github.z-chu.RxCache:rxcache-kotlin:2.3.5'
 
 
-    if (source_code) {
+    if (source_code.toBoolean()) {
         implementation project(path: ':thirdlib')
     } else {
-        implementation 'com.engineer.third:base_api:1.0.0'
+        implementation 'com.engineer.third:thirdlib:1.0.0'
     }
     implementation project(path: ':compose')
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'

@@ -2,7 +2,7 @@
   "formatVersion": "1.1",
   "component": {
     "group": "com.engineer.third",
-    "module": "base_api",
+    "module": "thirdlib",
     "version": "1.0.0",
     "attributes": {
       "org.gradle.status": "release"
@@ -68,8 +68,8 @@
       ],
       "files": [
         {
-          "name": "base_api-1.0.0.aar",
-          "url": "base_api-1.0.0.aar",
+          "name": "thirdlib-1.0.0.aar",
+          "url": "thirdlib-1.0.0.aar",
           "size": 392104,
           "sha512": "1b8ddff31c155d47ebd92d796b7112211a98ac86a47430e566ebec84e0b32bd4d79e222396c763f73447925c6731b7baef5c7eff1e552e263c6f4e421ca79410",
           "sha256": "207c111627746680a46e14bd5a383bf177943ae6ef5f2e385de6cba37228b5c4",
@@ -153,8 +153,8 @@
       ],
       "files": [
         {
-          "name": "base_api-1.0.0.aar",
-          "url": "base_api-1.0.0.aar",
+          "name": "thirdlib-1.0.0.aar",
+          "url": "thirdlib-1.0.0.aar",
           "size": 392104,
           "sha512": "1b8ddff31c155d47ebd92d796b7112211a98ac86a47430e566ebec84e0b32bd4d79e222396c763f73447925c6731b7baef5c7eff1e552e263c6f4e421ca79410",
           "sha256": "207c111627746680a46e14bd5a383bf177943ae6ef5f2e385de6cba37228b5c4",

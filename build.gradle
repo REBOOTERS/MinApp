@@ -42,4 +42,5 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
     delete rootProject.rootDir.absolutePath + "/final.apk"
+    delete rootDir.absolutePath + "/local_repo/"
 }

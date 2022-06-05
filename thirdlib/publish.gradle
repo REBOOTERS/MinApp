@@ -1,5 +1,8 @@
 apply plugin: 'maven-publish'
 
+def GROUP_ID = "com.engineer.third"
+def ARTIFACT_ID = "thirdlib"
+def VERSION = "1.0.0"
 
 apply from: file("publish-doc.gradle") // publish-doc
 
@@ -30,16 +33,16 @@ afterEvaluate {
             debug(MavenPublication) {
                 from components.debug // 注释1:使用 Android Gradle 插件生成的组件，作为发布的内容
                 artifact sourceJar // 上传源码
-                groupId = "com.engineer.third"
-                artifactId = "base_api"
-                version = "1.0.0-SNAPSHOT"
+                groupId = GROUP_ID
+                artifactId = ARTIFACT_ID
+                version = "${VERSION}_DEBUG"
             }
             release(MavenPublication) {
                 from components.release // 注释1:使用 Android Gradle 插件生成的组件，作为发布的内容
                 artifact sourceJar // 上传源码
-                groupId = "com.engineer.third"
-                artifactId = "base_api"
-                version = "1.0.0"
+                groupId = GROUP_ID
+                artifactId = ARTIFACT_ID
+                version = VERSION
             }
         }
     }
