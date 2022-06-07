@@ -30,7 +30,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/current_theme"
             style="@style/mw_10_margin"
-            android:textColor="?android:attr/textColorPrimary"
+
             android:textSize="15sp"
             tools:text="current theme" />
 
@@ -73,57 +73,48 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/material_design_3"
                 style="@style/ww_10_margin"
-                android:text="material_design_3"
-                android:textColor="?android:attr/textColorPrimary" />
+                android:text="material_design_3" />
 
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/recycler_view_demo"
                 style="@style/ww_10_margin"
-                android:text="recycler_view_demo"
-                android:textColor="?android:attr/textColorPrimary" />
+                android:text="recycler_view_demo" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/full_screen"
                 style="@style/ww_10_margin"
-                android:text="full_screen"
-                android:textColor="?android:attr/textColorPrimary" />
+                android:text="full_screen" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/messy_view"
                 style="@style/ww_10_margin"
-                android:text="messy_view"
-                android:textColor="?android:attr/textColorPrimary" />
+                android:text="messy_view" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/switch_view"
                 style="@style/ww_10_margin"
-                android:text="switch_view"
-                android:textColor="?android:attr/textColorPrimary" />
+                android:text="switch_view" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/layout_wrap_content"
                 style="@style/ww_10_margin"
-                android:text="WrapContent_Activity"
-                android:textColor="?android:attr/textColorPrimary" />
+                android:text="WrapContent_Activity" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/layout_ac"
                 style="@style/ww_10_margin"
-                android:text="AppCompatButton"
-                android:textColor="?android:attr/textColorPrimary" />
+                android:text="AppCompatButton" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/custom_view"
                 style="@style/ww_10_margin"
-                android:text="custom_view"
-                android:textColor="?android:attr/textColorPrimary" />
+                android:text="custom_view" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/force_bottom"
                 style="@style/ww_10_margin"
-                android:text="force_bottom"
-                android:textColor="?android:attr/textColorPrimary" />
+                android:text="force_bottom" />
 
         </com.google.android.flexbox.FlexboxLayout>
 

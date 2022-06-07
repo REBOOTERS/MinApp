@@ -28,6 +28,7 @@ import com.engineer.android.mini.ext.screenWidth
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.util.JavaUtil
+import com.engineer.android.mini.util.RxTimer
 
 class MessyActivity : BaseActivity() {
 
@@ -35,6 +36,8 @@ class MessyActivity : BaseActivity() {
 
     private var x = 0
     private var animator: ValueAnimator? = null
+
+    private var rxTimer: RxTimer? = null
 
     private val testLazy by lazy {
         Log.e("RootActivity", "testLazy triggle")
@@ -49,6 +52,19 @@ class MessyActivity : BaseActivity() {
         setupUI()
 
         handlerTest()
+        timerTest()
+    }
+
+    private fun timerTest() {
+        rxTimer = RxTimer().interval(1000) {
+            Log.d(TAG, "timerTest()1 it = $it ")
+        }
+        realBinding.testTimer.setOnClickListener {
+            rxTimer?.cancel()
+            rxTimer = RxTimer().interval(500) {
+                Log.d(TAG, "timerTest()2 it = $it ")
+            }
+        }
     }
 
     private fun handlerTest() {
@@ -73,13 +89,13 @@ class MessyActivity : BaseActivity() {
     }
 
     private fun setupUI() {
-        val  floatArray = floatArrayOf(55f, 55f, 5f, 5f, 5f, 5f, 5f, 5f)
+        val floatArray = floatArrayOf(55f, 55f, 5f, 5f, 5f, 5f, 5f, 5f)
 //        realBinding.nullBgTv.background = ShapeDrawable(RoundRectShape(floatArray,null,null))
 
         val len1 =
             realBinding.contentView.paint.measureText(realBinding.contentView.text.toString())
         val len = realBinding.annText.paint.measureText(realBinding.annText.text.toString())
-        Log.e("len-measure","len1=$len1,len=$len")
+        Log.e("len-measure", "len1=$len1,len=$len")
 
 
         val w = screenWidth - 24.dp
@@ -217,6 +233,7 @@ class MessyActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         animator?.cancel()
+        rxTimer?.cancel()
     }
 }
 
