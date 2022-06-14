@@ -200,6 +200,8 @@ object NotificationHelper {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(builder.provideChannelId(), name, importance).apply {
                 description = descriptionText
+                vibrationPattern = longArrayOf(1, 0, 1)
+                enableVibration(true)
             }
             // Register the channel with the system
             val notificationManager: NotificationManager =
