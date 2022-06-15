@@ -89,6 +89,8 @@ class RootActivity : BaseActivity() {
                 viewBinding.sysRuntimeInfo.text = sb.toString()
             }
         disposeOn.add(d)
+        val info = "${BuildConfig.BUILD_TYPE}_${BuildConfig.FLAVOR}_${BuildConfig.VERSION_NAME}"
+        viewBinding.versionInfo.text = info
     }
 
     private fun testPC() {

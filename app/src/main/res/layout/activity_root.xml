@@ -223,6 +223,14 @@
         app:layout_constraintTop_toBottomOf="@id/flex"
         tools:text="@string/large_text" />
 
+    <TextView
+        android:id="@+id/version_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="111111" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/v_center"

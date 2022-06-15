@@ -26,6 +26,10 @@ import com.engineer.android.mini.databinding.ActivityMessyBinding
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.screenWidth
 import com.engineer.android.mini.ext.toast
+import com.engineer.android.mini.proguards.A
+import com.engineer.android.mini.proguards.B
+import com.engineer.android.mini.proguards.BlankFragment
+import com.engineer.android.mini.proguards.Utils
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.util.JavaUtil
 import com.engineer.android.mini.util.RxTimer
@@ -53,6 +57,7 @@ class MessyActivity : BaseActivity() {
 
         handlerTest()
         timerTest()
+        proguardTest()
     }
 
     private fun timerTest() {
@@ -86,6 +91,19 @@ class MessyActivity : BaseActivity() {
             "ha 😄 idle-handler is work".toast()
             false
         }
+    }
+
+    private fun proguardTest() {
+        val fragment = BlankFragment()
+        fragment.arguments?.putString("value", "proguard")
+        Utils.test1()
+        Utils.test3(this)
+        Utils.MyBuilder().setName("this")
+
+        val a = A()
+        a.test2()
+        val b = B()
+        println(b.hashCode())
     }
 
     private fun setupUI() {

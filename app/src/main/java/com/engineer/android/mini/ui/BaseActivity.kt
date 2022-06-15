@@ -31,24 +31,6 @@ open class BaseActivity : AppCompatActivity() {
         return flag == Configuration.UI_MODE_NIGHT_YES
     }
 
-    override fun onResume() {
-        super.onResume()
-        proguardTest()
-    }
-
-    private fun proguardTest() {
-        val fragment = BlankFragment()
-        fragment.arguments?.putString("value", "proguard")
-        Utils.test1()
-        Utils.test3(this)
-        Utils.MyBuilder().setName("this")
-
-        val a = A()
-        a.test2()
-        val b = B()
-        println(b.hashCode())
-    }
-
     /**
      * 透明状态栏
      */

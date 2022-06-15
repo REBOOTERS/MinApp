@@ -17,7 +17,7 @@ android {
                 variant.flavorName + "_" +
                 variant.buildType.name + "_" +
                 variant.versionName + "_" +
-                today.format('yyyyMMddhhmm') +
+                today.format('yyyyMMddHHmm') +
                 ".apk"
         variant.outputs.forEach {
             it.outputFileName = path
