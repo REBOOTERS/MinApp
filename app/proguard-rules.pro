@@ -24,3 +24,18 @@
 #-keep class com.engineer.android.mini.proguards.Utils$MyBuilder {*;}
 #-keep class com.engineer.android.mini.proguards.A
 #-keep class com.engineer.android.mini.proguards.B {*;}
+
+-keep class com.engineer.android.mini.proguards.Utils
+#-keepnames class com.engineer.android.mini.proguards.Utils{*;}
+#-keepclassmembernames class com.engineer.android.mini.proguards.Utils {
+#    public static void test3(android.content.Context);
+#}
+
+-keepclasseswithmembers class com.engineer.android.mini.proguards.Utils {
+    public static void test3(android.content.Context);
+}
+
+-keepclassmembers enum * {  # 保持枚举 enum 类不被混淆
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}

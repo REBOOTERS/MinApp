@@ -1,13 +1,10 @@
 package com.engineer.android.mini.proguards;
 
-import androidx.annotation.Keep;
-
 /**
  * Created on 2020/8/22.
  *
  * @author rookie
  */
-@Keep
 public class A {
     private void test() {
         int max = 10;

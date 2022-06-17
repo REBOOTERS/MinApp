@@ -26,10 +26,7 @@ import com.engineer.android.mini.databinding.ActivityMessyBinding
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.screenWidth
 import com.engineer.android.mini.ext.toast
-import com.engineer.android.mini.proguards.A
-import com.engineer.android.mini.proguards.B
-import com.engineer.android.mini.proguards.BlankFragment
-import com.engineer.android.mini.proguards.Utils
+import com.engineer.android.mini.proguards.*
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.util.JavaUtil
 import com.engineer.android.mini.util.RxTimer
@@ -104,6 +101,24 @@ class MessyActivity : BaseActivity() {
         a.test2()
         val b = B()
         println(b.hashCode())
+
+        val today = WEEK.SUNDAY
+        println(today)
+        test111(today)
+    }
+
+    private fun test111(p: WEEK) {
+        when (p) {
+            WEEK.MONDAY -> {
+                println(11)
+            }
+            WEEK.TUESDAY -> {
+                println(22)
+            }
+            WEEK.SUNDAY -> {
+                println(3333)
+            }
+        }
     }
 
     private fun setupUI() {
