@@ -1,6 +1,7 @@
 package com.engineer.android.mini.ext
 
 import android.app.Activity
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 
@@ -20,6 +21,16 @@ fun <T, R> T.easy(block: (T) -> R, ifNull: () -> Unit) {
 fun Activity.gotoActivity(targetClass: Class<out Activity>?) {
     targetClass?.easy({
         this.startActivity(Intent(this, it))
+    }, {
+        "targetClass is Null".toast()
+    })
+}
+
+fun Service.gotoActivity(targetClass: Class<out Activity>?) {
+    targetClass?.easy({
+        val intent = Intent(this, it)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        this.startActivity(intent)
     }, {
         "targetClass is Null".toast()
     })

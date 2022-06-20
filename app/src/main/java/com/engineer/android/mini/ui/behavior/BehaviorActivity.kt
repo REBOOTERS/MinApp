@@ -64,6 +64,10 @@ class BehaviorActivity : AppCompatActivity() {
             gotoActivity(NotifyActivity::class.java)
         }
 
+        viewBinding.webViewCase.setOnClickListener {
+            gotoActivity(WebViewActivity::class.java)
+        }
+
         viewBinding.deeplink.setOnClickListener {
             startTheApp()
         }

@@ -47,6 +47,7 @@ class RoundDrawable : Drawable() {
 
     }
 
+    @Deprecated("no use", ReplaceWith("PixelFormat.TRANSPARENT", "android.graphics.PixelFormat"),)
     override fun getOpacity(): Int {
         return PixelFormat.TRANSPARENT
     }

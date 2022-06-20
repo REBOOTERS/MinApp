@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,72 +7,84 @@
     tools:context=".ui.behavior.BehaviorActivity"
     tools:ignore="HardcodedText">
 
-    <Button
-        android:id="@+id/settings"
-        style="@style/mw_10_margin"
-        android:text="Settings"
-        tools:visibility="invisible" />
-
-    <Button
-        android:id="@+id/notification_case"
-        style="@style/mw_10_margin"
-        android:text="NotificationCase" />
-
-    <Button
-        android:id="@+id/handler"
-        style="@style/mw_10_margin"
-        android:text="Handler" />
-
-    <Button
-        android:id="@+id/thread_local"
-        style="@style/mw_10_margin"
-        android:text="ThreadLocal" />
-
-    <Button
-        android:id="@+id/use_hide_api"
-        style="@style/mw_10_margin"
-        android:text="Use Hide Api" />
-
-    <View
-        android:id="@+id/divider"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider" />
-
-    <Button
-        android:id="@+id/deeplink"
-        style="@style/mw_10_margin"
-        android:text="Open The Activity By Url" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/storage_query"
-        style="@style/mw_10_margin"
-        android:text="picture_query" />
-
-    <Button
-        android:id="@+id/addImageToAlbum"
-        style="@style/mw_10_margin"
-        android:text="Add Image To Album" />
-
-    <Button
-        android:id="@+id/downloadFile"
-        style="@style/mw_10_margin"
-        android:text="Download File" />
-
-    <Button
-        android:id="@+id/pickFile"
-        style="@style/mw_10_margin"
-        android:text="Pick File" />
-
-    <Button
-        android:id="@+id/pickGif"
-        style="@style/mw_10_margin"
-        android:text="Pick Gif" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/storage_info"
-        style="@style/mw_10_margin" />
+        <Button
+            android:id="@+id/settings"
+            style="@style/mw_10_margin"
+            android:text="Settings"
+            tools:visibility="invisible" />
+
+        <Button
+            android:id="@+id/notification_case"
+            style="@style/mw_10_margin"
+            android:text="NotificationCase" />
+
+        <Button
+            android:id="@+id/web_view_case"
+            style="@style/mw_10_margin"
+            android:text="WEB_VIEW_CASE" />
+
+        <Button
+            android:id="@+id/handler"
+            style="@style/mw_10_margin"
+            android:text="Handler" />
+
+        <Button
+            android:id="@+id/thread_local"
+            style="@style/mw_10_margin"
+            android:text="ThreadLocal" />
+
+        <Button
+            android:id="@+id/use_hide_api"
+            style="@style/mw_10_margin"
+            android:text="Use Hide Api" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+        <Button
+            android:id="@+id/deeplink"
+            style="@style/mw_10_margin"
+            android:text="Open The Activity By Url" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/storage_query"
+            style="@style/mw_10_margin"
+            android:text="picture_query" />
+
+        <Button
+            android:id="@+id/addImageToAlbum"
+            style="@style/mw_10_margin"
+            android:text="Add Image To Album" />
+
+        <Button
+            android:id="@+id/downloadFile"
+            style="@style/mw_10_margin"
+            android:text="Download File" />
+
+        <Button
+            android:id="@+id/pickFile"
+            style="@style/mw_10_margin"
+            android:text="Pick File" />
+
+        <Button
+            android:id="@+id/pickGif"
+            style="@style/mw_10_margin"
+            android:text="Pick Gif" />
 
 
-</LinearLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/storage_info"
+            style="@style/mw_10_margin" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

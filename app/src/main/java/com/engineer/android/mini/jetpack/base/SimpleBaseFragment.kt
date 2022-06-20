@@ -6,10 +6,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
+import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.engineer.android.mini.MinApp
 import com.engineer.android.mini.jetpack.viewmodel.FooViewModel
+import java.lang.Deprecated
 
 /**
  * Created on 2020/9/13.
@@ -32,11 +34,19 @@ abstract class SimpleBaseFragment : Fragment() {
         Log.e(TAG, "onAttach() called with: context = $context")
     }
 
+    @SuppressWarnings("DeprecatedIsStillUsed", "unused")
+    @MainThread
+    @CallSuper
+    @Deprecated
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.e(TAG, "onActivityCreated() called with: savedInstanceState = $savedInstanceState")
     }
 
+    @SuppressWarnings("DeprecatedIsStillUsed", "unused")
+    @MainThread
+    @CallSuper
+    @Deprecated
     override fun onAttachFragment(childFragment: Fragment) {
         super.onAttachFragment(childFragment)
         Log.e(TAG, "onAttachFragment() called with: childFragment = $childFragment")

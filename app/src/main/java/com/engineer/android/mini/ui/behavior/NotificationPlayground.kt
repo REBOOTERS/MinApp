@@ -16,7 +16,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
+import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.util.RxBus
+import com.engineer.android.mini.util.RxTimer
 
 interface NotificationBuilder {
 
@@ -186,6 +188,38 @@ class MyForegroundService : Service() {
 
 }
 
+class MyBackgroundService : Service() {
+    private val TAG = "MyBackgroundService"
+
+    override fun onCreate() {
+        super.onCreate()
+        Log.d(TAG, "onCreate() called")
+    }
+
+    override fun onBind(intent: Intent?): IBinder? {
+        Log.d(TAG, "onBind() called with: intent = $intent")
+        return null
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Log.d(
+            TAG,
+            "onStartCommand() called with: intent = $intent, flags = $flags, startId = $startId"
+        )
+        RxTimer().timer(2000) {
+            gotoActivity(SettingsActivity::class.java)
+//            stopSelf()
+        }
+        return super.onStartCommand(intent, flags, startId)
+    }
+
+    override fun onDestroy() {
+        Log.d(TAG, "onDestroy() called")
+        super.onDestroy()
+    }
+
+}
+
 object NotificationHelper {
 
     private fun createNotificationChannel(
@@ -270,6 +304,15 @@ class NotifyActivity : AppCompatActivity() {
                 .subscribe { stopService(intent) }
         }
         contentView.addView(customForegroundNotify, param)
+
+        val backgroundService = Button(this)
+        backgroundService.text = "background service"
+        backgroundService.setOnClickListener {
+            val intent = Intent(this, MyBackgroundService::class.java)
+            intent.putExtra("type", "background")
+            startService(intent)
+        }
+        contentView.addView(backgroundService, param)
 
         setContentView(contentView)
     }
