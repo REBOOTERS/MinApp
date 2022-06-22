@@ -4,7 +4,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 前台服务 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 前台服务 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
@@ -18,9 +19,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".WebViewActivity"
-            android:exported="false" />
         <activity
             android:name=".ui.MD3Activity"
             android:exported="true"
@@ -46,6 +44,10 @@
             android:exported="true" />
         <activity
             android:name=".ui.pure.DuDuActivity"
+            android:exported="true" />
+        <activity
+            android:screenOrientation="landscape"
+            android:name=".ui.pure.LandscapeActivity"
             android:exported="true" />
         <activity
             android:name=".RootActivity"

@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.*
 import android.util.Log
 import android.util.LogPrinter
+import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -132,7 +133,7 @@ class RootActivity : BaseActivity() {
             this.coroutineContext.isActive.toString().log()
             this.coroutineContext.job.javaClass.toString().log()
             this.coroutineContext.toString().log()
-             1
+            1
         }
         job.javaClass.toString().log()
     }
@@ -167,8 +168,15 @@ class RootActivity : BaseActivity() {
         viewBinding.compose.setOnClickListener { gotoActivity(MainComposeActivity::class.java) }
         viewBinding.cpp.setOnClickListener { gotoActivity(CppActivity::class.java) }
         viewBinding.better.setOnClickListener { gotoActivity(BetterActivity::class.java) }
-        val logger = LogPrinter(Log.DEBUG, "MiniApp_ActivityThread")
-        Looper.myLooper()?.setMessageLogging(logger)
+        viewBinding.handlerLogSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                val logger = LogPrinter(Log.DEBUG, "MiniApp_ActivityThread")
+                Looper.myLooper()?.setMessageLogging(logger)
+            } else {
+                Looper.myLooper()?.setMessageLogging(null)
+            }
+        }
+
     }
 
     private fun handleBlur() {

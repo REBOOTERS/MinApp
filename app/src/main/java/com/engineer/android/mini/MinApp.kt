@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.collection.LruCache
 import androidx.lifecycle.*
 import com.engineer.android.mini.better.testCalendar
+import com.engineer.android.mini.ui.behavior.WebViewCacheHolder
 import com.facebook.stetho.Stetho
 import dagger.hilt.android.HiltAndroidApp
 
@@ -47,6 +48,7 @@ class MinApp : Application() {
         }
         testCalendar()
         applicationProcessInfo()
+        WebViewCacheHolder.init(this)
     }
 
     private fun applicationProcessInfo() {
