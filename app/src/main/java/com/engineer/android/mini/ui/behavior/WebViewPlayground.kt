@@ -1,23 +1,19 @@
 package com.engineer.android.mini.ui.behavior
 
-import android.app.Application
 import android.content.Context
-import android.content.MutableContextWrapper
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
-import android.os.Looper
 import android.util.Log
-import android.webkit.WebChromeClient
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import androidx.appcompat.app.AppCompatActivity
-import com.engineer.android.mini.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.*
+import java.io.*
 import java.net.InetAddress
-import java.util.*
 
 private const val TAG = "WebViewPlayground"
 
@@ -33,7 +29,7 @@ class WebViewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        webView = WebViewCacheHolder.acquireWebViewInternal(this)
+        webView = WebView(this)
         Log.e(TAG, "webview is ${webView.hashCode()}")
         setContentView(webView)
 //        setContentView(R.layout.activity_web_view)
@@ -45,12 +41,13 @@ class WebViewActivity : AppCompatActivity() {
         targetUrl = "http://xiaodu.baidu.com/saiya/ad_landing_page/vip.meishubao.com/index.html?" +
                 "landing_page_id=LANDING-PAGE-MSB&ad_id=msb_landing_page&channel=homefeed" +
                 "&idea_id=a3cd177f-18f2-17a4-04d0-63cef90f4749&xiaodutools=hide"
+
         webView.webChromeClient = object : WebChromeClient() {
 
 
             override fun onReceivedTitle(view: WebView?, title: String?) {
                 super.onReceivedTitle(view, title)
-                Log.d(TAG, "onReceivedTitle() called with: view = $view, title = $title")
+                Log.d(TAG, "onReceivedTitle() called with: title = $title")
             }
         }
         webView.webViewClient = object : WebViewClient() {
@@ -58,18 +55,30 @@ class WebViewActivity : AppCompatActivity() {
                 super.onPageStarted(view, url, favicon)
                 Log.d(
                     TAG,
-                    "onPageStarted() called with: view = $view, url = $url, favicon = $favicon"
+                    "onPageStarted() called with: url = $url, favicon = $favicon"
                 )
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                Log.d(TAG, "onPageFinished() called with: view = $view, url = $url")
+                Log.d(TAG, "onPageFinished() called with: url = $url")
+                WebResourceCacheManager.downloadResource(this@WebViewActivity, targetUrl)
             }
 
-            override fun onLoadResource(view: WebView?, url: String?) {
-                super.onLoadResource(view, url)
-//                Log.d(TAG, "onLoadResource() called with: view = $view, url = $url")
+            override fun shouldInterceptRequest(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): WebResourceResponse? {
+//                Log.i(TAG, "shouldInterceptRequest() called with: request = ${request?.url}")
+                val url = request?.url?.toString() ?: ""
+                Log.e(TAG, WebResourceCacheManager.getMimeTypeFromUrl(url))
+                if ((request?.url ?: "") == Uri.parse(targetUrl)) {
+                    val cache = WebResourceCacheManager.providePath(this@WebViewActivity, targetUrl)
+                    Log.e(TAG, "use cache ${cache.length()}")
+                    val inputStream = FileInputStream(cache)
+                    return WebResourceResponse("text/html", "gzip", inputStream)
+                }
+                return super.shouldInterceptRequest(view, request)
             }
         }
         webView.loadUrl(targetUrl)
@@ -80,6 +89,7 @@ class WebViewActivity : AppCompatActivity() {
     }
 
     private suspend fun printSomeInfo() {
+        val TAG = "DNS"
         withContext(Dispatchers.IO) {
             try {
                 val ips = InetAddress.getByName(host)
@@ -99,34 +109,67 @@ class WebViewActivity : AppCompatActivity() {
 
 }
 
+object WebResourceCacheManager {
 
-object WebViewCacheHolder {
-
-    private var webView: WebView? = null
-
-
-    private lateinit var application: Application
-
-    fun init(application: Application) {
-        this.application = application
-
-        webView = createWebView(MutableContextWrapper(WebViewCacheHolder.application))
+    fun getMimeTypeFromUrl(url: String): String {
+        return MimeTypeMap.getSingleton()
+            .getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(url)) ?: ""
     }
 
+    fun providePath(context: Context, url: String): File {
+        val dir = context.cacheDir.absolutePath
+        val name = url.hashCode().toString()
 
-    fun acquireWebViewInternal(context: Context): WebView {
-        Log.d(TAG, "webView = $webView")
-        return if (webView == null) {
-            createWebView(context)
-        } else {
-            val contextWrapper = webView!!.context as MutableContextWrapper
-            contextWrapper.baseContext = context
-            webView!!
+        val fileDir = File(dir)
+        if (fileDir.exists().not()) {
+            fileDir.mkdir()
         }
+        return File(dir, name)
     }
 
-    private fun createWebView(context: Context): WebView {
-        return WebView(context)
-    }
+    fun downloadResource(context: Context, url: String) {
 
+        val mimeType = getMimeTypeFromUrl(url)
+
+        Log.d(TAG, "downloadResource() called with: mimeType = $mimeType, url = $url ")
+
+        val dir = context.cacheDir
+        val dirPath = dir.absolutePath
+        val fileDir = File(dirPath)
+        if (fileDir.exists().not()) {
+            fileDir.mkdir()
+        }
+
+        val fileName = url.hashCode().toString()
+        val request = Request.Builder().url(url).build()
+        val client = OkHttpClient.Builder().build()
+        val call = client.newCall(request)
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val responseBody = response.body()!!
+                val destFile = File(dirPath, fileName)
+                var fos: FileOutputStream? = null
+                var fis: InputStream? = null
+                val buffer = ByteArray(2048)
+                try {
+                    fos = FileOutputStream(destFile)
+                    fis = responseBody.byteStream()
+                    var len = fis.read(buffer)
+                    while (len != -1) {
+                        fos.write(buffer, 0, len)
+                        len = fis.read(buffer)
+                    }
+                } catch (e: Exception) {
+
+                } finally {
+                    fos?.close()
+                    fis?.close()
+                }
+            }
+        })
+    }
 }
