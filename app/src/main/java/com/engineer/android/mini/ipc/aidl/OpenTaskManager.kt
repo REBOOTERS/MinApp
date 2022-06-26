@@ -1,0 +1,66 @@
+package com.engineer.android.mini.ipc.aidl
+
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.os.Build
+import android.util.Log
+import com.engineer.android.mini.util.AndroidSystem.isAppForeground
+import java.util.*
+
+object OpenTaskManager {
+
+
+    private const val TAG = "OpenTaskManager"
+
+
+    fun startApp(mContext: Context, intent: Intent) {
+        Log.d(TAG, "startApp() called with: mContext = $mContext, intent = $intent")
+        mContext.startService(intent)
+    }
+
+    @JvmStatic
+    fun startThirdApp(mContext: Context, force: Boolean = false) {
+        Log.e(TAG, "packageName is " + mContext.applicationContext.packageName)
+        Log.e(TAG, "isForeground " + isAppForeground(mContext.applicationContext))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val list =
+                mContext.packageManager.getInstalledPackages(PackageManager.MATCH_UNINSTALLED_PACKAGES)
+            Collections.sort(list, Comparator.comparing { o: PackageInfo -> o.packageName })
+            for (packageInfo in list) {
+                Log.e(TAG, "packageInfo " + packageInfo.packageName)
+            }
+        }
+
+
+        val intent = Intent("com.engineer.other.custom_background_service")
+        intent.setPackage("com.engineer.other")
+        val resolveInfo = mContext.packageManager.resolveService(
+            intent,
+            PackageManager.GET_RESOLVED_FILTER
+        )
+        Log.e(TAG, "resolveInfo = $resolveInfo")
+        if (resolveInfo != null) {
+            if (force) {
+                mContext.applicationContext.startService(intent)
+            } else {
+                startIntentInternal(mContext, intent)
+            }
+
+        }
+    }
+
+    private fun startIntentInternal(mContext: Context, intent: Intent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Log.e(TAG, "startForegroundService ----> ${intent.`package`}")
+            try {
+                mContext.applicationContext.startForegroundService(intent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else {
+            mContext.applicationContext.startService(intent)
+        }
+    }
+}

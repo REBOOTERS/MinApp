@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.collection.LruCache
 import androidx.lifecycle.*
 import com.engineer.android.mini.better.testCalendar
+import com.engineer.android.mini.ipc.aidl.ServiceBinder
+import com.engineer.android.mini.util.AndroidSystem
 import com.facebook.stetho.Stetho
 import dagger.hilt.android.HiltAndroidApp
 
@@ -67,6 +69,10 @@ class MinApp : Application() {
                 Log.e("ProcessInfo", "i=$i,s=$s")
             }
         }
+        Log.e(
+            "ProcessInfo",
+            "process pid " + Process.myPid() + ",is64Bit= " + Process.is64Bit()
+        )
     }
 
     private fun appLifecycle() {
@@ -74,11 +80,27 @@ class MinApp : Application() {
             override fun onStart(owner: LifecycleOwner) {
                 super.onStart(owner)
                 Log.e("ProcessLife", "ApplicationObserver: app moved to foreground")
+                Log.e(
+                    "ProcessLife",
+                    "is Foreground App ${AndroidSystem.isAppForeground(INSTANCE)}, foregroundApp is ${
+                        AndroidSystem.getForegroundApp(
+                            INSTANCE
+                        )
+                    }"
+                )
             }
 
             override fun onStop(owner: LifecycleOwner) {
                 super.onStop(owner)
                 Log.e("ProcessLife", "ApplicationObserver: app moved to background")
+                Log.e(
+                    "ProcessLife",
+                    "is Foreground App ${AndroidSystem.isAppForeground(INSTANCE)}, foregroundApp is ${
+                        AndroidSystem.getForegroundApp(
+                            INSTANCE
+                        )
+                    }"
+                )
             }
         })
 

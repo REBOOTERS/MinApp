@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content_landscape"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mini_blue">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/android" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="30dp"
+        android:gravity="end"
+        android:orientation="vertical">
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/immersive_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="沉浸式-关" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/status_bar_color_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="白色状态栏" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/status_bar_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="状态栏" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/navigation_bar_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="导航栏" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</FrameLayout>

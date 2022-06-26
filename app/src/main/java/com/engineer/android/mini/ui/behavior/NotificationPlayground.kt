@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.os.Process
 import android.util.Log
 import android.widget.Button
 import android.widget.LinearLayout
@@ -16,6 +17,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
+import com.engineer.android.mini.ipc.aidl.OpenTaskManager
+import com.engineer.android.mini.util.AndroidSystem
 import com.engineer.android.mini.util.RxBus
 import com.engineer.android.mini.util.RxTimer
 
@@ -212,7 +215,40 @@ class MyBackgroundService : Service() {
         Log.d(TAG, "onDestroy() called")
         super.onDestroy()
     }
+}
 
+class MyBackgroundProcess : Service() {
+    private val TAG = "MyBackgroundProcess"
+
+    override fun onCreate() {
+        super.onCreate()
+        Log.e(
+            TAG,
+            "process pid " + Process.myPid() + ",is64Bit= " + Process.is64Bit()
+        )
+        Log.d(TAG, "onCreate() called")
+    }
+
+    override fun onBind(intent: Intent?): IBinder? {
+        Log.d(TAG, "onBind() called with: intent = $intent")
+        return null
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Log.d(
+            TAG,
+            "onStartCommand() called with: intent = $intent, flags = $flags, startId = $startId"
+        )
+        val intent = Intent(this, MyBackgroundService::class.java)
+        OpenTaskManager.startApp(this, intent)
+
+        return super.onStartCommand(intent, flags, startId)
+    }
+
+    override fun onDestroy() {
+        Log.d(TAG, "onDestroy() called")
+        super.onDestroy()
+    }
 }
 
 object NotificationHelper {
@@ -308,6 +344,14 @@ class NotifyActivity : AppCompatActivity() {
             startService(intent)
         }
         contentView.addView(backgroundService, param)
+
+        val backgroundProcess = Button(this)
+        backgroundProcess.text = "background process"
+        backgroundProcess.setOnClickListener {
+            val intent = Intent(this, MyBackgroundProcess::class.java)
+            startService(intent)
+        }
+        contentView.addView(backgroundProcess, param)
 
         setContentView(contentView)
     }

@@ -1,5 +1,7 @@
 package com.engineer.android.mini.ipc.aidl;
 
+import android.content.Context;
+import android.os.Process;
 import android.os.RemoteException;
 import android.util.Log;
 
@@ -18,6 +20,13 @@ public class ServiceBinder extends IBookInterface.Stub {
 
     public CopyOnWriteArrayList<Book> provideBookList() {
         return mBookList;
+    }
+
+    private Context mContext;
+
+
+    public ServiceBinder(Context mContext) {
+        this.mContext = mContext;
     }
 
     @Override
@@ -88,5 +97,11 @@ public class ServiceBinder extends IBookInterface.Stub {
             e.printStackTrace();
         }
         return mBookList;
+    }
+
+    @Override
+    public void startOtherApp() {
+        Log.e(TAG, "process pid " + Process.myPid() + ",is64Bit= " + Process.is64Bit());
+        OpenTaskManager.startThirdApp(mContext, false);
     }
 }

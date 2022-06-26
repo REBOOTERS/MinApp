@@ -25,6 +25,10 @@
  apply plugin: 'kotlin-android-extensions' 被官方废弃的场景下，如何使用 viewbinding
 
  - [kotlin-android-extensions插件也被废弃了？扶我起来](https://mp.weixin.qq.com/s/keR7bO-Nu9bBr5Nhevbe1Q)
+
+### Android 转态栏、导航栏全屏，沉浸式
+
+[WindowInsetsControllerCompat](https://blog.csdn.net/StjunF/article/details/121840122)
  
 ## Android SourceCode
 

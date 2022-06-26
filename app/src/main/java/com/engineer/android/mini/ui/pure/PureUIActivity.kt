@@ -38,6 +38,7 @@ class PureUIActivity : BaseActivity() {
         TransitionManager.beginDelayedTransition(realBinding.rootContent)
         realBinding.materialDesign3.setOnClickListener { gotoActivity(MD3Activity::class.java) }
         realBinding.imageView.setOnClickListener { boundsAnimation() }
+        realBinding.statusBarTest.setOnClickListener { gotoActivity(LandscapeActivity::class.java) }
         realBinding.layoutAc.setOnClickListener { gotoActivity(LayoutActivity::class.java) }
         realBinding.layoutWrapContent.setOnClickListener { gotoActivity(WrapContentActivity::class.java) }
         realBinding.customView.setOnClickListener { gotoActivity(CustomViewActivity::class.java) }

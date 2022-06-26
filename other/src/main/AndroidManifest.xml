@@ -30,6 +30,15 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility" />
         </service>
+
+        <service
+            android:name=".service.MyBackgroundService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.engineer.other.custom_background_service" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

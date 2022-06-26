@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.R
+import com.engineer.android.mini.ext.toast
 
 private const val TAG = "AIDLDemoActivity"
 
@@ -36,8 +37,17 @@ class AIDLDemoActivity : AppCompatActivity() {
             startBookManger()
         }
 
+        findViewById<View>(R.id.start_other_app).setOnClickListener {
+            if (isBookServiceRegistered.not()) {
+                "service 未启动".toast()
+                return@setOnClickListener
+            }
+            getIBookInterface()?.startOtherApp()
+        }
+
         findViewById<View>(R.id.add_book).setOnClickListener {
             if (isBookServiceRegistered.not()) {
+                "service 未启动".toast()
                 return@setOnClickListener
             }
             count++
@@ -52,6 +62,7 @@ class AIDLDemoActivity : AppCompatActivity() {
         }
         findViewById<View>(R.id.get_book).setOnClickListener {
             if (isBookServiceRegistered.not()) {
+                "service 未启动".toast()
                 return@setOnClickListener
             }
             try {
@@ -64,6 +75,7 @@ class AIDLDemoActivity : AppCompatActivity() {
         }
         findViewById<View>(R.id.del_book).setOnClickListener {
             if (isBookServiceRegistered.not()) {
+                "service 未启动".toast()
                 return@setOnClickListener
             }
             try {
@@ -79,6 +91,7 @@ class AIDLDemoActivity : AppCompatActivity() {
         button = findViewById(R.id.async_callback)
         button?.setOnClickListener {
             if (isBookServiceRegistered.not()) {
+                "service 未启动".toast()
                 return@setOnClickListener
             }
             registerAsyncCallback()

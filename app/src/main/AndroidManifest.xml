@@ -46,9 +46,9 @@
             android:name=".ui.pure.DuDuActivity"
             android:exported="true" />
         <activity
-            android:screenOrientation="landscape"
             android:name=".ui.pure.LandscapeActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".RootActivity"
             android:exported="true">
@@ -179,8 +179,15 @@
         <service
             android:name=".ui.behavior.MyBackgroundService"
             android:exported="false" />
+        <service
+            android:name=".ui.behavior.MyBackgroundProcess"
+            android:process="my.back_ground_service.remote" />
 
         <receiver android:name=".ui.behavior.SimpleBroadcastReceiver" />
     </application>
+
+    <queries>
+        <package android:name="com.engineer.other" />
+    </queries>
 
 </manifest>

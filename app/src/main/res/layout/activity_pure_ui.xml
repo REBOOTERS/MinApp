@@ -75,6 +75,10 @@
                 style="@style/ww_10_margin"
                 android:text="material_design_3" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/status_bar_test"
+                style="@style/ww_10_margin"
+                android:text="status_bar_test" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/recycler_view_demo"

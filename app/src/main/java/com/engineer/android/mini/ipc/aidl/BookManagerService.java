@@ -19,9 +19,11 @@ public class BookManagerService extends Service {
         super.onCreate();
         Log.e(TAG, "onCreate() called on thread: " + Thread.currentThread().getName());
         Log.e(TAG, "onCreate() called on " + Process.myPid() + "-" + Thread.currentThread().getId());
-        mBinder = new ServiceBinder();
+        mBinder = new ServiceBinder(this);
         mBinder.provideBookList().add(new Book(100, "Android"));
         mBinder.provideBookList().add(new Book(101, "iOS"));
+
+//        OpenOtherManager.startThirdApp(this,true);
     }
 
     @Override
