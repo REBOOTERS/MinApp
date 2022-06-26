@@ -16,7 +16,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
-import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.util.RxBus
 import com.engineer.android.mini.util.RxTimer
 
@@ -206,10 +205,6 @@ class MyBackgroundService : Service() {
             TAG,
             "onStartCommand() called with: intent = $intent, flags = $flags, startId = $startId"
         )
-        RxTimer().timer(2000) {
-            gotoActivity(SettingsActivity::class.java)
-//            stopSelf()
-        }
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -300,7 +295,7 @@ class NotifyActivity : AppCompatActivity() {
             intent.putExtra("type", "custom")
             startService(intent)
 
-            RxBus.getInstance().toObservable(StopForegroundServiceEvent::class.java)
+            val d = RxBus.getInstance().toObservable(StopForegroundServiceEvent::class.java)
                 .subscribe { stopService(intent) }
         }
         contentView.addView(customForegroundNotify, param)

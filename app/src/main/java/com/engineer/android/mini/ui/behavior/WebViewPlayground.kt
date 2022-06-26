@@ -71,7 +71,7 @@ class WebViewActivity : AppCompatActivity() {
             ): WebResourceResponse? {
 //                Log.i(TAG, "shouldInterceptRequest() called with: request = ${request?.url}")
                 val url = request?.url?.toString() ?: ""
-                Log.e(TAG, WebResourceCacheManager.getMimeTypeFromUrl(url))
+                Log.e(TAG, WebResourceCacheManager.getMimeTypeFromUrl(url) + ",url is $url")
                 if ((request?.url ?: "") == Uri.parse(targetUrl)) {
                     val cache = WebResourceCacheManager.providePath(this@WebViewActivity, targetUrl)
                     Log.e(TAG, "use cache ${cache.length()}")
@@ -89,7 +89,7 @@ class WebViewActivity : AppCompatActivity() {
     }
 
     private suspend fun printSomeInfo() {
-        val TAG = "DNS"
+        val TAG = "DNS-parser"
         withContext(Dispatchers.IO) {
             try {
                 val ips = InetAddress.getByName(host)
@@ -99,7 +99,6 @@ class WebViewActivity : AppCompatActivity() {
                 Log.e(TAG, "onCreate: ${ips.isAnyLocalAddress}")
                 Log.e(TAG, "onCreate: ${ips.isLinkLocalAddress}")
                 Log.e(TAG, "onCreate: ${ips.isLoopbackAddress}")
-                Log.e(TAG, "onCreate: ${ips.isReachable(1)}")
             } catch (e: Exception) {
                 Log.e(TAG, e.message ?: "error")
             }
@@ -150,6 +149,8 @@ object WebResourceCacheManager {
             }
 
             override fun onResponse(call: Call, response: Response) {
+                val coding = response.header("content-encoding", "utf-8")
+                Log.e(TAG, "encoding is $coding")
                 val responseBody = response.body()!!
                 val destFile = File(dirPath, fileName)
                 var fos: FileOutputStream? = null
