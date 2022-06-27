@@ -3,6 +3,7 @@ package com.engineer.android.mini.net
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Environment
+import android.text.TextUtils
 import android.util.Log
 import android.util.SparseArray
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +23,11 @@ import com.zchu.rxcache.data.ResultFrom
 import com.zchu.rxcache.kotlin.rxCache
 import com.zchu.rxcache.stategy.FirstCacheTimeoutStrategy
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.io.File
+import java.net.InetAddress
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -96,6 +101,22 @@ class RxCacheActivity : AppCompatActivity() {
         registerFlow()
 //        JsonSerializeTest.jsonSerialize()
         JsonSerializeTest.jsonDeserialize(this)
+
+        Observable.create<String> {
+            val address = InetAddress.getByName("www.qq.com")
+            val ip = address.hostAddress
+            if (TextUtils.isEmpty(ip)) it.onError(Throwable("ip is null")) else it.onNext(ip)
+            it.onComplete()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext {
+                println("ip is $it")
+            }
+            .doOnError {
+                it.printStackTrace()
+            }
+            .subscribe()
+
     }
 
 
