@@ -24,6 +24,7 @@ class MinApp : Application() {
     companion object {
         lateinit var INSTANCE: Application
         val MINI = "mini"
+        val TAG = MINI
 
         val FLUTTER_ENGINE_ID = "FLUTTER_ENGINE_ID"
     }
@@ -129,5 +130,20 @@ class MinApp : Application() {
         Log.d("what", range.javaClass.name)
         val range1 = 0 until 10
         Log.d("what", range1.javaClass.name)
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        Log.d(TAG, "onLowMemory() called")
+    }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        Log.d(TAG, "onTrimMemory() called with: level = $level")
+    }
+
+    override fun onTerminate() {
+        super.onTerminate()
+        Log.d(TAG, "onTerminate() called")
     }
 }

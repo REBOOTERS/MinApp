@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.provider.Settings
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ImageSpan
@@ -22,6 +23,7 @@ import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
 import com.engineer.android.mini.R
+import com.engineer.android.mini.better.file.FileChangeWatcher
 import com.engineer.android.mini.databinding.ActivityMessyBinding
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.screenWidth
@@ -30,6 +32,8 @@ import com.engineer.android.mini.proguards.*
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.util.JavaUtil
 import com.engineer.android.mini.util.RxTimer
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 class MessyActivity : BaseActivity() {
 
@@ -39,6 +43,8 @@ class MessyActivity : BaseActivity() {
     private var animator: ValueAnimator? = null
 
     private var rxTimer: RxTimer? = null
+
+    private val mainScope = MainScope()
 
     private val testLazy by lazy {
         Log.e("RootActivity", "testLazy triggle")
@@ -188,6 +194,21 @@ class MessyActivity : BaseActivity() {
         "view level is ${viewLevel(realBinding.rangeSlider)}".toast()
 
         initTimeAnimator()
+
+//        Settings.System.putString(contentResolver, "age", "18")
+
+        mainScope.launch {
+            FileChangeWatcher.initObserver()
+        }
+        var i = 0
+        realBinding.addFile.setOnClickListener {
+            ++i
+            FileChangeWatcher.addFile("$i.txt")
+        }
+        realBinding.deleteFile.setOnClickListener {
+            FileChangeWatcher.deleteFile("$i.txt")
+            --i
+        }
     }
 
     private fun testImageSpan() {
