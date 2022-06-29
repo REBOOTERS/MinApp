@@ -206,6 +206,9 @@ class MessyActivity : BaseActivity() {
             FileChangeWatcher.addFile("$i.txt")
         }
         realBinding.deleteFile.setOnClickListener {
+            if (i <= 0) {
+                return@setOnClickListener
+            }
             FileChangeWatcher.deleteFile("$i.txt")
             --i
         }
@@ -288,6 +291,7 @@ class MessyActivity : BaseActivity() {
         super.onDestroy()
         animator?.cancel()
         rxTimer?.cancel()
+        FileChangeWatcher.stopObserve()
     }
 }
 

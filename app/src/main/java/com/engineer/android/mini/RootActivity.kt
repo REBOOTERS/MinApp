@@ -3,10 +3,11 @@ package com.engineer.android.mini
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.os.*
+import android.os.Bundle
+import android.os.Looper
+import android.os.SystemClock
 import android.util.Log
 import android.util.LogPrinter
-import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -20,7 +21,6 @@ import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ipc.IpcActivity
 import com.engineer.android.mini.jetpack.FragmentManagerActivity
 import com.engineer.android.mini.media.MediaRootActivity
-import com.engineer.android.mini.media.VideoActivity
 import com.engineer.android.mini.net.RxCacheActivity
 import com.engineer.android.mini.net.ThreadExTransform
 import com.engineer.android.mini.ui.BaseActivity

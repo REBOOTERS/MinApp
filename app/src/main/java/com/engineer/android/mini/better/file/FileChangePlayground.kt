@@ -14,7 +14,12 @@ object FileChangeWatcher {
 
     private val fileChangeObserver = object : FileObserver(File(FILE_PATH)) {
         override fun onEvent(event: Int, path: String?) {
-            Log.d(TAG, "onEvent() called with: event = $event, path = $path")
+            val flag = Integer.toHexString(event)
+            var filePath = ""
+            path?.let {
+                filePath = FILE_PATH + File.separator + it
+            }
+            Log.d(TAG, "onEvent() called with: event = $flag, path = $filePath")
         }
     }
 
@@ -31,7 +36,11 @@ object FileChangeWatcher {
         Log.d(TAG, "deleteFile() called with: path = $path")
         val file = FILE_PATH + File.separator + path
         val targetFile = File(file)
-        targetFile.deleteOnExit()
+        if (targetFile.exists()) {
+            targetFile.delete()
+        } else {
+            targetFile.deleteOnExit()
+        }
     }
 
     fun initObserver() {

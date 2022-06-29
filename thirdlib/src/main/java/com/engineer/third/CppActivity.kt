@@ -8,6 +8,7 @@ import com.engineer.gif.thirdlib.R
 import com.engineer.third.internal.NativeMethodsFactory
 
 private const val TAG = "CppActivity"
+
 class CppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +22,7 @@ class CppActivity : AppCompatActivity() {
         val nativeMethod = NativeMethodsFactory()
         val plus = nativeMethod.plus(10, 100)
         Log.d(TAG, "testJNI: called plus = $plus")
-        Log.d(TAG, "testJNI: static method ${NativeMethodsFactory.staticPlus(1,2)}")
+        Log.d(TAG, "testJNI: static method ${NativeMethodsFactory.staticPlus(1, 2)}")
         Log.d(TAG, "testJNI: trans  string ${nativeMethod.transToNativeString("Android")}")
     }
 

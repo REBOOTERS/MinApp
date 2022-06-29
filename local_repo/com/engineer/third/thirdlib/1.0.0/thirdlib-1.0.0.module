@@ -45,10 +45,10 @@
           }
         },
         {
-          "group": "org.apache.commons",
+          "group": "commons-io",
           "module": "commons-io",
           "version": {
-            "requires": "1.3.2"
+            "requires": "20030203.000550"
           }
         },
         {
@@ -70,11 +70,11 @@
         {
           "name": "thirdlib-1.0.0.aar",
           "url": "thirdlib-1.0.0.aar",
-          "size": 392104,
-          "sha512": "1b8ddff31c155d47ebd92d796b7112211a98ac86a47430e566ebec84e0b32bd4d79e222396c763f73447925c6731b7baef5c7eff1e552e263c6f4e421ca79410",
-          "sha256": "207c111627746680a46e14bd5a383bf177943ae6ef5f2e385de6cba37228b5c4",
-          "sha1": "1d28a0589b5e9231ef234379301a6df3f6eed019",
-          "md5": "efeae9c3a3bccadce829d1241a769702"
+          "size": 392106,
+          "sha512": "d6a8830c00821d874da4831c24c267857eff61b199fd676fb95f0b5538548206883662dbfb2349a3361f517f90f41295423c6986bfbd5b3e65c8f6386e5a4d95",
+          "sha256": "5bd2f07e37b9ef6edda164697c030fa8ece197b9ab4e37604ea6e242fa72f842",
+          "sha1": "8f47723c1e0a1bdedd4cceb2e29497e1c3d2adc9",
+          "md5": "b25b95e8ddd67f77e1f0ce9cc776bfc9"
         }
       ]
     },
@@ -109,10 +109,10 @@
           }
         },
         {
-          "group": "org.apache.commons",
+          "group": "commons-io",
           "module": "commons-io",
           "version": {
-            "requires": "1.3.2"
+            "requires": "20030203.000550"
           }
         },
         {
@@ -155,11 +155,11 @@
         {
           "name": "thirdlib-1.0.0.aar",
           "url": "thirdlib-1.0.0.aar",
-          "size": 392104,
-          "sha512": "1b8ddff31c155d47ebd92d796b7112211a98ac86a47430e566ebec84e0b32bd4d79e222396c763f73447925c6731b7baef5c7eff1e552e263c6f4e421ca79410",
-          "sha256": "207c111627746680a46e14bd5a383bf177943ae6ef5f2e385de6cba37228b5c4",
-          "sha1": "1d28a0589b5e9231ef234379301a6df3f6eed019",
-          "md5": "efeae9c3a3bccadce829d1241a769702"
+          "size": 392106,
+          "sha512": "d6a8830c00821d874da4831c24c267857eff61b199fd676fb95f0b5538548206883662dbfb2349a3361f517f90f41295423c6986bfbd5b3e65c8f6386e5a4d95",
+          "sha256": "5bd2f07e37b9ef6edda164697c030fa8ece197b9ab4e37604ea6e242fa72f842",
+          "sha1": "8f47723c1e0a1bdedd4cceb2e29497e1c3d2adc9",
+          "md5": "b25b95e8ddd67f77e1f0ce9cc776bfc9"
         }
       ]
     }
