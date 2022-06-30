@@ -1,5 +1,6 @@
 package com.engineer.android.mini.net.driver
 
+import android.net.Uri
 import java.net.InetAddress
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -18,10 +19,18 @@ fun main() {
     println("decode -----> ")
     val decode = URLDecoder.decode(url, "UTF-8")
     println(decode)
+}
 
+fun parseUri(uri: Uri) {
+    println(uri.scheme)
+    println(uri.host)
+    println(uri.getQueryParameter("keyword"))
+}
+
+private fun testInetAddress() {
     val address = InetAddress.getByName("www.baidu.com")
     println(address)
-    println("ipVersion is "+address.address.size)
+    println("ipVersion is " + address.address.size)
     println(address.hostAddress)
     println(address.canonicalHostName)
     println()

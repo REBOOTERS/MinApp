@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.util.Log
 import com.engineer.android.mini.util.AndroidSystem.isAppForeground
@@ -24,18 +25,14 @@ object OpenTaskManager {
     fun startThirdApp(mContext: Context, force: Boolean = false) {
         Log.e(TAG, "packageName is " + mContext.applicationContext.packageName)
         Log.e(TAG, "isForeground " + isAppForeground(mContext.applicationContext))
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val list =
-                mContext.packageManager.getInstalledPackages(PackageManager.MATCH_UNINSTALLED_PACKAGES)
-            Collections.sort(list, Comparator.comparing { o: PackageInfo -> o.packageName })
-            for (packageInfo in list) {
-                Log.e(TAG, "packageInfo " + packageInfo.packageName)
-            }
-        }
-
 
         val intent = Intent("com.engineer.other.custom_background_service")
         intent.setPackage("com.engineer.other")
+        val deeplink = "{\"processTask\":[{\"name\":\"{{STRING}}\",\"args\":\"{{STRING}}\"}]}"
+        val uri = Uri.parse(deeplink)
+        Log.e(TAG,"${uri.scheme}")
+        Log.e(TAG,"${uri.host}")
+        intent.data = uri
         val resolveInfo = mContext.packageManager.resolveService(
             intent,
             PackageManager.GET_RESOLVED_FILTER
@@ -47,7 +44,6 @@ object OpenTaskManager {
             } else {
                 startIntentInternal(mContext, intent)
             }
-
         }
     }
 
@@ -61,6 +57,17 @@ object OpenTaskManager {
             }
         } else {
             mContext.applicationContext.startService(intent)
+        }
+    }
+
+    fun getAllApps(mContext: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val list =
+                mContext.packageManager.getInstalledPackages(PackageManager.MATCH_UNINSTALLED_PACKAGES)
+            Collections.sort(list, Comparator.comparing { o: PackageInfo -> o.packageName })
+            for (packageInfo in list) {
+                Log.e(TAG, "packageInfo " + packageInfo.packageName)
+            }
         }
     }
 }

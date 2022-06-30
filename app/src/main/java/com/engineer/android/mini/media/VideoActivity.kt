@@ -28,6 +28,8 @@ class VideoActivity : BaseActivity() {
 
     private lateinit var viewBinding: ActivityMediaBinding
     val path = Environment.getExternalStorageDirectory().absolutePath + "/Movies/tt.mp4"
+    val backupPath = Environment.getExternalStorageDirectory().absolutePath + "/Movies/vv.mp4"
+
     private val netVideoPath = "https://cdn.videvo.net/videvo_files/video/free/2020-07" +
             "/large_watermarked/06_1596083776_preview.mp4"
 
@@ -45,6 +47,8 @@ class VideoActivity : BaseActivity() {
         setMediaInfo()
         if (File(path).exists()) {
             viewBinding.videoView.setVideoPath(path)
+        } else if (File(backupPath).exists()) {
+            viewBinding.videoView.setVideoPath(backupPath)
         } else {
             viewBinding.videoView.setVideoURI(Uri.parse(netVideoPath))
         }

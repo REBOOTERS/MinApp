@@ -37,6 +37,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="com.engineer.other.custom_background_service" />
+                <data android:host="*" android:scheme="*" />
             </intent-filter>
         </service>
     </application>
