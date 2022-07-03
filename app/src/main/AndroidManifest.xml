@@ -24,7 +24,8 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".media.SimpleVideoActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".ui.MD3Activity"
             android:exported="true"

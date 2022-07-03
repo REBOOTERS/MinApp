@@ -43,7 +43,6 @@ class VideoActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMediaBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-        hideNavigationBar()
         setMediaInfo()
         if (File(path).exists()) {
             viewBinding.videoView.setVideoPath(path)
@@ -101,13 +100,6 @@ class VideoActivity : BaseActivity() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         Log.d(TAG, "onConfigurationChanged() called with: newConfig = $newConfig")
-    }
-
-    private fun hideNavigationBar() {
-
-        val uiFlag = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        window.decorView.systemUiVisibility = uiFlag
     }
 
     private fun register() {

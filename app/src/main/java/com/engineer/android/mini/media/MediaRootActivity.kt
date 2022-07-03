@@ -13,6 +13,9 @@ class MediaRootActivity : AppCompatActivity() {
         findViewById<View>(R.id.video).setOnClickListener {
             gotoActivity(VideoActivity::class.java)
         }
+        findViewById<View>(R.id.video_simple).setOnClickListener {
+            gotoActivity(SimpleVideoActivity::class.java)
+        }
         findViewById<View>(R.id.audio).setOnClickListener {
             gotoActivity(AudioActivity::class.java)
         }
