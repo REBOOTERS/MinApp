@@ -1,5 +1,6 @@
 package com.engineer.android.mini.media
 
+import android.content.res.Configuration
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Build
@@ -15,8 +16,8 @@ import com.engineer.android.mini.databinding.ActivitySimpleVideoBinding
 
 class SimpleVideoActivity : AppCompatActivity() {
     private val TAG = "SimpleVideoActivity"
-    val path = Environment.getExternalStorageDirectory().absolutePath + "/Movies/vv.mp4"
-    val path2 = Environment.getExternalStorageDirectory().absolutePath + "/Movies/tt.mp4"
+    val path = Environment.getExternalStorageDirectory().absolutePath + "/Movies/tt.mp4"
+    val path2 = Environment.getExternalStorageDirectory().absolutePath + "/Movies/vv.mp4"
 
     private lateinit var viewBinding: ActivitySimpleVideoBinding
 
@@ -47,6 +48,7 @@ class SimpleVideoActivity : AppCompatActivity() {
         viewBinding.videoView1.setOnPreparedListener(listener)
         viewBinding.videoView1.setOnCompletionListener(listener)
         viewBinding.videoView1.setVideoPath(path2)
+        viewBinding.videoView1.setBackgroundColor(Color.TRANSPARENT)
 
         viewBinding.videoView2.setOnPreparedListener {
             Log.d(TAG, "onPrepared2() called")
@@ -57,11 +59,21 @@ class SimpleVideoActivity : AppCompatActivity() {
         viewBinding.rootViewContent.setOnClickListener {
             player1?.stop()
             player2?.start()
-            viewBinding.videoView2.visibility = View.VISIBLE
-            viewBinding.videoView1.visibility = View.GONE
-            player1?.release()
+            player2?.setOnInfoListener { mp, what, extra ->
+                Log.d(TAG, "onInfo() called with: mp = $mp, what = $what, extra = $extra")
+                if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
+                    viewBinding.videoView1.visibility = View.GONE
+                }
+
+                false
+            }
             viewBinding.rootViewContent.setOnClickListener(null)
         }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        Log.d(TAG, "onConfigurationChanged() called with: newConfig = $newConfig")
     }
 
     private fun translucentStatusBar(frameLayout: View) {
@@ -79,18 +91,10 @@ class SimpleVideoActivity : AppCompatActivity() {
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
     }
 
-    override fun onPause() {
-        super.onPause()
-        player1?.let {
-            if (it.isPlaying) {
-                it.pause()
-            }
-        }
-        player2?.let {
-            if (it.isPlaying) {
-                it.pause()
-            }
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        player1?.release()
+        player2?.release()
     }
 
     override fun onResume() {
