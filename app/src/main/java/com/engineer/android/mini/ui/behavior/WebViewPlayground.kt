@@ -77,7 +77,7 @@ class WebViewActivity : AppCompatActivity() {
                     Log.e(TAG, "use cache ${cache.length()}")
                     if (cache.exists()) {
                         val inputStream = FileInputStream(cache)
-                        return WebResourceResponse("text/html", "gzip", inputStream)
+                        return WebResourceResponse("text/html", "utf-8", inputStream)
                     }
                 }
                 return super.shouldInterceptRequest(view, request)

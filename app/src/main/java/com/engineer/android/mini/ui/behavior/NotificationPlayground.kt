@@ -180,6 +180,7 @@ class MyForegroundService : Service() {
 
         val notification = NotificationHelper.provideForegroundNotification(this, type)
         startForeground(System.currentTimeMillis().toInt(), notification)
+        stopForeground(true)
         return super.onStartCommand(intent, flags, startId)
     }
 
