@@ -18,6 +18,8 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+    - name: Repo Visualizer
+      uses: githubocto/repo-visualizer@0.8.2
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
