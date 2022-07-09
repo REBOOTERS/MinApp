@@ -35,7 +35,9 @@ object AndroidSystem {
             return false
         }
         for (processInfo in runningAppProcessInfoList) {
-            if (processInfo.processName == context.packageName && processInfo.importance == RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+            if (processInfo.processName == context.packageName
+                && processInfo.importance == RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+            ) {
                 return true
             }
         }
@@ -46,7 +48,9 @@ object AndroidSystem {
         val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val lr = am.runningAppProcesses ?: return null
         for (ra in lr) {
-            if (ra.importance == RunningAppProcessInfo.IMPORTANCE_VISIBLE || ra.importance == RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+            if (ra.importance == RunningAppProcessInfo.IMPORTANCE_VISIBLE
+                || ra.importance == RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+            ) {
                 return ra.processName
             }
         }

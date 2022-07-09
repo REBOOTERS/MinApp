@@ -55,8 +55,10 @@ class SkipService : AccessibilityService() {
                         )
                     )
                 }, 500) //0.5秒后执行Runnable中的run方法
-                "com.huawei.appmarket" -> skip(nodeInfo.findAccessibilityNodeInfosByViewId("com.huawei.appmarket:id/skip_textview"))
-                "com.meizu.media.life" -> skip(nodeInfo.findAccessibilityNodeInfosByViewId("com.meizu.media.life:id/tvTimer"))
+                "com.huawei.appmarket" -> skip(nodeInfo.findAccessibilityNodeInfosByViewId(
+                    "com.huawei.appmarket:id/skip_textview"))
+                "com.meizu.media.life" -> skip(nodeInfo.findAccessibilityNodeInfosByViewId(
+                    "com.meizu.media.life:id/tvTimer"))
                 "com.qihoo.appstore" -> Handler(Looper.getMainLooper()).postDelayed({
                     skip(
                         nodeInfo.findAccessibilityNodeInfosByViewId(

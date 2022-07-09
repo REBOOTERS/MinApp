@@ -4,21 +4,20 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MultiThread {
 
 //    private static List<String> list = new ArrayList<>();
-    private static List<String> list = new CopyOnWriteArrayList<>();
+    private static final List<String> LISTS = new CopyOnWriteArrayList<>();
 
     static {
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
+        LISTS.add("a");
+        LISTS.add("b");
+        LISTS.add("c");
+        LISTS.add("d");
+        LISTS.add("e");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -31,9 +30,9 @@ public class MultiThread {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private  static void useList() {
-        list.forEach(System.err::print);
+        LISTS.forEach(System.err::print);
         System.out.print(",");
-        list.clear();
+        LISTS.clear();
     }
 
 }
