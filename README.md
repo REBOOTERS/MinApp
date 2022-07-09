@@ -103,3 +103,6 @@ jobs:
     - run: flutter build aot
 ```
 
+## diagram
+
+<img src="diagram.svg">
