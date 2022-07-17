@@ -28,7 +28,7 @@ class WebViewActivity : AppCompatActivity() {
     private lateinit var webView: WebView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Log.d(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
         webView = WebView(this)
         Log.e(TAG, "webview is ${webView.hashCode()}")
         setContentView(webView)
@@ -75,8 +75,10 @@ class WebViewActivity : AppCompatActivity() {
                 if ((request?.url ?: "") == Uri.parse(targetUrl)) {
                     val cache = WebResourceCacheManager.providePath(this@WebViewActivity, targetUrl)
                     Log.e(TAG, "use cache ${cache.length()}")
-                    val inputStream = FileInputStream(cache)
-                    return WebResourceResponse("text/html", "gzip", inputStream)
+                    if (cache.exists()) {
+                        val inputStream = FileInputStream(cache)
+                        return WebResourceResponse("text/html", "gzip", inputStream)
+                    }
                 }
                 return super.shouldInterceptRequest(view, request)
             }
@@ -106,6 +108,10 @@ class WebViewActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy() called")
+    }
 }
 
 object WebResourceCacheManager {

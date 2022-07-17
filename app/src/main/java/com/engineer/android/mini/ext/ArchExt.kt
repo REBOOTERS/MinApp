@@ -2,8 +2,8 @@ package com.engineer.android.mini.ext
 
 import android.app.Activity
 import android.app.Service
-import android.content.Context
 import android.content.Intent
+import android.util.Log
 
 /**
  * Created on 2020/10/17.
@@ -20,7 +20,9 @@ fun <T, R> T.easy(block: (T) -> R, ifNull: () -> Unit) {
 
 fun Activity.gotoActivity(targetClass: Class<out Activity>?) {
     targetClass?.easy({
+        val tag = "START_ACTIVITY_${it.simpleName}"
         this.startActivity(Intent(this, it))
+        Log.d(tag, "startActivity $targetClass")
     }, {
         "targetClass is Null".toast()
     })
@@ -38,4 +40,5 @@ fun Service.gotoActivity(targetClass: Class<out Activity>?) {
 
 fun Activity.gotoActivity(targetIntent: Intent) {
     this.startActivity(targetIntent)
+    Log.d("START_ACTIVITY_", "$targetIntent")
 }

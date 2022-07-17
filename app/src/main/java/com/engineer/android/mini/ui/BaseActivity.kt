@@ -18,7 +18,7 @@ import com.engineer.android.mini.proguards.Utils
  */
 open class BaseActivity : AppCompatActivity() {
 
-    internal var TAG = this::class.java.simpleName
+    internal open var TAG = this::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

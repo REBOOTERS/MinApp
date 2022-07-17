@@ -24,6 +24,7 @@ import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
 import com.engineer.android.mini.R
 import com.engineer.android.mini.better.file.FileChangeWatcher
+import com.engineer.android.mini.coroutines.old.log
 import com.engineer.android.mini.databinding.ActivityMessyBinding
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.screenWidth
@@ -32,6 +33,7 @@ import com.engineer.android.mini.proguards.*
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.util.JavaUtil
 import com.engineer.android.mini.util.RxTimer
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
@@ -196,8 +198,10 @@ class MessyActivity : BaseActivity() {
         initTimeAnimator()
 
 //        Settings.System.putString(contentResolver, "age", "18")
-
-        mainScope.launch {
+        val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+            log("find ex: $throwable")
+        }
+        mainScope.launch(exceptionHandler) {
             FileChangeWatcher.initObserver()
         }
         var i = 0

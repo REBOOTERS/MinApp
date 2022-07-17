@@ -31,6 +31,9 @@ import kotlin.random.Random
  */
 
 open class BaseLifeActivity : BaseActivity() {
+
+    override var TAG = "LifeCycle_" + this::class.java.simpleName
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(provideView())
@@ -173,6 +176,14 @@ class PanelActivity : BaseLifeActivity() {
             OpenRecentHelper.open()
         }
         contentView.addView(button6, param)
+
+        val button7 = Button(this)
+        button7.text = "activity cost test"
+        button7.setOnClickListener {
+            gotoActivity(ActivityF::class.java)
+        }
+        contentView.addView(button7, param)
+
         nestedScrollView.addView(contentView)
         return nestedScrollView
     }
@@ -370,8 +381,12 @@ class ActivityE : BaseLifeActivity() {
     }
 }
 
+class ActivityF : BaseLifeActivity() {
+
+}
+
 class BigData : Serializable {
 
     @Transient
-    private val bytes = ByteArray(1024*1024)
+    private val bytes = ByteArray(1024 * 1024)
 }
