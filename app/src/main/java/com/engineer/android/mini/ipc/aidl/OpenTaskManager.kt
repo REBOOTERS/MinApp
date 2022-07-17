@@ -22,7 +22,7 @@ object OpenTaskManager {
     }
 
     @JvmStatic
-    fun startThirdApp(mContext: Context, force: Boolean = false) {
+    fun startThirdAppService(mContext: Context, force: Boolean = false) {
         Log.e(TAG, "packageName is " + mContext.applicationContext.packageName)
         Log.e(TAG, "isForeground " + isAppForeground(mContext.applicationContext))
 
@@ -30,8 +30,8 @@ object OpenTaskManager {
         intent.setPackage("com.engineer.other")
         val deeplink = "{\"processTask\":[{\"name\":\"{{STRING}}\",\"args\":\"{{STRING}}\"}]}"
         val uri = Uri.parse(deeplink)
-        Log.e(TAG,"${uri.scheme}")
-        Log.e(TAG,"${uri.host}")
+        Log.e(TAG, "${uri.scheme}")
+        Log.e(TAG, "${uri.host}")
         intent.data = uri
         val resolveInfo = mContext.packageManager.resolveService(
             intent,
@@ -58,6 +58,19 @@ object OpenTaskManager {
         } else {
             mContext.applicationContext.startService(intent)
         }
+    }
+
+    @JvmStatic
+    fun startOtherApp(mContext: Context) {
+        val intent = mContext.packageManager.getLaunchIntentForPackage("com.engineer.other")
+        intent?.let {
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            mContext.startActivity(intent)
+            Log.d(TAG, "startOtherApp() called with: mContext = $mContext, intent = $intent")
+        } ?: run {
+            Log.e(TAG, "intent is null")
+        }
+
     }
 
     fun getAllApps(mContext: Context) {

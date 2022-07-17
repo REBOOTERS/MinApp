@@ -17,7 +17,12 @@
     <Button
         android:id="@+id/start_aidl"
         style="@style/mw_10_margin"
-        android:text="start-aidl" />
+        android:text="start_aidl" />
+
+    <Button
+        android:id="@+id/start_third_app"
+        style="@style/mw_10_margin"
+        android:text="start_third_app" />
 
 
 </LinearLayout>

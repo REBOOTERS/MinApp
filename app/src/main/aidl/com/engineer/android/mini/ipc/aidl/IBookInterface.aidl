@@ -24,5 +24,6 @@ interface IBookInterface {
     void addBookToRepo(in Book book);
     List<Book> getBookListFromRepo();
 
+    void startOtherAppService();
     void startOtherApp();
 }

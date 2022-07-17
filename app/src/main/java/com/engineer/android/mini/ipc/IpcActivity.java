@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.engineer.android.mini.R;
 import com.engineer.android.mini.ipc.aidl.AIDLDemoActivity;
+import com.engineer.android.mini.ipc.aidl.OpenTaskManager;
 import com.engineer.android.mini.ipc.messenger.MessengerDelegate;
 import com.engineer.android.mini.ipc.messenger.MessengerService;
 
@@ -63,6 +64,7 @@ public class IpcActivity extends AppCompatActivity {
         findViewById(R.id.start_aidl).setOnClickListener(v -> {
             startActivity(new Intent(this, AIDLDemoActivity.class));
         });
+        findViewById(R.id.start_third_app).setOnClickListener( v -> OpenTaskManager.startOtherApp(this));
     }
 
     @Override

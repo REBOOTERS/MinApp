@@ -37,6 +37,14 @@ class AIDLDemoActivity : AppCompatActivity() {
             startBookManger()
         }
 
+        findViewById<View>(R.id.start_other_app_service).setOnClickListener {
+            if (isBookServiceRegistered.not()) {
+                "service 未启动".toast()
+                return@setOnClickListener
+            }
+            getIBookInterface()?.startOtherAppService()
+        }
+
         findViewById<View>(R.id.start_other_app).setOnClickListener {
             if (isBookServiceRegistered.not()) {
                 "service 未启动".toast()

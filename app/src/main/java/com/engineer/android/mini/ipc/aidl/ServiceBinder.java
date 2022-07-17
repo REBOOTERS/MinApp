@@ -1,6 +1,7 @@
 package com.engineer.android.mini.ipc.aidl;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Process;
 import android.os.RemoteException;
 import android.util.Log;
@@ -100,8 +101,13 @@ public class ServiceBinder extends IBookInterface.Stub {
     }
 
     @Override
-    public void startOtherApp() {
+    public void startOtherAppService() {
         Log.e(TAG, "process pid " + Process.myPid() + ",is64Bit= " + Process.is64Bit());
-        OpenTaskManager.startThirdApp(mContext, false);
+        OpenTaskManager.startThirdAppService(mContext, false);
+    }
+
+    @Override
+    public void startOtherApp() {
+        OpenTaskManager.startOtherApp(mContext);
     }
 }
