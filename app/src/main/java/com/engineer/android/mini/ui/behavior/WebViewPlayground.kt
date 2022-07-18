@@ -14,6 +14,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.*
 import java.io.*
 import java.net.InetAddress
+import java.net.URLConnection
 
 private const val TAG = "WebViewPlayground"
 
@@ -38,9 +39,7 @@ class WebViewActivity : AppCompatActivity() {
         val settints = webView.settings
         settints.javaScriptEnabled = true
 
-        targetUrl = "http://xiaodu.baidu.com/saiya/ad_landing_page/vip.meishubao.com/index.html?" +
-                "landing_page_id=LANDING-PAGE-MSB&ad_id=msb_landing_page&channel=homefeed" +
-                "&idea_id=a3cd177f-18f2-17a4-04d0-63cef90f4749&xiaodutools=hide"
+        targetUrl = "http://xiaodu.baidu.com/saiya/ad_landing_page/vip.meishubao.com/index.html?landing_page_id=LANDING-PAGE-MSB&ad_id=msb_landing_page&channel=homefeed&idea_id=a3cd177f-18f2-17a4-04d0-63cef90f4749&xiaodutools=hide"
 
         webView.webChromeClient = object : WebChromeClient() {
 
@@ -117,6 +116,8 @@ class WebViewActivity : AppCompatActivity() {
 object WebResourceCacheManager {
 
     fun getMimeTypeFromUrl(url: String): String {
+//        val url = "https://g.csdnimg.cn/collection-box/2.1.0/collection-box.js"
+//        val dd = URLConnection.guessContentTypeFromName(url)
         return MimeTypeMap.getSingleton()
             .getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(url)) ?: ""
     }
