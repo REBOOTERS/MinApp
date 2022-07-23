@@ -1,0 +1,24 @@
+2022-07-20 20:35:18.788 29954-29954/com.engineer.android.mini E/LifeCycle_PanelActivity: onCreate() called with: savedInstanceState = null
+2022-07-20 20:35:18.790 29954-29954/com.engineer.android.mini E/LifeCycle_PanelActivity: onStart() called
+2022-07-20 20:35:18.791 29954-29954/com.engineer.android.mini E/LifeCycle_PanelActivity: onResume() called
+2022-07-20 20:35:21.588 29954-29954/com.engineer.android.mini E/LifeCycle_PanelActivity: onPause() called
+2022-07-20 20:35:21.615 29954-29954/com.engineer.android.mini E/LifeCycle_SingleTaskActivity: onCreate() called with: savedInstanceState = null
+2022-07-20 20:35:21.617 29954-29954/com.engineer.android.mini E/LifeCycle_SingleTaskActivity: onStart() called
+2022-07-20 20:35:21.618 29954-29954/com.engineer.android.mini E/LifeCycle_SingleTaskActivity: onResume() called
+2022-07-20 20:35:22.065 29954-29954/com.engineer.android.mini E/LifeCycle_PanelActivity: onStop() called
+2022-07-20 20:35:24.310 29954-29954/com.engineer.android.mini E/LifeCycle_SingleTaskActivity: onPause() called
+2022-07-20 20:35:24.318 29954-29954/com.engineer.android.mini E/LifeCycle_PanelActivity: onRestart() called
+2022-07-20 20:35:24.319 29954-29954/com.engineer.android.mini E/LifeCycle_PanelActivity: onStart() called
+2022-07-20 20:35:24.323 29954-29954/com.engineer.android.mini E/LifeCycle_PanelActivity: onResume() called
+2022-07-20 20:35:24.778 29954-29954/com.engineer.android.mini E/LifeCycle_SingleTaskActivity: onStop() called
+2022-07-20 20:35:24.780 29954-29954/com.engineer.android.mini E/LifeCycle_SingleTaskActivity: onDestroy() called
+2022-07-20 20:35:25.872 29954-29954/com.engineer.android.mini E/LifeCycle_PanelActivity: onPause() called
+2022-07-20 20:35:25.908 29954-29954/com.engineer.android.mini E/LifeCycle_ActivityC: onCreate() called with: savedInstanceState = null
+2022-07-20 20:35:25.910 29954-29954/com.engineer.android.mini E/LifeCycle_ActivityC: onStart() called
+2022-07-20 20:35:25.911 29954-29954/com.engineer.android.mini E/LifeCycle_ActivityC: onResume() called
+2022-07-20 20:35:27.166 29954-29954/com.engineer.android.mini E/LifeCycle_ActivityC: onPause() called
+2022-07-20 20:35:27.183 29954-29954/com.engineer.android.mini E/LifeCycle_PanelActivity: onResume() called
+2022-07-20 20:35:27.186 29954-29954/com.engineer.android.mini E/LifeCycle_ActivityC: onStop() called
+2022-07-20 20:35:27.188 29954-29954/com.engineer.android.mini E/LifeCycle_ActivityC: onDestroy() called
+2022-07-20 20:35:28.891 29954-29954/com.engineer.android.mini E/LifeCycle_PanelActivity: onPause() called
+2022-07-20 20:35:28.927 29954-29954/com.engineer.android.mini E/LifeCycle_PanelActivity: onStop() called
