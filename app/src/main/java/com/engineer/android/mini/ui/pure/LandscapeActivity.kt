@@ -8,8 +8,10 @@ import android.view.View
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 import android.view.WindowInsetsController
+import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -100,6 +102,31 @@ class LandscapeActivity : AppCompatActivity() {
                 buttonView.text = "导航栏显示"
             }
         }
+
+        findViewById<RadioGroup>(R.id.mode_group).setOnCheckedChangeListener { group, checkedId ->
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+                return@setOnCheckedChangeListener
+            }
+            val params = window.attributes
+
+            when (checkedId) {
+                R.id.default_way -> {
+                    params.layoutInDisplayCutoutMode =
+                        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT
+                }
+                R.id.short_edge_way -> {
+                    params.layoutInDisplayCutoutMode =
+                        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+                }
+                R.id.never_way -> {
+                    params.layoutInDisplayCutoutMode =
+                        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER
+                }
+            }
+            window.attributes = params
+        }
+
+
     }
 
 }

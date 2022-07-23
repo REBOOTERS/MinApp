@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_landscape"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mini_blue">
+    android:background="@color/mini_blue"
+    tools:ignore="HardcodedText">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:src="@drawable/android" />
+
+
+    <RadioGroup
+        android:id="@+id/mode_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="30dp">
+
+        <RadioButton
+            android:id="@+id/default_way"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="mode_default" />
+
+        <RadioButton
+            android:id="@+id/short_edge_way"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="mode_short_edge" />
+
+        <RadioButton
+            android:id="@+id/never_way"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="mode_never" />
+
+    </RadioGroup>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"

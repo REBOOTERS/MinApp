@@ -64,7 +64,7 @@ public class IpcActivity extends AppCompatActivity {
         findViewById(R.id.start_aidl).setOnClickListener(v -> {
             startActivity(new Intent(this, AIDLDemoActivity.class));
         });
-        findViewById(R.id.start_third_app).setOnClickListener( v -> OpenTaskManager.startOtherApp(this));
+        findViewById(R.id.start_third_app).setOnClickListener(v -> OpenTaskManager.startOtherApp(this));
     }
 
     @Override

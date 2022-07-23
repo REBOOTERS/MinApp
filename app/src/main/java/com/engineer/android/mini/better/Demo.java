@@ -38,6 +38,9 @@ public class Demo {
         System.out.println("atomicBoolean current3 = " + S_INIT.get());
 
         testJson();
+
+        double value = ((1.8 / 1000000 * 9000000 * 1.137 * 108));
+        System.out.println("value is " + value);
     }
 
 

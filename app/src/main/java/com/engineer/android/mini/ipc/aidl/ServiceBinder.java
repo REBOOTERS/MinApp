@@ -1,7 +1,6 @@
 package com.engineer.android.mini.ipc.aidl;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Process;
 import android.os.RemoteException;
 import android.util.Log;

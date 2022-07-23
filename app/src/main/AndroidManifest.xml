@@ -192,6 +192,10 @@
             android:process="my.back_ground_service.remote" />
 
         <receiver android:name=".ui.behavior.SimpleBroadcastReceiver" />
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="3"/>
     </application>
 
 </manifest>
