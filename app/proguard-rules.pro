@@ -42,6 +42,11 @@
 
 ####
 
+## 反射
+-keep class androidx.recyclerview.widget.RecyclerView {*;}
+-keep class androidx.recyclerview.widget.RecyclerView$Recycler {*;}
+## 反射
+
 -keepattributes SourceFile,LineNumberTable
 -optimizationpasses 5  # 指定代码的压缩级别
 -allowaccessmodification #优化时允许访问并修改有修饰符的类和类的成员
