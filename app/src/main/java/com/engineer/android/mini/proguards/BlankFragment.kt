@@ -1,10 +1,10 @@
 package com.engineer.android.mini.proguards
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.engineer.android.mini.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -18,7 +18,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class BlankFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+    private val TAG = "BlankFragment"
     private var param1: String? = null
     private var param2: String? = null
 

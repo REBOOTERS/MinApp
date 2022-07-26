@@ -7,10 +7,6 @@ import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
-import com.engineer.android.mini.proguards.A
-import com.engineer.android.mini.proguards.B
-import com.engineer.android.mini.proguards.BlankFragment
-import com.engineer.android.mini.proguards.Utils
 
 /**
  * Created on 2020/9/17.
@@ -18,7 +14,7 @@ import com.engineer.android.mini.proguards.Utils
  */
 open class BaseActivity : AppCompatActivity() {
 
-    internal open var TAG = this::class.java.simpleName
+    internal open var TAG = "TAG_" + this::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

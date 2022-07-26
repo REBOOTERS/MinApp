@@ -113,6 +113,11 @@ class MessyActivity : BaseActivity() {
         val today = WEEK.SUNDAY
         println(today)
         test111(today)
+
+        val week = WEEK.MONDAY
+        Log.d(TAG, "week = ${week.javaClass.name}")
+        Log.d(TAG, "week = ${week.javaClass.superclass.name}")
+        Log.d(TAG, "week = ${week.javaClass.superclass.superclass.name}")
     }
 
     private fun test111(p: WEEK) {
