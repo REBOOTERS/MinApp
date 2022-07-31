@@ -1,3 +1,28 @@
+def getCommit() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine "git"
+        args "rev-parse", "--short", "HEAD"
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+def getBranch() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine "git"
+        args "rev-parse", "--abbrev-ref", "HEAD"
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+def gitLastCommitAuthor() {
+    return "git log -1 --pretty=format:'%ae'".execute(null, rootDir).text.trim().replaceAll("\'", "")
+}
+
+
 android {
     def i = 0
     applicationVariants.all { variant ->
@@ -9,6 +34,12 @@ android {
         println(variant.assemble.name)
         println(variant.versionName)
         println("~~~~~~~~~~~~~~~~~~~~~~~````~~~~~~~~~~~~~~~~~\n")
+
+        if (variant.assemble.name.contains("Debug")) {
+            // 只对 release 包生效
+//            return
+        }
+
         // 打包完成后复制到的目录
         def outputFileDir = "${rootDir.absolutePath}/build/${variant.buildType.name}/${variant.versionName}"
         //确定输出文件名
@@ -17,8 +48,12 @@ android {
                 variant.flavorName + "_" +
                 variant.buildType.name + "_" +
                 variant.versionName + "_" +
-                today.format('yyyy_MM_dd_HH_mm') +
+                today.format('yyyy_MM_dd_HH_mm') + "_" +
+                getBranch() + "_" +
+                getCommit() + "_" +
+                gitLastCommitAuthor() +
                 ".apk"
+        println("path is $path")
         variant.outputs.forEach {
             it.outputFileName = path
         }

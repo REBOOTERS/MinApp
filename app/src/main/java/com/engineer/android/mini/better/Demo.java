@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.engineer.android.mini.util.TimeUtil;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -41,6 +42,8 @@ public class Demo {
 
         double value = ((1.8 / 1000000 * 9000000 * 1.137 * 108));
         System.out.println("value is " + value);
+
+        BigDecimal dd = new BigDecimal("11.0");
     }
 
 

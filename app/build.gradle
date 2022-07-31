@@ -137,4 +137,5 @@ apply from: file("../custom-gradle/coroutines-dep.gradle") // kotlin coroutines
 apply from: file("../custom-gradle/rx-retrofit-dep.gradle") // rxjava retrofit gson 网络全家桶
 apply from: file("../custom-gradle/hilt-dep.gradle") // hilt 全家桶
 apply from: file("../custom-gradle/media.gradle") // media lib
-apply from: file("../custom-gradle/apk-dest-dir-change.gradle") // 修改 apk 生成文件路劲及地址
+apply from: file("../custom-gradle/apk_dest_dir_change.gradle") // 修改 apk 生成文件路劲及地址
+apply from: file("../custom-gradle/report_apk_size_after_package.gradle") // 打包完成后输出 apk 大小
