@@ -8,7 +8,7 @@ import com.alibaba.fastjson.JSONObject
 import com.alibaba.fastjson.serializer.SerializerFeature
 import com.engineer.android.mini.util.model.Item
 import com.engineer.android.mini.util.model.KotlinPeople
-import com.engineer.third.util.AndroidFileUtils
+import com.engineer.common.utils.AndroidFileUtils
 
 
 object JsonUtil {

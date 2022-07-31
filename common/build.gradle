@@ -1,8 +1,10 @@
 plugins {
     id 'com.android.library'
-    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android'
 }
+
 def ext = rootProject.ext
+
 android {
     compileSdk ext.compileSdkVersion
 
@@ -12,16 +14,11 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
-        externalNativeBuild {
-            cmake {
-                cppFlags ''
-            }
-        }
     }
 
     buildTypes {
         release {
-            consumerProguardFiles 'proguard-rules.pro'
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -32,20 +29,19 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    externalNativeBuild {
-        cmake {
-            path file('src/main/cpp/CMakeLists.txt')
-            version '3.18.1'
-        }
-    }
-    namespace 'com.engineer.gif.thirdlib'
 }
 
 dependencies {
+    implementation "androidx.appcompat:appcompat:$appcompat"
+    implementation "androidx.core:core-ktx:$core_ktx"
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
+    implementation "com.google.android.material:material:$material"
 
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    api 'com.github.weijiaxing:LogcatViewer:1.0.3'
+    api 'jp.wasabeef:blurry:4.0.1'
+    api 'com.squareup.radiography:radiography:2.4.1'
+    api group: 'commons-io', name: 'commons-io', version: '20030203.000550'
+    api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
 
-apply from: file("publish.gradle") // publish-self-aar
+apply from: file("../custom-gradle/test-dep.gradle") // unit test

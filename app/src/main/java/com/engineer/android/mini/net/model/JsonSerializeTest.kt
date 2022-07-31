@@ -4,7 +4,8 @@ import android.content.Context
 import android.util.Log
 import com.alibaba.fastjson.JSON
 import com.engineer.android.mini.util.JsonUtil
-import com.engineer.third.util.AndroidFileUtils
+import com.engineer.common.utils.AndroidFileUtils
+
 
 object JsonSerializeTest {
     private const val TAG = "JsonSerializeTest"

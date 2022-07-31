@@ -23,10 +23,6 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".media.SimpleVideoActivity"
-            android:exported="true"
-            android:screenOrientation="landscape" />
-        <activity
             android:name=".ui.MD3Activity"
             android:exported="true"
             android:label="@string/title_activity_md3"
@@ -39,12 +35,6 @@
             android:exported="true" />
         <activity
             android:name=".ipc.aidl.AIDLDemoActivity"
-            android:exported="true" />
-        <activity
-            android:name=".media.AudioActivity"
-            android:exported="false" />
-        <activity
-            android:name=".media.MediaRootActivity"
             android:exported="true" />
         <activity
             android:name=".ui.ForceBottomActivity"
@@ -65,10 +55,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".media.VideoActivity"
-            android:configChanges="screenSize|orientation"
-            android:exported="true" />
         <activity
             android:name=".ui.pure.MessyActivity"
             android:exported="true" />
@@ -180,6 +166,22 @@
         <activity
             android:name=".ui.behavior.NotifyActivity"
             android:exported="true" />
+        <activity
+            android:name=".media.SimpleVideoActivity"
+            android:exported="true"
+            android:screenOrientation="landscape" />
+
+        <activity
+            android:name=".media.AudioActivity"
+            android:exported="false" />
+        <activity
+            android:name=".media.MediaRootActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".media.VideoActivity"
+            android:configChanges="screenSize|orientation"
+            android:exported="true" />
 
         <service
             android:name=".ui.behavior.MyForegroundService"
@@ -195,7 +197,7 @@
 
         <meta-data
             android:name="android.max_aspect"
-            android:value="3"/>
+            android:value="3" />
     </application>
 
 </manifest>
