@@ -13,10 +13,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.util.LogPrinter
 import android.widget.Toast
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.ActivityResultRegistry
 import androidx.activity.result.contract.ActivityResultContract
-import androidx.activity.result.registerForActivityResult
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.R

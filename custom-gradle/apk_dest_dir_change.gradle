@@ -37,7 +37,7 @@ android {
 
         if (variant.assemble.name.contains("Debug")) {
             // 只对 release 包生效
-//            return
+            return
         }
 
         // 打包完成后复制到的目录
@@ -67,6 +67,17 @@ android {
                         into out
                     }
                 }
+            }
+        }
+        def taskPrefix = "jiagu"
+        def groupName = "jiagu"
+        def assembleTask = variant.assemble.name
+        def taskName = assembleTask.replace("assemble", taskPrefix)
+        tasks.create(taskName) {
+            it.group groupName
+            it.dependsOn assembleTask
+            variant.assemble.doLast {
+                logger.error("let me do something more!!!")
             }
         }
     }
