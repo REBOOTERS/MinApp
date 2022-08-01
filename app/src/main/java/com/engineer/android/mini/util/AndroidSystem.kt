@@ -5,6 +5,7 @@ import android.app.ActivityManager.RunningAppProcessInfo
 import android.app.Service
 import android.content.Context
 import android.util.Log
+import com.engineer.android.mini.BuildConfig
 
 
 object AndroidSystem {
@@ -56,4 +57,6 @@ object AndroidSystem {
         }
         return null
     }
+
+    fun isLocalFlavor() = BuildConfig.FLAVOR_type == "local"
 }

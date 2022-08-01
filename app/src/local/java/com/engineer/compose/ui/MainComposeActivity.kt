@@ -1,10 +1,10 @@
 package com.engineer.compose.ui
 
-import androidx.appcompat.app.AppCompatActivity
+import com.engineer.BasePlaceHolderActivity
 
 /**
  * Created on 2022/7/31.
  * @author rookie
  */
-class MainComposeActivity : AppCompatActivity() {
+class MainComposeActivity : BasePlaceHolderActivity() {
 }
