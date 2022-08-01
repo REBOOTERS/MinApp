@@ -1,4 +1,4 @@
-package com.engineer.android.mini.third
+package com.engineer.third
 
 import com.engineer.BasePlaceHolderActivity
 

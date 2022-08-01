@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name="com.engineer.android.mini.third.CppActivity"
+            android:name="com.engineer.third.CppActivity"
             android:exported="false" />
     </application>
 

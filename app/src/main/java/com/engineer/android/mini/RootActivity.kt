@@ -30,7 +30,7 @@ import com.engineer.android.mini.ui.pure.PureUIActivity
 import com.engineer.android.mini.util.AndroidSystem
 import com.engineer.android.mini.util.ProducerConsumerViewModel
 import com.engineer.compose.ui.MainComposeActivity
-import com.engineer.android.mini.third.CppActivity
+import com.engineer.third.CppActivity
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import jp.wasabeef.blurry.Blurry
