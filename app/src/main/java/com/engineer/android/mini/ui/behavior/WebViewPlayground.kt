@@ -2,12 +2,17 @@ package com.engineer.android.mini.ui.behavior
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.view.ViewGroup
 import android.webkit.*
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.engineer.android.mini.ext.dp
+import com.engineer.android.mini.ext.toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -40,8 +45,21 @@ class WebViewActivity : AppCompatActivity() {
             WebResourceCacheManager.clearAll(this)
         }
         val frameLayout = FrameLayout(this)
-        frameLayout.addView(webView)
-        frameLayout.addView(floatBtn)
+        frameLayout.setBackgroundColor(Color.RED)
+        val params = FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        frameLayout.addView(webView, params)
+        val params1 = FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        params1.gravity = Gravity.BOTTOM or Gravity.END
+        params1.marginEnd = 30.dp
+        params1.bottomMargin = 50.dp
+        floatBtn.size = FloatingActionButton.SIZE_MINI
+        frameLayout.addView(floatBtn, params1)
         setContentView(frameLayout)
 //        setContentView(R.layout.activity_web_view)
 //        webView = findViewById(R.id.web_view)
@@ -71,6 +89,7 @@ class WebViewActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 Log.d(TAG, "onPageFinished() called with: url = $url")
+                "onPageFinished".toast()
                 WebResourceCacheManager.downloadResource(this@WebViewActivity, targetUrl)
             }
 
@@ -142,10 +161,15 @@ object WebResourceCacheManager {
 
     fun clearAll(context: Context) {
         val dir = context.cacheDir.absolutePath + File.separator + "custom_cache"
-        val dirFile = File(dir)
-        for (listFile in dirFile.listFiles()!!) {
-            listFile.delete()
+        try {
+            val dirFile = File(dir)
+            for (listFile in dirFile.listFiles()!!) {
+                listFile.delete()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+
     }
 
     fun downloadResource(context: Context, url: String) {

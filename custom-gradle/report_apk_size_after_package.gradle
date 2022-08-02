@@ -11,8 +11,9 @@ android {
     applicationVariants.all { variant ->
         variant.assemble.doLast {
             variant.outputs.forEach {
-                logger.error("apk file ==> ${it.outputFile.name}")
-                logger.error("apk size ==> ${it.outputFile.length()} , ${getFileHumanSize(it.outputFile.length())} MB")
+                logger.error("apk fileName ==> ${it.outputFile.name}")
+                logger.error("apk filePath ==> ${it.outputFile}")
+                logger.error("apk fileSize ==> ${it.outputFile.length()} , ${getFileHumanSize(it.outputFile.length())} MB")
             }
         }
     }
