@@ -6,7 +6,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.webkit.*
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -14,7 +16,6 @@ import kotlinx.coroutines.withContext
 import okhttp3.*
 import java.io.*
 import java.net.InetAddress
-import java.net.URLConnection
 
 private const val TAG = "WebViewPlayground"
 
@@ -32,14 +33,23 @@ class WebViewActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
         webView = WebView(this)
         Log.e(TAG, "webview is ${webView.hashCode()}")
-        setContentView(webView)
+
+
+        val floatBtn = FloatingActionButton(this)
+        floatBtn.setOnClickListener {
+            WebResourceCacheManager.clearAll(this)
+        }
+        val frameLayout = FrameLayout(this)
+        frameLayout.addView(webView)
+        frameLayout.addView(floatBtn)
+        setContentView(frameLayout)
 //        setContentView(R.layout.activity_web_view)
 //        webView = findViewById(R.id.web_view)
 
         val settints = webView.settings
         settints.javaScriptEnabled = true
 
-        targetUrl = "http://xiaodu.baidu.com/saiya/ad_landing_page/vip.meishubao.com/index.html?landing_page_id=LANDING-PAGE-MSB&ad_id=msb_landing_page&channel=homefeed&idea_id=a3cd177f-18f2-17a4-04d0-63cef90f4749&xiaodutools=hide"
+        targetUrl = "https://images.pexels.com/photos/11163123/pexels-photo-11163123.jpeg"
 
         webView.webChromeClient = object : WebChromeClient() {
 
@@ -73,10 +83,11 @@ class WebViewActivity : AppCompatActivity() {
                 Log.e(TAG, WebResourceCacheManager.getMimeTypeFromUrl(url) + ",url is $url")
                 if ((request?.url ?: "") == Uri.parse(targetUrl)) {
                     val cache = WebResourceCacheManager.providePath(this@WebViewActivity, targetUrl)
+                    val mimeType = WebResourceCacheManager.getMimeTypeFromUrl(targetUrl)
                     Log.e(TAG, "use cache ${cache.length()}")
                     if (cache.exists()) {
                         val inputStream = FileInputStream(cache)
-                        return WebResourceResponse("text/html", "utf-8", inputStream)
+                        return WebResourceResponse(mimeType, "", inputStream)
                     }
                 }
                 return super.shouldInterceptRequest(view, request)
@@ -109,6 +120,7 @@ class WebViewActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        webView.clearCache(true)
         Log.d(TAG, "onDestroy() called")
     }
 }
@@ -123,14 +135,17 @@ object WebResourceCacheManager {
     }
 
     fun providePath(context: Context, url: String): File {
-        val dir = context.cacheDir.absolutePath
+        val dir = context.cacheDir.absolutePath + File.separator + "custom_cache"
         val name = url.hashCode().toString()
-
-        val fileDir = File(dir)
-        if (fileDir.exists().not()) {
-            fileDir.mkdir()
-        }
         return File(dir, name)
+    }
+
+    fun clearAll(context: Context) {
+        val dir = context.cacheDir.absolutePath + File.separator + "custom_cache"
+        val dirFile = File(dir)
+        for (listFile in dirFile.listFiles()!!) {
+            listFile.delete()
+        }
     }
 
     fun downloadResource(context: Context, url: String) {
@@ -140,13 +155,19 @@ object WebResourceCacheManager {
         Log.d(TAG, "downloadResource() called with: mimeType = $mimeType, url = $url ")
 
         val dir = context.cacheDir
-        val dirPath = dir.absolutePath
+        val dirPath = dir.absolutePath + File.separator + "custom_cache"
         val fileDir = File(dirPath)
         if (fileDir.exists().not()) {
             fileDir.mkdir()
         }
 
         val fileName = url.hashCode().toString()
+        val destFile = File(dirPath, fileName)
+        if (destFile.exists()) {
+            Log.i(TAG, "$destFile exist ,no need download")
+            return
+        }
+
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient.Builder().build()
         val call = client.newCall(request)
@@ -159,7 +180,7 @@ object WebResourceCacheManager {
                 val coding = response.header("content-encoding", "utf-8")
                 Log.e(TAG, "encoding is $coding")
                 val responseBody = response.body()!!
-                val destFile = File(dirPath, fileName)
+
                 var fos: FileOutputStream? = null
                 var fis: InputStream? = null
                 val buffer = ByteArray(2048)
