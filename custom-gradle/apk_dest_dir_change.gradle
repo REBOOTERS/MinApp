@@ -77,7 +77,7 @@ android {
             it.group groupName
             it.dependsOn assembleTask
             variant.assemble.doLast {
-                logger.error("let me do something more!!!")
+                logger.error("let me do something after $assembleTask")
             }
         }
     }
