@@ -9,11 +9,11 @@ import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
 import android.webkit.*
+import android.widget.Button
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.toast
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -40,9 +40,14 @@ class WebViewActivity : AppCompatActivity() {
         Log.e(TAG, "webview is ${webView.hashCode()}")
 
 
-        val floatBtn = FloatingActionButton(this)
-        floatBtn.setOnClickListener {
+        val clearCacheBtn = Button(this)
+        val downloadCacheBtn = Button(this)
+
+        clearCacheBtn.setOnClickListener {
             WebResourceCacheManager.clearAll(this)
+        }
+        downloadCacheBtn.setOnClickListener {
+            WebResourceCacheManager.downloadResource(this@WebViewActivity, targetUrl)
         }
         val frameLayout = FrameLayout(this)
         frameLayout.setBackgroundColor(Color.RED)
@@ -58,11 +63,18 @@ class WebViewActivity : AppCompatActivity() {
         params1.gravity = Gravity.BOTTOM or Gravity.END
         params1.marginEnd = 30.dp
         params1.bottomMargin = 50.dp
-        floatBtn.size = FloatingActionButton.SIZE_MINI
-        frameLayout.addView(floatBtn, params1)
+        clearCacheBtn.text = "clear cache"
+        frameLayout.addView(clearCacheBtn, params1)
+        val params2 = FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        params2.gravity = Gravity.BOTTOM or Gravity.END
+        params2.marginEnd = 30.dp
+        params2.bottomMargin = 100.dp
+        downloadCacheBtn.text = "download cache"
+        frameLayout.addView(downloadCacheBtn,params2)
         setContentView(frameLayout)
-//        setContentView(R.layout.activity_web_view)
-//        webView = findViewById(R.id.web_view)
 
         val settints = webView.settings
         settints.javaScriptEnabled = true
@@ -90,14 +102,12 @@ class WebViewActivity : AppCompatActivity() {
                 super.onPageFinished(view, url)
                 Log.d(TAG, "onPageFinished() called with: url = $url")
                 "onPageFinished".toast()
-                WebResourceCacheManager.downloadResource(this@WebViewActivity, targetUrl)
             }
 
             override fun shouldInterceptRequest(
                 view: WebView?,
                 request: WebResourceRequest?
             ): WebResourceResponse? {
-//                Log.i(TAG, "shouldInterceptRequest() called with: request = ${request?.url}")
                 val url = request?.url?.toString() ?: ""
                 Log.e(TAG, WebResourceCacheManager.getMimeTypeFromUrl(url) + ",url is $url")
                 if ((request?.url ?: "") == Uri.parse(targetUrl)) {
@@ -147,8 +157,6 @@ class WebViewActivity : AppCompatActivity() {
 object WebResourceCacheManager {
 
     fun getMimeTypeFromUrl(url: String): String {
-//        val url = "https://g.csdnimg.cn/collection-box/2.1.0/collection-box.js"
-//        val dd = URLConnection.guessContentTypeFromName(url)
         return MimeTypeMap.getSingleton()
             .getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(url)) ?: ""
     }
