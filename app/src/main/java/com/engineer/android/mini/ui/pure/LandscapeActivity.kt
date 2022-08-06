@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+import android.view.ViewGroup
 import android.view.WindowInsetsController
 import android.view.WindowManager
 import android.widget.FrameLayout
@@ -42,7 +43,7 @@ class LandscapeActivity : AppCompatActivity() {
 //        window.decorView.systemUiVisibility =
 //            (SYSTEM_UI_FLAG_LAYOUT_STABLE or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
         setContentView(R.layout.acitivity_landscape)
-        val frameLayout = findViewById<FrameLayout>(R.id.content_landscape);
+        val frameLayout = findViewById<ViewGroup>(R.id.content_landscape);
         controller = WindowInsetsControllerCompat(window, frameLayout)
 
         controller.isAppearanceLightStatusBars = true
@@ -77,10 +78,10 @@ class LandscapeActivity : AppCompatActivity() {
         switch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 controller.isAppearanceLightStatusBars = false
-                switch.text = "黑色状态栏"
+                switch.text = "白色状态栏"
             } else {
                 controller.isAppearanceLightStatusBars = true
-                switch.text = "白色状态栏"
+                switch.text = "黑色状态栏"
             }
         }
         val showSwitch = findViewById<SwitchMaterial>(R.id.status_bar_switch)
