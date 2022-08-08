@@ -31,6 +31,8 @@
 #    public static void test3(android.content.Context);
 #}
 
+-keep class com.engineer.android.mini.proguards.BlankFragment {*;}
+
 -keepclasseswithmembers class com.engineer.android.mini.proguards.Utils {
     public static void test3(android.content.Context);
 }
@@ -38,6 +40,19 @@
 -keepclassmembers enum * {  # 保持枚举 enum 类不被混淆
     public static **[] values();
     public static ** valueOf(java.lang.String);
+}
+
+#-keep class * implements java.io.Serializable {*;}
+
+-keepclassmembers class com.engineer.android.mini.proguards.ModelA$ModelB {
+    <fields>;
+    <methods>;
+}
+-keepclasseswithmembers class * {
+    public <fields>;
+    public <methods>;
+    public *** aaa(java.lang.String,java.lang.String);
+
 }
 
 ####

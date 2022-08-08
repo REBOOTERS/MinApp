@@ -1,6 +1,7 @@
 package com.engineer.android.mini.proguards
 
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +35,15 @@ class BlankFragment : Fragment() {
 
         val a = A()
         a.test2()
+
+        val modelA = ModelA()
+        val modelB = ModelA.ModelB()
+
+        modelA.age = SystemClock.elapsedRealtime().toInt()
+        modelA.name_10000000_1000 = TAG
+        println(modelA.info)
+        val cc = C()
+        cc.aaa("a","b")
     }
 
     override fun onCreateView(

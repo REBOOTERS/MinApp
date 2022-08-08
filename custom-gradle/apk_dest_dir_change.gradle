@@ -18,7 +18,11 @@ def getBranch() {
     return stdout.toString().trim()
 }
 
-def gitLastCommitAuthor() {
+def gitLastCommitAuthorName() {
+    return "git log -1 --pretty=format:'%an'".execute(null, rootDir).text.trim().replaceAll("\'", "")
+}
+
+def gitLastCommitAuthorEmail() {
     return "git log -1 --pretty=format:'%ae'".execute(null, rootDir).text.trim().replaceAll("\'", "")
 }
 
@@ -51,7 +55,7 @@ android {
                 today.format('yyyy_MM_dd_HH_mm') + "_" +
                 getBranch() + "_" +
                 getCommit() + "_" +
-                gitLastCommitAuthor() +
+                gitLastCommitAuthorName() +
                 ".apk"
         println("path is $path")
         variant.outputs.forEach {

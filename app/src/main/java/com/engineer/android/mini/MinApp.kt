@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.collection.LruCache
 import androidx.lifecycle.*
 import com.engineer.android.mini.better.testCalendar
-import com.engineer.android.mini.ipc.aidl.ServiceBinder
 import com.engineer.android.mini.util.AndroidSystem
 import com.facebook.stetho.Stetho
 import dagger.hilt.android.HiltAndroidApp

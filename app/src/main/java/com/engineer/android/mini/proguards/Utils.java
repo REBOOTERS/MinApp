@@ -21,6 +21,14 @@ public class Utils {
         Log.d(TAG, "test3: w=" + w + ", h =" + h);
     }
 
+    public static double random() {
+        double sum = 0;
+        for (int i = 0; i < 10; i++) {
+            sum = sum + i * System.currentTimeMillis();
+        }
+        return sum;
+    }
+
     public static void test2() {
         Log.d(TAG, "test2() called");
     }
