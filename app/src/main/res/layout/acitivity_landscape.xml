@@ -9,6 +9,7 @@
 
 
     <ImageView
+        android:id="@+id/background_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -27,19 +28,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="mode_default" />
+            android:text="mode_default"
+            android:textColor="@color/white" />
 
         <RadioButton
             android:id="@+id/short_edge_way"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="mode_short_edge" />
+            android:text="mode_short_edge"
+            android:textColor="@color/white" />
 
         <RadioButton
             android:id="@+id/never_way"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="mode_never" />
+            android:text="mode_never"
+            android:textColor="@color/white" />
 
     </RadioGroup>
 
@@ -55,25 +59,30 @@
             android:id="@+id/immersive_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="沉浸式-开" />
+            android:text="沉浸式-开"
+            android:textColor="@color/white" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/status_bar_color_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="黑色状态栏" />
+            android:text="黑色状态栏"
+            android:textColor="@color/white" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/status_bar_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="状态栏" />
+            android:text="状态栏"
+            android:textColor="@color/white" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/navigation_bar_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="导航栏" />
+            android:text="导航栏"
+            android:textColor="@color/white" />
     </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 </FrameLayout>

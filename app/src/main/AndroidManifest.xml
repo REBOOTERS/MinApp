@@ -45,7 +45,7 @@
         <activity
             android:name=".ui.pure.LandscapeActivity"
             android:exported="true"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".RootActivity"
             android:exported="true">

@@ -1,24 +1,18 @@
 package com.engineer.android.mini.ui.pure
 
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-import android.view.ViewGroup
 import android.view.WindowInsetsController
 import android.view.WindowManager
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.view.WindowInsetsControllerCompat.toWindowInsetsControllerCompat
 import com.engineer.android.mini.R
 import com.google.android.material.switchmaterial.SwitchMaterial
 
@@ -33,18 +27,25 @@ import com.google.android.material.switchmaterial.SwitchMaterial
  *  https://blog.csdn.net/jingzz1/article/details/111468726
  */
 class LandscapeActivity : AppCompatActivity() {
-    private val TAG = "LandscapeActivity"
+    private val TAG = "LandscapeActivity_TAG"
+
     private lateinit var controller: WindowInsetsControllerCompat
+    private lateinit var backgroundImageView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate() called ")
 
         window.statusBarColor = Color.TRANSPARENT
-//        window.decorView.systemUiVisibility =
-//            (SYSTEM_UI_FLAG_LAYOUT_STABLE or SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
         setContentView(R.layout.acitivity_landscape)
-        val frameLayout = findViewById<ViewGroup>(R.id.content_landscape);
-        controller = WindowInsetsControllerCompat(window, frameLayout)
+        backgroundImageView = findViewById(R.id.background_img)
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            backgroundImageView.setImageResource(R.drawable.wallpaper_portrait)
+        } else {
+            backgroundImageView.setImageResource(R.drawable.wallpaper_landscape)
+        }
+
+        controller = WindowInsetsControllerCompat(window, window.decorView)
 
         controller.isAppearanceLightStatusBars = true
         window.navigationBarColor = Color.TRANSPARENT
@@ -126,8 +127,6 @@ class LandscapeActivity : AppCompatActivity() {
             }
             window.attributes = params
         }
-
-
     }
 
 }
