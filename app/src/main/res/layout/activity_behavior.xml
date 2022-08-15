@@ -12,12 +12,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <com.google.android.material.checkbox.MaterialCheckBox
+            style="@style/mw_10_margin"
+            android:id="@+id/screen_capture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="allow screen capture" />
 
         <Button
             android:id="@+id/settings"
             style="@style/mw_10_margin"
             android:text="Settings"
-            tools:visibility="invisible" />
+            tools:visibility="gone" />
 
         <Button
             android:id="@+id/notification_case"

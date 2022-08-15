@@ -1,8 +1,11 @@
 package com.engineer.other
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.engineer.other.skip.SkipActivity
 
 class OtherMainActivity : AppCompatActivity() {
     private  val TAG = "OtherMainActivity_TAG"
@@ -10,7 +13,13 @@ class OtherMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
         setContentView(R.layout.activity_other_main)
-//        startActivity(Intent(this,SkipActivity::class.java))
+
+        findViewById<View>(R.id.open_skip_sample).setOnClickListener {
+            startActivity(Intent(this, SkipActivity::class.java))
+        }
+        findViewById<View>(R.id.open_same_task_activity).setOnClickListener {
+            startActivity(Intent(this,FakePureUiActivity::class.java))
+        }
     }
 
     override fun onResume() {

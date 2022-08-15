@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OtherMainActivity">
+    android:orientation="vertical"
+    tools:context=".OtherMainActivity"
+    tools:ignore="HardcodedText">
 
-    <TextView
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/open_same_task_activity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/app_name"
-        android:textSize="42sp"
-        android:textStyle="bold" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="open_same_task_activity" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/open_skip_sample"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="open_skip_sample" />
+</LinearLayout>

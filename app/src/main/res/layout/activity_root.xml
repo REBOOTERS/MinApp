@@ -210,6 +210,13 @@
             android:layout_margin="10dp"
             android:text="better" />
 
+        <Button
+            android:id="@+id/kill_self"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="kill_self" />
+
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/handler_log_switch"
             android:layout_width="wrap_content"

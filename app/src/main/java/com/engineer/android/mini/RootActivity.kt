@@ -176,6 +176,7 @@ class RootActivity : BaseActivity() {
                 Looper.myLooper()?.setMessageLogging(null)
             }
         }
+        viewBinding.killSelf.setOnClickListener { finish() }
 
     }
 

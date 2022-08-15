@@ -12,6 +12,7 @@ import android.os.*
 import android.provider.MediaStore
 import android.util.Log
 import android.util.LogPrinter
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.RequiresApi
@@ -52,6 +53,14 @@ class BehaviorActivity : AppCompatActivity() {
         }
         val dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         Log.e(TAG, "onCreate: dir =$dir")
+
+        viewBinding.screenCapture.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+            } else {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+            }
+        }
 
         viewBinding.storageQuery.setOnClickListener {
             PictureBottomDialog().show(supportFragmentManager, "picture")

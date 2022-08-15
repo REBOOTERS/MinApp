@@ -17,6 +17,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".skip.SkipActivity" />
+        <activity
+            android:name=".FakePureUiActivity"
+            android:allowTaskReparenting="true"
+            android:taskAffinity="com.engineer.android.mini" />
 
         <service
             android:name=".skip.SkipService"
@@ -37,7 +41,9 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="com.engineer.other.custom_background_service" />
-                <data android:host="*" android:scheme="*" />
+                <data
+                    android:host="*"
+                    android:scheme="*" />
             </intent-filter>
         </service>
     </application>
