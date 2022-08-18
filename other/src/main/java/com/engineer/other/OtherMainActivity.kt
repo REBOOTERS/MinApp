@@ -20,6 +20,9 @@ class OtherMainActivity : AppCompatActivity() {
         findViewById<View>(R.id.open_same_task_activity).setOnClickListener {
             startActivity(Intent(this,FakePureUiActivity::class.java))
         }
+        findViewById<View>(R.id.open_by_other).setOnClickListener {
+            startActivity(Intent(this,OpenByOtherActivity::class.java))
+        }
     }
 
     override fun onResume() {

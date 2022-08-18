@@ -9,6 +9,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.drawable.LevelListDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -220,6 +221,21 @@ class MessyActivity : BaseActivity() {
             }
             FileChangeWatcher.deleteFile("$i.txt")
             --i
+        }
+
+        levelListDrawableTest()
+    }
+
+    private fun levelListDrawableTest() {
+        val ids = intArrayOf(R.drawable.ic_baseline_add_24, R.drawable.ic_action_close)
+        val levelListDrawable = LevelListDrawable()
+        for (i in ids.indices) {
+            val drawable = resources.getDrawableForDensity(ids[i],resources.displayMetrics.densityDpi)
+            levelListDrawable.addLevel(0, i, drawable)
+        }
+        realBinding.levelListTest.setImageDrawable(levelListDrawable)
+        realBinding.levelListTest.setOnClickListener {
+            realBinding.levelListTest.setImageLevel(1 - realBinding.levelListTest.drawable.level)
         }
     }
 

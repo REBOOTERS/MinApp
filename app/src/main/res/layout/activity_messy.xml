@@ -105,25 +105,38 @@
 
     </FrameLayout>
 
-    <Button
-        android:id="@+id/test_timer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="test_timer" />
+    <ImageView
+        android:id="@+id/level_list_test"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="10dp" />
 
-    <Button
-        android:id="@+id/add_file"
-        android:layout_width="wrap_content"
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="add_file" />
+        app:flexWrap="wrap">
 
-    <Button
-        android:id="@+id/delete_file"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="delete_file" />
+        <Button
+            android:id="@+id/test_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="test_timer" />
+
+        <Button
+            android:id="@+id/add_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="add_file" />
+
+        <Button
+            android:id="@+id/delete_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="delete_file" />
+    </com.google.android.flexbox.FlexboxLayout>
+
 
 </LinearLayout>

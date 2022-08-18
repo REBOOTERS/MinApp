@@ -21,6 +21,17 @@
             android:name=".FakePureUiActivity"
             android:allowTaskReparenting="true"
             android:taskAffinity="com.engineer.android.mini" />
+        <activity
+            android:name=".OpenByOtherActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <data
+                    android:host="easy_link"
+                    android:scheme="phoenix" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".skip.SkipService"

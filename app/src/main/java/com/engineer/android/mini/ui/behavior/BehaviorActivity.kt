@@ -1,10 +1,12 @@
 package com.engineer.android.mini.ui.behavior
 
 import android.app.Activity
+import android.app.ActivityManager
 import android.app.DownloadManager
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -237,8 +239,14 @@ class BehaviorActivity : AppCompatActivity() {
     private fun startTheApp() {
         val intent = Intent()
         intent.data = Uri.parse("phoenix://easy_link")
+        intent.putExtra("msg", "from_mini_app")
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
+        val resolveInfo = packageManager.resolveActivity(intent, PackageManager.GET_RESOLVED_FILTER)
+        if (resolveInfo?.activityInfo?.exported == true) {
+            startActivity(intent)
+        } else {
+            "can't open ".toast()
+        }
     }
 
 

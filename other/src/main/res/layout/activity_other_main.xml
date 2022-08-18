@@ -22,4 +22,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="open_skip_sample" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/open_by_other"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="open_by_other" />
 </LinearLayout>
