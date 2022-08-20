@@ -36,6 +36,7 @@ import io.reactivex.disposables.CompositeDisposable
 import jp.wasabeef.blurry.Blurry
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
+import kotlin.system.exitProcess
 
 class RootActivity : BaseActivity() {
     // https://mp.weixin.qq.com/s/keR7bO-Nu9bBr5Nhevbe1Q  ViewBinding
@@ -176,7 +177,10 @@ class RootActivity : BaseActivity() {
                 Looper.myLooper()?.setMessageLogging(null)
             }
         }
-        viewBinding.killSelf.setOnClickListener { finish() }
+        viewBinding.killSelf.setOnClickListener {
+            finish()
+            exitProcess(0)
+        }
 
     }
 

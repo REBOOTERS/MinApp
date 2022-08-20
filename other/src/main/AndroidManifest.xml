@@ -22,6 +22,11 @@
             android:allowTaskReparenting="true"
             android:taskAffinity="com.engineer.android.mini" />
         <activity
+            android:name=".FakeOldWayActivity"
+            android:launchMode="singleTop"
+            android:allowTaskReparenting="true"
+            android:taskAffinity="com.engineer.same.task" />
+        <activity
             android:name=".OpenByOtherActivity"
             android:exported="false">
             <intent-filter>

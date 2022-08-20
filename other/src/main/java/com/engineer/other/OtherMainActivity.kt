@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.engineer.other.skip.SkipActivity
 
 class OtherMainActivity : AppCompatActivity() {
-    private  val TAG = "OtherMainActivity_TAG"
+    private val TAG = "OtherMainActivity_TAG"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
@@ -18,10 +18,18 @@ class OtherMainActivity : AppCompatActivity() {
             startActivity(Intent(this, SkipActivity::class.java))
         }
         findViewById<View>(R.id.open_same_task_activity).setOnClickListener {
-            startActivity(Intent(this,FakePureUiActivity::class.java))
+
+            val intents = arrayOfNulls<Intent>(2)
+            val i1 = Intent(this, FakeOldWayActivity::class.java)
+            i1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intents[0] = i1
+            val i2 = Intent(this, FakePureUiActivity::class.java)
+            i2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intents[1] = i2
+            startActivities(intents)
         }
         findViewById<View>(R.id.open_by_other).setOnClickListener {
-            startActivity(Intent(this,OpenByOtherActivity::class.java))
+            startActivity(Intent(this, OpenByOtherActivity::class.java))
         }
     }
 
@@ -34,6 +42,7 @@ class OtherMainActivity : AppCompatActivity() {
         super.onStop()
         Log.d(TAG, "onStop() called")
     }
+
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG, "onDestroy() called")
