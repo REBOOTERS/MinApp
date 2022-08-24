@@ -28,9 +28,6 @@
             android:label="@string/title_activity_md3"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.behavior.FullViewActivity"
-            android:exported="true" />
-        <activity
             android:name=".ui.behavior.WebViewActivity"
             android:exported="true" />
         <activity
@@ -127,11 +124,11 @@
         <activity
             android:name=".ui.pure.PureUIActivity"
             android:taskAffinity=""
+            android:launchMode="singleTask"
             android:exported="true" />
         <activity
             android:name=".coroutines.old.OldWayActivity"
             android:taskAffinity="com.engineer.same.task"
-            android:launchMode="singleTask"
             android:exported="true" >
         </activity>
         <activity

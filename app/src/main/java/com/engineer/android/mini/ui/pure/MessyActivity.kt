@@ -5,11 +5,13 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.LevelListDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -224,6 +226,14 @@ class MessyActivity : BaseActivity() {
         }
 
         levelListDrawableTest()
+
+        realBinding.requestOverlay.setOnClickListener {
+            val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:$packageName"))
+            startActivityForResult(intent, 100)
+
+            startActivityIfNeeded(intent,1001)
+        }
     }
 
     private fun levelListDrawableTest() {

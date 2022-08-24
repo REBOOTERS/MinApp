@@ -7,6 +7,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.animation.AnticipateInterpolator
 import androidx.appcompat.app.AppCompatDelegate
@@ -176,6 +177,8 @@ class PureUIActivity : BaseActivity() {
                     "dp45 = $dp45," +
                     "visibleH = ${DisplayUtil.sVisibleHeight}"
         )
+        val deviceDensityNow = DisplayMetrics.DENSITY_DEVICE_STABLE
+        Log.d(TAG, "deviceDensityNow= $deviceDensityNow")
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

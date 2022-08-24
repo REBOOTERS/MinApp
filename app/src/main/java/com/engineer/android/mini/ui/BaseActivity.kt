@@ -3,6 +3,7 @@ package com.engineer.android.mini.ui
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,14 @@ open class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         transparentStatusBar()
         fullStatusBar()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Looper.getMainLooper().queue.addIdleHandler {
+            reportFullyDrawn()
+            false
+        }
     }
 
     internal fun isNightMode(): Boolean {

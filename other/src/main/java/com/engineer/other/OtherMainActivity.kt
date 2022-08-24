@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.other.skip.SkipActivity
 
@@ -19,13 +20,16 @@ class OtherMainActivity : AppCompatActivity() {
         }
         findViewById<View>(R.id.open_same_task_activity).setOnClickListener {
 
-            val intents = arrayOfNulls<Intent>(2)
+            val intents = arrayOfNulls<Intent>(3)
             val i1 = Intent(this, FakeOldWayActivity::class.java)
             i1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            intents[0] = i1
+            intents[1] =i1
             val i2 = Intent(this, FakePureUiActivity::class.java)
             i2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            intents[1] = i2
+            intents[0] = i2
+            val i3 = Intent(this, EmptyActivity::class.java)
+//            i3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intents[2] = i3
             startActivities(intents)
         }
         findViewById<View>(R.id.open_by_other).setOnClickListener {
@@ -56,5 +60,14 @@ class OtherMainActivity : AppCompatActivity() {
     override fun finish() {
         super.finish()
         Log.d(TAG, "finish() called")
+    }
+}
+
+class EmptyActivity:AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val text = TextView(this)
+        text.text = "SimpleTv"
+        setContentView(text)
     }
 }

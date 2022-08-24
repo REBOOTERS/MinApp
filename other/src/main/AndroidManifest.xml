@@ -26,6 +26,7 @@
             android:launchMode="singleTop"
             android:allowTaskReparenting="true"
             android:taskAffinity="com.engineer.same.task" />
+        <activity android:name=".EmptyActivity"/>
         <activity
             android:name=".OpenByOtherActivity"
             android:exported="false">
