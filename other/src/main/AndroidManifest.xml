@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <permission
+        android:name="com.engineer.other.permission.open"
+        android:protectionLevel="normal" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,13 +27,14 @@
             android:taskAffinity="com.engineer.android.mini" />
         <activity
             android:name=".FakeOldWayActivity"
-            android:launchMode="singleTop"
             android:allowTaskReparenting="true"
+            android:launchMode="singleTop"
             android:taskAffinity="com.engineer.same.task" />
-        <activity android:name=".EmptyActivity"/>
+        <activity android:name=".EmptyActivity" />
         <activity
             android:name=".OpenByOtherActivity"
-            android:exported="false">
+            android:exported="true"
+            android:permission="com.engineer.other.permission.open">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <data

@@ -7,7 +7,6 @@ import android.graphics.Point;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.Window;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -92,17 +91,6 @@ public class DisplayUtil {
 
     public static int getScreenHeight() {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
-    }
-
-    protected void transparentStatusBar(Activity activity) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            Window window = activity.getWindow();
-            window.clearFlags(67108864);
-            window.getDecorView().setSystemUiVisibility(1280);
-            window.addFlags(-2147483648);
-            window.setStatusBarColor(0);
-        }
-
     }
 
     /**

@@ -242,11 +242,12 @@ class BehaviorActivity : AppCompatActivity() {
         intent.putExtra("msg", "from_mini_app")
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         val resolveInfo = packageManager.resolveActivity(intent, PackageManager.GET_RESOLVED_FILTER)
-        if (resolveInfo?.activityInfo?.exported == true) {
-            startActivity(intent)
-        } else {
-            "can't open ".toast()
-        }
+        startActivity(intent)
+//        if (resolveInfo?.activityInfo?.exported == true) {
+//            startActivity(intent)
+//        } else {
+//            "can't open ".toast()
+//        }
     }
 
 

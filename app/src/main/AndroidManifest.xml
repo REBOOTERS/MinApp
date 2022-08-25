@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 前台服务 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+    <uses-permission android:name="com.engineer.other.permission.open" />
+
     <queries>
         <package android:name="com.engineer.other" />
     </queries>
@@ -123,14 +125,13 @@
             android:exported="true" />
         <activity
             android:name=".ui.pure.PureUIActivity"
-            android:taskAffinity=""
+            android:exported="true"
             android:launchMode="singleTask"
-            android:exported="true" />
+            android:taskAffinity="" />
         <activity
             android:name=".coroutines.old.OldWayActivity"
-            android:taskAffinity="com.engineer.same.task"
-            android:exported="true" >
-        </activity>
+            android:exported="true"
+            android:taskAffinity="com.engineer.same.task"></activity>
         <activity
             android:name=".ui.pure.CustomViewActivity"
             android:exported="true" />

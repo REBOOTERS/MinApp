@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Process
 import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
@@ -20,6 +21,7 @@ import androidx.core.widget.NestedScrollView
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
+import com.engineer.android.mini.media.AudioActivity
 import com.engineer.android.mini.ui.BaseActivity
 import java.io.Serializable
 import kotlin.random.Random
@@ -38,6 +40,13 @@ open class BaseLifeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(provideView())
         Log.e(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
+        Log.e(TAG, "currentProcess pid=" + Process.myPid())
+        Log.e(TAG, "currentProcess uid=" + Process.myUid())
+        Log.e(TAG, "currentProcess uid_1=" + Process.getUidForName(packageName))
+        Log.e(TAG, "currentProcess tid=" + Process.myTid())
+        Log.e(TAG, "currentProcess myUserHandle=" + Process.myUserHandle())
+        Log.e(TAG, "currentProcess getElapsedCpuTime=" + Process.getElapsedCpuTime())
+
     }
 
 
@@ -369,7 +378,19 @@ class ActivityD : BaseLifeActivity() {
         button.setOnClickListener {
             finish()
         }
+        val param2 = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT
+        )
+        param2.gravity = Gravity.CENTER
+        param.topMargin = 200.dp
+        val btn = Button(this)
+        btn.text = "open audio activity"
+        btn.setOnClickListener {
+            gotoActivity(AudioActivity::class.java)
+        }
         frameLayout.addView(button, param)
+        frameLayout.addView(btn, param2)
         return frameLayout
     }
 }

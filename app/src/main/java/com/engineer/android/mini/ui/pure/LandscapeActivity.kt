@@ -1,9 +1,11 @@
 package com.engineer.android.mini.ui.pure
 
+import android.app.Activity
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.WindowInsetsController
 import android.view.WindowManager
@@ -14,6 +16,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.engineer.android.mini.R
+import com.engineer.android.mini.util.DisplayUtil
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 /**
@@ -73,6 +76,7 @@ class LandscapeActivity : AppCompatActivity() {
                 WindowCompat.setDecorFitsSystemWindows(window, false)
                 buttonView.text = "沉浸式-开"
             }
+            updateScreenInfo(this)
         }
 
         val switch: SwitchMaterial = findViewById(R.id.status_bar_color_switch)
@@ -84,6 +88,7 @@ class LandscapeActivity : AppCompatActivity() {
                 controller.isAppearanceLightStatusBars = true
                 switch.text = "黑色状态栏"
             }
+            updateScreenInfo(this)
         }
         val showSwitch = findViewById<SwitchMaterial>(R.id.status_bar_switch)
         showSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -94,6 +99,7 @@ class LandscapeActivity : AppCompatActivity() {
                 controller.show(WindowInsetsCompat.Type.statusBars())
                 buttonView.text = "状态栏显示"
             }
+            updateScreenInfo(this)
         }
         findViewById<SwitchMaterial>(R.id.navigation_bar_switch).setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
@@ -103,6 +109,7 @@ class LandscapeActivity : AppCompatActivity() {
                 controller.show(WindowInsetsCompat.Type.navigationBars())
                 buttonView.text = "导航栏显示"
             }
+            updateScreenInfo(this)
         }
 
         findViewById<RadioGroup>(R.id.mode_group).setOnCheckedChangeListener { group, checkedId ->
@@ -126,7 +133,40 @@ class LandscapeActivity : AppCompatActivity() {
                 }
             }
             window.attributes = params
+            updateScreenInfo(this)
         }
+        updateScreenInfo(this)
+    }
+
+
+    private fun updateScreenInfo(activity: Activity) {
+        val screenRealSize = DisplayUtil.getScreenRealSize(activity).y
+
+        val navHeight =
+            if (DisplayUtil.isNavigationBarShowing(activity))
+                DisplayUtil.getNavigationBarHeight(activity) else 0
+
+        val statusBarHeight = DisplayUtil.getStatusBarHeight2(activity)
+        val dp45 = DisplayUtil.dp2px(45f)
+        DisplayUtil.sVisibleHeight = screenRealSize - navHeight - statusBarHeight
+        Log.d(
+            TAG, "getScreenInfo() called with:" +
+                    " screenRealSize = $screenRealSize," +
+                    "navH = $navHeight," +
+                    "statusBarH = $statusBarHeight," +
+                    "dp45 = $dp45," +
+                    "visibleH = ${DisplayUtil.sVisibleHeight}"
+        )
+        val deviceDensityNow = DisplayMetrics.DENSITY_DEVICE_STABLE
+        Log.d(TAG, "deviceDensityNow= $deviceDensityNow")
+        Log.d(TAG, "density= ${resources.displayMetrics.density}")
+        Log.d(TAG, "densityDpi= ${resources.displayMetrics.densityDpi}")
+        Log.d(TAG, "xdpi= ${resources.displayMetrics.xdpi}")
+        Log.d(TAG, "ydpi= ${resources.displayMetrics.ydpi}")
+        Log.d(TAG, "widthPixels= ${resources.displayMetrics.widthPixels}")
+        Log.d(TAG, "heightPixels= ${resources.displayMetrics.heightPixels}")
+        Log.d(TAG, "scaledDensity= ${resources.displayMetrics.scaledDensity}")
+        Log.e(TAG,"========================================================")
     }
 
 }
