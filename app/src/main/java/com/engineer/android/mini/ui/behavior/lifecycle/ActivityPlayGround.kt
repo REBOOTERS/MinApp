@@ -11,10 +11,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.setMargins
 import androidx.core.widget.NestedScrollView
@@ -40,13 +37,6 @@ open class BaseLifeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(provideView())
         Log.e(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
-        Log.e(TAG, "currentProcess pid=" + Process.myPid())
-        Log.e(TAG, "currentProcess uid=" + Process.myUid())
-        Log.e(TAG, "currentProcess uid_1=" + Process.getUidForName(packageName))
-        Log.e(TAG, "currentProcess tid=" + Process.myTid())
-        Log.e(TAG, "currentProcess myUserHandle=" + Process.myUserHandle())
-        Log.e(TAG, "currentProcess getElapsedCpuTime=" + Process.getElapsedCpuTime())
-
     }
 
 
@@ -102,6 +92,17 @@ open class BaseLifeActivity : BaseActivity() {
 }
 
 class PanelActivity : BaseLifeActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.e(TAG, "currentProcess pid=" + Process.myPid())
+        Log.e(TAG, "currentProcess uid=" + Process.myUid())
+        Log.e(TAG, "currentProcess uid_1=" + Process.getUidForName(packageName))
+        Log.e(TAG, "currentProcess tid=" + Process.myTid())
+        Log.e(TAG, "currentProcess myUserHandle=" + Process.myUserHandle())
+        Log.e(TAG, "currentProcess getElapsedCpuTime=" + Process.getElapsedCpuTime())
+    }
+
+
     @SuppressLint("SetTextI18n")
     override fun provideView(): View {
         val nestedScrollView = NestedScrollView(this)
@@ -192,6 +193,11 @@ class PanelActivity : BaseLifeActivity() {
             gotoActivity(ActivityF::class.java)
         }
         contentView.addView(button7, param)
+
+        val button8 = Button(this)
+        button8.text = "input on screen-sensor"
+        button8.setOnClickListener { gotoActivity(ActivityG::class.java) }
+        contentView.addView(button8,param)
 
         nestedScrollView.addView(contentView)
         return nestedScrollView
@@ -404,6 +410,23 @@ class ActivityE : BaseLifeActivity() {
 
 class ActivityF : BaseLifeActivity() {
 
+}
+
+class ActivityG : BaseLifeActivity() {
+    override fun provideView(): View {
+        val frameLayout = FrameLayout(this)
+        frameLayout.setBackgroundColor(randomColor())
+        val inputEditText = EditText(this)
+        val param = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT
+        )
+        param.setMargins(40.dp,0,40.dp,0)
+        inputEditText.hint = "please input sth"
+        param.gravity = Gravity.CENTER
+        frameLayout.addView(inputEditText, param)
+        return frameLayout
+    }
 }
 
 class BigData : Serializable {

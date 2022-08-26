@@ -131,7 +131,7 @@
         <activity
             android:name=".coroutines.old.OldWayActivity"
             android:exported="true"
-            android:taskAffinity="com.engineer.same.task"></activity>
+            android:taskAffinity="com.engineer.same.task"/>
         <activity
             android:name=".ui.pure.CustomViewActivity"
             android:exported="true" />
@@ -150,6 +150,8 @@
         <activity android:name=".ui.behavior.lifecycle.StandardActivity" />
         <activity android:name=".ui.behavior.lifecycle.ActivityE" />
         <activity android:name=".ui.behavior.lifecycle.ActivityF" />
+        <activity android:name=".ui.behavior.lifecycle.ActivityG"
+                android:screenOrientation="fullSensor"/>
         <activity
             android:name=".ui.behavior.lifecycle.SingleTopActivity"
             android:launchMode="singleTop" />
