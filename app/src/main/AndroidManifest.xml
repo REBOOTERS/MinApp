@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -202,6 +203,12 @@
         <meta-data
             android:name="android.max_aspect"
             android:value="3" />
+        <!--just for test replace other config-->
+        <activity
+            tools:node="replace"
+            android:screenOrientation="fullSensor"
+            android:name="com.engineer.third.CppActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
