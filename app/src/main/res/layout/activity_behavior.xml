@@ -13,8 +13,8 @@
         android:orientation="vertical">
 
         <com.google.android.material.checkbox.MaterialCheckBox
-            style="@style/mw_10_margin"
             android:id="@+id/screen_capture"
+            style="@style/mw_10_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="allow screen capture" />
@@ -85,6 +85,11 @@
             android:id="@+id/pickGif"
             style="@style/mw_10_margin"
             android:text="Pick Gif" />
+
+        <Button
+            android:id="@+id/pick_chooser"
+            style="@style/mw_10_margin"
+            android:text="Chooser" />
 
 
         <com.google.android.material.textview.MaterialTextView

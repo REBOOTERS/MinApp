@@ -3,6 +3,7 @@ package com.engineer.android.mini.ui.behavior
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.DownloadManager
+import android.content.ClipData
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -35,7 +36,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
 
-private const val TAG = "BehaviorActivity"
+private const val TAG = "BehaviorActivity-TAG"
 
 
 /**
@@ -98,6 +99,10 @@ class BehaviorActivity : AppCompatActivity() {
 
         viewBinding.pickGif.setOnClickListener {
             pickGifAndCopyUriToExternal()
+        }
+
+        viewBinding.pickChooser.setOnClickListener {
+            chooserTest()
         }
 
         viewBinding.settings.setOnClickListener {
@@ -233,6 +238,10 @@ class BehaviorActivity : AppCompatActivity() {
         }
     }
 
+    private fun chooserTest() {
+        chooserLauncher.launch("hhh")
+    }
+
     /**
      *  deep link 的方式，打开另外一个 App
      */
@@ -351,6 +360,12 @@ class BehaviorActivity : AppCompatActivity() {
             val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
 //            copyUriToAlbumDir(this, result, fileName, "image/gif")
             fileName.toast()
+        }
+    }
+
+    private val chooserLauncher = registerForActivityResult(ChooserResultContract()) { result ->
+        if (result != null) {
+            Log.e(TAG, result.toString())
         }
     }
 
@@ -473,6 +488,38 @@ class BehaviorActivity : AppCompatActivity() {
                 return intent.data
             }
             return null
+        }
+    }
+
+    class ChooserResultContract : ActivityResultContract<String, List<Uri>>() {
+        override fun createIntent(context: Context, input: String?): Intent {
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            intent.type = "image/*"
+            val finalIntent = Intent(Intent.ACTION_CHOOSER)
+            finalIntent.putExtra(Intent.EXTRA_INTENT, intent)
+            finalIntent.putExtra(Intent.EXTRA_TITLE, "Image Chooser")
+            return finalIntent
+        }
+
+        override fun parseResult(resultCode: Int, intent: Intent?): List<Uri> {
+            val results = ArrayList<Uri>()
+            intent?.let {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (it.clipData != null) {
+                        val data = it.clipData!!
+                        Log.i(TAG, "clip is ${data.itemCount}")
+                        for (i in 0 until data.itemCount) {
+                            Log.i(TAG, "clip $i is ${data.getItemAt(i).uri}")
+                        }
+                    } else if (it.data != null) {
+                        val data = it.data
+                        Log.i(TAG, "data is $data")
+                    }
+                }
+            }
+            return results
         }
     }
 }
