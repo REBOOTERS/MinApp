@@ -22,14 +22,15 @@ class MinApp : Application() {
 
     companion object {
         lateinit var INSTANCE: Application
-        val MINI = "mini"
-        val TAG = MINI
+        val MINI = "mini_tag"
+        val TAG = "MinApp_TAG"
 
         val FLUTTER_ENGINE_ID = "FLUTTER_ENGINE_ID"
     }
 
     override fun onCreate() {
         super.onCreate()
+        Log.d(TAG, "onCreate() called start")
         INSTANCE = this
         Stetho.initializeWithDefaults(this)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
@@ -49,6 +50,7 @@ class MinApp : Application() {
         }
         testCalendar()
         applicationProcessInfo()
+        Log.d(TAG, "onCreate() called end")
     }
 
     private fun applicationProcessInfo() {

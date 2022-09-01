@@ -27,10 +27,11 @@ android {
         buildConfigField "Boolean", "enable_log", "false"
         buildConfigField "String", "secret_id", "\"123456\""
         buildConfigField "String", "api_key", "\"${API_KEY}\""
-        manifestPlaceholders.activity_exported = "true"
+//        manifestPlaceholders.activity_exported = true
         manifestPlaceholders = [
                 max_aspect         : 3,
-                extract_native_libs: "true"
+                extract_native_libs: "true",
+                activity_exported  : "true"
         ]
 
 
