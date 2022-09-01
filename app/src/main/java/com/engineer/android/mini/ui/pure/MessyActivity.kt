@@ -36,6 +36,7 @@ import com.engineer.android.mini.proguards.*
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.util.JavaUtil
 import com.engineer.android.mini.util.RxTimer
+import com.engineer.android.mini.util.SystemTools
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -66,6 +67,7 @@ class MessyActivity : BaseActivity() {
         handlerTest()
         timerTest()
         proguardTest()
+        SystemTools.getManifestPlaceHolderValue(this)
     }
 
     private fun timerTest() {

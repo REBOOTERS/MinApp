@@ -17,6 +17,7 @@
     <application
         android:name=".MinApp"
         android:allowBackup="true"
+        android:extractNativeLibs="${extract_native_libs}"
         android:fullBackupOnly="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -132,7 +133,7 @@
         <activity
             android:name=".coroutines.old.OldWayActivity"
             android:exported="true"
-            android:taskAffinity="com.engineer.same.task"/>
+            android:taskAffinity="com.engineer.same.task" />
         <activity
             android:name=".ui.pure.CustomViewActivity"
             android:exported="true" />
@@ -147,12 +148,13 @@
         <activity android:name=".jetpack.FragmentManagerActivity" />
         <activity
             android:name=".ui.behavior.lifecycle.PanelActivity"
-            android:exported="true" />
+            android:exported="${activity_exported}" />
         <activity android:name=".ui.behavior.lifecycle.StandardActivity" />
         <activity android:name=".ui.behavior.lifecycle.ActivityE" />
         <activity android:name=".ui.behavior.lifecycle.ActivityF" />
-        <activity android:name=".ui.behavior.lifecycle.ActivityG"
-                android:screenOrientation="fullSensor"/>
+        <activity
+            android:name=".ui.behavior.lifecycle.ActivityG"
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".ui.behavior.lifecycle.SingleTopActivity"
             android:launchMode="singleTop" />
@@ -202,13 +204,13 @@
 
         <meta-data
             android:name="android.max_aspect"
-            android:value="3" />
+            android:value="${max_aspect}" />
         <!--just for test replace other config-->
         <activity
-            tools:node="replace"
-            android:screenOrientation="fullSensor"
             android:name="com.engineer.third.CppActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="fullSensor"
+            tools:node="replace" />
     </application>
 
 </manifest>
