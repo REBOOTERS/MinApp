@@ -3,6 +3,7 @@ package com.engineer.android.mini.ui.pure
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
@@ -20,6 +21,7 @@ import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.ForceBottomActivity
 import com.engineer.android.mini.ui.MD3Activity
 import com.engineer.android.mini.ui.adapter.RecyclerViewActivity
+import com.engineer.android.mini.ui.pure.helper.SimpleCallback
 import com.engineer.android.mini.util.DisplayUtil
 import radiography.Radiography
 
@@ -47,10 +49,25 @@ class PureUIActivity : BaseActivity() {
         realBinding.recyclerViewDemo.setOnClickListener { gotoActivity(RecyclerViewActivity::class.java) }
         realBinding.switchView.setOnClickListener { gotoActivity(SwitchViewActivity::class.java) }
         realBinding.fullScreen.setOnClickListener { gotoActivity(FullscreenActivity::class.java) }
-        realBinding.messyView.setOnClickListener { gotoActivity(MessyActivity::class.java) }
+        realBinding.messyView.setOnClickListener {
+//            gotoActivity(MessyActivity::class.java)
+            callFormActivity(object : SimpleCallback {
+                override fun onResult(msg: String) {
+                    Log.d(TAG, "onResult() called with: msg = $msg")
+                }
+            })
+        }
         realBinding.imageView.resizeMarginTop(getStatusBarHeight())
 
         systemDayNight()
+    }
+
+    private fun callFormActivity(callback: SimpleCallback) {
+        val intent = Intent(this, MessyActivity::class.java)
+        val bundle = Bundle()
+        bundle.putSerializable("callback", callback)
+        intent.putExtra("info", bundle)
+        startActivity(intent)
     }
 
 //    override fun onTouchEvent(event: MotionEvent?): Boolean {

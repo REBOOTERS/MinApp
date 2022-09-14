@@ -34,6 +34,7 @@ import com.engineer.android.mini.ext.screenWidth
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.proguards.*
 import com.engineer.android.mini.ui.BaseActivity
+import com.engineer.android.mini.ui.pure.helper.SimpleCallback
 import com.engineer.android.mini.util.JavaUtil
 import com.engineer.android.mini.util.RxTimer
 import com.engineer.android.mini.util.SystemTools
@@ -57,6 +58,8 @@ class MessyActivity : BaseActivity() {
         "just a value"
     }
 
+    private var callback: SimpleCallback? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         realBinding = ActivityMessyBinding.inflate(layoutInflater)
@@ -68,6 +71,8 @@ class MessyActivity : BaseActivity() {
         timerTest()
         proguardTest()
         SystemTools.getManifestPlaceHolderValue(this)
+
+        callback = intent?.getSerializableExtra("callback") as SimpleCallback
     }
 
     private fun timerTest() {
@@ -230,11 +235,16 @@ class MessyActivity : BaseActivity() {
         levelListDrawableTest()
 
         realBinding.requestOverlay.setOnClickListener {
-            val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                Uri.parse("package:$packageName"))
+            val intent = Intent(
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:$packageName")
+            )
             startActivityForResult(intent, 100)
 
-            startActivityIfNeeded(intent,1001)
+            startActivityIfNeeded(intent, 1001)
+        }
+        realBinding.callbackTo.setOnClickListener {
+            callback?.onResult("this is from ${this.javaClass.name}")
         }
     }
 
@@ -242,7 +252,8 @@ class MessyActivity : BaseActivity() {
         val ids = intArrayOf(R.drawable.ic_baseline_add_24, R.drawable.ic_action_close)
         val levelListDrawable = LevelListDrawable()
         for (i in ids.indices) {
-            val drawable = resources.getDrawableForDensity(ids[i],resources.displayMetrics.densityDpi)
+            val drawable =
+                resources.getDrawableForDensity(ids[i], resources.displayMetrics.densityDpi)
             levelListDrawable.addLevel(0, i, drawable)
         }
         realBinding.levelListTest.setImageDrawable(levelListDrawable)

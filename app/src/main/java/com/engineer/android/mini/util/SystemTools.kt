@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
+import com.engineer.android.mini.BuildConfig
 
 
 /**
@@ -88,6 +89,6 @@ object SystemTools {
         Log.d(TAG, "getManifestPlaceHolderValue() called with: max_aspect = $max_aspect")
         Log.d(TAG, "getManifestPlaceHolderValue() called with: exported = $exported")
 
-
     }
+    fun isLocalFlavor() = BuildConfig.FLAVOR_type == "local"
 }

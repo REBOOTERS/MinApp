@@ -6,7 +6,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.toast
-import com.engineer.android.mini.util.AndroidSystem
+import com.engineer.android.mini.util.SystemTools
+import com.engineer.common.utils.AndroidSystem
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
@@ -21,7 +22,7 @@ class AudioActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (AndroidSystem.isLocalFlavor()) {
+        if (SystemTools.isLocalFlavor()) {
             "please use global flavor ".toast()
             finish()
             return

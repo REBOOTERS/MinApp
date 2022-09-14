@@ -7,7 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.util.Log
-import com.engineer.android.mini.util.AndroidSystem.isAppForeground
+import com.engineer.common.utils.AndroidSystem.isAppForeground
 import java.util.*
 
 object OpenTaskManager {

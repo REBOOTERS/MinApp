@@ -76,6 +76,7 @@ class WebViewActivity : AppCompatActivity() {
         frameLayout.addView(downloadCacheBtn,params2)
         setContentView(frameLayout)
 
+        WebView.setWebContentsDebuggingEnabled(true)
         val settints = webView.settings
         settints.javaScriptEnabled = true
 

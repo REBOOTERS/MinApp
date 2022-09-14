@@ -18,9 +18,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ipc.aidl.OpenTaskManager
-import com.engineer.android.mini.util.AndroidSystem
 import com.engineer.android.mini.util.RxBus
-import com.engineer.android.mini.util.RxTimer
 
 interface NotificationBuilder {
 

@@ -1,11 +1,11 @@
-package com.engineer.android.mini.util
+package com.engineer.common.utils
 
 import android.app.ActivityManager
 import android.app.ActivityManager.RunningAppProcessInfo
 import android.app.Service
 import android.content.Context
+import android.os.Build
 import android.util.Log
-import com.engineer.android.mini.BuildConfig
 
 
 object AndroidSystem {
@@ -58,5 +58,19 @@ object AndroidSystem {
         return null
     }
 
-    fun isLocalFlavor() = BuildConfig.FLAVOR_type == "local"
+    fun isAndroidP(): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+    }
+
+    fun deviceId(): String {
+        var id = ""
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            try {
+                id = Build.getSerial()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        return id
+    }
 }

@@ -27,7 +27,7 @@ import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.behavior.lifecycle.PanelActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
-import com.engineer.android.mini.util.AndroidSystem
+import com.engineer.common.utils.AndroidSystem
 import com.engineer.android.mini.util.ProducerConsumerViewModel
 import com.engineer.compose.ui.MainComposeActivity
 import com.engineer.third.CppActivity
