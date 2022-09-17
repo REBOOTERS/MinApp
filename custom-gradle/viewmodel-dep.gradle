@@ -1,7 +1,7 @@
 dependencies {
-    def lifecycle_version = "2.2.0"
+    def lifecycle_version = "2.5.1"
     def arch_version = "2.1.0"
-    def room_version = '2.4.0'
+    def room_version = '2.4.3'
 
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"

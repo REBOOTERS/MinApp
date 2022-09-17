@@ -5,19 +5,19 @@ ext {
 
 
     kotlin_version = '1.6.10'
-    gradle_version = '7.2.2'
+    gradle_version = '7.3.0'
 
     kotlin_coroutines = '1.4.1'
 
     AndResGuard_gradle_plugin = '1.2.21'
 
-    appcompat = '1.4.1'
-    core_ktx = '1.7.0'
-    constraint_layout = '2.1.0'
-    material = '1.5.0'
+    appcompat = '1.5.1'
+    core_ktx = '1.8.0'
+    constraint_layout = '2.1.4'
+    material = '1.6.1'
 
 
-    compose_version = '1.1.0'
+    compose_version = '1.1.1'
 
     android_hilt_version = '2.40.1'
 

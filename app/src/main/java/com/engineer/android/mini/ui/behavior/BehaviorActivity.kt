@@ -460,7 +460,7 @@ class BehaviorActivity : AppCompatActivity() {
     }
 
     class PickFileResultContract : ActivityResultContract<String, Uri?>() {
-        override fun createIntent(context: Context, input: String?): Intent {
+        override fun createIntent(context: Context, input: String): Intent {
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
             intent.addCategory(Intent.CATEGORY_OPENABLE)
             intent.type = "*/*"
@@ -473,10 +473,11 @@ class BehaviorActivity : AppCompatActivity() {
             }
             return null
         }
+
     }
 
     class PickGifResultContract : ActivityResultContract<String, Uri?>() {
-        override fun createIntent(context: Context, input: String?): Intent {
+        override fun createIntent(context: Context, input: String): Intent {
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
             intent.addCategory(Intent.CATEGORY_OPENABLE)
             intent.type = "image/gif"
@@ -492,7 +493,7 @@ class BehaviorActivity : AppCompatActivity() {
     }
 
     class ChooserResultContract : ActivityResultContract<String, List<Uri>>() {
-        override fun createIntent(context: Context, input: String?): Intent {
+        override fun createIntent(context: Context, input: String): Intent {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.addCategory(Intent.CATEGORY_OPENABLE)
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)

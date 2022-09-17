@@ -72,7 +72,7 @@ class MessyActivity : BaseActivity() {
         proguardTest()
         SystemTools.getManifestPlaceHolderValue(this)
 
-        callback = intent?.getSerializableExtra("callback") as SimpleCallback
+//        callback = intent?.getSerializableExtra("callback") as SimpleCallback
     }
 
     private fun timerTest() {
@@ -239,7 +239,7 @@ class MessyActivity : BaseActivity() {
                 Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                 Uri.parse("package:$packageName")
             )
-            startActivityForResult(intent, 100)
+//            startActivityForResult(intent, 100)
 
             startActivityIfNeeded(intent, 1001)
         }

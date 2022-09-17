@@ -64,9 +64,9 @@ class PureUIActivity : BaseActivity() {
 
     private fun callFormActivity(callback: SimpleCallback) {
         val intent = Intent(this, MessyActivity::class.java)
-        val bundle = Bundle()
-        bundle.putSerializable("callback", callback)
-        intent.putExtra("info", bundle)
+//        val bundle = Bundle()
+//        bundle.putSerializable("callback", callback)
+//        intent.putExtra("info", bundle)
         startActivity(intent)
     }
 
