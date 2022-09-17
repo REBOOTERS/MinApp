@@ -42,16 +42,8 @@ android {
 }
 
 dependencies {
-
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
-//    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
-    api "com.squareup.okhttp3:okhttp:4.10.0"
-    implementation("com.squareup.retrofit2:retrofit:2.9.0") {
-        exclude group: "com.squareup.okhttp3", module: "okhttp"
-        exclude module: "okio"
-    }
-    runtimeOnly('androidx.constraintlayout:constraintlayout:2.1.0')
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.6.1'
 }
 
 apply from: file("publish.gradle") // publish-self-aar
