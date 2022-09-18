@@ -20,5 +20,4 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.engineer.third.util.AndroidFileUtils {*;}
--keep class com.engineer.android.mini.better.** {*;}
+-keep class com.engineer.third.internal.NativeMethodsFactory {*;}

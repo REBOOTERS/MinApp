@@ -10,7 +10,7 @@
   },
   "createdBy": {
     "gradle": {
-      "version": "7.3.3"
+      "version": "7.4"
     }
   },
   "variants": [
@@ -24,10 +24,10 @@
       },
       "dependencies": [
         {
-          "group": "com.squareup.okhttp3",
-          "module": "okhttp",
+          "group": "com.google.android.material",
+          "module": "material",
           "version": {
-            "requires": "4.10.0"
+            "requires": "1.6.1"
           }
         },
         {
@@ -42,11 +42,11 @@
         {
           "name": "thirdlib-1.0.0.aar",
           "url": "thirdlib-1.0.0.aar",
-          "size": 389680,
-          "sha512": "e1b9c41f96dd20ecf688438e2ce1127b0ad08643ea641520922373c66063307be2306a6fa17aeb08d2461c451c1d8adaf09d7519ddf04fc2ca08165c0b132260",
-          "sha256": "4efdfad645db5b35bed02bf8967760872e64e8812772f61b33b29763985fc716",
-          "sha1": "ed273219e1de18a8bd685afb65e8221bdc6df7b0",
-          "md5": "fce8a4f6275cbae1dfd9ac609a24d8b1"
+          "size": 526406,
+          "sha512": "1b5691a19f19d36b9cde535a5ba3de4065fa57bb8e1b78d00a0ccf328040b481d730bf97251ff5235331916a5bfa804703871f033197004c77dc57bc71d213cc",
+          "sha256": "00eb7d389790faccceb2958825e7da6be64e26b0f2d92df37716d00045e17eb4",
+          "sha1": "794f9f2af5dac6b5916655043d9cb270fdec57e9",
+          "md5": "e3a64bf02eb401c35254f83238c388a6"
         }
       ]
     },
@@ -60,17 +60,10 @@
       },
       "dependencies": [
         {
-          "group": "androidx.constraintlayout",
-          "module": "constraintlayout",
+          "group": "com.google.android.material",
+          "module": "material",
           "version": {
-            "requires": "2.1.0"
-          }
-        },
-        {
-          "group": "com.squareup.okhttp3",
-          "module": "okhttp",
-          "version": {
-            "requires": "4.10.0"
+            "requires": "1.6.1"
           }
         },
         {
@@ -84,14 +77,7 @@
           "group": "androidx.appcompat",
           "module": "appcompat",
           "version": {
-            "requires": "1.4.1"
-          }
-        },
-        {
-          "group": "com.google.android.material",
-          "module": "material",
-          "version": {
-            "requires": "1.5.0"
+            "requires": "1.5.1"
           }
         },
         {
@@ -116,11 +102,11 @@
         {
           "name": "thirdlib-1.0.0.aar",
           "url": "thirdlib-1.0.0.aar",
-          "size": 389680,
-          "sha512": "e1b9c41f96dd20ecf688438e2ce1127b0ad08643ea641520922373c66063307be2306a6fa17aeb08d2461c451c1d8adaf09d7519ddf04fc2ca08165c0b132260",
-          "sha256": "4efdfad645db5b35bed02bf8967760872e64e8812772f61b33b29763985fc716",
-          "sha1": "ed273219e1de18a8bd685afb65e8221bdc6df7b0",
-          "md5": "fce8a4f6275cbae1dfd9ac609a24d8b1"
+          "size": 526406,
+          "sha512": "1b5691a19f19d36b9cde535a5ba3de4065fa57bb8e1b78d00a0ccf328040b481d730bf97251ff5235331916a5bfa804703871f033197004c77dc57bc71d213cc",
+          "sha256": "00eb7d389790faccceb2958825e7da6be64e26b0f2d92df37716d00045e17eb4",
+          "sha1": "794f9f2af5dac6b5916655043d9cb270fdec57e9",
+          "md5": "e3a64bf02eb401c35254f83238c388a6"
         }
       ]
     }
