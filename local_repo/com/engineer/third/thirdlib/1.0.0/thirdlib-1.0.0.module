@@ -79,23 +79,6 @@
           "version": {
             "requires": "1.5.1"
           }
-        },
-        {
-          "group": "com.squareup.retrofit2",
-          "module": "retrofit",
-          "version": {
-            "requires": "2.9.0"
-          },
-          "excludes": [
-            {
-              "group": "*",
-              "module": "okio"
-            },
-            {
-              "group": "com.squareup.okhttp3",
-              "module": "okhttp"
-            }
-          ]
         }
       ],
       "files": [
