@@ -31,6 +31,11 @@
             android:text="NotificationCase" />
 
         <Button
+            android:id="@+id/broadcast_receiver_case"
+            style="@style/mw_10_margin"
+            android:text="BroadcastReceiverCase" />
+
+        <Button
             android:id="@+id/web_view_case"
             style="@style/mw_10_margin"
             android:text="WEB_VIEW_CASE" />

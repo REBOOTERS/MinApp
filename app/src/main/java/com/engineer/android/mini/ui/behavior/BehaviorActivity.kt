@@ -72,6 +72,9 @@ class BehaviorActivity : AppCompatActivity() {
         viewBinding.notificationCase.setOnClickListener {
             gotoActivity(NotifyActivity::class.java)
         }
+        viewBinding.broadcastReceiverCase.setOnClickListener {
+            gotoActivity(BroadcastPage::class.java)
+        }
 
         viewBinding.webViewCase.setOnClickListener {
             gotoActivity(WebViewActivity::class.java)

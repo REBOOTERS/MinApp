@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/wallpaper_portrait"
+    android:orientation="vertical"
+    android:paddingTop="58dp"
+    tools:ignore="HardcodedText">
+
+    <Button
+        android:id="@+id/send_broadcast"
+        style="@style/mw_10_margin"
+        android:text="send_broadcast" />
+</LinearLayout>
