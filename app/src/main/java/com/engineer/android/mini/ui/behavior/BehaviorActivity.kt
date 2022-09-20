@@ -127,8 +127,7 @@ class BehaviorActivity : AppCompatActivity() {
                     Log.e(TAG, "before hack value is $mAccessFilename")
 
                     val method = downloadManager.javaClass.getDeclaredMethod(
-                        "setAccessFilename",
-                        Boolean::class.java.componentType
+                        "setAccessFilename", Boolean::class.java.componentType
                     )
                     method.isAccessible = true
                     method.invoke(downloadManager, true)
@@ -147,7 +146,7 @@ class BehaviorActivity : AppCompatActivity() {
             val h = Handler(Looper.getMainLooper()) { msg ->
                 Log.e(
                     TAG,
-                    "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg"
+                    "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg" + ",${msg.target}"
                 )
                 true
             }
@@ -158,7 +157,7 @@ class BehaviorActivity : AppCompatActivity() {
             val subHandler = Handler(handlerThread.looper) { msg ->
                 Log.e(
                     TAG,
-                    "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg"
+                    "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg " + ",${msg.target}"
                 )
                 // 为了方便调试多次方法，正常情况下，用完后记得立即关闭
 //                handlerThread.quitSafely()
@@ -261,10 +260,7 @@ class BehaviorActivity : AppCompatActivity() {
 
 
     private fun addBitmapToAlbum(
-        bitmap: Bitmap,
-        displayName: String,
-        mimeType: String,
-        compressFormat: Bitmap.CompressFormat
+        bitmap: Bitmap, displayName: String, mimeType: String, compressFormat: Bitmap.CompressFormat
     ) {
         val values = ContentValues()
         values.put(MediaStore.MediaColumns.DISPLAY_NAME, displayName)
@@ -291,9 +287,7 @@ class BehaviorActivity : AppCompatActivity() {
     private fun downloadFile(fileUrl: String, fileName: String) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             Toast.makeText(
-                this,
-                "You must use device running Android 10 or higher",
-                Toast.LENGTH_SHORT
+                this, "You must use device running Android 10 or higher", Toast.LENGTH_SHORT
             ).show()
             return
         }
@@ -324,9 +318,7 @@ class BehaviorActivity : AppCompatActivity() {
                         bos.close()
                         runOnUiThread {
                             Toast.makeText(
-                                this,
-                                "$fileName is in Download directory now.",
-                                Toast.LENGTH_SHORT
+                                this, "$fileName is in Download directory now.", Toast.LENGTH_SHORT
                             ).show()
                         }
                     }
@@ -414,10 +406,7 @@ class BehaviorActivity : AppCompatActivity() {
 
 
     private fun copyUriToAlbumDir(
-        context: Context,
-        inputUri: Uri,
-        displayName: String,
-        mimeType: String
+        context: Context, inputUri: Uri, displayName: String, mimeType: String
     ) {
         thread {
             val inputStream = context.contentResolver.openInputStream(inputUri)
@@ -451,8 +440,7 @@ class BehaviorActivity : AppCompatActivity() {
             }
             bis.close()
             runOnUiThread {
-                Toast.makeText(this, "Copy file into album succeeded.", Toast.LENGTH_LONG)
-                    .show()
+                Toast.makeText(this, "Copy file into album succeeded.", Toast.LENGTH_LONG).show()
             }
         }
 
