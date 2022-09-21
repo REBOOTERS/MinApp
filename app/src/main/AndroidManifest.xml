@@ -33,15 +33,6 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ContentProviderPage"
-            android:exported="false"
-            android:label="@string/title_activity_content_provider_page"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".ui.MD3Activity"
             android:exported="true"
             android:label="@string/title_activity_md3"

@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 def ext = rootProject.ext
 
@@ -56,10 +57,12 @@ android {
 dependencies {
 
     implementation "androidx.appcompat:appcompat:$appcompat"
-    implementation "androidx.core:core-ktx:$core_ktx"
+//    implementation "androidx.core:core-ktx:$core_ktx"
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
     implementation "com.google.android.material:material:$material"
 
 }
 
 apply from: file("../custom-gradle/test-dep.gradle") // unit test
+apply from: file("../custom-gradle/viewmodel-dep.gradle") // view-model-lifecycle 全家桶
