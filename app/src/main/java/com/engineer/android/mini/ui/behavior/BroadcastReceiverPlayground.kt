@@ -48,8 +48,8 @@ class BroadcastPage : BaseActivity() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onPause() {
+        super.onPause()
         miniBroadcastReceiver?.let {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(it)
         }

@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <permission
+        android:name="mini.info.permission.READ_INFO"
+        android:protectionLevel="signature" />
+    <permission
+        android:name="mini.info.permission.WRITE_INFO"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -25,12 +32,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <provider
-            android:name=".ui.behavior.MyContentProvider"
-            android:authorities="mini.provider.info.adapter"
-            android:enabled="false"
-            android:exported="false" />
-
+        <activity
+            android:name=".ContentProviderPage"
+            android:exported="false"
+            android:label="@string/title_activity_content_provider_page"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".ui.MD3Activity"
             android:exported="true"
@@ -208,23 +218,23 @@
 
         <receiver android:name=".ui.behavior.SimpleBroadcastReceiver" />
 
+        <provider
+            android:name=".ui.behavior.provider.MiniContentProvider"
+            android:authorities="mini.provider.info.adapter"
+            android:enabled="true"
+            android:exported="false"
+            android:readPermission="mini.info.permission.READ_INFO"
+            android:writePermission="mini.info.permission.WRITE_INFO" />
+        <activity android:name=".ui.behavior.provider.ContentProviderPage"/>
+
         <meta-data
             android:name="android.max_aspect"
-            android:value="${max_aspect}" />
-        <!-- just for test replace other config -->
+            android:value="${max_aspect}" /> <!-- just for test replace other config -->
         <activity
             android:name="com.engineer.third.CppActivity"
             android:exported="false"
             android:screenOrientation="fullSensor"
             tools:node="replace" />
-
-        <receiver
-            android:name=".ui.behavior.MiniBroadcastReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.engineer.android.mini.MINI_UPDATE" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

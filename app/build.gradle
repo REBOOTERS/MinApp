@@ -33,6 +33,9 @@ android {
                 extract_native_libs: "true",
                 activity_exported  : "true"
         ]
+        vectorDrawables {
+            useSupportLibrary true
+        }
 
 
     }
@@ -72,6 +75,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        compose true
     }
 
     sourceSets {
@@ -102,6 +106,14 @@ android {
     lint {
         checkReleaseBuilds false
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.1.1'
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
 }
 
 dependencies {
@@ -130,10 +142,15 @@ dependencies {
     } else {
         globalImplementation 'com.engineer.third:thirdlib:1.0.0'
     }
-    globalImplementation project(path: ':compose')
+    implementation project(path: ':compose')
     implementation project(path: ':common')
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+    implementation 'androidx.activity:activity-compose:1.3.1'
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation 'androidx.compose.material:material:1.1.1'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
 
@@ -142,6 +159,7 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.1.73.android'
 //    implementation 'com.alibaba:fastjson:2.0.2.android'
     implementation 'org.jetbrains.kotlin:kotlin-script-runtime:1.6.21'
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
 //    implementation 'com.facebook.shimmer:shimmer:0.6.0'
 }
