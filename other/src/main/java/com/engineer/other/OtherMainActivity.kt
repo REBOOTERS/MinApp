@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.engineer.other.contract.ContentProviderReaderHelper
 import com.engineer.other.contract.MiniContract
 import com.engineer.other.skip.SkipActivity
 
@@ -40,9 +41,8 @@ class OtherMainActivity : AppCompatActivity() {
             startActivity(Intent(this, OpenByOtherActivity::class.java))
         }
 
-        val resolver = contentResolver
-        val cursor = resolver.query(MiniContract.Entry.CONTENT_URL,null,null,null,null)
-        cursor?.close()
+        val value = ContentProviderReaderHelper.read(this, "name")
+        Log.e(TAG, "onCreate: value =$value")
     }
 
     override fun onResume() {

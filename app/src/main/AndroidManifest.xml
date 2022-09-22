@@ -214,8 +214,10 @@
             android:authorities="mini.provider.info.adapter"
             android:enabled="true"
             android:exported="false"
+            android:grantUriPermissions="true"
             android:readPermission="mini.info.permission.READ_INFO"
             android:writePermission="mini.info.permission.WRITE_INFO" />
+
         <activity android:name=".ui.behavior.provider.ContentProviderPage"/>
 
         <meta-data
