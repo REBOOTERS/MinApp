@@ -213,7 +213,7 @@
             android:name=".ui.behavior.provider.MiniContentProvider"
             android:authorities="mini.provider.info.adapter"
             android:enabled="true"
-            android:exported="false"
+            android:exported="true"
             android:grantUriPermissions="true"
             android:readPermission="mini.info.permission.READ_INFO"
             android:writePermission="mini.info.permission.WRITE_INFO" />

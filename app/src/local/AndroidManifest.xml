@@ -4,7 +4,6 @@
 
     <application>
         <activity android:name="com.engineer.third.CppActivity" />
-        <activity android:name="com.engineer.compose.ui.MainComposeActivity" />
     </application>
 
 </manifest>

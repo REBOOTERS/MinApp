@@ -8,8 +8,8 @@
     <queries>
         <package android:name="com.engineer.android.mini" />
     </queries>
-    <uses-permission android:name="android:name=mini.info.permission.READ_INFO"/>
-    <uses-permission android:name="android:name=mini.info.permission.WRITE_INFO"/>
+    <uses-permission android:name="mini.info.permission.READ_INFO"/>
+    <uses-permission android:name="mini.info.permission.WRITE_INFO"/>
 
     <application
         android:allowBackup="true"

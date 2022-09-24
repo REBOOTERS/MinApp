@@ -8,17 +8,22 @@ import android.os.Process
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.other.contract.ContentProviderReaderHelper
 import com.engineer.other.contract.MiniContract
 import com.engineer.other.skip.SkipActivity
+import com.engineer.other.util.ApplySigningUtils
 
 class OtherMainActivity : AppCompatActivity() {
     private val TAG = "OtherMainActivity_TAG"
+    private lateinit var tv:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
         setContentView(R.layout.activity_other_main)
+
+        tv = findViewById(R.id.tv)
 
         findViewById<View>(R.id.open_skip_sample).setOnClickListener {
             startActivity(Intent(this, SkipActivity::class.java))
@@ -60,6 +65,13 @@ class OtherMainActivity : AppCompatActivity() {
         Log.e(TAG, "currentProcess myUserHandle=" + Process.myUserHandle())
         Log.e(TAG, "currentProcess getElapsedCpuTime=" + Process.getElapsedCpuTime())
         Log.d(TAG, "onResume() called")
+
+        val sign = ApplySigningUtils.getRawSignatureStr(this, this.packageName)
+        Toast.makeText(this, "sign is $sign", Toast.LENGTH_SHORT).show()
+        Log.e(TAG, "sign is $sign")
+        tv.text = sign
+        // 0fa75170f41a70c0ba39427cd0da8842 debug
+        // 11c33d4fece7565736c68b98efc78601 release
     }
 
     override fun onStop() {

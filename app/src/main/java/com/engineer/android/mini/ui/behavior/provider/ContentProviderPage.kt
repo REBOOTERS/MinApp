@@ -26,11 +26,11 @@ class ContentProviderPage : ComponentActivity() {
             }
         }
 
-//        ContentProviderReaderHelper.writeValueToDb(this, "name", "mike")
-//        ContentProviderReaderHelper.writeValueToDb(this, "address", "beijing")
-//        ContentProviderReaderHelper.writeValueToDb(this, "grade", "1")
+        ContentProviderReaderHelper.writeValueToDb(this, "name", "mike")
+        ContentProviderReaderHelper.writeValueToDb(this, "address", "beijing")
+        ContentProviderReaderHelper.writeValueToDb(this, "grade", "1")
 
-        Log.e(TAG, "value = ${ContentProviderReaderHelper.read(this, "name")}")
+//        Log.e(TAG, "value = ${ContentProviderReaderHelper.read(this, "name")}")
 
     }
 

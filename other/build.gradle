@@ -25,6 +25,12 @@ android {
             storeFile file(MYAPP_RELEASE_STORE_FILE)
             storePassword MYAPP_RELEASE_STORE_PASSWORD
         }
+        debug {
+            keyAlias "other"
+            keyPassword "123456"
+            storeFile file("other_debug.jks")
+            storePassword "123456"
+        }
     }
 
     buildTypes {
