@@ -162,6 +162,7 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
 //    implementation 'com.facebook.shimmer:shimmer:0.6.0'
+    implementation 'com.github.SherlockGougou:BigImageViewPager:androidx-7.0.4'
 }
 
 apply from: file("../custom-gradle/test-dep.gradle") // unit test

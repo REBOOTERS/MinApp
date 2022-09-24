@@ -19,6 +19,11 @@
             android:layout_height="wrap_content"
             android:text="allow screen capture" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/storage_query"
+            style="@style/mw_10_margin"
+            android:text="picture_query" />
+
         <Button
             android:id="@+id/settings"
             style="@style/mw_10_margin"
@@ -71,10 +76,7 @@
             style="@style/mw_10_margin"
             android:text="Open The Activity By Url" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/storage_query"
-            style="@style/mw_10_margin"
-            android:text="picture_query" />
+
 
         <Button
             android:id="@+id/addImageToAlbum"

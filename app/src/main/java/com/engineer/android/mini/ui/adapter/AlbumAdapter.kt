@@ -1,15 +1,20 @@
 package com.engineer.android.mini.ui.adapter
 
 import android.content.Context
+import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.engineer.android.mini.R
+import com.engineer.android.mini.ui.pure.ImagePreviewPage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,6 +48,7 @@ class AlbumAdapter(val context: Context, val imageList: ArrayList<Uri>, val imag
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.imageView)
+        val tv: TextView = view.findViewById(R.id.info)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -56,9 +62,23 @@ class AlbumAdapter(val context: Context, val imageList: ArrayList<Uri>, val imag
         holder.imageView.layoutParams.width = imageSize
         holder.imageView.layoutParams.height = imageSize
         val uri = imageList[position]
-        val options =
-            RequestOptions().placeholder(R.drawable.album_loading_bg).override(imageSize, imageSize)
+        val options = RequestOptions().placeholder(R.drawable.album_loading_bg).override(imageSize, imageSize)
+
+        val bitmapOptions = BitmapFactory.Options()
+        bitmapOptions.inJustDecodeBounds = true
+        val inputStream = context.contentResolver.openInputStream(uri)
+        val bitmap = BitmapFactory.decodeStream(inputStream, null, bitmapOptions)
+        val w = bitmapOptions.outWidth
+        val h = bitmapOptions.outHeight
+        Log.e("AlbumAdapter", "w=$w,h=$h")
+        holder.tv.text = "w=$w,h=$h"
         Glide.with(context).load(uri).apply(options).into(holder.imageView)
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(it.context, ImagePreviewPage::class.java)
+            intent.putExtra("uri", uri.toString())
+            it.context.startActivity(intent)
+        }
     }
 
 }
