@@ -33,7 +33,7 @@ class SkipService : AccessibilityService() {
 //                return
 //            }
             Log.d(TAG, "pkg = ${event.packageName},clz = ${event.className}")
-            when (nodeInfo.packageName.toString()) {
+            when (nodeInfo.packageName?.toString()) {
                 "com.engineer.other" -> {
                     val all = rootInActiveWindow
                     Log.e(TAG, "all is $all")
