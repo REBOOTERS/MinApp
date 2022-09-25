@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,148 +9,155 @@
     android:paddingTop="58dp"
     tools:context=".ui.pure.MessyActivity">
 
-    <TextView
-        android:id="@+id/real_marquee"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:ellipsize="marquee"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:marqueeRepeatLimit="100"
-        android:scrollHorizontally="true"
-        android:singleLine="true"
-        android:text="Single-line text view that scrolls automatically if the text is too long to fit in the widget" />
-
-    <HorizontalScrollView
-        android:id="@+id/ann_text_scroll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:background="#FF5722"
-        android:scrollbars="none">
-
-        <TextView
-            android:id="@+id/ann_text"
-            android:layout_width="312dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="@string/middle_chinese_content"
-            android:textSize="12sp" />
-    </HorizontalScrollView>
-
-    <TextView
-        android:id="@+id/test_span"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="ABCDEFG_HIJKLMN_OPQRST" />
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
 
         <TextView
-            android:id="@+id/content_view"
-            style="@style/mw_10_margin"
-            android:text="@string/long_chinese_content" />
+            android:id="@+id/real_marquee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="100"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="Single-line text view that scrolls automatically if the text is too long to fit in the widget" />
 
-        <ImageView
-            android:id="@+id/content_img"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_alignStart="@id/content_view"
-            android:layout_alignTop="@id/content_view"
-            android:scaleType="fitXY"
-            android:src="@drawable/phone"
-            tools:layout_width="100dp" />
+        <HorizontalScrollView
+            android:id="@+id/ann_text_scroll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="#FF5722"
+            android:scrollbars="none">
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/ann_text"
+                android:layout_width="312dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/middle_chinese_content"
+                android:textSize="12sp" />
+        </HorizontalScrollView>
 
-    <com.google.android.material.slider.Slider style="@style/mw_10_margin" />
+        <TextView
+            android:id="@+id/test_span"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="ABCDEFG_HIJKLMN_OPQRST" />
 
-    <com.google.android.material.slider.RangeSlider
-        android:id="@+id/range_slider"
-        style="@style/mw_10_margin" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <FrameLayout
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_margin="10dp"
-        android:background="#66000000">
+            <TextView
+                android:id="@+id/content_view"
+                style="@style/mw_10_margin"
+                android:text="@string/long_chinese_content" />
+
+            <ImageView
+                android:id="@+id/content_img"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_alignStart="@id/content_view"
+                android:layout_alignTop="@id/content_view"
+                android:scaleType="fitXY"
+                android:src="@drawable/phone"
+                tools:layout_width="100dp" />
+
+        </RelativeLayout>
+
+        <com.google.android.material.slider.Slider style="@style/mw_10_margin" />
+
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/range_slider"
+            style="@style/mw_10_margin" />
 
         <FrameLayout
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-            android:layout_gravity="center"
-            android:background="@drawable/mini_gift_bg" />
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_margin="10dp"
+            android:background="#66000000">
+
+            <FrameLayout
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center"
+                android:background="@drawable/mini_gift_bg" />
+
+            <ImageView
+                android:id="@+id/gift_iv"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/flower" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/mini_progress_bar" />
+
+        </FrameLayout>
 
         <ImageView
-            android:id="@+id/gift_iv"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:src="@drawable/flower" />
+            android:id="@+id/level_list_test"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_margin="10dp" />
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-            android:layout_gravity="center"
-            android:indeterminate="false"
-            android:progressDrawable="@drawable/mini_progress_bar" />
-
-    </FrameLayout>
-
-    <ImageView
-        android:id="@+id/level_list_test"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_margin="10dp" />
-
-    <com.google.android.flexbox.FlexboxLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:flexWrap="wrap">
-
-        <Button
-            android:id="@+id/test_timer"
-            android:layout_width="wrap_content"
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="test_timer" />
+            app:flexWrap="wrap">
 
-        <Button
-            android:id="@+id/add_file"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="add_file" />
+            <Button
+                android:id="@+id/test_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="test_timer" />
 
-        <Button
-            android:id="@+id/delete_file"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="delete_file" />
+            <Button
+                android:id="@+id/add_file"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="add_file" />
 
-        <Button
-            android:id="@+id/request_overlay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="request_overlay" />
-        <Button
-            android:id="@+id/callback_to"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="callback_to" />
+            <Button
+                android:id="@+id/delete_file"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="delete_file" />
 
-    </com.google.android.flexbox.FlexboxLayout>
+            <Button
+                android:id="@+id/request_overlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="request_overlay" />
 
+            <Button
+                android:id="@+id/callback_to"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="callback_to" />
 
-</LinearLayout>
+        </com.google.android.flexbox.FlexboxLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

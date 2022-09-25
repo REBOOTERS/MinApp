@@ -12,6 +12,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RemoteViews
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -40,8 +41,7 @@ class SimpleNotification : NotificationBuilder {
         receiverStop.action = "stop_action"
         receiverStop.putExtra("channelId", CHANNEL_ID)
         val pendingIntent = PendingIntent.getBroadcast(
-            context, 0, receiverStop,
-            PendingIntent.FLAG_IMMUTABLE
+            context, 0, receiverStop, PendingIntent.FLAG_IMMUTABLE
         )
         val receiver = Intent(context, SimpleBroadcastReceiver::class.java)
         receiver.action = "start_action"
@@ -49,18 +49,12 @@ class SimpleNotification : NotificationBuilder {
         val pendingIntent1 = PendingIntent.getBroadcast(
             context, 0, receiver, PendingIntent.FLAG_IMMUTABLE
         )
-        return NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_baseline_notifications_24)
-            .setContentTitle(textTitle)
-            .setContentText(textContent)
-            .setStyle(
-                NotificationCompat.BigTextStyle()
-                    .bigText(
-                        "Much longer text that cannot fit one line " +
-                                ",longer text that cannot fit one line ..."
+        return NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_baseline_notifications_24)
+            .setContentTitle(textTitle).setContentText(textContent).setStyle(
+                NotificationCompat.BigTextStyle().bigText(
+                        "Much longer text that cannot fit one line " + ",longer text that cannot fit one line ..."
                     )
-            )
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            ).setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .addAction(R.drawable.ic_baseline_stop_24, "停止", pendingIntent)
             .addAction(R.drawable.ic_baseline_play_arrow_24, "开始", pendingIntent1)
     }
@@ -75,18 +69,12 @@ class MyForegroundNotification : NotificationBuilder {
 
     override fun provideNotification(context: Context): NotificationCompat.Builder {
 
-        return NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_baseline_notifications_red_24)
-            .setContentTitle(textTitle)
-            .setContentText(textContent)
-            .setStyle(
-                NotificationCompat.BigTextStyle()
-                    .bigText(
-                        "前台通知内容 前台通知内容前台通知内容前台通知内容前台通知内容 " +
-                                ",前台通知内容前台通知内容前台通知内容..."
+        return NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_baseline_notifications_red_24)
+            .setContentTitle(textTitle).setContentText(textContent).setStyle(
+                NotificationCompat.BigTextStyle().bigText(
+                        "前台通知内容 前台通知内容前台通知内容前台通知内容前台通知内容 " + ",前台通知内容前台通知内容前台通知内容..."
                     )
-            )
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            ).setPriority(NotificationCompat.PRIORITY_DEFAULT)
     }
 
     override fun provideChannelId(): String {
@@ -110,15 +98,12 @@ class CustomNotification : NotificationBuilder {
         val receiverStop = Intent(context, SimpleBroadcastReceiver::class.java)
         receiverStop.action = "stop_service"
         val pendingIntent = PendingIntent.getBroadcast(
-            context, 0, receiverStop,
-            PendingIntent.FLAG_IMMUTABLE
+            context, 0, receiverStop, PendingIntent.FLAG_IMMUTABLE
         )
         customView.setOnClickPendingIntent(R.id.close_notify, pendingIntent)
 
-        return NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_baseline_notifications_red_24)
-            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
-            .setCustomContentView(customView)
+        return NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_baseline_notifications_red_24)
+            .setStyle(NotificationCompat.DecoratedCustomViewStyle()).setCustomContentView(customView)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
     }
 
@@ -140,11 +125,8 @@ class SimpleBroadcastReceiver : BroadcastReceiver() {
     private val TAG = "SimpleBroadcastReceiver"
     override fun onReceive(context: Context?, intent: Intent?) {
         Log.e(
-            TAG, "onReceive() called with:, "
-                    + "action = ${intent?.action} ,"
-                    + "extra = ${
-                intent?.getStringExtra("channelId")
-                    ?: intent?.getStringExtra("start_id")
+            TAG, "onReceive() called with:, " + "action = ${intent?.action} ," + "extra = ${
+                intent?.getStringExtra("channelId") ?: intent?.getStringExtra("start_id")
             }"
         )
         Log.d(TAG, "onReceive() called with: context = $context, intent = $intent")
@@ -171,8 +153,7 @@ class MyForegroundService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(
-            TAG,
-            "onStartCommand() called with: intent = $intent, flags = $flags, startId = $startId"
+            TAG, "onStartCommand() called with: intent = $intent, flags = $flags, startId = $startId"
         )
         val type = intent?.getStringExtra("type") ?: "standard"
 
@@ -204,8 +185,7 @@ class MyBackgroundService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(
-            TAG,
-            "onStartCommand() called with: intent = $intent, flags = $flags, startId = $startId"
+            TAG, "onStartCommand() called with: intent = $intent, flags = $flags, startId = $startId"
         )
         return super.onStartCommand(intent, flags, startId)
     }
@@ -222,8 +202,7 @@ class MyBackgroundProcess : Service() {
     override fun onCreate() {
         super.onCreate()
         Log.e(
-            TAG,
-            "process pid " + Process.myPid() + ",is64Bit= " + Process.is64Bit()
+            TAG, "process pid " + Process.myPid() + ",is64Bit= " + Process.is64Bit()
         )
         Log.d(TAG, "onCreate() called")
     }
@@ -235,8 +214,7 @@ class MyBackgroundProcess : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(
-            TAG,
-            "onStartCommand() called with: intent = $intent, flags = $flags, startId = $startId"
+            TAG, "onStartCommand() called with: intent = $intent, flags = $flags, startId = $startId"
         )
         val intent = Intent(this, MyBackgroundService::class.java)
         OpenTaskManager.startApp(this, intent)
@@ -253,8 +231,7 @@ class MyBackgroundProcess : Service() {
 object NotificationHelper {
 
     private fun createNotificationChannel(
-        context: Context,
-        builder: NotificationBuilder
+        context: Context, builder: NotificationBuilder
     ) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -278,20 +255,21 @@ object NotificationHelper {
         val simpleNotification = SimpleNotification()
         val builder = simpleNotification.provideNotification(context)
         createNotificationChannel(
-            context,
-            simpleNotification
+            context, simpleNotification
         )
-        NotificationManagerCompat.from(context)
-            .notify(System.currentTimeMillis().toInt(), builder.build())
+        NotificationManagerCompat.from(context).notify(System.currentTimeMillis().toInt(), builder.build())
     }
 
     fun provideForegroundNotification(context: Context, type: String): Notification {
 
-        val myForegroundNotification =
-            if (type == "standard") MyForegroundNotification() else CustomNotification()
+        val myForegroundNotification = if (type == "standard") MyForegroundNotification() else CustomNotification()
         val builder = myForegroundNotification.provideNotification(context)
         createNotificationChannel(context, myForegroundNotification)
         return builder.build()
+    }
+
+    fun openSetting() {
+
     }
 }
 
@@ -305,6 +283,20 @@ class NotifyActivity : AppCompatActivity() {
         )
         val margin = 10.dp
         param.setMargins(margin, margin, margin, margin)
+
+        val isNotifyEnable = NotificationManagerCompat.from(this).areNotificationsEnabled()
+
+        val tv = TextView(this)
+        "notification enable ? $isNotifyEnable".also { tv.text = it }
+        contentView.addView(tv, param)
+
+
+        val openNotifySetting = Button(this)
+        openNotifySetting.text = "打开通知设置"
+        openNotifySetting.setOnClickListener {
+
+        }
+        contentView.addView(openNotifySetting, param)
 
         val simpleNotify = Button(this)
         simpleNotify.text = "simple Notify"

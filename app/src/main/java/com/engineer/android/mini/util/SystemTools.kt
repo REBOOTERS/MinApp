@@ -1,12 +1,15 @@
 package com.engineer.android.mini.util
 
+import android.content.ComponentName
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import com.engineer.android.mini.BuildConfig
 
 
@@ -28,8 +31,8 @@ object SystemTools {
         if (scheme == null) data = uri.path else if (ContentResolver.SCHEME_FILE == scheme) {
             data = uri.path
         } else if (ContentResolver.SCHEME_CONTENT == scheme) {
-            val cursor: Cursor? = context.contentResolver
-                .query(uri, arrayOf(MediaStore.Images.ImageColumns.DATA), null, null, null)
+            val cursor: Cursor? =
+                context.contentResolver.query(uri, arrayOf(MediaStore.Images.ImageColumns.DATA), null, null, null)
             if (null != cursor) {
                 if (cursor.moveToFirst()) {
                     val index: Int = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
@@ -50,8 +53,8 @@ object SystemTools {
         if (scheme == null) data = uri.path else if (ContentResolver.SCHEME_FILE == scheme) {
             data = uri.path
         } else if (ContentResolver.SCHEME_CONTENT == scheme) {
-            val cursor: Cursor? = context.contentResolver
-                .query(uri, arrayOf(MediaStore.Video.VideoColumns.DATA), null, null, null)
+            val cursor: Cursor? =
+                context.contentResolver.query(uri, arrayOf(MediaStore.Video.VideoColumns.DATA), null, null, null)
             if (null != cursor) {
                 if (cursor.moveToFirst()) {
                     val index: Int = cursor.getColumnIndex(MediaStore.Video.VideoColumns.DATA)
@@ -72,8 +75,7 @@ object SystemTools {
             cursor.moveToFirst()
             val index = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME)
             if (index >= 0) {
-                fileName =
-                    cursor.getString(index) ?: "error name"
+                fileName = cursor.getString(index) ?: "error name"
             }
             cursor.close()
         }
@@ -90,5 +92,20 @@ object SystemTools {
         Log.d(TAG, "getManifestPlaceHolderValue() called with: exported = $exported")
 
     }
+
     fun isLocalFlavor() = BuildConfig.FLAVOR_type == "local"
+
+    fun openRecentActivity(context: Context) {
+        val componetName = ComponentName(
+            "com.android.systemui",  //这个是另外一个应用程序的包名
+            "com.android.systemui.recents.RecentsActivity"
+        );   //这个参数是要启动的Activity的全路径名
+        try {
+            val intent = Intent();
+            intent.component = componetName;
+            context.startActivity(intent);
+        } catch (e: Exception) {
+            Toast.makeText(context, "跳转异常，请检查跳转配置、包名及Activity访问权限", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

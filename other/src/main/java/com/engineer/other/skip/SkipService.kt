@@ -16,13 +16,13 @@ class SkipService : AccessibilityService() {
     private val TAG = "SkipService"
     override fun onServiceConnected() {
         super.onServiceConnected()
-        val config = AccessibilityServiceInfo()
-        //配置监听的事件类型为界面变化|点击事件
-        config.eventTypes =
-            AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED or AccessibilityEvent.TYPE_VIEW_CLICKED
-        config.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC
-        config.flags = AccessibilityServiceInfo.FLAG_INCLUDE_NOT_IMPORTANT_VIEWS
-        serviceInfo = config
+//        val config = AccessibilityServiceInfo()
+//        //配置监听的事件类型为界面变化|点击事件
+//        config.eventTypes =
+//            AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED or AccessibilityEvent.TYPE_VIEW_CLICKED
+//        config.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC
+//        config.flags = AccessibilityServiceInfo.FLAG_INCLUDE_NOT_IMPORTANT_VIEWS
+//        serviceInfo = config
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
@@ -40,6 +40,7 @@ class SkipService : AccessibilityService() {
                     val info =
                         nodeInfo.findAccessibilityNodeInfosByViewId("com.engineer.other:id/jump_ad")
                     Log.e(TAG, "info is $info")
+                    performGlobalAction(GLOBAL_ACTION_RECENTS)
                     skip(info)
                 }
                 "com.netease.cloudmusic" -> Handler(Looper.getMainLooper()).postDelayed(

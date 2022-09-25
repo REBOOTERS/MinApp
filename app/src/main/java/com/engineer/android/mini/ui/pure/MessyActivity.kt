@@ -148,8 +148,7 @@ class MessyActivity : BaseActivity() {
         val floatArray = floatArrayOf(55f, 55f, 5f, 5f, 5f, 5f, 5f, 5f)
 //        realBinding.nullBgTv.background = ShapeDrawable(RoundRectShape(floatArray,null,null))
 
-        val len1 =
-            realBinding.contentView.paint.measureText(realBinding.contentView.text.toString())
+        val len1 = realBinding.contentView.paint.measureText(realBinding.contentView.text.toString())
         val len = realBinding.annText.paint.measureText(realBinding.annText.text.toString())
         Log.e("len-measure", "len1=$len1,len=$len")
 
@@ -164,8 +163,7 @@ class MessyActivity : BaseActivity() {
         }
         realBinding.annText.post {
             Log.e(
-                "ddd",
-                "sss = ${realBinding.annText.paint.measureText(realBinding.annText.text.toString())}"
+                "ddd", "sss = ${realBinding.annText.paint.measureText(realBinding.annText.text.toString())}"
             )
             Log.e("ddd", "s = ${realBinding.annTextScroll.width} w=$w")
             x = realBinding.annText.scrollX
@@ -181,8 +179,7 @@ class MessyActivity : BaseActivity() {
 
         realBinding.rangeSlider.addOnChangeListener { _, value, fromUser ->
             Log.e(
-                TAG,
-                "onCreate() called with: value = $value, fromUser = $fromUser"
+                TAG, "onCreate() called with: value = $value, fromUser = $fromUser"
             )
             var v = 300 * value
             p.width = value.toInt()
@@ -202,8 +199,7 @@ class MessyActivity : BaseActivity() {
             s.setSpan(imageSpan, start, start + target.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
             realBinding.contentView.text = s
 
-            val lenn =
-                realBinding.contentView.paint.measureText(realBinding.contentView.text.toString())
+            val lenn = realBinding.contentView.paint.measureText(realBinding.contentView.text.toString())
             Log.e("len-measure", "lenn=$lenn")
         }
         realBinding.rangeSlider.setValues(0.3f)
@@ -236,8 +232,7 @@ class MessyActivity : BaseActivity() {
 
         realBinding.requestOverlay.setOnClickListener {
             val intent = Intent(
-                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                Uri.parse("package:$packageName")
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")
             )
 //            startActivityForResult(intent, 100)
 
@@ -252,8 +247,7 @@ class MessyActivity : BaseActivity() {
         val ids = intArrayOf(R.drawable.ic_baseline_add_24, R.drawable.ic_action_close)
         val levelListDrawable = LevelListDrawable()
         for (i in ids.indices) {
-            val drawable =
-                resources.getDrawableForDensity(ids[i], resources.displayMetrics.densityDpi)
+            val drawable = resources.getDrawableForDensity(ids[i], resources.displayMetrics.densityDpi)
             levelListDrawable.addLevel(0, i, drawable)
         }
         realBinding.levelListTest.setImageDrawable(levelListDrawable)
