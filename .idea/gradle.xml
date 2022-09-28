@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/compose" />
+            <option value="$PROJECT_DIR$/lib_jar" />
             <option value="$PROJECT_DIR$/other" />
             <option value="$PROJECT_DIR$/thirdlib" />
           </set>
