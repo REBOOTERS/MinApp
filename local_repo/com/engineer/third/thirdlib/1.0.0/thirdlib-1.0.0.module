@@ -1,0 +1,97 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.engineer.third",
+    "module": "thirdlib",
+    "version": "1.0.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.4"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.google.android.material",
+          "module": "material",
+          "version": {
+            "requires": "1.6.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "thirdlib-1.0.0.aar",
+          "url": "thirdlib-1.0.0.aar",
+          "size": 526371,
+          "sha512": "5da9e40a007f0b1817c668ed89bddaa796f7580c862887aed09740cd599916987f4f963e16e4c07c8cf0fc321d235780ed630b061e24c774c0bffb926e38bc5c",
+          "sha256": "ef71922ea2a612f48472c16e9624464dc2b1c60a547f8b356aa186b067129da5",
+          "sha1": "5271a58774ebf0b614e24ff15386ca3e7fc7180c",
+          "md5": "2d997286383c550fe8974703ce5537b4"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.google.android.material",
+          "module": "material",
+          "version": {
+            "requires": "1.6.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.5.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "thirdlib-1.0.0.aar",
+          "url": "thirdlib-1.0.0.aar",
+          "size": 526371,
+          "sha512": "5da9e40a007f0b1817c668ed89bddaa796f7580c862887aed09740cd599916987f4f963e16e4c07c8cf0fc321d235780ed630b061e24c774c0bffb926e38bc5c",
+          "sha256": "ef71922ea2a612f48472c16e9624464dc2b1c60a547f8b356aa186b067129da5",
+          "sha1": "5271a58774ebf0b614e24ff15386ca3e7fc7180c",
+          "md5": "2d997286383c550fe8974703ce5537b4"
+        }
+      ]
+    }
+  ]
+}
