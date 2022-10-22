@@ -218,9 +218,6 @@
             android:readPermission="mini.info.permission.READ_INFO"
             android:writePermission="mini.info.permission.WRITE_INFO" />
 
-        <activity android:name=".ui.behavior.provider.ContentProviderPage" />
-        <activity android:name=".ui.pure.ImagePreviewPage" />
-
         <meta-data
             android:name="android.max_aspect"
             android:value="${max_aspect}" /> <!-- just for test replace other config -->

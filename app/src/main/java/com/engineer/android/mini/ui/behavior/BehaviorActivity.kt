@@ -24,8 +24,8 @@ import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityBehaviorBinding
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
-import com.engineer.android.mini.ui.behavior.provider.ContentProviderPage
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
+import com.engineer.android.mini.ui.pure.MessyActivity
 import com.engineer.android.mini.util.SystemTools
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.BufferedInputStream
@@ -77,7 +77,7 @@ class BehaviorActivity : AppCompatActivity() {
             gotoActivity(BroadcastPage::class.java)
         }
         viewBinding.contentProviderCase.setOnClickListener {
-            gotoActivity(ContentProviderPage::class.java)
+            gotoActivity(MessyActivity::class.java)
         }
 
         viewBinding.webViewCase.setOnClickListener {

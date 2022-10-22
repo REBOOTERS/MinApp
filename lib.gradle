@@ -1,23 +1,24 @@
 ext {
-    compileSdkVersion = 32
+    compileSdkVersion = 33
     minSdkVersion = 23
-    targetSdkVersion = 32
+    targetSdkVersion = 33
 
 
     kotlin_version = '1.6.10'
-    gradle_version = '7.3.0'
+    gradle_version = '7.3.1'
 
     kotlin_coroutines = '1.4.1'
 
     AndResGuard_gradle_plugin = '1.2.21'
 
     appcompat = '1.5.1'
-    core_ktx = '1.8.0'
+    core_ktx = '1.9.0'
     constraint_layout = '2.1.4'
-    material = '1.6.1'
+    material = '1.7.0'
 
 
     compose_version = '1.1.1'
+    compose_tools_version = '1.2.1'
 
     android_hilt_version = '2.40.1'
 

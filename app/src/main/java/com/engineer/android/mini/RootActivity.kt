@@ -57,9 +57,7 @@ class RootActivity : BaseActivity() {
 
 
     private fun printSysInfo() {
-        val d = Observable.interval(0L, 1L, TimeUnit.SECONDS)
-            .compose(ThreadExTransform())
-            .subscribe {
+        val d = Observable.interval(0L, 1L, TimeUnit.SECONDS).compose(ThreadExTransform()).subscribe {
                 val oneMB = 1024 * 1024f
                 val sb = StringBuilder()
 
@@ -103,13 +101,11 @@ class RootActivity : BaseActivity() {
         val viewModel = ViewModelProvider(this).get(ProducerConsumerViewModel::class.java)
         viewModel.consumer()
 
-        val d = Observable.interval(0, 2, TimeUnit.SECONDS)
-            .subscribe {
+        val d = Observable.interval(0, 2, TimeUnit.SECONDS).subscribe {
                 viewModel.add(it.toString())
             }
 
-        val d1 = Observable.interval(0, 2500, TimeUnit.MILLISECONDS)
-            .subscribe {
+        val d1 = Observable.interval(0, 2500, TimeUnit.MILLISECONDS).subscribe {
                 viewModel.consumer()
             }
         disposeOn.add(d1)
@@ -191,11 +187,7 @@ class RootActivity : BaseActivity() {
                 Blurry.delete(viewBinding.root)
             } else {
                 val now = System.currentTimeMillis()
-                Blurry.with(this)
-                    .radius(25)
-                    .sampling(1)
-                    .color(Color.argb(66, 0, 255, 255))
-                    .async()
+                Blurry.with(this).radius(25).sampling(1).color(Color.argb(66, 0, 255, 255)).async()
                     .onto(viewBinding.root)
                 "time is ${System.currentTimeMillis() - now}".toast()
             }
@@ -225,15 +217,13 @@ class RootActivity : BaseActivity() {
     private fun handlePermissions() {
         val permissionsToRequire = ArrayList<String>()
         if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
+                this, Manifest.permission.READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             permissionsToRequire.add(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
         if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                this, Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             permissionsToRequire.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -244,16 +234,13 @@ class RootActivity : BaseActivity() {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 0) {
             for (result in grantResults) {
                 if (result != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "You must allow all the permissions.", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(this, "You must allow all the permissions.", Toast.LENGTH_SHORT).show()
 //                    finish()
                 }
             }

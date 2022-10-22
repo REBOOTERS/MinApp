@@ -1,7 +1,6 @@
 package com.engineer.android.mini.ui.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.engineer.android.mini.R
-import com.engineer.android.mini.ui.pure.ImagePreviewPage
+import com.engineer.android.mini.ext.toast
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -75,9 +74,7 @@ class AlbumAdapter(val context: Context, val imageList: ArrayList<Uri>, val imag
         Glide.with(context).load(uri).apply(options).into(holder.imageView)
 
         holder.itemView.setOnClickListener {
-            val intent = Intent(it.context, ImagePreviewPage::class.java)
-            intent.putExtra("uri", uri.toString())
-            it.context.startActivity(intent)
+            uri.toString().toast()
         }
     }
 

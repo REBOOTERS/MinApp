@@ -15,10 +15,10 @@ class RoundDrawable : Drawable() {
         paint.color = Color.RED
     }
 
-    override fun onBoundsChange(bounds: Rect?) {
+    override fun onBoundsChange(bounds: Rect) {
         super.onBoundsChange(bounds)
         Log.d(TAG, "onBoundsChange() called with: bounds = $bounds")
-        bounds?.let {
+        bounds.let {
             val padding = 10.dp
             val paddingRound = Rect(
                 it.left - padding,

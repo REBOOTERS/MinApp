@@ -34,6 +34,7 @@ import com.engineer.android.mini.ext.screenWidth
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.proguards.*
 import com.engineer.android.mini.ui.BaseActivity
+import com.engineer.android.mini.ui.behavior.provider.ContentProviderReaderHelper
 import com.engineer.android.mini.ui.pure.helper.SimpleCallback
 import com.engineer.android.mini.util.JavaUtil
 import com.engineer.android.mini.util.RxTimer
@@ -313,7 +314,7 @@ class MessyActivity : BaseActivity() {
             updateProgress(time)
         }
         timeAnimator.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationStart(animation: Animator?) {
+            override fun onAnimationStart(animation: Animator) {
                 updateProgress(TOTAL_TIME)
             }
         })
@@ -322,6 +323,11 @@ class MessyActivity : BaseActivity() {
         realBinding.progressBar.setOnClickListener {
             timeAnimator.start()
         }
+        ContentProviderReaderHelper.writeValueToDb(this, "name", "mike")
+        ContentProviderReaderHelper.writeValueToDb(this, "address", "beijing")
+        ContentProviderReaderHelper.writeValueToDb(this, "grade", "1")
+
+//        Log.e(TAG, "value = ${ContentProviderReaderHelper.read(this, "name")}")
     }
 
     private fun updateProgress(progress: Int) {
