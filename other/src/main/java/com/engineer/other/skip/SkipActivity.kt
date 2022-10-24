@@ -53,7 +53,7 @@ class SkipActivity : AppCompatActivity() {
     private fun hideAccessibility(adView: View) {
         adView.accessibilityDelegate = object : View.AccessibilityDelegate() {
             override fun performAccessibilityAction(
-                host: View?,
+                host: View,
                 action: Int,
                 args: Bundle?
             ): Boolean {

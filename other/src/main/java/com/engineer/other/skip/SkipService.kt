@@ -33,7 +33,7 @@ class SkipService : AccessibilityService() {
 //                return
 //            }
             Log.d(TAG, "pkg = ${event.packageName},clz = ${event.className}")
-            when (nodeInfo.packageName?.toString()) {
+            when (nodeInfo?.packageName?.toString()) {
                 "com.engineer.other" -> {
                     val all = rootInActiveWindow
                     Log.e(TAG, "all is $all")
@@ -92,9 +92,9 @@ class SkipService : AccessibilityService() {
         }
     }
 
-    private fun commonHandle(nodeInfo: AccessibilityNodeInfo) {
-        Log.e(TAG, "start handle pkg = " + nodeInfo.packageName)
-        val nodeInfoList = nodeInfo.findAccessibilityNodeInfosByText("跳过")
+    private fun commonHandle(nodeInfo: AccessibilityNodeInfo?) {
+        Log.e(TAG, "start handle pkg = " + nodeInfo?.packageName)
+        val nodeInfoList = nodeInfo?.findAccessibilityNodeInfosByText("跳过") ?: emptyList()
         Log.e(TAG, "nodeInfoList size = ${nodeInfoList.size}")
         for (info in nodeInfoList) {
             Log.e(TAG, "node is $info")
