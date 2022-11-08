@@ -83,7 +83,7 @@ android {
 //            aidl.srcDirs = ['src/main/aidl']
         }
     }
-    flavorDimensions "channel", "type"
+    flavorDimensions  "type","channel"
     productFlavors {
         xiaomi {
             dimension "channel"
@@ -101,6 +101,28 @@ android {
         local {
             dimension "type"
         }
+
+
+    }
+    variantFilter { variant ->
+        println "variant is ${variant.flavors*.name}"
+        def dimens = variant.flavors*.name
+        def type = dimens[0]
+        def channel = dimens[1]
+        switch (type) {
+            case "global":
+                if(channel == "xiaomi") {
+                    setIgnore(true)
+                }
+                break
+            case "local":
+                if(channel == "oppo") {
+                    setIgnore(true)
+                }
+                break
+        }
+
+
     }
     namespace 'com.engineer.android.mini'
     lint {
