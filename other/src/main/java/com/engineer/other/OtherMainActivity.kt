@@ -84,11 +84,6 @@ class OtherMainActivity : AppCompatActivity() {
         Log.d(TAG, "onDestroy() called")
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        finish()
-    }
-
     override fun finish() {
         super.finish()
         Log.d(TAG, "finish() called")

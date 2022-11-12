@@ -17,6 +17,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.MediaController
+import androidx.activity.OnBackPressedCallback
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityMediaBinding
 import com.engineer.android.mini.ext.toast
@@ -95,6 +96,17 @@ class VideoActivity : BaseActivity() {
 
         register()
         Log.d(TAG, "onCreate() called with: or = $requestedOrientation")
+
+        val onBackPressedCallback = object :OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (landscape) {
+                    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                    viewBinding.fullScreen.setImageResource(R.drawable.ic_baseline_fullscreen_24)
+                    landscape = !landscape
+                }
+            }
+        }
+        onBackPressedDispatcher.addCallback(onBackPressedCallback)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -108,16 +120,6 @@ class VideoActivity : BaseActivity() {
             val filter = IntentFilter()
             filter.addAction(action)
             registerReceiver(it, filter)
-        }
-    }
-
-    override fun onBackPressed() {
-        if (landscape) {
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            viewBinding.fullScreen.setImageResource(R.drawable.ic_baseline_fullscreen_24)
-            landscape = !landscape
-        } else {
-            super.onBackPressed()
         }
     }
 

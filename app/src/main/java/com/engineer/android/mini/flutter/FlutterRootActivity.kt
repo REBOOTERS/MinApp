@@ -1,6 +1,8 @@
 package com.engineer.android.mini.flutter
 
 import android.os.Bundle
+import android.window.OnBackInvokedDispatcher
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.engineer.android.mini.databinding.ActivityFlutterRootBinding
 import com.engineer.android.mini.ui.BaseActivity
@@ -33,15 +35,15 @@ class FlutterRootActivity : BaseActivity() {
 //                .replace(R.id.flutter_container, currentFragment!!)
 //                .commitAllowingStateLoss()
         }
-    }
 
-    override fun onBackPressed() {
-        if (supportFragmentManager.fragments.size > 0 && currentFragment != null) {
-            supportFragmentManager.beginTransaction().remove(currentFragment!!)
-                .commitAllowingStateLoss()
-            return
+        val onBackPressCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (supportFragmentManager.fragments.size > 0 && currentFragment != null) {
+                    supportFragmentManager.beginTransaction().remove(currentFragment!!)
+                        .commitAllowingStateLoss()
+                }
+            }
         }
-        super.onBackPressed()
-
+        onBackPressedDispatcher.addCallback(onBackPressCallback)
     }
 }

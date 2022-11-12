@@ -97,12 +97,4 @@ class SimpleVideoActivity : AppCompatActivity() {
         player2?.release()
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-    }
-
 }
