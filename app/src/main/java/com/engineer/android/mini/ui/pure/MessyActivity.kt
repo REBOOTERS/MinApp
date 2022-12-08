@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.app.Activity
+import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -106,6 +107,16 @@ class MessyActivity : BaseActivity() {
         Looper.myQueue().addIdleHandler {
             "ha 😄 idle-handler is work".toast()
             false
+        }
+
+        val am = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val tasks = am.getRunningTasks(2)
+        tasks.forEach {
+            Log.e(TAG, "task = $it")
+        }
+        val process = am.runningAppProcesses
+        process.forEach {
+            Log.e(TAG, "process = $it")
         }
     }
 
@@ -241,6 +252,13 @@ class MessyActivity : BaseActivity() {
         }
         realBinding.callbackTo.setOnClickListener {
             callback?.onResult("this is from ${this.javaClass.name}")
+        }
+        realBinding.openWifiSettings.setOnClickListener {
+            val intent = Intent()
+            intent.action = "android.net.wifi.PICK_WIFI_NETWORK"
+//            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+            startActivity(intent)
         }
     }
 

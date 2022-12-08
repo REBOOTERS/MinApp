@@ -9,19 +9,22 @@ object FileChangeWatcher {
 
     private const val TAG = "FileChangePlayground"
     private const val TARGET_FILE_DIR = "file_watcher"
-    val FILE_PATH =
-        MinApp.INSTANCE.filesDir.path + File.separator + TARGET_FILE_DIR
+    val FILE_PATH = MinApp.INSTANCE.filesDir.path + File.separator + TARGET_FILE_DIR
+    private var fileChangeObserver: FileObserver? = null
 
-    private val fileChangeObserver = object : FileObserver(File(FILE_PATH)) {
-        override fun onEvent(event: Int, path: String?) {
-            val flag = Integer.toHexString(event)
-            var filePath = ""
-            path?.let {
-                filePath = FILE_PATH + File.separator + it
+    init {
+        fileChangeObserver = object : FileObserver(File(FILE_PATH)) {
+            override fun onEvent(event: Int, path: String?) {
+                val flag = Integer.toHexString(event)
+                var filePath = ""
+                path?.let {
+                    filePath = FILE_PATH + File.separator + it
+                }
+                Log.d(TAG, "onEvent() called with: event = $flag, path = $filePath")
             }
-            Log.d(TAG, "onEvent() called with: event = $flag, path = $filePath")
         }
     }
+
 
     fun addFile(path: String) {
         Log.d(TAG, "addFile() called with: path = $path")
@@ -50,11 +53,11 @@ object FileChangeWatcher {
             val success = targetDir.mkdir()
             Log.e(TAG, "initObserver: $success")
         }
-        fileChangeObserver.startWatching()
+        fileChangeObserver?.startWatching()
     }
 
     fun stopObserve() {
-        fileChangeObserver.stopWatching()
+        fileChangeObserver?.stopWatching()
     }
 
 }
