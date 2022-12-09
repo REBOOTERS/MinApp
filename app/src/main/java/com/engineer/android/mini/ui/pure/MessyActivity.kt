@@ -35,6 +35,7 @@ import com.engineer.android.mini.ext.screenWidth
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.proguards.*
 import com.engineer.android.mini.ui.BaseActivity
+import com.engineer.android.mini.ui.behavior.DemoDialogActivity
 import com.engineer.android.mini.ui.behavior.provider.ContentProviderReaderHelper
 import com.engineer.android.mini.ui.pure.helper.SimpleCallback
 import com.engineer.android.mini.util.JavaUtil
@@ -258,6 +259,14 @@ class MessyActivity : BaseActivity() {
             intent.action = "android.net.wifi.PICK_WIFI_NETWORK"
 //            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
+            startActivity(intent)
+        }
+        realBinding.openDialog.setOnClickListener {
+            val intent = Intent(this,DemoDialogActivity::class.java)
+            intent.putExtra(DemoDialogActivity.EXTRA_TITLE,"title")
+            intent.putExtra(DemoDialogActivity.EXTRA_MESSAGE,"MSG")
+            intent.putExtra(DemoDialogActivity.EXTRA_LEFT_BTN,"LEFT")
+            intent.putExtra(DemoDialogActivity.EXTRA_RIGHT_BTN,"RIGHT")
             startActivity(intent)
         }
     }

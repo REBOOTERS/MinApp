@@ -7,6 +7,7 @@
     android:background="@drawable/wall"
     android:orientation="vertical"
     android:paddingTop="58dp"
+    android:paddingBottom="58dp"
     tools:context=".ui.pure.MessyActivity">
 
     <LinearLayout
@@ -163,6 +164,13 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="open_wifi_settings" />
+
+            <Button
+                android:id="@+id/open_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="open_dialog" />
 
         </com.google.android.flexbox.FlexboxLayout>
 

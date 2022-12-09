@@ -196,6 +196,10 @@
             android:name=".media.VideoActivity"
             android:configChanges="screenSize|orientation"
             android:exported="true" />
+        <activity android:name=".ui.behavior.DemoDialogActivity"
+            android:theme="@style/alertDialogImage"
+            android:screenOrientation="sensor"
+            />
 
         <service
             android:name=".ui.behavior.MyForegroundService"
