@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
@@ -6,7 +8,7 @@ plugins {
 }
 
 def ext = rootProject.ext
-
+def buildTime = new SimpleDateFormat("yyMMddHHmm").format(new Date())
 android {
     compileSdk ext.compileSdkVersion
 
@@ -134,6 +136,14 @@ android {
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        def versionName = "1.0.0_${buildTime}"
+        variant.outputs.each { output ->
+            println("output = $output,versionName =$versionName")
+            output.versionNameOverride = versionName
         }
     }
 }
