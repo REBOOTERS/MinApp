@@ -5,7 +5,9 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.app.ActivityManager
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -13,16 +15,14 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.LevelListDrawable
 import android.net.Uri
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
+import android.os.*
 import android.provider.Settings
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ImageSpan
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
@@ -268,6 +268,23 @@ class MessyActivity : BaseActivity() {
             intent.putExtra(DemoDialogActivity.EXTRA_LEFT_BTN, "LEFT")
             intent.putExtra(DemoDialogActivity.EXTRA_RIGHT_BTN, "RIGHT")
             startActivity(intent)
+        }
+        realBinding.openSysDialog.setOnClickListener {
+            if (Settings.canDrawOverlays(this)) {
+                val dialog = AlertDialog.Builder(this).setTitle("哈哈").setMessage("this is message")
+                    .setPositiveButton("ok") { dialog, _ -> dialog?.dismiss() }
+                    .setNegativeButton("cancel") { dialog, _ -> dialog?.dismiss() }.create()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    dialog.window?.setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY)
+                } else {
+                    dialog.window?.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
+                }
+                dialog.show()
+            } else {
+                realBinding.requestOverlay.performClick()
+            }
+
+
         }
     }
 

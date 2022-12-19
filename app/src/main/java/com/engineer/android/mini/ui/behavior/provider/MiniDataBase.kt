@@ -22,6 +22,9 @@ class MiniDataBase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         private const val DATABASE_VERSION = 1
 
         private const val SQL_CREATE_TABLES =
-            "create table if not EXISTS  ${MiniContract.Entry.TABLE_NAME} (${MiniContract.Entry._ID} Integer PRIMARY KEY, ${MiniContract.Entry.COLUMN_KEY} TEXT,${MiniContract.Entry.COLUMN_VALUE} TEXT) "
+            "create table if not EXISTS  " +
+                    "${MiniContract.Entry.TABLE_NAME} (${MiniContract.Entry._ID}" +
+                    " Integer PRIMARY KEY, ${MiniContract.Entry.COLUMN_KEY} TEXT," +
+                    "${MiniContract.Entry.COLUMN_VALUE} TEXT) "
     }
 }
