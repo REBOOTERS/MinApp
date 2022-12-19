@@ -262,11 +262,11 @@ class MessyActivity : BaseActivity() {
             startActivity(intent)
         }
         realBinding.openDialog.setOnClickListener {
-            val intent = Intent(this,DemoDialogActivity::class.java)
-            intent.putExtra(DemoDialogActivity.EXTRA_TITLE,"title")
-            intent.putExtra(DemoDialogActivity.EXTRA_MESSAGE,"MSG")
-            intent.putExtra(DemoDialogActivity.EXTRA_LEFT_BTN,"LEFT")
-            intent.putExtra(DemoDialogActivity.EXTRA_RIGHT_BTN,"RIGHT")
+            val intent = Intent(this, DemoDialogActivity::class.java)
+            intent.putExtra(DemoDialogActivity.EXTRA_TITLE, "title")
+            intent.putExtra(DemoDialogActivity.EXTRA_MESSAGE, "MSG")
+            intent.putExtra(DemoDialogActivity.EXTRA_LEFT_BTN, "LEFT")
+            intent.putExtra(DemoDialogActivity.EXTRA_RIGHT_BTN, "RIGHT")
             startActivity(intent)
         }
     }
@@ -282,6 +282,8 @@ class MessyActivity : BaseActivity() {
         realBinding.levelListTest.setOnClickListener {
             realBinding.levelListTest.setImageLevel(1 - realBinding.levelListTest.drawable.level)
         }
+        val pakcageInfo = packageManager.getPackageInfo(packageName, 0)
+        realBinding.versionMsg.text = "${pakcageInfo.versionName} : ${pakcageInfo.packageName}"
     }
 
     private fun testImageSpan() {

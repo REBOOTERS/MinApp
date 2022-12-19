@@ -82,6 +82,13 @@
             android:id="@+id/range_slider"
             style="@style/mw_10_margin" />
 
+        <TextView
+            style="@style/mw_10_margin"
+            tools:text="11111111"
+            android:id="@+id/version_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <FrameLayout
             android:layout_width="36dp"
             android:layout_height="36dp"
