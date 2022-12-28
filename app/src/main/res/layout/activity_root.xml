@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/wall"
     android:paddingTop="50dp"
+    android:paddingBottom="20dp"
     tools:context=".RootActivity"
     tools:ignore="HardcodedText">
 
@@ -13,8 +14,8 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/jetpack_ui"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
+        android:layout_height="40dp"
+        android:layout_margin="6dp"
         app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="@id/v_center"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,8 +36,8 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/coroutines"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
+        android:layout_height="40dp"
+        android:layout_margin="6dp"
         app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/v_center"
@@ -56,8 +57,8 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/jetpack_arch"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
+        android:layout_height="40dp"
+        android:layout_margin="6dp"
         app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="@id/v_center"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,8 +78,8 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/jetpack_behavior"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
+        android:layout_height="40dp"
+        android:layout_margin="6dp"
         app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/v_center"
@@ -98,8 +99,8 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cache"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
+        android:layout_height="40dp"
+        android:layout_margin="6dp"
         app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="@id/v_center"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,8 +118,8 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/next"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
+        android:layout_height="40dp"
+        android:layout_margin="6dp"
         app:cardCornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/v_center"
@@ -137,8 +138,8 @@
     <LinearLayout
         android:id="@+id/blur_view"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="10dp"
+        android:layout_height="60dp"
+        android:layout_margin="6dp"
         android:background="@color/white"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/cache">
@@ -165,63 +166,70 @@
             android:id="@+id/ipc_way"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="6dp"
             android:text="IPC" />
 
         <Button
             android:id="@+id/cp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="6dp"
             android:text="consume" />
 
         <Button
             android:id="@+id/media"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="6dp"
             android:text="media" />
 
         <Button
             android:id="@+id/crash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="6dp"
             android:text="crash" />
 
         <Button
             android:id="@+id/compose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="6dp"
             android:text="compose" />
 
         <Button
             android:id="@+id/cpp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="6dp"
             android:text="cpp" />
 
         <Button
             android:id="@+id/better"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="6dp"
             android:text="better" />
 
         <Button
             android:id="@+id/kill_self"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="6dp"
             android:text="kill_self" />
+
+        <Button
+            android:id="@+id/open_messy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="messy_page" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/handler_log_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="6dp"
             android:text="Handler_Logger " />
 
     </com.google.android.flexbox.FlexboxLayout>
@@ -235,13 +243,13 @@
         android:lineSpacingExtra="3dp"
         android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/flex"
-        tools:text="@string/large_text" />
+        tools:text="@string/app_name" />
 
     <TextView
         android:id="@+id/version_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="6dp"
         android:gravity="end"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:text="111111" />

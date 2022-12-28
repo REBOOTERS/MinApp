@@ -26,6 +26,7 @@ import com.engineer.android.mini.net.ThreadExTransform
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.behavior.lifecycle.PanelActivity
+import com.engineer.android.mini.ui.pure.MessyActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
 import com.engineer.common.utils.AndroidSystem
 import com.engineer.android.mini.util.ProducerConsumerViewModel
@@ -177,7 +178,9 @@ class RootActivity : BaseActivity() {
             finish()
             exitProcess(0)
         }
-
+        viewBinding.openMessy.setOnClickListener {
+            gotoActivity(MessyActivity::class.java)
+        }
     }
 
     private fun handleBlur() {
