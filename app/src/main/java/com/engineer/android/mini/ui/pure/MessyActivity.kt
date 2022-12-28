@@ -36,6 +36,7 @@ import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.proguards.*
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.DemoDialogActivity
+import com.engineer.android.mini.ui.behavior.main
 import com.engineer.android.mini.ui.behavior.provider.ContentProviderReaderHelper
 import com.engineer.android.mini.ui.pure.helper.SimpleCallback
 import com.engineer.android.mini.util.JavaUtil
@@ -43,6 +44,7 @@ import com.engineer.android.mini.util.RxTimer
 import com.engineer.android.mini.util.SystemTools
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.launch
 
 class MessyActivity : BaseActivity() {
@@ -55,6 +57,9 @@ class MessyActivity : BaseActivity() {
     private var rxTimer: RxTimer? = null
 
     private val mainScope = MainScope()
+
+    private val mainHandler = Handler(Looper.getMainLooper())
+
 
     private val testLazy by lazy {
         Log.e("RootActivity", "testLazy triggle")
@@ -74,6 +79,8 @@ class MessyActivity : BaseActivity() {
         timerTest()
         proguardTest()
         SystemTools.getManifestPlaceHolderValue(this)
+
+        mainHandler.postDelayed(Runnable { realBinding.openSysDialog.performClick() },4000)
 
 //        callback = intent?.getSerializableExtra("callback") as SimpleCallback
     }
@@ -385,6 +392,7 @@ class MessyActivity : BaseActivity() {
         super.onDestroy()
         animator?.cancel()
         rxTimer?.cancel()
+        mainHandler.removeCallbacksAndMessages(null)
         FileChangeWatcher.stopObserve()
     }
 }
