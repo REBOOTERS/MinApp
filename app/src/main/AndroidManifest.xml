@@ -154,7 +154,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_fullscreen"
             android:theme="@style/FullscreenTheme" />
-        <activity android:name=".jetpack.FragmentManagerActivity" />
+        <activity android:name=".jetpack.FragmentManagerActivity" android:exported="true"/>
         <activity
             android:name=".ui.behavior.lifecycle.PanelActivity"
             android:exported="${activity_exported}" />

@@ -232,6 +232,10 @@
             android:layout_margin="6dp"
             android:text="Handler_Logger " />
 
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </com.google.android.flexbox.FlexboxLayout>
 
     <TextView
