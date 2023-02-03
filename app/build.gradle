@@ -109,8 +109,8 @@ android {
     variantFilter { variant ->
         println "variant is ${variant.flavors*.name}"
         def dimens = variant.flavors*.name
-        def type = dimens[0]
-        def channel = dimens[1]
+        def type = dimens[1]
+        def channel = dimens[0]
         switch (type) {
             case "global":
                 if(channel == "xiaomi") {
@@ -184,13 +184,13 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation "androidx.compose.material:material:1.3.1"
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 
     implementation "com.google.android:flexbox:1.0.0"
 
     implementation 'com.alibaba:fastjson:1.1.73.android'
 //    implementation 'com.alibaba:fastjson:2.0.2.android'
-    implementation 'org.jetbrains.kotlin:kotlin-script-runtime:1.8.0'
+    implementation 'org.jetbrains.kotlin:kotlin-script-runtime:1.8.10'
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_tools_version"
 
 //    implementation 'com.facebook.shimmer:shimmer:0.6.0'

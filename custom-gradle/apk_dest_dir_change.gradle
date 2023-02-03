@@ -35,11 +35,11 @@ android {
         i++
         println("~~~~~~~~~~~~~~~~~~~~~~~``${i}``~~~~~~~~~~~~~~~~~")
         println(variant.flavorName)
-        println(variant.assemble.name)
+        println(variant.assembleProvider.name)
         println(variant.versionName)
         println("~~~~~~~~~~~~~~~~~~~~~~~````~~~~~~~~~~~~~~~~~\n")
 
-        if (variant.assemble.name.contains("Debug")) {
+        if (variant.assembleProvider.name.contains("Debug")) {
             // 只对 release 包生效
             return
         }
@@ -75,7 +75,7 @@ android {
         }
         def taskPrefix = "jiagu"
         def groupName = "jiagu"
-        def assembleTask = variant.assemble.name
+        def assembleTask = variant.assembleProvider.name
         def taskName = assembleTask.replace("assemble", taskPrefix)
         tasks.create(taskName) {
             it.group groupName
