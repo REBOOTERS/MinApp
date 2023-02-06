@@ -6,8 +6,8 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.AlertDialog
+import android.app.admin.DevicePolicyManager
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -36,7 +36,6 @@ import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.proguards.*
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.DemoDialogActivity
-import com.engineer.android.mini.ui.behavior.main
 import com.engineer.android.mini.ui.behavior.provider.ContentProviderReaderHelper
 import com.engineer.android.mini.ui.pure.helper.SimpleCallback
 import com.engineer.android.mini.util.JavaUtil
@@ -81,6 +80,8 @@ class MessyActivity : BaseActivity() {
         SystemTools.getManifestPlaceHolderValue(this)
 
         mainHandler.postDelayed(Runnable { realBinding.openSysDialog.performClick() },4000)
+
+        val devicePolicyManager: DevicePolicyManager = getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
 
 //        callback = intent?.getSerializableExtra("callback") as SimpleCallback
     }

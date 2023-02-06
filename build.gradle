@@ -25,6 +25,10 @@ buildscript {
         // hilt
         classpath "com.google.dagger:hilt-android-gradle-plugin:$android_hilt_version"
     }
+
+    configurations.classpath {
+        resolutionStrategy.activateDependencyLocking()
+    }
 }
 
 allprojects {
