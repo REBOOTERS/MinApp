@@ -294,6 +294,13 @@ class MessyActivity : BaseActivity() {
 
 
         }
+        realBinding.catchException.setOnClickListener {
+            try {
+                throw SecurityException("now allow call this")
+            } catch (e:Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     private fun levelListDrawableTest() {
