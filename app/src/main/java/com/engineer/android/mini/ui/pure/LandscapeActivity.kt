@@ -11,6 +11,7 @@ import android.view.WindowInsetsController
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.RadioGroup
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -157,6 +158,13 @@ class LandscapeActivity : AppCompatActivity() {
                     "dp45 = $dp45," +
                     "visibleH = ${DisplayUtil.sVisibleHeight}"
         )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            moreInfo()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun moreInfo() {
         val deviceDensityNow = DisplayMetrics.DENSITY_DEVICE_STABLE
         Log.d(TAG, "deviceDensityNow= $deviceDensityNow")
         Log.d(TAG, "density= ${resources.displayMetrics.density}")

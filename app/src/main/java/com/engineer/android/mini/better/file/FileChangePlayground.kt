@@ -57,7 +57,11 @@ object FileChangeWatcher {
     }
 
     fun stopObserve() {
-        fileChangeObserver?.stopWatching()
+        try {
+            fileChangeObserver?.stopWatching()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 }

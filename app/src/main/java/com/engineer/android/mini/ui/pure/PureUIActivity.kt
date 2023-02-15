@@ -194,15 +194,6 @@ class PureUIActivity : BaseActivity() {
                     "dp45 = $dp45," +
                     "visibleH = ${DisplayUtil.sVisibleHeight}"
         )
-        val deviceDensityNow = DisplayMetrics.DENSITY_DEVICE_STABLE
-        Log.d(TAG, "deviceDensityNow= $deviceDensityNow")
-        Log.d(TAG, "density= ${resources.displayMetrics.density}")
-        Log.d(TAG, "densityDpi= ${resources.displayMetrics.densityDpi}")
-        Log.d(TAG, "xdpi= ${resources.displayMetrics.xdpi}")
-        Log.d(TAG, "ydpi= ${resources.displayMetrics.ydpi}")
-        Log.d(TAG, "widthPixels= ${resources.displayMetrics.widthPixels}")
-        Log.d(TAG, "heightPixels= ${resources.displayMetrics.heightPixels}")
-        Log.d(TAG, "scaledDensity= ${resources.displayMetrics.scaledDensity}")
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

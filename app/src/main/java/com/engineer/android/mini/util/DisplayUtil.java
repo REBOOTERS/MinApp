@@ -75,13 +75,7 @@ public class DisplayUtil {
 
     public static Point getScreenRealSize(Activity activity) {
         Point outSize = new Point();
-        if (Build.VERSION.SDK_INT >= 17) {
-            activity.getWindowManager().getDefaultDisplay().getRealSize(outSize);
-        } else {
-            outSize.x = getScreenWidth();
-            outSize.y = getScreenHeight();
-        }
-
+        activity.getWindowManager().getDefaultDisplay().getRealSize(outSize);
         return outSize;
     }
 
@@ -99,16 +93,14 @@ public class DisplayUtil {
     @Deprecated
     public static int getStatusBarHeight(Context context) {
         int statusBarHeight = 0;
-        if (statusBarHeight == 0) {
-            try {
-                Class<?> c = Class.forName("com.android.internal.R$dimen");
-                Object o = c.newInstance();
-                Field field = c.getField("status_bar_height");
-                int x = (Integer) field.get(o);
-                statusBarHeight = context.getApplicationContext().getResources().getDimensionPixelSize(x);
-            } catch (Exception var6) {
-                var6.printStackTrace();
-            }
+        try {
+            Class<?> c = Class.forName("com.android.internal.R$dimen");
+            Object o = c.newInstance();
+            Field field = c.getField("status_bar_height");
+            int x = (Integer) field.get(o);
+            statusBarHeight = context.getApplicationContext().getResources().getDimensionPixelSize(x);
+        } catch (Exception var6) {
+            var6.printStackTrace();
         }
 
         return statusBarHeight;
@@ -137,7 +129,7 @@ public class DisplayUtil {
 
     public static boolean isNavigationBarShowing(Context context) {
         boolean haveNavigationBar = checkDeviceHasNavigationBar(context);
-        if (haveNavigationBar && Build.VERSION.SDK_INT >= 17) {
+        if (haveNavigationBar) {
             String brand = Build.BRAND;
             String deviceInfo;
             if (brand != null) {
