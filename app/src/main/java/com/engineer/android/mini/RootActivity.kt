@@ -3,6 +3,7 @@ package com.engineer.android.mini
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.os.SystemClock
@@ -10,7 +11,6 @@ import android.util.Log
 import android.util.LogPrinter
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.engineer.android.mini.better.BetterActivity
 import com.engineer.android.mini.coroutines.old.OldWayActivity
@@ -28,8 +28,8 @@ import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.behavior.lifecycle.PanelActivity
 import com.engineer.android.mini.ui.pure.MessyActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
-import com.engineer.common.utils.AndroidSystem
 import com.engineer.android.mini.util.ProducerConsumerViewModel
+import com.engineer.common.utils.AndroidSystem
 import com.engineer.compose.ui.MainComposeActivity
 import com.engineer.third.CppActivity
 import io.reactivex.Observable
@@ -219,21 +219,14 @@ class RootActivity : BaseActivity() {
 
     // <editor-fold defaultstate="collapsed" desc="permission">
     private fun handlePermissions() {
-        val permissionsToRequire = ArrayList<String>()
-        if (ContextCompat.checkSelfPermission(
-                this, Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            permissionsToRequire.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            listOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)
+        } else {
+            listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
-        if (ContextCompat.checkSelfPermission(
-                this, Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            permissionsToRequire.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        }
-        if (permissionsToRequire.isEmpty().not()) {
-            ActivityCompat.requestPermissions(this, permissionsToRequire.toTypedArray(), 0)
+
+        if (permission.isEmpty().not()) {
+            ActivityCompat.requestPermissions(this, permission.toTypedArray(), 0)
         }
     }
 

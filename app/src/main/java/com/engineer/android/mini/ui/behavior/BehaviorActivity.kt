@@ -1,9 +1,8 @@
 package com.engineer.android.mini.ui.behavior
 
+import android.Manifest
 import android.app.Activity
-import android.app.ActivityManager
 import android.app.DownloadManager
-import android.content.ClipData
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -27,6 +26,7 @@ import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
 import com.engineer.android.mini.ui.pure.MessyActivity
 import com.engineer.android.mini.util.SystemTools
+import com.permissionx.guolindev.PermissionX
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
@@ -37,7 +37,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
 
-private const val TAG = "BehaviorActivity-TAG"
+private const val TAG = "BehaviorActivity_TAG"
 
 
 /**
@@ -67,7 +67,18 @@ class BehaviorActivity : AppCompatActivity() {
         }
 
         viewBinding.storageQuery.setOnClickListener {
-            PictureBottomDialog().show(supportFragmentManager, "picture")
+            val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                listOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)
+            } else {
+                listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+            PermissionX.init(this)
+                .permissions(permission)
+                .request { allGranted, _, _ ->
+                    if (allGranted) {
+                        PictureBottomDialog().show(supportFragmentManager, "picture")
+                    }
+                }
         }
 
         viewBinding.notificationCase.setOnClickListener {
@@ -365,6 +376,7 @@ class BehaviorActivity : AppCompatActivity() {
     private val chooserLauncher = registerForActivityResult(ChooserResultContract()) { result ->
         if (result != null) {
             Log.e(TAG, result.toString())
+
         }
     }
 

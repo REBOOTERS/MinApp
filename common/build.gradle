@@ -43,6 +43,8 @@ dependencies {
     api 'com.squareup.radiography:radiography:2.4.1'
     api group: 'commons-io', name: 'commons-io', version: '20030203.000550'
     api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    implementation "androidx.exifinterface:exifinterface:1.3.6"
+    api 'com.guolindev.permissionx:permissionx:1.7.1'
 }
 
 apply from: file("../custom-gradle/test-dep.gradle") // unit test

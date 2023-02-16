@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.toast
+import com.engineer.android.mini.util.SystemTools
+import com.engineer.common.utils.PictureInfoUtil
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -74,7 +76,11 @@ class AlbumAdapter(val context: Context, val imageList: ArrayList<Uri>, val imag
         Glide.with(context).load(uri).apply(options).into(holder.imageView)
 
         holder.itemView.setOnClickListener {
-            uri.toString().toast()
+            val path = SystemTools.getVideoFilePathFromUri(it.context, uri)
+            path.toString().toast()
+            path?.let {
+                PictureInfoUtil.printExifInfo(path)
+            }
         }
     }
 
