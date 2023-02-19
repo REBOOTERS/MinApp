@@ -25,9 +25,14 @@
             android:text="picture_query" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/arts"
+            android:id="@+id/tree"
             style="@style/mw_10_margin"
-            android:text="arts" />
+            android:text="tree" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fish"
+            style="@style/mw_10_margin"
+            android:text="fish" />
 
         <Button
             android:id="@+id/settings"

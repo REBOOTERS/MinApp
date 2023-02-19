@@ -3,6 +3,7 @@ apply plugin: 'checkstyle'
 
 task checkstyle(type: Checkstyle) {
     source 'src/main/java'
+    exclude 'src/main/assets/'
     exclude '**/gen/**'
     exclude '**/test/**'
     exclude '**/androidTest/**'

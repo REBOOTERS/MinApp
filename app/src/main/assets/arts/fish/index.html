@@ -1,0 +1,62 @@
+<!doctype html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+</head>
+<style>
+    body {
+        background: floralwhite;
+    }
+</style>
+
+<body>
+    <div id="content" style="pointer-events:none">
+    </div>
+
+</body>
+<script src="fishdraw.js"></script>
+<script>
+
+    let work_blob_anim_url = URL.createObjectURL(new Blob([
+        `
+  onmessage = function(e) {
+    importScripts(e.data.url + 'fishdraw.js');
+    postMessage(draw_svg_anim(main(),0.005));
+  }
+  `
+    ], { type: "text/javascript" }));
+
+    let work_blob_url = URL.createObjectURL(new Blob([
+        `
+  onmessage = function(e) {
+    importScripts(e.data.url + 'fishdraw.js');
+    postMessage(draw_svg(main()));
+  }
+  `
+    ], { type: "text/javascript" }));
+
+    function drawAnimSvg() {
+        let work = new Worker(work_blob_anim_url);
+        work.postMessage({
+            url: window.location.href.replace(/index.*?.html/g, ''),
+        });
+        work.onmessage = function (e) {
+            document.getElementById('content').innerHTML = e.data;
+        }
+        return "success"
+    }
+
+    function drawSvg() {
+        let work = new Worker(work_blob_url);
+        work.postMessage({
+            url: window.location.href.replace(/index.*?.html/g, ''),
+        });
+        work.onmessage = function (e) {
+            document.getElementById('content').innerHTML = e.data;
+            jsCallback.onFinish();
+        }
+        return "success"
+    }
+
+    document.getElementById('content').innerHTML = `<img src="https://cdn.glitch.com/88ac2491-a965-46a7-b727-d32b0bf0db34%2F000020.svg?v=1628699914276"/>`;
+
+</script>
