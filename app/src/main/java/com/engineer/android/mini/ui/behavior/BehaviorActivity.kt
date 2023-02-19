@@ -66,6 +66,7 @@ class BehaviorActivity : AppCompatActivity() {
             }
         }
 
+        viewBinding.arts.setOnClickListener { gotoActivity(ArtsActivity::class.java) }
         viewBinding.storageQuery.setOnClickListener {
             val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 listOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)

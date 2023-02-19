@@ -24,6 +24,11 @@
             style="@style/mw_10_margin"
             android:text="picture_query" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/arts"
+            style="@style/mw_10_margin"
+            android:text="arts" />
+
         <Button
             android:id="@+id/settings"
             style="@style/mw_10_margin"

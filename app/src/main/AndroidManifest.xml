@@ -35,6 +35,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.behavior.ArtsActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.MD3Activity"
             android:exported="true"
             android:label="@string/title_activity_md3"
@@ -156,7 +159,9 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_fullscreen"
             android:theme="@style/FullscreenTheme" />
-        <activity android:name=".jetpack.FragmentManagerActivity" android:exported="true"/>
+        <activity
+            android:name=".jetpack.FragmentManagerActivity"
+            android:exported="true" />
         <activity
             android:name=".ui.behavior.lifecycle.PanelActivity"
             android:exported="${activity_exported}" />
@@ -198,10 +203,10 @@
             android:name=".media.VideoActivity"
             android:configChanges="screenSize|orientation"
             android:exported="true" />
-        <activity android:name=".ui.behavior.DemoDialogActivity"
-            android:theme="@style/alertDialogImage"
+        <activity
+            android:name=".ui.behavior.DemoDialogActivity"
             android:screenOrientation="sensor"
-            />
+            android:theme="@style/alertDialogImage" />
 
         <service
             android:name=".ui.behavior.MyForegroundService"
