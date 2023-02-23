@@ -7,10 +7,13 @@ import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
+import android.view.View
+import android.view.Window
 import android.view.WindowInsetsController
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.RadioGroup
+import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -137,6 +140,7 @@ class LandscapeActivity : AppCompatActivity() {
             updateScreenInfo(this)
         }
         updateScreenInfo(this)
+        transparentNavBar(this)
     }
 
 
@@ -175,6 +179,18 @@ class LandscapeActivity : AppCompatActivity() {
         Log.d(TAG, "heightPixels= ${resources.displayMetrics.heightPixels}")
         Log.d(TAG, "scaledDensity= ${resources.displayMetrics.scaledDensity}")
         Log.e(TAG,"========================================================")
+    }
+
+    fun transparentNavBar(@NonNull activity: Activity) {
+        transparentNavBar(activity.window)
+    }
+
+    fun transparentNavBar(@NonNull window: Window) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.isNavigationBarContrastEnforced = false
+        }
+        window.navigationBarColor = Color.TRANSPARENT
+
     }
 
 }
