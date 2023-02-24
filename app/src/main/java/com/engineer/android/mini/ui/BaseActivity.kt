@@ -17,7 +17,7 @@ open class BaseActivity : AppCompatActivity() {
 
     internal open var TAG = "TAG_" + this::class.java.simpleName
 
-    private lateinit var controller: WindowInsetsControllerCompat
+    lateinit var controller: WindowInsetsControllerCompat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

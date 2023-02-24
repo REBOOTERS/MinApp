@@ -35,9 +35,14 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.pure.ChangeViewActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.behavior.TreeActivity"
             android:exported="true" />
-        <activity android:name=".ui.behavior.FishActivity" android:exported="true" />
+        <activity
+            android:name=".ui.behavior.FishActivity"
+            android:exported="true" />
         <activity
             android:name=".ui.MD3Activity"
             android:exported="true"

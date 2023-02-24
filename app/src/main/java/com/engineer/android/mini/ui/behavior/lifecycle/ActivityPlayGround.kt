@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.setMargins
 import androidx.core.widget.NestedScrollView
 import com.engineer.android.mini.ext.dp
@@ -413,6 +414,17 @@ class ActivityF : BaseLifeActivity() {
 }
 
 class ActivityG : BaseLifeActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        controller.hide(WindowInsetsCompat.Type.navigationBars())
+        window.navigationBarColor = Color.TRANSPARENT
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        Log.i(TAG,"onWindowFocusChanged $hasFocus")
+    }
     override fun provideView(): View {
         val frameLayout = FrameLayout(this)
         frameLayout.setBackgroundColor(randomColor())

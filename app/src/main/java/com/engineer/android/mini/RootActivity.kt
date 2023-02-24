@@ -26,6 +26,7 @@ import com.engineer.android.mini.net.ThreadExTransform
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.behavior.lifecycle.PanelActivity
+import com.engineer.android.mini.ui.pure.ChangeViewActivity
 import com.engineer.android.mini.ui.pure.MessyActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
 import com.engineer.android.mini.util.ProducerConsumerViewModel
@@ -180,6 +181,9 @@ class RootActivity : BaseActivity() {
         }
         viewBinding.openMessy.setOnClickListener {
             gotoActivity(MessyActivity::class.java)
+        }
+        viewBinding.openChangeView.setOnClickListener {
+            gotoActivity(ChangeViewActivity::class.java)
         }
     }
 
