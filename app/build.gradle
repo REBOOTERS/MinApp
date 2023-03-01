@@ -84,6 +84,9 @@ android {
         main {
 //            aidl.srcDirs = ['src/main/aidl']
         }
+        local {
+            manifest.srcFile 'src/local/AndroidManifest.xml'
+        }
     }
     flavorDimensions  "channel","type"
     productFlavors {

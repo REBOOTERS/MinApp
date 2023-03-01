@@ -1,6 +1,7 @@
 package com.engineer.android.mini
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
@@ -228,10 +229,22 @@ class RootActivity : BaseActivity() {
         } else {
             listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
+        if (allPermissionGranted(this, permission)) {
+            return
+        }
 
         if (permission.isEmpty().not()) {
             ActivityCompat.requestPermissions(this, permission.toTypedArray(), 0)
         }
+    }
+
+    private fun allPermissionGranted(context: Context, permissions: List<String>): Boolean {
+        permissions.forEach {
+            if (ActivityCompat.checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED) {
+                return false
+            }
+        }
+        return true
     }
 
     override fun onRequestPermissionsResult(
