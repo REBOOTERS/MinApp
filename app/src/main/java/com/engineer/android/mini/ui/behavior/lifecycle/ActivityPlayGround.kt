@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.Process
 import android.util.Log
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.setMargins
 import androidx.core.widget.NestedScrollView
+import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
@@ -417,7 +419,10 @@ class ActivityG : BaseLifeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        controller.hide(WindowInsetsCompat.Type.navigationBars())
+//        controller.hide(WindowInsetsCompat.Type.navigationBars())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.isNavigationBarContrastEnforced = false
+        }
         window.navigationBarColor = Color.TRANSPARENT
     }
 
@@ -437,6 +442,11 @@ class ActivityG : BaseLifeActivity() {
         inputEditText.hint = "please input sth"
         param.gravity = Gravity.CENTER
         frameLayout.addView(inputEditText, param)
+        val tv = TextView(this)
+        tv.setTextColor(Color.BLACK)
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP,22f)
+        tv.text = getString(R.string.long_chinese_content)
+        frameLayout.addView(tv)
         return frameLayout
     }
 }

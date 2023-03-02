@@ -176,7 +176,9 @@
         <activity android:name=".ui.behavior.lifecycle.ActivityF" />
         <activity
             android:name=".ui.behavior.lifecycle.ActivityG"
-            android:screenOrientation="fullSensor" />
+            android:exported="true"
+            android:theme="@style/NoBugTheme"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".ui.behavior.lifecycle.SingleTopActivity"
             android:launchMode="singleTop" />
