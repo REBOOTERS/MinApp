@@ -60,13 +60,11 @@ class LandscapeActivity : AppCompatActivity() {
             window.navigationBarDividerColor = Color.TRANSPARENT
         }
 
-        controller.systemBarsBehavior =
-            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 
         controller.addOnControllableInsetsChangedListener { controller, typeMask ->
             Log.d(
-                TAG,
-                "onControllableInsetsChanged() called with: controller = $controller, typeMask = $typeMask"
+                TAG, "onControllableInsetsChanged() called with: controller = $controller, typeMask = $typeMask"
             )
         }
 
@@ -124,16 +122,14 @@ class LandscapeActivity : AppCompatActivity() {
 
             when (checkedId) {
                 R.id.default_way -> {
-                    params.layoutInDisplayCutoutMode =
-                        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT
+                    params.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT
                 }
                 R.id.short_edge_way -> {
                     params.layoutInDisplayCutoutMode =
                         WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
                 }
                 R.id.never_way -> {
-                    params.layoutInDisplayCutoutMode =
-                        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER
+                    params.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER
                 }
             }
             window.attributes = params
@@ -148,19 +144,14 @@ class LandscapeActivity : AppCompatActivity() {
         val screenRealSize = DisplayUtil.getScreenRealSize(activity).y
 
         val navHeight =
-            if (DisplayUtil.isNavigationBarShowing(activity))
-                DisplayUtil.getNavigationBarHeight(activity) else 0
+            if (DisplayUtil.isNavigationBarShowing(activity)) DisplayUtil.getNavigationBarHeight(activity) else 0
 
         val statusBarHeight = DisplayUtil.getStatusBarHeight2(activity)
         val dp45 = DisplayUtil.dp2px(45f)
         DisplayUtil.sVisibleHeight = screenRealSize - navHeight - statusBarHeight
         Log.d(
-            TAG, "getScreenInfo() called with:" +
-                    " screenRealSize = $screenRealSize," +
-                    "navH = $navHeight," +
-                    "statusBarH = $statusBarHeight," +
-                    "dp45 = $dp45," +
-                    "visibleH = ${DisplayUtil.sVisibleHeight}"
+            TAG,
+            "getScreenInfo() called with:" + " screenRealSize = $screenRealSize," + "navH = $navHeight," + "statusBarH = $statusBarHeight," + "dp45 = $dp45," + "visibleH = ${DisplayUtil.sVisibleHeight}"
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             moreInfo()
@@ -178,14 +169,10 @@ class LandscapeActivity : AppCompatActivity() {
         Log.d(TAG, "widthPixels= ${resources.displayMetrics.widthPixels}")
         Log.d(TAG, "heightPixels= ${resources.displayMetrics.heightPixels}")
         Log.d(TAG, "scaledDensity= ${resources.displayMetrics.scaledDensity}")
-        Log.e(TAG,"========================================================")
+        Log.e(TAG, "========================================================")
     }
 
-    fun transparentNavBar(@NonNull activity: Activity) {
-        transparentNavBar(activity.window)
-    }
-
-    fun transparentNavBar(@NonNull window: Window) {
+    private fun transparentNavBar(window: Window) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             window.isNavigationBarContrastEnforced = false
         }
