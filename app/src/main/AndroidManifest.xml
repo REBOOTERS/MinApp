@@ -47,6 +47,9 @@
         </receiver>
 
         <activity
+            android:name=".ocr.OcrActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.pure.ChangeViewActivity"
             android:exported="true" />
         <activity

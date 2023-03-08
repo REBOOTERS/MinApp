@@ -23,7 +23,7 @@ android {
         resConfigs 'zh-rCN', 'xxhdpi'
 
         ndk {
-            abiFilters 'arm64-v8a', 'armeabi-v7a'
+            abiFilters 'arm64-v8a','armeabi-v7a'
         }
 
         buildConfigField "Boolean", "enable_log", "false"
@@ -202,3 +202,4 @@ apply from: file("../custom-gradle/rx-retrofit-dep.gradle") // rxjava retrofit g
 apply from: file("../custom-gradle/hilt-dep.gradle") // hilt 全家桶
 apply from: file("../custom-gradle/apk_dest_dir_change.gradle") // 修改 apk 生成文件路劲及地址
 apply from: file("../custom-gradle/report_apk_size_after_package.gradle") // 打包完成后输出 apk 大小
+apply from: file("../custom-gradle/google_ocr_lib.gradle") // google ocr

@@ -23,6 +23,7 @@ import com.engineer.android.mini.ipc.IpcActivity
 import com.engineer.android.mini.jetpack.FragmentManagerActivity
 import com.engineer.android.mini.net.RxCacheActivity
 import com.engineer.android.mini.net.ThreadExTransform
+import com.engineer.android.mini.ocr.OcrActivity
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.behavior.lifecycle.PanelActivity
@@ -191,6 +192,7 @@ class RootActivity : BaseActivity() {
         viewBinding.openChangeView.setOnClickListener {
             gotoActivity(ChangeViewActivity::class.java)
         }
+        viewBinding.ocr.setOnClickListener { gotoActivity(OcrActivity::class.java) }
     }
 
     private fun handleBlur() {
