@@ -136,7 +136,7 @@ class LandscapeActivity : AppCompatActivity() {
             updateScreenInfo(this)
         }
         updateScreenInfo(this)
-        transparentNavBar(this)
+        transparentNavBar(window)
     }
 
 

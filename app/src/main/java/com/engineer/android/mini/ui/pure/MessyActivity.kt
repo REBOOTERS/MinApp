@@ -272,7 +272,7 @@ class MessyActivity : BaseActivity() {
         realBinding.openDialog.setOnClickListener {
             val intent = Intent(this, DemoDialogActivity::class.java)
             intent.putExtra(DemoDialogActivity.EXTRA_TITLE, "title")
-            intent.putExtra(DemoDialogActivity.EXTRA_MESSAGE, "MSG")
+            intent.putExtra(DemoDialogActivity.EXTRA_MESSAGE, "MSG1111111111111111111111")
             intent.putExtra(DemoDialogActivity.EXTRA_LEFT_BTN, "LEFT")
             intent.putExtra(DemoDialogActivity.EXTRA_RIGHT_BTN, "RIGHT")
             startActivity(intent)

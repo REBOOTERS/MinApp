@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.setMargins
 import androidx.core.widget.NestedScrollView
+import com.bumptech.glide.Glide
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.gotoActivity
@@ -447,6 +448,14 @@ class ActivityG : BaseLifeActivity() {
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP,22f)
         tv.text = getString(R.string.long_chinese_content)
         frameLayout.addView(tv)
+        val imageView = ImageView(this)
+        val param1 = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.MATCH_PARENT
+        )
+        Glide.with(this).load(R.drawable.phone).into(imageView)
+//        imageView.setImageResource(R.drawable.phone)
+//        frameLayout.addView(imageView, param1)
         return frameLayout
     }
 }
