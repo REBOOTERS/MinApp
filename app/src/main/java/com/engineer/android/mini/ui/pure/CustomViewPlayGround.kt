@@ -23,7 +23,7 @@ import com.engineer.android.mini.ui.adapter.TextWatcherSimpleAdapter
 import com.engineer.android.mini.ui.pure.helper.MeasureSpecCopy
 import com.engineer.android.mini.util.ImagePool
 import com.engineer.android.mini.util.KeyBoardUtil
-import com.engineer.android.mini.util.SystemTools
+import com.engineer.common.utils.SystemTools
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.internal.TextWatcherAdapter
 import kotlin.random.Random

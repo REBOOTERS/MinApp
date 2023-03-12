@@ -40,7 +40,7 @@ import com.engineer.android.mini.ui.behavior.provider.ContentProviderReaderHelpe
 import com.engineer.android.mini.ui.pure.helper.SimpleCallback
 import com.engineer.android.mini.util.JavaUtil
 import com.engineer.android.mini.util.RxTimer
-import com.engineer.android.mini.util.SystemTools
+import com.engineer.common.utils.SystemTools
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.Runnable

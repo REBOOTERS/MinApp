@@ -15,7 +15,7 @@ import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.adapter.AlbumAdapter
 import com.engineer.android.mini.ui.viewmodel.CursorQueryViewModel
-import com.engineer.android.mini.util.SystemTools
+import com.engineer.common.utils.SystemTools
 import dagger.Provides
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

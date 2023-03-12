@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.toast
-import com.engineer.android.mini.util.SystemTools
+import com.engineer.common.utils.SystemTools
 import com.engineer.common.utils.PictureInfoUtil
 import dagger.Module
 import dagger.Provides

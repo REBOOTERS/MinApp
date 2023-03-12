@@ -1,9 +1,12 @@
 package com.engineer.android.mini.ui.behavior
 
+import android.Manifest
 import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
@@ -13,13 +16,16 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RemoteViews
 import android.widget.TextView
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ipc.aidl.OpenTaskManager
 import com.engineer.android.mini.util.RxBus
+import com.permissionx.guolindev.PermissionX
 
 interface NotificationBuilder {
 
@@ -49,12 +55,14 @@ class SimpleNotification : NotificationBuilder {
         val pendingIntent1 = PendingIntent.getBroadcast(
             context, 0, receiver, PendingIntent.FLAG_IMMUTABLE
         )
-        return NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_baseline_notifications_24)
-            .setContentTitle(textTitle).setContentText(textContent).setStyle(
-                NotificationCompat.BigTextStyle().bigText(
-                        "Much longer text that cannot fit one line " + ",longer text that cannot fit one line ..."
-                    )
-            ).setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        return NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+            .setContentTitle(textTitle)
+            .setContentText(textContent)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(
+                    "Much longer text that cannot fit one line " + ",longer text that cannot fit one line ...")
+            )
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .addAction(R.drawable.ic_baseline_stop_24, "停止", pendingIntent)
             .addAction(R.drawable.ic_baseline_play_arrow_24, "开始", pendingIntent1)
     }
@@ -72,8 +80,8 @@ class MyForegroundNotification : NotificationBuilder {
         return NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_baseline_notifications_red_24)
             .setContentTitle(textTitle).setContentText(textContent).setStyle(
                 NotificationCompat.BigTextStyle().bigText(
-                        "前台通知内容 前台通知内容前台通知内容前台通知内容前台通知内容 " + ",前台通知内容前台通知内容前台通知内容..."
-                    )
+                    "前台通知内容 前台通知内容前台通知内容前台通知内容前台通知内容 " + ",前台通知内容前台通知内容前台通知内容..."
+                )
             ).setPriority(NotificationCompat.PRIORITY_DEFAULT)
     }
 
@@ -254,9 +262,21 @@ object NotificationHelper {
     fun showNotification(context: Context) {
         val simpleNotification = SimpleNotification()
         val builder = simpleNotification.provideNotification(context)
-        createNotificationChannel(
-            context, simpleNotification
-        )
+        createNotificationChannel(context, simpleNotification)
+        if (ActivityCompat.checkSelfPermission(
+                context, Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+            return
+        }
         NotificationManagerCompat.from(context).notify(System.currentTimeMillis().toInt(), builder.build())
     }
 
@@ -268,8 +288,66 @@ object NotificationHelper {
         return builder.build()
     }
 
-    fun openSetting() {
+    fun openSetting(context: Context?) {
+        val intent = Intent()
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            intent.action = Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS
+        }
+        intent.data = Uri.fromParts("package", context?.packageName, null)
 
+        try {
+            context?.startActivity(intent)
+        } catch (e: Exception) {
+            tryThis(context)
+            e.printStackTrace()
+        }
+    }
+
+    private fun tryThisOne(context: Context?) {
+        val intent = Intent()
+        intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+
+        //for Android 5-7
+        intent.putExtra("app_package", context?.packageName)
+        intent.putExtra("app_uid", context?.applicationInfo?.uid)
+
+        // for Android O
+        intent.putExtra("android.provider.extra.APP_PACKAGE", context?.packageName)
+
+
+        try {
+            context?.startActivity(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun tryThis(context: Context?) {
+        val intent = Intent()
+        when {
+            Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1 -> {
+                intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+                intent.putExtra("android.provider.extra.APP_PACKAGE", context?.getPackageName())
+            }
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
+                intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+                intent.putExtra("app_package", context?.getPackageName())
+                intent.putExtra("app_uid", context?.getApplicationInfo()?.uid)
+            }
+            else -> {
+                intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                intent.addCategory(Intent.CATEGORY_DEFAULT)
+                intent.data = Uri.parse("package:" + context?.packageName)
+            }
+        }
+
+        try {
+            context?.startActivity(intent)
+        } catch (e: Exception) {
+            tryThisOne(context)
+            e.printStackTrace()
+        }
     }
 }
 
@@ -294,7 +372,7 @@ class NotifyActivity : AppCompatActivity() {
         val openNotifySetting = Button(this)
         openNotifySetting.text = "打开通知设置"
         openNotifySetting.setOnClickListener {
-
+            NotificationHelper.openSetting(this)
         }
         contentView.addView(openNotifySetting, param)
 
@@ -345,6 +423,12 @@ class NotifyActivity : AppCompatActivity() {
         contentView.addView(backgroundProcess, param)
 
         setContentView(contentView)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            PermissionX.init(this).permissions(arrayListOf(Manifest.permission.POST_NOTIFICATIONS)).request { _, _, _ ->
+
+            }
+        }
     }
 }
 
