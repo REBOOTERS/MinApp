@@ -1,4 +1,4 @@
-package com.engineer.android.mini.util
+package com.engineer.common.utils
 
 import android.content.ComponentName
 import android.content.ContentResolver
@@ -10,7 +10,6 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
-import com.engineer.android.mini.BuildConfig
 
 
 /**
@@ -92,8 +91,6 @@ object SystemTools {
         Log.d(TAG, "getManifestPlaceHolderValue() called with: exported = $exported")
 
     }
-
-    fun isLocalFlavor() = BuildConfig.FLAVOR_type == "local"
 
     fun openRecentActivity(context: Context) {
         val componetName = ComponentName(

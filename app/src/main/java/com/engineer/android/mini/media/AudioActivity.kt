@@ -4,9 +4,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.engineer.android.mini.BuildConfig
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.toast
-import com.engineer.android.mini.util.SystemTools
+import com.engineer.common.utils.SystemTools
 import com.engineer.common.utils.AndroidSystem
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -20,9 +21,11 @@ class AudioActivity : AppCompatActivity() {
     private var player: IjkMediaPlayer? = null
     private var disposable: Disposable? = null
 
+    fun isLocalFlavor() = BuildConfig.FLAVOR_type == "local"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (SystemTools.isLocalFlavor()) {
+        if (isLocalFlavor()) {
             "please use global flavor ".toast()
             finish()
             return
@@ -45,8 +48,7 @@ class AudioActivity : AppCompatActivity() {
         }
         player?.setOnTimedTextListener { iMediaPlayer, ijkTimedText ->
             Log.e(
-                TAG,
-                "OnTimedText() called with: iMediaPlayer = $iMediaPlayer, ijkTimedText = $ijkTimedText"
+                TAG, "OnTimedText() called with: iMediaPlayer = $iMediaPlayer, ijkTimedText = $ijkTimedText"
             )
         }
         player?.setOnInfoListener { mp, what, extra ->
@@ -63,8 +65,7 @@ class AudioActivity : AppCompatActivity() {
         }
         player?.setOnErrorListener { iMediaPlayer, i, i2 ->
             Log.e(
-                TAG,
-                "OnError() called with: iMediaPlayer = $iMediaPlayer, i = $i, i2 = $i2"
+                TAG, "OnError() called with: iMediaPlayer = $iMediaPlayer, i = $i, i2 = $i2"
             )
             true
         }
@@ -76,11 +77,9 @@ class AudioActivity : AppCompatActivity() {
     }
 
     private fun startCount() {
-        disposable = Observable.interval(1, TimeUnit.SECONDS)
-            .doOnNext {
+        disposable = Observable.interval(1, TimeUnit.SECONDS).doOnNext {
                 Log.d(TAG, "AudioPlayer called ${player?.dropFrameRate}")
-            }
-            .subscribe()
+            }.subscribe()
     }
 
     private fun stopCount() {

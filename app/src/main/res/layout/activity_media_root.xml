@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:contentDescription="@string/app_name"
-        android:src="@android:drawable/presence_video_away"
+        android:src="@android:drawable/presence_video_busy"
         app:layout_constraintStart_toEndOf="@id/video"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,6 +34,16 @@
         android:contentDescription="@string/app_name"
         android:src="@android:drawable/presence_audio_online"
         app:layout_constraintStart_toEndOf="@id/video_simple"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/ffmpeg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/baseline_movie_24"
+        app:layout_constraintStart_toEndOf="@id/audio"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

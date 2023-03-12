@@ -19,5 +19,8 @@ class MediaRootActivity : AppCompatActivity() {
         findViewById<View>(R.id.audio).setOnClickListener {
             gotoActivity(AudioActivity::class.java)
         }
+        findViewById<View>(R.id.ffmpeg).setOnClickListener {
+            gotoActivity(FFmpegActivity::class.java)
+        }
     }
 }

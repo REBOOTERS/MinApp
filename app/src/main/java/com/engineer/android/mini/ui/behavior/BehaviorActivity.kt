@@ -25,7 +25,10 @@ import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
 import com.engineer.android.mini.ui.pure.MessyActivity
-import com.engineer.android.mini.util.SystemTools
+import com.engineer.common.utils.SystemTools
+import com.engineer.common.contract.ChooserResultContract
+import com.engineer.common.contract.PickFileResultContract
+import com.engineer.common.contract.PickGifResultContract
 import com.permissionx.guolindev.PermissionX
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.BufferedInputStream
@@ -74,13 +77,11 @@ class BehaviorActivity : AppCompatActivity() {
             } else {
                 listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             }
-            PermissionX.init(this)
-                .permissions(permission)
-                .request { allGranted, _, _ ->
-                    if (allGranted) {
-                        PictureBottomDialog().show(supportFragmentManager, "picture")
-                    }
+            PermissionX.init(this).permissions(permission).request { allGranted, _, _ ->
+                if (allGranted) {
+                    PictureBottomDialog().show(supportFragmentManager, "picture")
                 }
+            }
         }
 
         viewBinding.notificationCase.setOnClickListener {
@@ -130,8 +131,7 @@ class BehaviorActivity : AppCompatActivity() {
         }
 
         viewBinding.useHideApi.setOnClickListener {
-            val downloadManager: DownloadManager =
-                getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val downloadManager: DownloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
@@ -141,8 +141,7 @@ class BehaviorActivity : AppCompatActivity() {
                         it.isAccessible = true
                         Log.e(TAG, "it = ${it.name}: ${it.get(downloadManager)}")
                     }
-                    val mAccessFilename: Field =
-                        downloadManager.javaClass.getDeclaredField("mAccessFilename")
+                    val mAccessFilename: Field = downloadManager.javaClass.getDeclaredField("mAccessFilename")
                     mAccessFilename.isAccessible = true
                     Log.e(TAG, "before hack value is $mAccessFilename")
 
@@ -165,8 +164,7 @@ class BehaviorActivity : AppCompatActivity() {
             Log.e(TAG, "\n")
             val h = Handler(Looper.getMainLooper()) { msg ->
                 Log.e(
-                    TAG,
-                    "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg" + ",${msg.target}"
+                    TAG, "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg" + ",${msg.target}"
                 )
                 true
             }
@@ -176,8 +174,7 @@ class BehaviorActivity : AppCompatActivity() {
             handlerThread.looper.setMessageLogging(LogPrinter(Log.DEBUG, "ActivityThread"))
             val subHandler = Handler(handlerThread.looper) { msg ->
                 Log.e(
-                    TAG,
-                    "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg " + ",${msg.target}"
+                    TAG, "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg " + ",${msg.target}"
                 )
                 // 为了方便调试多次方法，正常情况下，用完后记得立即关闭
 //                handlerThread.quitSafely()
@@ -401,8 +398,7 @@ class BehaviorActivity : AppCompatActivity() {
                 bos.close()
                 fos.close()
                 runOnUiThread {
-                    Toast.makeText(this, "Copy file into $tempDir succeeded.", Toast.LENGTH_LONG)
-                        .show()
+                    Toast.makeText(this, "Copy file into $tempDir succeeded.", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -443,8 +439,7 @@ class BehaviorActivity : AppCompatActivity() {
                 )
             }
             val bis = BufferedInputStream(inputStream)
-            val uri =
-                context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+            val uri = context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
             if (uri != null) {
                 val outputStream = context.contentResolver.openOutputStream(uri)
                 if (outputStream != null) {
@@ -466,70 +461,5 @@ class BehaviorActivity : AppCompatActivity() {
         }
 
 
-    }
-
-    class PickFileResultContract : ActivityResultContract<String, Uri?>() {
-        override fun createIntent(context: Context, input: String): Intent {
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
-            intent.type = "*/*"
-            return intent
-        }
-
-        override fun parseResult(resultCode: Int, intent: Intent?): Uri? {
-            if (resultCode == Activity.RESULT_OK && intent != null) {
-                return intent.data
-            }
-            return null
-        }
-
-    }
-
-    class PickGifResultContract : ActivityResultContract<String, Uri?>() {
-        override fun createIntent(context: Context, input: String): Intent {
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
-            intent.type = "image/gif"
-            return intent
-        }
-
-        override fun parseResult(resultCode: Int, intent: Intent?): Uri? {
-            if (resultCode == Activity.RESULT_OK && intent != null) {
-                return intent.data
-            }
-            return null
-        }
-    }
-
-    class ChooserResultContract : ActivityResultContract<String, List<Uri>>() {
-        override fun createIntent(context: Context, input: String): Intent {
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-            intent.type = "image/*"
-            val finalIntent = Intent(Intent.ACTION_CHOOSER)
-            finalIntent.putExtra(Intent.EXTRA_INTENT, intent)
-            finalIntent.putExtra(Intent.EXTRA_TITLE, "Image Chooser")
-            return finalIntent
-        }
-
-        override fun parseResult(resultCode: Int, intent: Intent?): List<Uri> {
-            val results = ArrayList<Uri>()
-            intent?.let {
-                if (resultCode == Activity.RESULT_OK) {
-                    if (it.clipData != null) {
-                        val data = it.clipData!!
-                        Log.i(TAG, "clip is ${data.itemCount}")
-                        for (i in 0 until data.itemCount) {
-                            Log.i(TAG, "clip $i is ${data.getItemAt(i).uri}")
-                        }
-                    } else if (it.data != null) {
-                        val data = it.data
-                        Log.i(TAG, "data is $data")
-                    }
-                }
-            }
-            return results
-        }
     }
 }
