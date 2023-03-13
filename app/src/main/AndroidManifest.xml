@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 前台服务 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="com.engineer.other.permission.open" />
+    <uses-permission android:name="Manifest.permission.POST_NOTIFICATIONS" />
 
     <queries>
         <package android:name="com.engineer.other" />
