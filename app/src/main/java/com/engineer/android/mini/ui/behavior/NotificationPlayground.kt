@@ -24,6 +24,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ipc.aidl.OpenTaskManager
+import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.util.RxBus
 import com.permissionx.guolindev.PermissionX
 
@@ -41,6 +42,9 @@ class SimpleNotification : NotificationBuilder {
     private val textTitle = "通知"
     private val textContent = "通知内容"
 
+    override fun provideChannelId(): String {
+        return CHANNEL_ID
+    }
 
     override fun provideNotification(context: Context): NotificationCompat.Builder {
         val receiverStop = Intent(context, SimpleBroadcastReceiver::class.java)
@@ -59,8 +63,10 @@ class SimpleNotification : NotificationBuilder {
             .setSmallIcon(R.drawable.ic_baseline_notifications_24)
             .setContentTitle(textTitle)
             .setContentText(textContent)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(
-                    "Much longer text that cannot fit one line " + ",longer text that cannot fit one line ...")
+            .setStyle(
+                NotificationCompat.BigTextStyle().bigText(
+                    "Much longer text that cannot fit one line " + ",longer text that cannot fit one line ..."
+                )
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .addAction(R.drawable.ic_baseline_stop_24, "停止", pendingIntent)
@@ -167,7 +173,7 @@ class MyForegroundService : Service() {
 
         val notification = NotificationHelper.provideForegroundNotification(this, type)
         startForeground(System.currentTimeMillis().toInt(), notification)
-        stopForeground(true)
+//        stopForeground(true)
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -328,17 +334,12 @@ object NotificationHelper {
         when {
             Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1 -> {
                 intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
-                intent.putExtra("android.provider.extra.APP_PACKAGE", context?.getPackageName())
-            }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
-                intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
-                intent.putExtra("app_package", context?.getPackageName())
-                intent.putExtra("app_uid", context?.getApplicationInfo()?.uid)
+                intent.putExtra("android.provider.extra.APP_PACKAGE", context?.packageName)
             }
             else -> {
-                intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                intent.addCategory(Intent.CATEGORY_DEFAULT)
-                intent.data = Uri.parse("package:" + context?.packageName)
+                intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+                intent.putExtra("app_package", context?.packageName)
+                intent.putExtra("app_uid", context?.applicationInfo?.uid)
             }
         }
 
@@ -351,10 +352,11 @@ object NotificationHelper {
     }
 }
 
-class NotifyActivity : AppCompatActivity() {
+class NotifyActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val contentView = LinearLayout(this)
+        contentView.setPadding(0, 24.dp, 0, 0)
         contentView.orientation = LinearLayout.VERTICAL
         val param = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
