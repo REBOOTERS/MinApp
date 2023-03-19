@@ -220,17 +220,7 @@
             android:screenOrientation="sensor"
             android:theme="@style/alertDialogImage" />
 
-        <service
-            android:name=".ui.behavior.MyForegroundService"
-            android:exported="false" />
-        <service
-            android:name=".ui.behavior.MyBackgroundService"
-            android:exported="false" />
-        <service
-            android:name=".ui.behavior.MyBackgroundProcess"
-            android:process="my.back_ground_service.remote" />
 
-        <receiver android:name=".ui.behavior.SimpleBroadcastReceiver" />
 
         <provider
             android:name=".ui.behavior.provider.MiniContentProvider"
