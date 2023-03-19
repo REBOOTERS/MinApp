@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.IBinder
 import android.text.TextUtils
 import android.util.Log
+import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.media.events.ResultEvent
 import com.engineer.common.notification.NotificationHelper
 import com.engineer.common.utils.RxBus
@@ -15,28 +16,38 @@ class FFmpegService : Service() {
     private val TAG = "FFmpegService"
 
     private var myRxFFmpegSubscriber: MyRxFFmpegSubscriber = MyRxFFmpegSubscriber()
+    private var outputPath: String = ""
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
         intent?.let {
             val inputPath = intent.getStringExtra("inputPath")
+            val outputPath = intent.getStringExtra("outputPath")
+            val type = intent.getStringExtra("type")
             val notification = NotificationHelper.provideForegroundNotification(this, "progress")
             startForeground(NotificationHelper.provideNotificationId(), notification)
-            runCommand(inputPath)
+            runCommand(inputPath, outputPath, type)
         }
         return super.onStartCommand(intent, flags, startId)
     }
 
 
-    private fun runCommand(inputPath: String?) {
-        if (TextUtils.isEmpty(inputPath)) {
+    private fun runCommand(inputPath: String?, outputPath: String?, type: String?) {
+        if (TextUtils.isEmpty(inputPath) || TextUtils.isEmpty(outputPath)) {
             return
         }
-        val outPath = "/storage/emulated/0/Movies/result.mp4"
-        val text = "ffmpeg -y -i $inputPath -vf boxblur=25:5 -preset superfast $outPath"
-        val commands = text.split(" ").toTypedArray()
+        this.outputPath = outputPath!!
+        when (type) {
+            "video" -> {
+                val text = "ffmpeg -y -i $inputPath -vf boxblur=25:5 -preset superfast $outputPath"
+                val commands = text.split(" ").toTypedArray()
+                RxFFmpegInvoke.getInstance().runCommandRxJava(commands).subscribe(myRxFFmpegSubscriber)
+            }
+            "image" -> {
+                inputPath.toast()
+            }
+        }
 
-        RxFFmpegInvoke.getInstance().runCommandRxJava(commands).subscribe(myRxFFmpegSubscriber);
 
     }
 
@@ -45,8 +56,8 @@ class FFmpegService : Service() {
 
         override fun onFinish() {
             Log.d(TAG, "onFinish() called")
-            val outPath = "/storage/emulated/0/Movies/result.mp4"
-            RxBus.getInstance().post(ResultEvent(outPath))
+
+            RxBus.getInstance().post(ResultEvent(outputPath))
             stopSelf()
         }
 

@@ -1,17 +1,16 @@
 package com.engineer.android.mini.media
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityFfmpegBinding
-import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.media.events.ResultEvent
 import com.engineer.android.mini.media.services.FFmpegService
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.common.contract.PickFileResultContract
-import com.engineer.common.contract.PickMp4ResultContract
 import com.engineer.common.utils.AndroidFileUtils
 import com.engineer.common.utils.RxBus
 import io.microshow.rxffmpeg.RxFFmpegInvoke
@@ -22,24 +21,34 @@ class FFmpegActivity : BaseActivity(), View.OnClickListener {
     private val viewBinding get() = _viewBinding!!
 
 
-    private val pickVideoLauncher = registerForActivityResult(PickMp4ResultContract()) {
-        it?.let {
-            Log.d(TAG, "get result() called uri  = $it")
-            val path = AndroidFileUtils.getFilePathByUri(this, it)
-            Log.d(TAG, "get result() called path = $path")
-            path?.let {
-                viewBinding.videoSelected.setVideoPath(it)
-                val intent = Intent(this, FFmpegService::class.java)
-                intent.putExtra("inputPath", path)
-                startService(intent)
-            }
+    private val pickVideoLauncher = registerForActivityResult(PickFileResultContract("video/mp4")) {
+        it?.let { uri ->
+            handleResult(uri, "video")
         }
     }
 
-    private val pickPictureLauncher = registerForActivityResult(PickFileResultContract()) {
+    private val pickPictureLauncher = registerForActivityResult(PickFileResultContract("image/*")) {
         it?.let {
-            val path = AndroidFileUtils.getFilePathByUri(this, it)
-            path.toast()
+            handleResult(it, "image")
+        }
+    }
+
+    private fun handleResult(uri: Uri, type: String) {
+        val path = AndroidFileUtils.getFilePathByUri(this, uri)
+        Log.d(TAG, "get result() called path = $path")
+        path?.let { realPath ->
+            val outputPath = AndroidFileUtils.assembleOutputPath(realPath)
+            when (type) {
+                "video" -> {
+                    viewBinding.videoSelected.setVideoPath(realPath)
+                }
+            }
+
+            val intent = Intent(this, FFmpegService::class.java)
+            intent.putExtra("inputPath", path)
+            intent.putExtra("outputPath", outputPath)
+            intent.putExtra("type", type)
+            startService(intent)
         }
     }
 

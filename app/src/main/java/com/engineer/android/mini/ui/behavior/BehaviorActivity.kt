@@ -1,7 +1,6 @@
 package com.engineer.android.mini.ui.behavior
 
 import android.Manifest
-import android.app.Activity
 import android.app.DownloadManager
 import android.content.ContentValues
 import android.content.Context
@@ -16,7 +15,6 @@ import android.util.Log
 import android.util.LogPrinter
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.R
@@ -25,10 +23,9 @@ import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
 import com.engineer.android.mini.ui.pure.MessyActivity
-import com.engineer.common.utils.SystemTools
 import com.engineer.common.contract.ChooserResultContract
 import com.engineer.common.contract.PickFileResultContract
-import com.engineer.common.contract.PickGifResultContract
+import com.engineer.common.utils.SystemTools
 import com.permissionx.guolindev.PermissionX
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.BufferedInputStream
@@ -356,7 +353,7 @@ class BehaviorActivity : AppCompatActivity() {
         pickGifLauncher.launch("选择 Gif")
     }
 
-    private val pickFileLauncher = registerForActivityResult(PickFileResultContract()) { result ->
+    private val pickFileLauncher = registerForActivityResult(PickFileResultContract("*/*")) { result ->
         if (result != null) {
             val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
 //            copyUriToExternalFilesDir(result, fileName)
@@ -364,7 +361,7 @@ class BehaviorActivity : AppCompatActivity() {
         }
     }
 
-    private val pickGifLauncher = registerForActivityResult(PickGifResultContract()) { result ->
+    private val pickGifLauncher = registerForActivityResult(PickFileResultContract("image/gif")) { result ->
         if (result != null) {
             val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
 //            copyUriToAlbumDir(this, result, fileName, "image/gif")

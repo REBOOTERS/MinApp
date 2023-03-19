@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import org.apache.commons.io.FilenameUtils
 import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.InputStream
@@ -141,5 +142,10 @@ object AndroidFileUtils {
 
     private fun isMediaDocument(uri: Uri): Boolean {
         return "com.android.providers.media.documents" == uri.authority
+    }
+
+    fun assembleOutputPath(inputPath: String): String {
+        return FilenameUtils.getPath(inputPath) + "result_" + System.currentTimeMillis()
+            .toString() + "_" + FilenameUtils.getName(inputPath)
     }
 }

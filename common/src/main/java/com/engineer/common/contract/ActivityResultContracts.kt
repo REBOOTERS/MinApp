@@ -7,43 +7,11 @@ import android.net.Uri
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContract
 
-class PickGifResultContract : ActivityResultContract<String, Uri?>() {
+class PickFileResultContract(private val fileType: String) : ActivityResultContract<String, Uri?>() {
     override fun createIntent(context: Context, input: String): Intent {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.type = "image/gif"
-        return intent
-    }
-
-    override fun parseResult(resultCode: Int, intent: Intent?): Uri? {
-        if (resultCode == Activity.RESULT_OK && intent != null) {
-            return intent.data
-        }
-        return null
-    }
-}
-
-class PickMp4ResultContract : ActivityResultContract<String, Uri?>() {
-    override fun createIntent(context: Context, input: String): Intent {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.type = "video/mp4"
-        return intent
-    }
-
-    override fun parseResult(resultCode: Int, intent: Intent?): Uri? {
-        if (resultCode == Activity.RESULT_OK && intent != null) {
-            return intent.data
-        }
-        return null
-    }
-}
-
-class PickFileResultContract : ActivityResultContract<String, Uri?>() {
-    override fun createIntent(context: Context, input: String): Intent {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.type = "*/*"
+        intent.type = fileType
         return intent
     }
 
