@@ -48,4 +48,14 @@
         android:contentDescription="@string/app_name"
         android:src="@android:drawable/ic_input_add" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/select_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="140dp"
+        android:contentDescription="@string/app_name"
+        android:src="@android:drawable/ic_input_get" />
+
 </FrameLayout>
