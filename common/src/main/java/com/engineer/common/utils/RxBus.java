@@ -1,4 +1,4 @@
-package com.engineer.android.mini.util;
+package com.engineer.common.utils;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;

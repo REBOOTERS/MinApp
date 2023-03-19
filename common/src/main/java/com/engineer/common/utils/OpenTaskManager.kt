@@ -1,4 +1,4 @@
-package com.engineer.android.mini.ipc.aidl
+package com.engineer.common.utils
 
 import android.content.Context
 import android.content.Intent

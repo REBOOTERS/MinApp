@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.engineer.android.mini.R;
 import com.engineer.android.mini.ipc.aidl.AIDLDemoActivity;
-import com.engineer.android.mini.ipc.aidl.OpenTaskManager;
+import com.engineer.common.utils.OpenTaskManager;
 import com.engineer.android.mini.ipc.messenger.MessengerDelegate;
 import com.engineer.android.mini.ipc.messenger.MessengerService;
 
