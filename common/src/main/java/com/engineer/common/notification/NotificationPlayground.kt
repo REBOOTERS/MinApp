@@ -19,6 +19,9 @@ import androidx.core.app.NotificationManagerCompat
 import com.engineer.common.R
 import com.engineer.common.utils.OpenTaskManager
 import com.engineer.common.utils.RxBus
+import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
+import java.util.concurrent.TimeUnit
 
 interface NotificationBuilder {
 
@@ -26,6 +29,8 @@ interface NotificationBuilder {
     fun provideChannelId(): String = ""
     fun provideChannelName(): String = "Channel-One"
     fun provideChannelDesc(): String = "MiniApp-Channel-One"
+
+    fun provideNotificationId() = 100
 }
 
 class SimpleNotification : NotificationBuilder {
@@ -92,6 +97,31 @@ class MyForegroundNotification : NotificationBuilder {
     }
 }
 
+class MyProgressNotification : NotificationBuilder {
+
+    val CHANNEL_ID = "CHANNEL_ID_progress"
+    private val textTitle = "下载"
+    private val textContent = "下载进行中"
+    override fun provideNotification(context: Context): NotificationCompat.Builder {
+        return NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_baseline_notifications_red_24)
+            .setContentTitle(textTitle).setContentText(textContent).setProgress(100, 0, false)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+    }
+
+    override fun provideChannelId(): String {
+        return CHANNEL_ID
+    }
+
+    override fun provideChannelName(): String {
+        return "前台通知渠道"
+    }
+
+    override fun provideChannelDesc(): String {
+        return "前台通知渠道 Description"
+    }
+
+}
+
 class CustomNotification : NotificationBuilder {
     val CHANNEL_ID = "CHANNEL_ID_custom"
     override fun provideNotification(context: Context): NotificationCompat.Builder {
@@ -143,6 +173,8 @@ class SimpleBroadcastReceiver : BroadcastReceiver() {
 class MyForegroundService : Service() {
     private val TAG = "MyForegroundService"
 
+    private var disposable: Disposable? = null
+
     override fun onCreate() {
         super.onCreate()
         Log.d(TAG, "onCreate() called")
@@ -160,14 +192,29 @@ class MyForegroundService : Service() {
         val type = intent?.getStringExtra("type") ?: "standard"
 
         val notification = NotificationHelper.provideForegroundNotification(this, type)
-        startForeground(System.currentTimeMillis().toInt(), notification)
+        startForeground(NotificationHelper.provideNotificationId(), notification)
 //        stopForeground(true)
+        handleDownload(this, type)
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    private fun handleDownload(context: Context, type: String) {
+        if ("progress" == type) {
+            disposable?.dispose()
+            disposable = Observable.intervalRange(1, 100, 0, 300, TimeUnit.MILLISECONDS).subscribe {
+                Log.i(TAG, "handleDownload " + it)
+                NotificationHelper.updateProgress(context, it.toInt())
+                if (it >= 100) {
+                    stopSelf()
+                }
+            }
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG, "onDestroy() called")
+        disposable?.dispose()
     }
 
 }
@@ -232,6 +279,10 @@ class MyBackgroundProcess : Service() {
 
 object NotificationHelper {
 
+    private var __builder: NotificationCompat.Builder? = null
+    private val builder get() = __builder!!
+    private lateinit var myForegroundNotification: NotificationBuilder
+
     private fun createNotificationChannel(
         context: Context, builder: NotificationBuilder
     ) {
@@ -257,29 +308,42 @@ object NotificationHelper {
         val simpleNotification = SimpleNotification()
         val builder = simpleNotification.provideNotification(context)
         createNotificationChannel(context, simpleNotification)
+        showNotifyInternal(context, builder, System.currentTimeMillis().toInt())
+    }
+
+    fun provideForegroundNotification(context: Context, type: String): Notification {
+        myForegroundNotification = CustomNotification()
+        when (type) {
+            "standard" -> myForegroundNotification = MyForegroundNotification()
+            "progress" -> myForegroundNotification = MyProgressNotification()
+            else -> CustomNotification()
+        }
+        __builder = myForegroundNotification.provideNotification(context)
+        createNotificationChannel(context, myForegroundNotification)
+        return builder.build()
+    }
+
+    fun provideNotificationId() = myForegroundNotification.provideNotificationId()
+
+    fun updateProgress(context: Context, progress: Int) {
+        if (progress < 100) {
+            builder.setProgress(100, progress, false)
+        } else {
+            builder.setContentText("下载完成").setProgress(0, 0, false)
+        }
+
+        showNotifyInternal(context, builder, provideNotificationId())
+    }
+
+    private fun showNotifyInternal(context: Context, builder: NotificationCompat.Builder, notifyId: Int) {
         if (ActivityCompat.checkSelfPermission(
                 context, Manifest.permission.POST_NOTIFICATIONS
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-
             return
         }
-        NotificationManagerCompat.from(context).notify(System.currentTimeMillis().toInt(), builder.build())
-    }
-
-    fun provideForegroundNotification(context: Context, type: String): Notification {
-
-        val myForegroundNotification = if (type == "standard") MyForegroundNotification() else CustomNotification()
-        val builder = myForegroundNotification.provideNotification(context)
-        createNotificationChannel(context, myForegroundNotification)
-        return builder.build()
+        Log.e("MyForegroundService","showNotifyInternal $notifyId")
+        NotificationManagerCompat.from(context).notify(notifyId, builder.build())
     }
 
     fun openSetting(context: Context?) {

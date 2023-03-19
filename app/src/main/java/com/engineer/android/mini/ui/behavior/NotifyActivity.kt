@@ -70,6 +70,18 @@ class NotifyActivity : BaseActivity() {
         }
         contentView.addView(customForegroundNotify, param)
 
+        val progressNotify = Button(this)
+        progressNotify.text = "Progress Notify"
+        progressNotify.setOnClickListener {
+            val intent = Intent(this, MyForegroundService::class.java)
+            intent.putExtra("type", "progress")
+            startService(intent)
+
+            val d = RxBus.getInstance().toObservable(StopForegroundServiceEvent::class.java)
+                .subscribe { stopService(intent) }
+        }
+        contentView.addView(progressNotify, param)
+
         val backgroundService = Button(this)
         backgroundService.text = "background service"
         backgroundService.setOnClickListener {
