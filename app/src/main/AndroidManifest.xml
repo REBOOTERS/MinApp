@@ -35,6 +35,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <service
+            android:name=".media.services.FFmpegService"
+            android:enabled="true"
+            android:exported="false"/>
+
         <activity
             android:name=".media.FFmpegActivity"
             android:exported="true" />
@@ -219,8 +224,6 @@
             android:name=".ui.behavior.DemoDialogActivity"
             android:screenOrientation="sensor"
             android:theme="@style/alertDialogImage" />
-
-
 
         <provider
             android:name=".ui.behavior.provider.MiniContentProvider"
