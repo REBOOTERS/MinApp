@@ -151,7 +151,9 @@ class LandscapeActivity : AppCompatActivity() {
         DisplayUtil.sVisibleHeight = screenRealSize - navHeight - statusBarHeight
         Log.d(
             TAG,
-            "getScreenInfo() called with:" + " screenRealSize = $screenRealSize," + "navH = $navHeight," + "statusBarH = $statusBarHeight," + "dp45 = $dp45," + "visibleH = ${DisplayUtil.sVisibleHeight}"
+            "getScreenInfo() called with:" + " screenRealSize = $screenRealSize,"
+                    + "navH = $navHeight," + "statusBarH = $statusBarHeight," + "dp45 = $dp45,"
+                    + "visibleH = ${DisplayUtil.sVisibleHeight}"
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             moreInfo()
