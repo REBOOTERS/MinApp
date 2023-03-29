@@ -1,9 +1,0 @@
-dependencies {
-    // see https://github.com/bilibili/ijkplayer
-//    implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
-//    implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'
-//    implementation 'tv.danmaku.ijk.media:ijkplayer-arm64:0.8.8'
-
-    //完整版引入  https://github.com/CarGuo/GSYVideoPlayer
-    globalImplementation 'com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer:v8.1.8-release-jitpack'
-}

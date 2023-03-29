@@ -177,13 +177,6 @@
             android:text="consume" />
 
         <Button
-            android:id="@+id/media"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:text="media" />
-
-        <Button
             android:id="@+id/crash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

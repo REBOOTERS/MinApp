@@ -23,18 +23,16 @@ android {
         resConfigs 'zh-rCN', 'xxhdpi'
 
         ndk {
-            abiFilters 'arm64-v8a','armeabi-v7a'
+            abiFilters 'arm64-v8a', 'armeabi-v7a'
         }
 
         buildConfigField "Boolean", "enable_log", "false"
         buildConfigField "String", "secret_id", "\"123456\""
         buildConfigField "String", "api_key", "\"${API_KEY}\""
 //        manifestPlaceholders.activity_exported = true
-        manifestPlaceholders = [
-                max_aspect         : 3,
-                extract_native_libs: "true",
-                activity_exported  : "true"
-        ]
+        manifestPlaceholders = [max_aspect         : 3,
+                                extract_native_libs: "true",
+                                activity_exported  : "true"]
         vectorDrawables {
             useSupportLibrary true
         }
@@ -88,7 +86,7 @@ android {
             manifest.srcFile 'src/local/AndroidManifest.xml'
         }
     }
-    flavorDimensions  "channel","type"
+    flavorDimensions "channel", "type"
     productFlavors {
         xiaomi {
             dimension "channel"
@@ -116,12 +114,12 @@ android {
         def channel = dimens[0]
         switch (type) {
             case "global":
-                if(channel == "xiaomi") {
+                if (channel == "xiaomi") {
                     setIgnore(true)
                 }
                 break
             case "local":
-                if(channel == "oppo") {
+                if (channel == "oppo") {
                     setIgnore(true)
                 }
                 break
@@ -206,7 +204,5 @@ apply from: file("../custom-gradle/viewmodel-dep.gradle") // view-model-lifecycl
 apply from: file("../custom-gradle/coroutines-dep.gradle") // kotlin coroutines
 apply from: file("../custom-gradle/rx-retrofit-dep.gradle") // rxjava retrofit gson 网络全家桶
 apply from: file("../custom-gradle/hilt-dep.gradle") // hilt 全家桶
-apply from: file("../custom-gradle/media.gradle") // media lib
 apply from: file("../custom-gradle/apk_dest_dir_change.gradle") // 修改 apk 生成文件路劲及地址
 apply from: file("../custom-gradle/report_apk_size_after_package.gradle") // 打包完成后输出 apk 大小
-apply from: file("../custom-gradle/rxffmpeg-dep.gradle") // 打包完成后输出 apk 大小

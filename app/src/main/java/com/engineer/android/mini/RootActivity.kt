@@ -21,7 +21,6 @@ import com.engineer.android.mini.ext.log
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ipc.IpcActivity
 import com.engineer.android.mini.jetpack.FragmentManagerActivity
-import com.engineer.android.mini.media.MediaRootActivity
 import com.engineer.android.mini.net.RxCacheActivity
 import com.engineer.android.mini.net.ThreadExTransform
 import com.engineer.android.mini.ui.BaseActivity
@@ -163,7 +162,6 @@ class RootActivity : BaseActivity() {
             gotoActivity(IpcActivity::class.java)
         }
         viewBinding.cp.setOnClickListener { testPC() }
-        viewBinding.media.setOnClickListener { gotoActivity(MediaRootActivity::class.java) }
         viewBinding.crash.setOnClickListener { throw IllegalStateException() }
         viewBinding.compose.setOnClickListener { gotoActivity(MainComposeActivity::class.java) }
         viewBinding.cpp.setOnClickListener { gotoActivity(CppActivity::class.java) }
