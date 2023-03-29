@@ -225,14 +225,19 @@ class RootActivity : BaseActivity() {
     // <editor-fold defaultstate="collapsed" desc="permission">
     private fun handlePermissions() {
         val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            listOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)
+            listOf(
+                Manifest.permission.ACCESS_WIFI_STATE,
+                Manifest.permission.READ_MEDIA_IMAGES,
+                Manifest.permission.READ_MEDIA_VIDEO
+            )
         } else {
-            listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            listOf(
+                Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
         }
         if (allPermissionGranted(this, permission)) {
             return
         }
-
         if (permission.isEmpty().not()) {
             ActivityCompat.requestPermissions(this, permission.toTypedArray(), 0)
         }

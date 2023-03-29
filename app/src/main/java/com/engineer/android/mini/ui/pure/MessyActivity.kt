@@ -39,6 +39,7 @@ import com.engineer.android.mini.ui.behavior.DemoDialogActivity
 import com.engineer.android.mini.ui.behavior.provider.ContentProviderReaderHelper
 import com.engineer.android.mini.ui.pure.helper.SimpleCallback
 import com.engineer.android.mini.util.JavaUtil
+import com.engineer.android.mini.util.NetWorkUtil
 import com.engineer.android.mini.util.RxTimer
 import com.engineer.common.utils.SystemTools
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -84,6 +85,8 @@ class MessyActivity : BaseActivity() {
         val devicePolicyManager: DevicePolicyManager = getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
 
 //        callback = intent?.getSerializableExtra("callback") as SimpleCallback
+        Log.i(TAG, "mac1 ${NetWorkUtil.getWifiMacAddress()}")
+        Log.i(TAG, "mac2 ${NetWorkUtil.getMac(this)}")
     }
 
     private fun timerTest() {
