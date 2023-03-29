@@ -14,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.setMargins
 import androidx.core.widget.NestedScrollView
 import com.bumptech.glide.Glide
@@ -22,7 +21,6 @@ import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
-import com.engineer.android.mini.media.AudioActivity
 import com.engineer.android.mini.ui.BaseActivity
 import java.io.Serializable
 import kotlin.random.Random
@@ -397,7 +395,7 @@ class ActivityD : BaseLifeActivity() {
         val btn = Button(this)
         btn.text = "open audio activity"
         btn.setOnClickListener {
-            gotoActivity(AudioActivity::class.java)
+            "on another branch".toast()
         }
         frameLayout.addView(button, param)
         frameLayout.addView(btn, param2)
