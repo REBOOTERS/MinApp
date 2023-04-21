@@ -39,13 +39,16 @@ android {
         }
     }
     namespace 'com.engineer.gif.thirdlib'
+    buildFeatures {
+        aidl true
+    }
 }
 
 dependencies {
     compileOnly fileTree(include: ['*.aar'], dir: 'libs')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     compileOnly 'com.squareup.radiography:radiography:2.4.1'
-    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     api 'com.google.android.material:material:1.8.0'
 }
 

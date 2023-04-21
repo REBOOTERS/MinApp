@@ -19,13 +19,13 @@ class PureObserver<T>(
         if (version >= data.mVersion) {
             // 理论上 version == data.mVersion 就是在注册的时候
             if (stick && data.mPureData != null) {
-                observer.onChanged(data.mPureData)
+                observer.onChanged(data.mPureData!!)
             }
             // 如果不支持 stick,那就直接返回吧
             return
         }
         version = data.mVersion
-        observer.onChanged(data.mPureData)
+        observer.onChanged(data.mPureData!!)
     }
 }
 

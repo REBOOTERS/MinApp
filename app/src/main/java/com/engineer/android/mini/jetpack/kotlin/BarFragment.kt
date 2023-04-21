@@ -20,26 +20,25 @@ class BarFragment : SimpleBaseFragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            BarFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        fun newInstance(param1: String, param2: String) = BarFragment().apply {
+            arguments = Bundle().apply {
+                putString(ARG_PARAM1, param1)
+                putString(ARG_PARAM2, param2)
             }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val text = view.findViewById<TextView>(R.id.text)
-        fooViewModel.foo.observe(viewLifecycleOwner, {
+        fooViewModel.foo.observe(viewLifecycleOwner) {
             text.text = "result is $it"
             Log.e(TAG, "$it")
-        })
+        }
 
-        fooViewModel.fooMap.observe(viewLifecycleOwner, {
+        fooViewModel.fooMap.observe(viewLifecycleOwner) {
             it.toast()
-        })
+        }
 
         fooViewModel.doFoo()
         fooViewModel.doFoo2()
@@ -48,12 +47,12 @@ class BarFragment : SimpleBaseFragment() {
     }
 
     private fun testSetAndPost() {
-        fooViewModel.mainValue.observe(viewLifecycleOwner, {
+        fooViewModel.mainValue.observe(viewLifecycleOwner) {
             Log.e("testSetAndPost", "mainValue =$it")
-        })
-        fooViewModel.threadValue.observe(viewLifecycleOwner, {
+        }
+        fooViewModel.threadValue.observe(viewLifecycleOwner) {
             Log.e("testSetAndPost", "threadValue =$it")
-        })
+        }
         fooViewModel.doUpdate()
     }
 }
