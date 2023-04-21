@@ -2,7 +2,6 @@ package com.engineer.compose.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -24,14 +23,14 @@ import com.engineer.compose.ui.ui.theme.MiniAppTheme
 class MainComposeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            MiniAppTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    messageCard(Message("lucy", "hello world"))
-                }
-            }
-        }
+//        setContent {
+//            MiniAppTheme {
+//                // A surface container using the 'background' color from the theme
+//                Surface(color = MaterialTheme.colors.background) {
+//                    messageCard(Message("lucy", "hello world"))
+//                }
+//            }
+//        }
     }
 }
 

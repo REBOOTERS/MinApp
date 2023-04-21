@@ -2,11 +2,11 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.8">
-      <module name="MiniApp.app" target="11" />
-      <module name="MiniApp.common" target="11" />
-      <module name="MiniApp.compose" target="11" />
-      <module name="MiniApp.other" target="11" />
-      <module name="MiniApp.thirdlib" target="11" />
+      <module name="MiniApp.app" target="17" />
+      <module name="MiniApp.common" target="17" />
+      <module name="MiniApp.compose" target="17" />
+      <module name="MiniApp.other" target="17" />
+      <module name="MiniApp.thirdlib" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

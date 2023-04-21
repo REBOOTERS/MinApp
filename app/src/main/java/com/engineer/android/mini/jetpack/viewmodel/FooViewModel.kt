@@ -5,7 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
@@ -15,12 +15,13 @@ import java.util.concurrent.TimeUnit
  * @author rookie
  */
 class FooViewModel(application: Application) : AndroidViewModel(application) {
-     internal val foo = MutableLiveData<Int>()
+    internal val foo = MutableLiveData<Int>()
 
-    internal val test =MutableLiveData(true)
+    internal val test = MutableLiveData(true)
 
-    internal val fooMap = Transformations.map(foo) {
-        it * it
+
+    internal val fooMap = foo.switchMap {
+        MutableLiveData(it * it)
     }
 
     fun getFoo(): MutableLiveData<Int> {
@@ -44,17 +45,13 @@ class FooViewModel(application: Application) : AndroidViewModel(application) {
     val threadValue = MutableLiveData(0L)
 
     fun doUpdate() {
-        Observable.intervalRange(1,100,1,1,TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
+        Observable.intervalRange(1, 100, 1, 1, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread())
             .doOnNext {
                 mainValue.value = it
-            }
-            .subscribe()
+            }.subscribe()
 
-        Observable.intervalRange(1,100,1,1,TimeUnit.MILLISECONDS)
-            .doOnNext {
+        Observable.intervalRange(1, 100, 1, 1, TimeUnit.MILLISECONDS).doOnNext {
                 threadValue.postValue(it)
-            }
-            .subscribe()
+            }.subscribe()
     }
 }

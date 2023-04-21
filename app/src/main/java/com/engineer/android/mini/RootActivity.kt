@@ -31,12 +31,20 @@ import com.engineer.android.mini.ui.pure.MessyActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
 import com.engineer.android.mini.util.ProducerConsumerViewModel
 import com.engineer.common.utils.AndroidSystem
-import com.engineer.compose.ui.MainComposeActivity
 import com.engineer.third.CppActivity
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import jp.wasabeef.blurry.Blurry
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 import kotlin.system.exitProcess
 
@@ -163,7 +171,6 @@ class RootActivity : BaseActivity() {
         }
         viewBinding.cp.setOnClickListener { testPC() }
         viewBinding.crash.setOnClickListener { throw IllegalStateException() }
-        viewBinding.compose.setOnClickListener { gotoActivity(MainComposeActivity::class.java) }
         viewBinding.cpp.setOnClickListener { gotoActivity(CppActivity::class.java) }
         viewBinding.better.setOnClickListener { gotoActivity(BetterActivity::class.java) }
         viewBinding.handlerLogSwitch.setOnCheckedChangeListener { _, isChecked ->
