@@ -48,31 +48,26 @@ android {
         def outputFileDir = "${rootDir.absolutePath}/build/${variant.buildType.name}/${variant.versionName}"
         //确定输出文件名
         def today = new Date()
-        def path = ((project.name != "app") ? project.name : rootProject.name.replace(" ", "")) + "_" +
-                variant.flavorName + "_" +
-                variant.buildType.name + "_" +
-                variant.versionName + "_" +
-                today.format('yyyy_MM_dd_HH_mm') + "_" +
-                getBranch() + "_" +
-                getCommit() + "_" +
-                gitLastCommitAuthorName() +
-                ".apk"
+        def path = ((project.name != "app") ? project.name : rootProject.name.replace(" ", "")) + "_" + variant.flavorName + "_" + variant.buildType.name + "_" + variant.versionName + "_" + today.format('yyyy_MM_dd_HH_mm') + "_" + getBranch() + "_" + getCommit() + "_" + gitLastCommitAuthorName() + ".apk"
         println("path is $path")
         variant.outputs.forEach {
             it.outputFileName = path
         }
         // 打包完成后做的一些事,复制apk到指定文件夹
-        variant.assemble.doLast {
-            File out = new File(outputFileDir)
-            copy {
-                variant.outputs.forEach { file ->
-                    copy {
-                        from file.outputFile
-                        into out
+        variant.assembleProvider.configure() {
+            it.doLast {
+                File out = new File(outputFileDir)
+                copy {
+                    variant.outputs.forEach { file ->
+                        copy {
+                            from file.outputFile
+                            into out
+                        }
                     }
                 }
             }
         }
+
         def taskPrefix = "jiagu"
         def groupName = "jiagu"
         def assembleTask = variant.assembleProvider.name
@@ -80,9 +75,12 @@ android {
         tasks.create(taskName) {
             it.group groupName
             it.dependsOn assembleTask
-            variant.assemble.doLast {
-                logger.error("let me do something after $assembleTask")
+            variant.assembleProvider.configure() {
+                it.doLast {
+                    logger.error("let me do something after $assembleTask")
+                }
             }
+
         }
     }
 }
