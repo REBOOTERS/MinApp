@@ -38,9 +38,6 @@
         android:usesCleartextTraffic="true">
 
         <activity
-            android:name=".media.FFmpegActivity"
-            android:exported="true" />
-        <activity
             android:name=".ui.pure.ChangeViewActivity"
             android:exported="true" />
         <activity
@@ -53,7 +50,7 @@
             android:name=".ui.MD3Activity"
             android:exported="true"
             android:label="@string/title_activity_md3"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/Theme.M3" />
         <activity
             android:name=".ui.behavior.WebViewActivity"
             android:exported="true" />
