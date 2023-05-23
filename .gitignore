@@ -19,6 +19,7 @@
 *.apk
 # 这样可以只忽略当前文件夹下的 json 文件，而不是全局任意地方的
 /*.json
+local_repo
 local_repo/com/engineer/third/thirdlib/*_DEBUG
 local_repo/com/engineer/third/thirdlib/*.xml
 local_repo/com/engineer/third/thirdlib/*.xml.*
