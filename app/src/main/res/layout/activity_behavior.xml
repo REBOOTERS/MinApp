@@ -20,9 +20,14 @@
             android:text="allow screen capture" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/storage_query"
+            android:id="@+id/picture_query"
             style="@style/mw_10_margin"
             android:text="picture_query" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/gif_query"
+            style="@style/mw_10_margin"
+            android:text="gif_query" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/tree"
@@ -85,7 +90,6 @@
             android:id="@+id/deeplink"
             style="@style/mw_10_margin"
             android:text="Open The Activity By Url" />
-
 
 
         <Button

@@ -11,37 +11,29 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.toast
-import com.engineer.android.mini.ui.adapter.AlbumAdapter
-import com.engineer.android.mini.ui.adapter.AlbumAdapterAnnotation
+import com.engineer.android.mini.ui.adapter.GifAdapter
+import com.engineer.android.mini.ui.adapter.GifAdapterAnnotation
 import com.engineer.android.mini.ui.viewmodel.CursorQueryViewModel
 import com.engineer.common.utils.SystemTools
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.concurrent.thread
 
-/**
- * Created on 2020/10/18.
- * @author rookie
- */
-private const val TAG = "PictureBottomDialog"
-
-
 @AndroidEntryPoint
-class PictureBottomDialog : BaseBottomSheetDialog() {
+open class GifBottomDialog() : BaseBottomSheetDialog() {
+    private val TAG = "GifBottomDialog"
 
     @Inject
     lateinit var imageList: ArrayList<Uri>
 
-    @AlbumAdapterAnnotation
+    @GifAdapterAnnotation
     @Inject
-    lateinit var adapter: AlbumAdapter
+    lateinit var adapter: GifAdapter
 
     private val cursorQueryViewModel: CursorQueryViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.bottom_sheet_layout, container, false)
     }
@@ -60,24 +52,8 @@ class PictureBottomDialog : BaseBottomSheetDialog() {
             adapter.notifyDataSetChanged()
             handleUri(it)
         }
-        cursorQueryViewModel.loadImages()
 
-        cursorQueryViewModel.videoResults.observe(this) {
-            thread {
-                Log.e(TAG, "currentThread ${Thread.currentThread().name}")
-                it.forEach { uri ->
-                    context?.let {
-                        Log.e(
-                            TAG, "uri=$uri," +
-                                    "fileName=${SystemTools.getFileNameByUri(it, uri)}," +
-                                    "path=${SystemTools.getVideoFilePathFromUri(it, uri)}"
-                        )
-                    }
-
-                }
-            }
-        }
-        cursorQueryViewModel.loadVideos()
+        cursorQueryViewModel.loadGifs()
     }
 
 
@@ -87,9 +63,11 @@ class PictureBottomDialog : BaseBottomSheetDialog() {
             it.forEach { uri ->
                 context?.let {
                     Log.e(
-                        TAG, "uri=$uri," +
-                                "fileName=${SystemTools.getFileNameByUri(it, uri)}," +
-                                "path=${SystemTools.getVideoFilePathFromUri(it, uri)}"
+                        TAG, "uri=$uri," + "fileName=${
+                            SystemTools.getFileNameByUri(
+                                it, uri
+                            )
+                        }," + "path=${SystemTools.getVideoFilePathFromUri(it, uri)}"
                     )
 //                    val fd = it.contentResolver.openFileDescriptor(uri, "r")
 //                    fd?.let {

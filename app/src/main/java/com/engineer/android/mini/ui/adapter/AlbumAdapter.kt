@@ -21,6 +21,17 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.FragmentComponent
 import dagger.hilt.android.qualifiers.ActivityContext
+import pl.droidsonroids.gif.GifDrawable
+import pl.droidsonroids.gif.GifImageView
+import javax.inject.Qualifier
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class AlbumAdapterAnnotation
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class GifAdapterAnnotation
 
 
 @Module
@@ -35,12 +46,22 @@ object AlbumAdapterProvider {
         return list
     }
 
+    @AlbumAdapterAnnotation
     @Provides
     fun providerAdapter(
         @ActivityContext context: Context,
     ): AlbumAdapter {
         val size = context.resources.displayMetrics.widthPixels / 3
         return AlbumAdapter(context, list, size)
+    }
+
+    @GifAdapterAnnotation
+    @Provides
+    fun providerGifAdapter(
+        @ActivityContext context: Context,
+    ): GifAdapter {
+        val size = context.resources.displayMetrics.widthPixels / 3
+        return GifAdapter(context, list, size)
     }
 }
 
@@ -74,6 +95,40 @@ class AlbumAdapter(val context: Context, val imageList: ArrayList<Uri>, val imag
         Log.e("AlbumAdapter", "w=$w,h=$h")
         holder.tv.text = "w=$w,h=$h"
         Glide.with(context).load(uri).apply(options).into(holder.imageView)
+
+        holder.itemView.setOnClickListener {
+            val path = SystemTools.getVideoFilePathFromUri(it.context, uri)
+            path.toString().toast()
+            path?.let {
+                PictureInfoUtil.printExifInfo(path)
+            }
+        }
+    }
+
+}
+
+class GifAdapter(val context: Context, val imageList: ArrayList<Uri>, val imageSize: Int) :
+    RecyclerView.Adapter<GifAdapter.ViewHolder>() {
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val imageView: GifImageView = view.findViewById(R.id.imageView)
+        val tv: TextView = view.findViewById(R.id.info)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.gif_image_item, parent, false)
+        return ViewHolder(view)
+    }
+
+    override fun getItemCount() = imageList.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.imageView.layoutParams.width = imageSize
+        holder.imageView.layoutParams.height = imageSize
+        val uri = imageList[position]
+        val gifFromUri = GifDrawable(context.contentResolver, uri)
+        holder.imageView.setImageDrawable(gifFromUri)
+//        Glide.with(context).load(uri).into(holder.imageView)
 
         holder.itemView.setOnClickListener {
             val path = SystemTools.getVideoFilePathFromUri(it.context, uri)

@@ -20,25 +20,47 @@ import kotlin.concurrent.thread
 class CursorQueryViewModel @Inject constructor(app: Application) : AndroidViewModel(app) {
     internal val imageResults = MutableLiveData<List<Uri>>()
     internal val videoResults = MutableLiveData<List<Uri>>()
+
+    fun loadGifs() {
+        thread {
+
+            val section = MediaStore.Images.Media.MIME_TYPE + "=?" + " AND " + MediaStore.MediaColumns.SIZE + ">0"
+            val sectionArgs = arrayOf("image/gif")
+            val imageList = ArrayList<Uri>()
+            val cursor = getApplication<MinApp>().contentResolver.query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                null,
+                section,
+                sectionArgs,
+                "${MediaStore.MediaColumns.DATE_ADDED} desc"
+            )
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    val id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID))
+                    val uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
+                    imageList.add(uri)
+                }
+                cursor.close()
+            }
+            imageResults.postValue(imageList)
+        }
+    }
+
     fun loadImages() {
 
         thread {
             val imageList = ArrayList<Uri>()
-            val cursor = getApplication<MinApp>()
-                .contentResolver
-                .query(
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    null,
-                    null,
-                    null,
-                    "${MediaStore.MediaColumns.DATE_ADDED} desc"
-                )
+            val cursor = getApplication<MinApp>().contentResolver.query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                null,
+                null,
+                null,
+                "${MediaStore.MediaColumns.DATE_ADDED} desc"
+            )
             if (cursor != null) {
                 while (cursor.moveToNext()) {
-                    val id =
-                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID))
-                    val uri =
-                        ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
+                    val id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID))
+                    val uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
                     imageList.add(uri)
                 }
                 cursor.close()
@@ -51,21 +73,17 @@ class CursorQueryViewModel @Inject constructor(app: Application) : AndroidViewMo
     fun loadVideos() {
         thread {
             val imageList = ArrayList<Uri>()
-            val cursor = getApplication<MinApp>()
-                .contentResolver
-                .query(
-                    MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                    null,
-                    null,
-                    null,
-                    "${MediaStore.MediaColumns.DATE_ADDED} desc"
-                )
+            val cursor = getApplication<MinApp>().contentResolver.query(
+                MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                null,
+                null,
+                null,
+                "${MediaStore.MediaColumns.DATE_ADDED} desc"
+            )
             if (cursor != null) {
                 while (cursor.moveToNext()) {
-                    val id =
-                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID))
-                    val uri =
-                        ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
+                    val id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID))
+                    val uri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
                     imageList.add(uri)
                 }
                 cursor.close()

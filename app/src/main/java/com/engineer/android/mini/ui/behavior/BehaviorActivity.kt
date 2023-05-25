@@ -21,6 +21,7 @@ import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityBehaviorBinding
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
+import com.engineer.android.mini.ui.fragments.GifBottomDialog
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
 import com.engineer.android.mini.ui.pure.MessyActivity
 import com.engineer.common.contract.ChooserResultContract
@@ -68,7 +69,7 @@ class BehaviorActivity : AppCompatActivity() {
 
         viewBinding.tree.setOnClickListener { gotoActivity(TreeActivity::class.java) }
         viewBinding.fish.setOnClickListener { gotoActivity(FishActivity::class.java) }
-        viewBinding.storageQuery.setOnClickListener {
+        viewBinding.pictureQuery.setOnClickListener {
             val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 listOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)
             } else {
@@ -77,6 +78,18 @@ class BehaviorActivity : AppCompatActivity() {
             PermissionX.init(this).permissions(permission).request { allGranted, _, _ ->
                 if (allGranted) {
                     PictureBottomDialog().show(supportFragmentManager, "picture")
+                }
+            }
+        }
+        viewBinding.gifQuery.setOnClickListener {
+            val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                listOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)
+            } else {
+                listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+            PermissionX.init(this).permissions(permission).request { allGranted, _, _ ->
+                if (allGranted) {
+                    GifBottomDialog().show(supportFragmentManager, "picture")
                 }
             }
         }
