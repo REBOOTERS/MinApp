@@ -315,7 +315,7 @@ class MessyActivity : BaseActivity() {
     }
 
     private fun levelListDrawableTest() {
-        val ids = intArrayOf(R.drawable.ic_baseline_add_24, R.drawable.ic_action_close)
+        val ids = intArrayOf(R.drawable.ic_baseline_add_24, com.weijiaxing.logviewer.R.drawable.ic_action_close)
         val levelListDrawable = LevelListDrawable()
         for (i in ids.indices) {
             val drawable = resources.getDrawableForDensity(ids[i], resources.displayMetrics.densityDpi)
