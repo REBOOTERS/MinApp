@@ -48,6 +48,10 @@ class OtherMainActivity : AppCompatActivity() {
             startActivity(Intent(this, OpenByOtherActivity::class.java))
         }
 
+        findViewById<View>(R.id.cv_call_method).setOnClickListener {
+            ContentProviderHelper.call(this, "add", "1", null)
+        }
+
         val value = ContentProviderHelper.read(this, "name")
         Log.e(TAG, "onCreate: value =$value")
     }

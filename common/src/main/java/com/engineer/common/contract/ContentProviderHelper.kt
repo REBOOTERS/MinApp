@@ -2,6 +2,7 @@ package com.engineer.common.contract
 
 import android.content.ContentValues
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 
 object ContentProviderHelper {
@@ -34,8 +35,7 @@ object ContentProviderHelper {
         if (rowId != null) {
             val where = "_id = ?"
             val whereValue = arrayOf(rowId)
-            val rowNum =
-                contentResolver.update(MiniContract.Entry.CONTENT_URL, values, where, whereValue)
+            val rowNum = contentResolver.update(MiniContract.Entry.CONTENT_URL, values, where, whereValue)
             if (rowNum >= 0) {
                 finish = true
             }
@@ -73,5 +73,10 @@ object ContentProviderHelper {
         }
         cursor?.close()
         return result
+    }
+
+    fun call(context: Context, method: String, arg: String?, bundle: Bundle?) {
+        val contentResolver = context.contentResolver
+        contentResolver.call(MiniContract.Entry.CONTENT_URL, method, arg, bundle)
     }
 }

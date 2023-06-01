@@ -7,11 +7,16 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.engineer.common.contract.MiniContract;
 
 public class MiniContentProvider extends ContentProvider {
-
+    private static final String TAG = "MiniContentProvider";
     public static final int ROUTE_ENTRIES = 1;
     public static final int ROUTE_ENTRIES_ID = 2;
 
@@ -100,5 +105,12 @@ public class MiniContentProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return result;
+    }
+
+    @Nullable
+    @Override
+    public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
+        Log.d(TAG, "call() called with: method = [" + method + "], arg = [" + arg + "], extras = [" + extras + "]");
+        return super.call(method, arg, extras);
     }
 }
