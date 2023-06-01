@@ -1,6 +1,5 @@
 package com.engineer.other
 
-import android.content.ContentResolver
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -10,10 +9,9 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.engineer.common.utils.ApplySigningUtils
 import com.engineer.other.contract.ContentProviderReaderHelper
-import com.engineer.other.contract.MiniContract
 import com.engineer.other.skip.SkipActivity
-import com.engineer.other.util.ApplySigningUtils
 
 class OtherMainActivity : AppCompatActivity() {
     private val TAG = "OtherMainActivity_TAG"

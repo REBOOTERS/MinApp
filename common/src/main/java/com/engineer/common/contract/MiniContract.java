@@ -1,4 +1,4 @@
-package com.engineer.other.contract;
+package com.engineer.common.contract;
 
 import android.content.ContentResolver;
 import android.net.Uri;
@@ -10,9 +10,11 @@ public class MiniContract {
     public static final String PATH_ENTRY = "entries";
 
     public static class Entry implements BaseColumns {
-        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.basicsyncadapter.entries";
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
+                + "/vnd.basicsyncadapter.entries";
 
-        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd.basicsyncadapter.entry";
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+                + "/vnd.basicsyncadapter.entry";
 
         public static final Uri CONTENT_URL = BASE_CONTENT_URI.buildUpon().appendPath(PATH_ENTRY).build();
 

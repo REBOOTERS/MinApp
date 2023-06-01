@@ -1,4 +1,4 @@
-package com.engineer.other.util;
+package com.engineer.common.utils;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;

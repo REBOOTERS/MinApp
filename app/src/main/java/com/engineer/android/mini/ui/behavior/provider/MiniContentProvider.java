@@ -8,6 +8,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
+import com.engineer.common.contract.MiniContract;
+
 public class MiniContentProvider extends ContentProvider {
 
     public static final int ROUTE_ENTRIES = 1;
