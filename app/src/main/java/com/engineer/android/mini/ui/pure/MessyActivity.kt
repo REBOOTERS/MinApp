@@ -15,7 +15,11 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.LevelListDrawable
 import android.net.Uri
-import android.os.*
+import android.os.Build
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.provider.Settings
 import android.text.SpannableString
 import android.text.Spanned
@@ -33,14 +37,18 @@ import com.engineer.android.mini.databinding.ActivityMessyBinding
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.screenWidth
 import com.engineer.android.mini.ext.toast
-import com.engineer.android.mini.proguards.*
+import com.engineer.android.mini.proguards.A
+import com.engineer.android.mini.proguards.B
+import com.engineer.android.mini.proguards.BlankFragment
+import com.engineer.android.mini.proguards.Utils
+import com.engineer.android.mini.proguards.WEEK
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.DemoDialogActivity
-import com.engineer.android.mini.ui.behavior.provider.ContentProviderReaderHelper
 import com.engineer.android.mini.ui.pure.helper.SimpleCallback
 import com.engineer.android.mini.util.JavaUtil
 import com.engineer.android.mini.util.NetWorkUtil
 import com.engineer.android.mini.util.RxTimer
+import com.engineer.common.contract.ContentProviderHelper
 import com.engineer.common.utils.SystemTools
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.MainScope
@@ -387,9 +395,9 @@ class MessyActivity : BaseActivity() {
         realBinding.progressBar.setOnClickListener {
             timeAnimator.start()
         }
-        ContentProviderReaderHelper.writeValueToDb(this, "name", "mike")
-        ContentProviderReaderHelper.writeValueToDb(this, "address", "beijing")
-        ContentProviderReaderHelper.writeValueToDb(this, "grade", "1")
+        ContentProviderHelper.writeValueToDb(this, "name", "mike")
+        ContentProviderHelper.writeValueToDb(this, "address", "beijing")
+        ContentProviderHelper.writeValueToDb(this, "grade", "1")
 
 //        Log.e(TAG, "value = ${ContentProviderReaderHelper.read(this, "name")}")
     }

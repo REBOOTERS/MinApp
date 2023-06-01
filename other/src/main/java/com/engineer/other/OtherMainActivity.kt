@@ -9,13 +9,17 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.engineer.common.contract.ContentProviderHelper
 import com.engineer.common.utils.ApplySigningUtils
-import com.engineer.other.contract.ContentProviderReaderHelper
 import com.engineer.other.skip.SkipActivity
+import com.engineer.other.ui.EmptyActivity
+import com.engineer.other.ui.FakeOldWayActivity
+import com.engineer.other.ui.FakePureUiActivity
+import com.engineer.other.ui.OpenByOtherActivity
 
 class OtherMainActivity : AppCompatActivity() {
     private val TAG = "OtherMainActivity_TAG"
-    private lateinit var tv:TextView
+    private lateinit var tv: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
@@ -44,7 +48,7 @@ class OtherMainActivity : AppCompatActivity() {
             startActivity(Intent(this, OpenByOtherActivity::class.java))
         }
 
-        val value = ContentProviderReaderHelper.read(this, "name")
+        val value = ContentProviderHelper.read(this, "name")
         Log.e(TAG, "onCreate: value =$value")
     }
 
@@ -55,7 +59,9 @@ class OtherMainActivity : AppCompatActivity() {
         Log.e(TAG, "currentProcess tid=" + Process.myTid())
         Log.e(TAG, "currentProcess is64Bit=" + Process.is64Bit())
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Log.e(TAG, "currentProcess isApplicationUid=" + Process.isApplicationUid(Process.myUid()))
+            Log.e(
+                TAG, "currentProcess isApplicationUid=" + Process.isApplicationUid(Process.myUid())
+            )
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             Log.e(TAG, "currentProcess isIsolated=" + Process.isIsolated())
@@ -85,14 +91,5 @@ class OtherMainActivity : AppCompatActivity() {
     override fun finish() {
         super.finish()
         Log.d(TAG, "finish() called")
-    }
-}
-
-class EmptyActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val text = TextView(this)
-        text.text = "SimpleTv"
-        setContentView(text)
     }
 }

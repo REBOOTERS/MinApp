@@ -1,9 +1,10 @@
-package com.engineer.android.mini.ui.behavior.provider
+package com.engineer.common.contract
 
 import android.content.ContentValues
 import android.content.Context
+import android.util.Log
 
-object ContentProviderReaderHelper {
+object ContentProviderHelper {
 
 
     fun writeValueToDb(context: Context, key: String, value: String): Boolean {
@@ -33,7 +34,8 @@ object ContentProviderReaderHelper {
         if (rowId != null) {
             val where = "_id = ?"
             val whereValue = arrayOf(rowId)
-            val rowNum = contentResolver.update(MiniContract.Entry.CONTENT_URL, values, where, whereValue)
+            val rowNum =
+                contentResolver.update(MiniContract.Entry.CONTENT_URL, values, where, whereValue)
             if (rowNum >= 0) {
                 finish = true
             }
@@ -51,6 +53,11 @@ object ContentProviderReaderHelper {
         var result: String? = null
         val contentResolver = context.contentResolver
         val cursor = contentResolver.query(MiniContract.Entry.CONTENT_URL, null, null, null, null)
+
+        if (cursor == null) {
+            Log.e("OtherMainActivity_TAG", "cursor is null")
+            return null
+        }
         while (cursor != null && cursor.moveToNext()) {
             val index = cursor.getColumnIndex(MiniContract.Entry.COLUMN_KEY)
             if (index >= 0) {
