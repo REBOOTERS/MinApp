@@ -43,14 +43,11 @@ public class MiniContentProvider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
         final int match = URI_MATCHER.match(uri);
-        switch (match) {
-            case ROUTE_ENTRIES:
-                return MiniContract.Entry.CONTENT_TYPE;
-            case ROUTE_ENTRIES_ID:
-                return MiniContract.Entry.CONTENT_ITEM_TYPE;
-            default:
-                return null;
-        }
+        return switch (match) {
+            case ROUTE_ENTRIES -> MiniContract.Entry.CONTENT_TYPE;
+            case ROUTE_ENTRIES_ID -> MiniContract.Entry.CONTENT_ITEM_TYPE;
+            default -> null;
+        };
     }
 
     @Override
