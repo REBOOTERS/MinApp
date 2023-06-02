@@ -37,6 +37,15 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
+        <receiver
+            android:name=".ui.behavior.MiniReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.mini.receiver" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".ui.pure.ChangeViewActivity"
             android:exported="true" />
