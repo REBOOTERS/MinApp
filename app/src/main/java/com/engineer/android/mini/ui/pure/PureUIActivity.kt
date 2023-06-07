@@ -22,6 +22,7 @@ import com.engineer.android.mini.ui.ForceBottomActivity
 import com.engineer.android.mini.ui.MD3Activity
 import com.engineer.android.mini.ui.adapter.RecyclerViewActivity
 import com.engineer.android.mini.ui.pure.helper.SimpleCallback
+import com.engineer.android.mini.ui.tabs.ui.TabsActivity
 import com.engineer.android.mini.util.DisplayUtil
 import radiography.Radiography
 
@@ -39,6 +40,7 @@ class PureUIActivity : BaseActivity() {
 //        realBinding.root.layoutParams = p
 
         TransitionManager.beginDelayedTransition(realBinding.rootContent)
+        realBinding.viewPage2Test.setOnClickListener { gotoActivity(TabsActivity::class.java) }
         realBinding.materialDesign3.setOnClickListener { gotoActivity(MD3Activity::class.java) }
         realBinding.imageView.setOnClickListener { boundsAnimation() }
         realBinding.statusBarTest.setOnClickListener { gotoActivity(LandscapeActivity::class.java) }
@@ -202,6 +204,7 @@ class PureUIActivity : BaseActivity() {
             Configuration.UI_MODE_NIGHT_YES -> {
                 "夜间模式 On".toast()
             }
+
             Configuration.UI_MODE_NIGHT_NO -> {
                 "夜间模式 Off".toast()
             }

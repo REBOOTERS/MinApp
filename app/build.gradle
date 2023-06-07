@@ -192,6 +192,7 @@ dependencies {
 //    implementation 'com.github.SherlockGougou:BigImageViewPager:androidx-7.0.4'
    // https://github.com/koral--/android-gif-drawable/tree/master
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.25'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
 }
 
 apply from: file("../custom-gradle/test-dep.gradle") // unit test
