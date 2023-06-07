@@ -1,5 +1,6 @@
-val array = arrayOf(1, 2,4,9,5)
-
+val array = arrayOf(1, 2, 4, 9, 5)
+println(array.size)
+println()
 array.forEach {
     println(it)
 }

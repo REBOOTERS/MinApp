@@ -12,9 +12,9 @@ ext {
     AndResGuard_gradle_plugin = '1.2.21'
 
     appcompat = '1.6.1'
-    core_ktx = '1.10.0'
+    core_ktx = '1.10.1'
     constraint_layout = '2.1.4'
-    material = '1.8.0'
+    material = '1.9.0'
 
 
     compose_version = '1.4.2'
