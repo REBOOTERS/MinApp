@@ -71,6 +71,12 @@
             app:flexWrap="wrap">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/view_page_2_test"
+                style="@style/ww_10_margin"
+                android:text="view_page_2" />
+
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/material_design_3"
                 style="@style/ww_10_margin"
                 android:text="material_design_3" />
