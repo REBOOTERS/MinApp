@@ -23,7 +23,7 @@ object FragmentFactory {
         return when (position) {
             0 -> SimpleFragment.newInstance("1", "2")
             1 -> PhotoFragment.newInstance("3", "4")
-            else -> ItemFragment.newInstance(3)
+            else -> ItemFragment.newInstance(1)
         }
     }
 }
