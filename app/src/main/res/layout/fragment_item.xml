@@ -1,20 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/item_number"
+    <data>
+
+        <import type="com.engineer.android.mini.ui.tabs.ListViewModel" />
+
+        <variable
+            name="listViewModel"
+            type="ListViewModel" />
+
+        <import type="com.engineer.android.mini.ui.tabs.ui.fragments.placeholder.PlaceholderContent.PlaceholderItem" />
+
+        <variable
+            name="item"
+            type="PlaceholderItem" />
+
+    </data>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:onClick="@{() -> listViewModel.onItemClicked(item)}"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/item_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@{item.id}"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@{item.content}"
+            android:textAppearance="?attr/textAppearanceListItem" />
+    </LinearLayout>
+</layout>
