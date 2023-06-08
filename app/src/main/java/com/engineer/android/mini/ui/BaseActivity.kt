@@ -7,6 +7,7 @@ import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 
 /**
@@ -40,6 +41,13 @@ open class BaseActivity : AppCompatActivity() {
         return flag == Configuration.UI_MODE_NIGHT_YES
     }
 
+    fun showStatusBar(show: Boolean) {
+        if (show) {
+            controller.show(WindowInsetsCompat.Type.statusBars())
+        } else {
+            controller.hide(WindowInsetsCompat.Type.statusBars())
+        }
+    }
 
     fun printAny(vararg strs: String) {
         strs.forEach {

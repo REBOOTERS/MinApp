@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="48dp"
     tools:context=".ui.tabs.ui.TabsActivity">
 
 
@@ -15,11 +14,12 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
+        android:background="@color/transparent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tabBackground="@color/transparent"
         app:tabRippleColor="@android:color/transparent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
