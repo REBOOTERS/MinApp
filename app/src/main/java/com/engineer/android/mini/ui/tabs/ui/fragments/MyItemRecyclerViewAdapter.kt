@@ -9,12 +9,10 @@ import com.engineer.android.mini.R
 
 import com.engineer.android.mini.ui.tabs.ui.fragments.placeholder.PlaceholderContent.PlaceholderItem
 import com.engineer.android.mini.databinding.FragmentItemBinding
+import com.engineer.android.mini.ui.tabs.ListViewModel
 
-/**
- * [RecyclerView.Adapter] that can display a [PlaceholderItem].
- * TODO: Replace the implementation with code for your data type.
- */
 class MyItemRecyclerViewAdapter(
+    private val listViewModel: ListViewModel,
     private val values: List<PlaceholderItem>
 ) : RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder>() {
 
@@ -26,19 +24,13 @@ class MyItemRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.idView.text = item.id
-        holder.contentView.text = item.content
+        holder.binding.listViewModel = listViewModel
+        holder.binding.item = item
+        holder.binding.executePendingBindings()
     }
 
     override fun getItemCount(): Int = values.size
 
-    inner class ViewHolder(binding: FragmentItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        val idView: TextView = binding.itemNumber
-        val contentView: TextView = binding.content
-
-        override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
-        }
-    }
+    inner class ViewHolder(val binding: FragmentItemBinding) : RecyclerView.ViewHolder(binding.root)
 
 }
