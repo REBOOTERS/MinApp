@@ -8,38 +8,43 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.*
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityRecyclerViewBinding
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
+import com.engineer.android.mini.ui.viewmodel.RecyclerViewModel
+import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import java.util.concurrent.atomic.AtomicInteger
 
-class RecyclerViewActivity : BaseActivity() {
+class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
 
     private lateinit var recyclerView: RecyclerView
-    private val datas by lazy {
-        val list = ArrayList<String>()
-        for (i in 0 until 20) {
-            list.add(i.toString())
-        }
-        list
-    }
+    private lateinit var recyclerViewModel: RecyclerViewModel
 
     private lateinit var viewBinding: ActivityRecyclerViewBinding
+    private var loadMoreCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityRecyclerViewBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+        recyclerViewModel = ViewModelProvider(this)[RecyclerViewModel::class.java]
         recyclerView = findViewById(R.id.recycler_view)
-        val adapter = MyAdapter(datas)
+        val adapter = MyAdapter()
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(MyDecoration(this))
 //        recyclerView.addItemDecoration(DividerItemDecoration(this, RecyclerView.VERTICAL))
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = adapter
+
+        recyclerViewModel.datas.observe(this) {
+            adapter.updateDatas(it)
+            viewBinding.refreshLayout.finishRefresh(0)
+        }
 
 //        val linearSnapHelper = LinearSnapHelper()
 //        linearSnapHelper.attachToRecyclerView(recyclerView)
@@ -60,13 +65,11 @@ class RecyclerViewActivity : BaseActivity() {
 //        }
 
         viewBinding.remove.setOnClickListener {
-            datas.removeAt(0)
-            adapter.notifyItemChanged(0)
+            adapter.removeData(0)
 
         }
         viewBinding.add.setOnClickListener {
-            datas.add(0, 0.toString())
-            adapter.notifyItemChanged(0)
+            adapter.addData("new item")
 
             viewBinding.add.post {
                 println(1)
@@ -75,6 +78,11 @@ class RecyclerViewActivity : BaseActivity() {
                 reflectValue(recyclerView)
             }, 300)
         }
+
+        viewBinding.refreshLayout.setOnRefreshLoadMoreListener(this)
+
+//        viewBinding.refreshLayout.autoRefreshAnimationOnly()
+        recyclerViewModel.loadData()
     }
 
     private fun reflectValue(recyclerView: RecyclerView) {
@@ -108,8 +116,7 @@ class RecyclerViewActivity : BaseActivity() {
         Log.e("reflect", "mRecyclerPool: $mp")
         if (mp is RecyclerView.RecycledViewPool) {
             Log.e(
-                "reflect",
-                "mRecyclerPool: ${mp.getRecycledView(0)},${mp.getRecycledViewCount(0)}"
+                "reflect", "mRecyclerPool: ${mp.getRecycledView(0)},${mp.getRecycledViewCount(0)}"
             )
 
         }
@@ -118,63 +125,120 @@ class RecyclerViewActivity : BaseActivity() {
         Log.e("reflect", "===============================================================")
     }
 
-    class MyAdapter(private val datas: List<String>) : RecyclerView.Adapter<MyAdapter.MyHolder>() {
+    override fun onRefresh(refreshLayout: RefreshLayout) {
+        Log.d(TAG, "onRefresh() called with: refreshLayout = $refreshLayout")
+        recyclerViewModel.loadData()
+        loadMoreCount = 0
+    }
 
-        private var createCount = AtomicInteger()
-
-        inner class MyHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val title: TextView = view.findViewById(R.id.title_tv)
-            val index: TextView = view.findViewById(R.id.index_tv)
+    override fun onLoadMore(refreshLayout: RefreshLayout) {
+        Log.d(TAG, "onLoadMore() called with: refreshLayout = $refreshLayout")
+        if (loadMoreCount < 3) {
+            viewBinding.refreshLayout.finishLoadMore(2000)
+            loadMoreCount++
+        } else {
+            viewBinding.refreshLayout.finishLoadMoreWithNoMoreData()
         }
+    }
+}
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
-            Log.e(
-                "CreateHolder",
-                "onCreateViewHolder() called with: viewType = $viewType, createCount=${createCount.incrementAndGet()}"
-            )
-            val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
-            val holder = MyHolder(view)
+class MyAdapter : RecyclerView.Adapter<MyAdapter.MyHolder>() {
 
-            view.setOnClickListener {
-                val adapterPosition = holder.adapterPosition
-                val layoutPosition = holder.layoutPosition
-                "adapterPosition = $adapterPosition\n layoutPosition = $layoutPosition".toast()
+    private var createCount = AtomicInteger()
+    private val datas: ArrayList<String> = ArrayList()
+    fun updateDatas(inputs: List<String>) {
+        datas.clear()
+        datas.addAll(inputs)
+        notifyDataSetChanged()
+    }
+
+    fun addData(input: String) {
+        val inputs = arrayListOf(input)
+        addDatas(inputs)
+    }
+
+    fun removeData(index: Int) {
+        if (index <= datas.size) {
+            return
+        }
+        datas.removeAt(index)
+        notifyItemRemoved(index)
+    }
+
+    fun addDatas(inputs: List<String>) {
+        datas.addAll(inputs)
+        val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+            override fun getOldListSize(): Int {
+                return datas.size - inputs.size
             }
-            return holder
-        }
 
-        override fun onBindViewHolder(holder: MyHolder, position: Int) {
-            Log.e(
-                "BindHolder",
-                "onBindViewHolder() called with: holder = $holder, position = $position"
-            )
-            holder.title.text = ('A' + position).toString()
-            holder.index.text = datas[position]
-        }
+            override fun getNewListSize(): Int {
+                return datas.size
+            }
 
-        override fun getItemCount(): Int {
-            Log.e("getItemCount", "getItemCount() called")
-            return datas.size
-        }
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return datas[oldItemPosition] == datas[newItemPosition]
+            }
 
-        override fun onViewRecycled(holder: MyHolder) {
-            super.onViewRecycled(holder)
-            val view = holder.itemView.findViewById<TextView>(R.id.title_tv)
-            val s = view.text.toString()
-            Log.d("onViewRecycled", "onViewRecycled() called with: holder = $holder , s=$s")
+            override fun areContentsTheSame(
+                oldItemPosition: Int, newItemPosition: Int
+            ): Boolean {
+                return datas[oldItemPosition] == datas[newItemPosition]
+            }
+        })
+        result.dispatchUpdatesTo(this)
+    }
 
-        }
+    inner class MyHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val title: TextView = view.findViewById(R.id.title_tv)
+        val index: TextView = view.findViewById(R.id.index_tv)
+    }
 
-        override fun onViewAttachedToWindow(holder: MyHolder) {
-            super.onViewAttachedToWindow(holder)
-            Log.e("ach", "onViewAttachedToWindow() called with: holder = $holder")
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
+        Log.e(
+            "CreateHolder",
+            "onCreateViewHolder() called with: viewType = $viewType, createCount=${createCount.incrementAndGet()}"
+        )
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
+        val holder = MyHolder(view)
 
-        override fun onViewDetachedFromWindow(holder: MyHolder) {
-            super.onViewDetachedFromWindow(holder)
-            Log.e("ach", "onViewDetachedFromWindow() called with: holder = $holder")
+        view.setOnClickListener {
+            val adapterPosition = holder.adapterPosition
+            val layoutPosition = holder.layoutPosition
+            "adapterPosition = $adapterPosition\n layoutPosition = $layoutPosition".toast()
         }
+        return holder
+    }
+
+    override fun onBindViewHolder(holder: MyHolder, position: Int) {
+        Log.e(
+            "BindHolder", "onBindViewHolder() called with: holder = $holder, position = $position"
+        )
+        holder.title.text = ('A' + position).toString()
+        holder.index.text = datas[position]
+    }
+
+    override fun getItemCount(): Int {
+        Log.e("getItemCount", "getItemCount() called")
+        return datas.size
+    }
+
+    override fun onViewRecycled(holder: MyHolder) {
+        super.onViewRecycled(holder)
+        val view = holder.itemView.findViewById<TextView>(R.id.title_tv)
+        val s = view.text.toString()
+        Log.d("onViewRecycled", "onViewRecycled() called with: holder = $holder , s=$s")
+
+    }
+
+    override fun onViewAttachedToWindow(holder: MyHolder) {
+        super.onViewAttachedToWindow(holder)
+        Log.e("ach", "onViewAttachedToWindow() called with: holder = $holder")
+    }
+
+    override fun onViewDetachedFromWindow(holder: MyHolder) {
+        super.onViewDetachedFromWindow(holder)
+        Log.e("ach", "onViewDetachedFromWindow() called with: holder = $holder")
     }
 }
 
@@ -183,8 +247,7 @@ class MyDecoration(context: Context) : RecyclerView.ItemDecoration() {
     private var decorationHeight = 0
     private var paint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private var bitmapTag: Bitmap = BitmapFactory.decodeResource(
-        context.resources,
-        R.drawable.phone
+        context.resources, R.drawable.phone
     )
 
     init {
@@ -197,7 +260,7 @@ class MyDecoration(context: Context) : RecyclerView.ItemDecoration() {
         val childCount = parent.childCount
         for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
-            val top = child.top + child.height / 2f
+            val top = child.top + 0f
             val left = child.width / 2f
             c.drawBitmap(bitmapTag, left, top, paint)
         }
@@ -222,10 +285,7 @@ class MyDecoration(context: Context) : RecyclerView.ItemDecoration() {
     }
 
     override fun getItemOffsets(
-        outRect: Rect,
-        view: View,
-        parent: RecyclerView,
-        state: RecyclerView.State
+        outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         if (parent.getChildAdapterPosition(view) != 0) {

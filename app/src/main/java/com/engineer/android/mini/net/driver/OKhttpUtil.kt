@@ -29,11 +29,18 @@ object OKhttpUtil {
     }
 
     val client = OkHttpClient.Builder()
+        .addNetworkInterceptor {
+            println("just test network intercept")
+            println("request is ${it.request()}")
+            val res = it.proceed(it.request())
+            println("res is ${res.body()}")
+            res
+        }
         .addInterceptor {
             println("just test intercept")
-            println("request is ${request.body()}")
+            println("request is ${it.request()}")
             val response = it.proceed(it.request())
-            println("response is ${response.body()}")
+            println("response is ${response.body()?.contentLength()}")
             response
         }
         .eventListener(DefaultEventListener())
@@ -61,7 +68,7 @@ object OKhttpUtil {
     }
 
     fun syncCall() {
-        kotlin.runCatching {
+        runCatching {
             val response = call.execute()
             println("response == ${response.body()?.string()}")
             println("executed ？ ${call.isExecuted}")
