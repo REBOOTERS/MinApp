@@ -149,8 +149,7 @@ class OldWayActivity : BaseActivity() {
         // Get MainViewModel by passing a database to the factory
         val database = getDatabase(this)
         val repository = TitleRepository(getNetworkService(), database.titleDao)
-        val viewModel = ViewModelProvider(this, MainViewModel.FACTORY(repository))
-            .get(MainViewModel::class.java)
+        val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         // When rootLayout is clicked call onMainViewClicked in ViewModel
         taps.setOnClickListener {

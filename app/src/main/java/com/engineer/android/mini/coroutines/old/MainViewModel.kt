@@ -21,10 +21,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.engineer.android.mini.coroutines.old.util.BACKGROUND
-import com.engineer.android.mini.coroutines.old.util.singleArgViewModelFactory
 import com.engineer.android.mini.ext.toast
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * MainViewModel designed to store and manage UI-related data in a lifecycle conscious way. This
@@ -35,15 +38,6 @@ import kotlinx.coroutines.*
  * @param repository the data source this ViewModel will fetch results from.
  */
 class MainViewModel(private val repository: TitleRepository) : ViewModel() {
-
-    companion object {
-        /**
-         * Factory for creating [MainViewModel]
-         *
-         * @param arg the repository to pass to [MainViewModel]
-         */
-        val FACTORY = singleArgViewModelFactory(::MainViewModel)
-    }
 
     /**
      * Request a snackbar to display a string.

@@ -109,7 +109,7 @@ class RootActivity : BaseActivity() {
             "producer and consumer is doing".toast()
             return
         }
-        val viewModel = ViewModelProvider(this).get(ProducerConsumerViewModel::class.java)
+        val viewModel = ViewModelProvider(this)[ProducerConsumerViewModel::class.java]
         viewModel.consumer()
 
         val d = Observable.interval(0, 2, TimeUnit.SECONDS).subscribe {
