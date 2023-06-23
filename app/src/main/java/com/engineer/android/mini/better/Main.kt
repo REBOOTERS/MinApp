@@ -1,5 +1,6 @@
 package com.engineer.android.mini.better
 
+import com.alibaba.fastjson.JSON
 import com.engineer.android.mini.util.TimeUtil
 import io.reactivex.Observable
 import org.json.JSONObject
@@ -14,10 +15,33 @@ import kotlin.collections.HashMap
 fun main() {
     val list = arrayListOf("11", "cdd", "d", "cat")
     println(list)
+    println(list.javaClass)
     val str = list.joinToString(",")
     println(str)
 
+    val json = JSON.toJSONString(list)
+    println("json is $json")
+    val result: List<String> = JSON.parseArray(json, String::class.java)
+    println(result)
 
+    val aa = MaxSizeList<String>(10)
+    for (i in 0..10) {
+        aa.add("$i")
+    }
+    aa.add("a")
+    println(aa)
+    Collections.reverse(aa)
+    println(aa)
+
+}
+
+class MaxSizeList<E>(private var maxSize: Int) : ArrayList<E>() {
+    override fun add(element: E): Boolean {
+        if (size >= maxSize) {
+            removeAt(0)
+        }
+        return super.add(element)
+    }
 }
 
 fun testCalendar() {
@@ -45,17 +69,14 @@ fun testCalendar() {
 
 
 private fun testInterval() {
-    Observable.intervalRange(0L, 20.toLong(), 0, 1L, TimeUnit.SECONDS)
-        .doOnNext {
+    Observable.intervalRange(0L, 20.toLong(), 0, 1L, TimeUnit.SECONDS).doOnNext {
 //            println(it)
 
-            val randomValue = getRandomValue()
+        val randomValue = getRandomValue()
 //            println(randomValue)
-        }
-        .doOnComplete {
-            println("kkk")
-        }
-        .subscribe()
+    }.doOnComplete {
+        println("kkk")
+    }.subscribe()
 
     Thread.sleep(20000)
     println(1111)
