@@ -212,7 +212,7 @@ object WebResourceCacheManager {
             override fun onResponse(call: Call, response: Response) {
                 val coding = response.header("content-encoding", "utf-8")
                 Log.e(TAG, "encoding is $coding")
-                val responseBody = response.body()!!
+                val responseBody = response.body!!
 
                 var fos: FileOutputStream? = null
                 var fis: InputStream? = null

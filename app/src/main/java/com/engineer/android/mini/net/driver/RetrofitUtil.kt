@@ -2,6 +2,7 @@ package com.engineer.android.mini.net.driver
 
 import com.engineer.android.mini.net.WeChatCountList
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.ResponseBody
 import okhttp3.internal.platform.Platform
 import retrofit2.Call
@@ -17,12 +18,13 @@ import retrofit2.http.GET
 
 fun main() {
 
-    val url = HttpUrl.get("https://image.baidu.com/search/albumsdetail?tn=albumsdetail&word=%E4%BA%BA%E7%89%A9&fr=albumslist&album_tab=%E4%BA%BA%E7%89%A9&album_id=45&rn=30")
+    val url =
+        "https://image.baidu.com/search/albumsdetail?tn=albumsdetail&word=%E4%BA%BA%E7%89%A9&fr=albumslist&album_tab=%E4%BA%BA%E7%89%A9&album_id=45&rn=30".toHttpUrl()
     println(url.isHttps)
-    println(url.pathSegments())
-    println(url.encodedPath())
-    println(url.queryParameterNames())
-    println(url.query())
+    println(url.pathSegments)
+    println(url.encodedPath)
+    println(url.queryParameterNames)
+    println(url.query)
     println()
 
 //    RetrofitUtil.go()

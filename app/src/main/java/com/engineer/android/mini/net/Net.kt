@@ -2,6 +2,7 @@ package com.engineer.android.mini.net
 
 import android.util.Log
 import okhttp3.*
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -25,7 +26,7 @@ object Net {
          * or redirects will be handled within the boundaries of a single callStart and {@link
          * #callEnd}/{@link #callFailed} pair.
          */
-        override fun callStart(call: Call?) {
+        override fun callStart(call: Call) {
             Log.e(TAG, "callStart() called with: call = $call")
         }
 
@@ -40,7 +41,7 @@ object Net {
          * If the [Call] is able to reuse an existing pooled connection, this method will not be
          * invoked. See [ConnectionPool].
          */
-        override fun dnsStart(call: Call?, domainName: String?) {
+        override fun dnsStart(call: Call, domainName: String) {
             Log.e(TAG, "dnsStart() called with: call = $call, domainName = $domainName")
         }
 
@@ -50,11 +51,7 @@ object Net {
          *
          * This method is invoked after [.dnsStart].
          */
-        override fun dnsEnd(
-            call: Call?,
-            domainName: String?,
-            inetAddressList: List<InetAddress?>?
-        ) {
+        override fun dnsEnd(call: Call, domainName: String, inetAddressList: List<@JvmSuppressWildcards InetAddress>) {
             Log.e(
                 TAG,
                 "dnsEnd() called with: call = $call, domainName = $domainName, " +
@@ -73,11 +70,7 @@ object Net {
          * This can be invoked more than 1 time for a single [Call]. For example, if the response
          * to the [Call.request] is a redirect to a different address, or a connection is retried.
          */
-        override fun connectStart(
-            call: Call?,
-            inetSocketAddress: InetSocketAddress?,
-            proxy: Proxy?
-        ) {
+        override fun connectStart(call: Call, inetSocketAddress: InetSocketAddress, proxy: Proxy) {
             Log.e(
                 TAG,
                 "connectStart() called with: call = $call, " +
@@ -99,7 +92,7 @@ object Net {
          * This can be invoked more than 1 time for a single [Call]. For example, if the response
          * to the [Call.request] is a redirect to a different address, or a connection is retried.
          */
-        override fun secureConnectStart(call: Call?) {
+        override fun secureConnectStart(call: Call) {
             Log.e(TAG, "secureConnectStart() called with: call = $call")
         }
 
@@ -109,7 +102,7 @@ object Net {
          *
          * This method is invoked after [.secureConnectStart].
          */
-        override fun secureConnectEnd(call: Call?, handshake: Handshake?) {
+        override fun secureConnectEnd(call: Call, handshake: Handshake?) {
             Log.e(TAG, "secureConnectEnd() called with: call = $call, handshake = $handshake")
         }
 
@@ -121,10 +114,7 @@ object Net {
          * [.secureConnectEnd], otherwise it will invoked after
          * [.connectStart].
          */
-        override fun connectEnd(
-            call: Call?, inetSocketAddress: InetSocketAddress?, proxy: Proxy?,
-            protocol: Protocol?
-        ) {
+        override fun connectEnd(call: Call, inetSocketAddress: InetSocketAddress, proxy: Proxy, protocol: Protocol?) {
             Log.e(
                 TAG,
                 "connectEnd() called with: call = $call, " +
@@ -143,8 +133,11 @@ object Net {
          * otherwise it will invoked after [.connectStart].
          */
         override fun connectFailed(
-            call: Call?, inetSocketAddress: InetSocketAddress?, proxy: Proxy?,
-            protocol: Protocol?, ioe: IOException?
+            call: Call,
+            inetSocketAddress: InetSocketAddress,
+            proxy: Proxy,
+            protocol: Protocol?,
+            ioe: IOException
         ) {
             Log.e(
                 TAG,
@@ -161,7 +154,7 @@ object Net {
          * This can be invoked more than 1 time for a single [Call]. For example, if the response
          * to the [Call.request] is a redirect to a different address.
          */
-        override fun connectionAcquired(call: Call?, connection: Connection?) {
+        override fun connectionAcquired(call: Call, connection: Connection) {
             Log.e(
                 TAG,
                 "connectionAcquired() called with: call = $call, connection = $connection"
@@ -178,7 +171,7 @@ object Net {
          * This can be invoked more than 1 time for a single [Call]. For example, if the response
          * to the [Call.request] is a redirect to a different address.
          */
-        override fun connectionReleased(call: Call?, connection: Connection?) {
+        override fun connectionReleased(call: Call, connection: Connection) {
             Log.e(
                 TAG,
                 "connectionReleased() called with: call = $call, connection = $connection"
@@ -196,7 +189,7 @@ object Net {
          * This can be invoked more than 1 time for a single [Call]. For example, if the response
          * to the [Call.request] is a redirect to a different address.
          */
-        override fun requestHeadersStart(call: Call?) {
+        override fun requestHeadersStart(call: Call) {
             Log.e(TAG, "requestHeadersStart() called with: call = $call")
         }
 
@@ -209,7 +202,7 @@ object Net {
          * @param request the request sent over the network. It is an error to access the body of this
          * request.
          */
-        override fun requestHeadersEnd(call: Call?, request: Request?) {
+        override fun requestHeadersEnd(call: Call, request: Request) {
             Log.e(TAG, "requestHeadersEnd() called with: call = $call, request = $request")
         }
 
@@ -226,7 +219,7 @@ object Net {
          * This can be invoked more than 1 time for a single [Call]. For example, if the response
          * to the [Call.request] is a redirect to a different address.
          */
-        override fun requestBodyStart(call: Call?) {
+        override fun requestBodyStart(call: Call) {
             Log.e(TAG, "requestBodyStart() called with: call = $call")
         }
 
@@ -236,7 +229,7 @@ object Net {
          *
          * This method is always invoked after [.requestBodyStart].
          */
-        override fun requestBodyEnd(call: Call?, byteCount: Long) {
+        override fun requestBodyEnd(call: Call, byteCount: Long) {
             Log.e(TAG, "requestBodyEnd() called with: call = $call, byteCount = $byteCount")
         }
 
@@ -247,7 +240,7 @@ object Net {
          * This method is invoked after [.requestHeadersStart] or [.requestBodyStart]. Note
          * that request failures do not necessarily fail the entire call.
          */
-        override fun requestFailed(call: Call?, ioe: IOException?) {
+        override fun requestFailed(call: Call, ioe: IOException) {
             Log.e(TAG, "requestFailed() called with: call = $call, ioe = $ioe")
         }
 
@@ -262,7 +255,7 @@ object Net {
          * This can be invoked more than 1 time for a single [Call]. For example, if the response
          * to the [Call.request] is a redirect to a different address.
          */
-        override fun responseHeadersStart(call: Call?) {
+        override fun responseHeadersStart(call: Call) {
             Log.e(TAG, "responseHeadersStart() called with: call = $call")
         }
 
@@ -276,7 +269,7 @@ object Net {
          * It is an error to access the body of
          * this response.
          */
-        override fun responseHeadersEnd(call: Call?, response: Response?) {
+        override fun responseHeadersEnd(call: Call, response: Response) {
             Log.e(TAG, "responseHeadersEnd() called with: call = $call, response = $response")
         }
 
@@ -291,7 +284,7 @@ object Net {
          * This will usually be invoked only 1 time for a single [Call],
          * exceptions are a limited set of cases including failure recovery.
          */
-        override fun responseBodyStart(call: Call?) {
+        override fun responseBodyStart(call: Call) {
             Log.e(TAG, "responseBodyStart() called with: call = $call")
         }
 
@@ -305,7 +298,7 @@ object Net {
          *
          * This method is always invoked after [.requestBodyStart].
          */
-        override fun responseBodyEnd(call: Call?, byteCount: Long) {
+        override fun responseBodyEnd(call: Call, byteCount: Long) {
             Log.e(TAG, "responseBodyEnd() called with: call = $call, byteCount = $byteCount")
         }
 
@@ -316,7 +309,7 @@ object Net {
          * This method is invoked after [.responseHeadersStart] or [.responseBodyStart].
          * Note that response failures do not necessarily fail the entire call.
          */
-        override fun responseFailed(call: Call?, ioe: IOException?) {
+        override fun responseFailed(call: Call, ioe: IOException) {
             Log.e(TAG, "responseFailed() called with: call = $call, ioe = $ioe")
         }
 
@@ -327,7 +320,7 @@ object Net {
          *
          * This method is always invoked after [.callStart].
          */
-        override fun callEnd(call: Call?) {
+        override fun callEnd(call: Call) {
             Log.e(TAG, "callEnd() called with: call = $call")
         }
 
@@ -337,13 +330,14 @@ object Net {
          *
          * This method is always invoked after [.callStart].
          */
-        override fun callFailed(call: Call?, ioe: IOException?) {
+        override fun callFailed(call: Call, ioe: IOException) {
             Log.e(TAG, "callFailed() called with: call = $call, ioe = $ioe")
         }
     }
 
     private val okHttpClient = OkHttpClient.Builder()
         .eventListener(eventListener)
+        .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         .build()
 
     private val okHttpClient1 = OkHttpClient()

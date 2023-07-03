@@ -3,9 +3,10 @@ import java.text.SimpleDateFormat
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'dep-extract'
     id 'kotlin-kapt'
+    id 'project-report'
 }
+
 
 def ext = rootProject.ext
 def buildTime = new SimpleDateFormat("yyMMddHHmm").format(new Date())
@@ -177,8 +178,8 @@ dependencies {
         globalImplementation 'com.engineer.third:thirdlib:1.0.0'
     }
     implementation project(path: ':common')
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.6.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.6.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
 
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
@@ -187,13 +188,14 @@ dependencies {
 
     implementation 'com.alibaba:fastjson:1.1.73.android'
 //    implementation 'com.alibaba:fastjson:2.0.2.android'
-    implementation 'org.jetbrains.kotlin:kotlin-script-runtime:1.8.20'
+    implementation 'org.jetbrains.kotlin:kotlin-script-runtime:1.8.22'
 
 //    implementation 'com.facebook.shimmer:shimmer:0.6.0'
 //    implementation 'com.github.SherlockGougou:BigImageViewPager:androidx-7.0.4'
-   // https://github.com/koral--/android-gif-drawable/tree/master
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.25'
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    // https://github.com/koral--/android-gif-drawable/tree/master
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.26'
+    implementation "com.squareup.okhttp3:okhttp:4.11.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.11.0"
 }
 
 apply from: file("../custom-gradle/test-dep.gradle") // unit test

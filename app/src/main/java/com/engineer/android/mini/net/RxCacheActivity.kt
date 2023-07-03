@@ -109,15 +109,11 @@ class RxCacheActivity : AppCompatActivity() {
             val ip = address.hostAddress
             if (TextUtils.isEmpty(ip)) it.onError(Throwable("ip is null")) else it.onNext(ip)
             it.onComplete()
-        }.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext {
+        }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnNext {
                 println("ip is $it")
-            }
-            .doOnError {
+            }.doOnError {
                 it.printStackTrace()
-            }
-            .subscribe()
+            }.subscribe()
 
         val url =
             "https://search.jd.com/Search?keyword=%E5%8F%B0%E5%BC%8F%E6%9C%BA&enc=utf-8&suggest=2.his.0.0&wq=&pvid=e33792a4dc654b29af0caae2c63bce53"
@@ -166,17 +162,17 @@ class RxCacheActivity : AppCompatActivity() {
         val second = TimeUnit.DAYS.toSeconds(1)
         Log.e("zyq", "millis = $millis")
         Log.e("zyq", "second = $second")
-        Net.createService(WanAndroidService::class.java)
-            .getWeChatAccountList()
-            .rxCache(rxCache, "all", FirstCacheTimeoutStrategy(millis))
-            .compose(ThreadExTransform())
-            .subscribe({
+        Net.createService(WanAndroidService::class.java).getWeChatAccountList()
+            .rxCache(rxCache, "all", FirstCacheTimeoutStrategy(millis)).compose(ThreadExTransform()).subscribe({
                 handleCache(it)
 //                parseData(it)
             }, {
                 it.message.toast()
                 lg(it.message)
             })
+
+        Net.createService(WanAndroidService::class.java).getNav()
+            .rxCache(rxCache, "nav", FirstCacheTimeoutStrategy(millis)).compose(ThreadExTransform()).subscribe({}, {})
     }
 
 
