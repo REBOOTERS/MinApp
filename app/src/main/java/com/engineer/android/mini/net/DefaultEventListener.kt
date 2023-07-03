@@ -21,7 +21,7 @@ open class DefaultEventListener : EventListener() {
      * or redirects will be handled within the boundaries
      * of a single callStart and [ ][.callEnd]/[.callFailed] pair.
      */
-    override fun callStart(call: Call?) {
+    override fun callStart(call: Call) {
         println("callStart() called with: call = $call")
     }
 
@@ -36,7 +36,7 @@ open class DefaultEventListener : EventListener() {
      * If the [Call] is able to reuse an existing pooled connection, this method will not be
      * invoked. See [ConnectionPool].
      */
-    override fun dnsStart(call: Call?, domainName: String?) {}
+    override fun dnsStart(call: Call, domainName: String) {}
 
     /**
      * Invoked immediately after a DNS lookup.
@@ -44,7 +44,7 @@ open class DefaultEventListener : EventListener() {
      *
      * This method is invoked after [.dnsStart].
      */
-    override fun dnsEnd(call: Call?, domainName: String?, inetAddressList: List<InetAddress?>?) {}
+    override fun dnsEnd(call: Call, domainName: String, inetAddressList: List<@JvmSuppressWildcards InetAddress>) {}
 
     /**
      * Invoked just prior to initiating a socket connection.
@@ -57,7 +57,7 @@ open class DefaultEventListener : EventListener() {
      * This can be invoked more than 1 time for a single [Call]. For example, if the response
      * to the [Call.request] is a redirect to a different address, or a connection is retried.
      */
-    override fun connectStart(call: Call?, inetSocketAddress: InetSocketAddress?, proxy: Proxy?) {}
+    override fun connectStart(call: Call, inetSocketAddress: InetSocketAddress, proxy: Proxy) {}
 
     /**
      * Invoked just prior to initiating a TLS connection.
@@ -73,7 +73,7 @@ open class DefaultEventListener : EventListener() {
      * This can be invoked more than 1 time for a single [Call]. For example, if the response
      * to the [Call.request] is a redirect to a different address, or a connection is retried.
      */
-    override fun secureConnectStart(call: Call?) {}
+    override fun secureConnectStart(call: Call) {}
 
     /**
      * Invoked immediately after a TLS connection was attempted.
@@ -81,7 +81,7 @@ open class DefaultEventListener : EventListener() {
      *
      * This method is invoked after [.secureConnectStart].
      */
-    override fun secureConnectEnd(call: Call?, handshake: Handshake?) {}
+    override fun secureConnectEnd(call: Call, handshake: Handshake?) {}
 
     /**
      * Invoked immediately after a socket connection was attempted.
@@ -91,10 +91,7 @@ open class DefaultEventListener : EventListener() {
      * [.secureConnectEnd], otherwise it will invoked after
      * [.connectStart].
      */
-    override fun connectEnd(
-        call: Call?, inetSocketAddress: InetSocketAddress?, proxy: Proxy?,
-        protocol: Protocol?
-    ) {
+    override fun connectEnd(call: Call, inetSocketAddress: InetSocketAddress, proxy: Proxy, protocol: Protocol?) {
     }
 
     /**
@@ -106,8 +103,7 @@ open class DefaultEventListener : EventListener() {
      * otherwise it will invoked after [.connectStart].
      */
     override fun connectFailed(
-        call: Call?, inetSocketAddress: InetSocketAddress?, proxy: Proxy?,
-        protocol: Protocol?, ioe: IOException?
+        call: Call, inetSocketAddress: InetSocketAddress, proxy: Proxy, protocol: Protocol?, ioe: IOException
     ) {
     }
 
@@ -118,7 +114,7 @@ open class DefaultEventListener : EventListener() {
      * This can be invoked more than 1 time for a single [Call]. For example, if the response
      * to the [Call.request] is a redirect to a different address.
      */
-    override fun connectionAcquired(call: Call?, connection: Connection?) {}
+    override fun connectionAcquired(call: Call, connection: Connection) {}
 
     /**
      * Invoked after a connection has been released for the `call`.
@@ -130,7 +126,7 @@ open class DefaultEventListener : EventListener() {
      * This can be invoked more than 1 time for a single [Call]. For example, if the response
      * to the [Call.request] is a redirect to a different address.
      */
-    override fun connectionReleased(call: Call?, connection: Connection?) {}
+    override fun connectionReleased(call: Call, connection: Connection) {}
 
     /**
      * Invoked just prior to sending request headers.
@@ -143,7 +139,7 @@ open class DefaultEventListener : EventListener() {
      * This can be invoked more than 1 time for a single [Call]. For example, if the response
      * to the [Call.request] is a redirect to a different address.
      */
-    override fun requestHeadersStart(call: Call?) {}
+    override fun requestHeadersStart(call: Call) {}
 
     /**
      * Invoked immediately after sending request headers.
@@ -154,7 +150,7 @@ open class DefaultEventListener : EventListener() {
      * @param request the request sent over the network. It is an error to access the body of this
      * request.
      */
-    override fun requestHeadersEnd(call: Call?, request: Request?) {}
+    override fun requestHeadersEnd(call: Call, request: Request) {}
 
     /**
      * Invoked just prior to sending a request body.  Will only be invoked for request allowing and
@@ -168,7 +164,7 @@ open class DefaultEventListener : EventListener() {
      * This can be invoked more than 1 time for a single [Call]. For example, if the response
      * to the [Call.request] is a redirect to a different address.
      */
-    override fun requestBodyStart(call: Call?) {}
+    override fun requestBodyStart(call: Call) {}
 
     /**
      * Invoked immediately after sending a request body.
@@ -176,7 +172,7 @@ open class DefaultEventListener : EventListener() {
      *
      * This method is always invoked after [.requestBodyStart].
      */
-    override fun requestBodyEnd(call: Call?, byteCount: Long) {}
+    override fun requestBodyEnd(call: Call, byteCount: Long) {}
 
     /**
      * Invoked when a request fails to be written.
@@ -185,7 +181,7 @@ open class DefaultEventListener : EventListener() {
      * This method is invoked after [.requestHeadersStart] or [.requestBodyStart]. Note
      * that request failures do not necessarily fail the entire call.
      */
-    override fun requestFailed(call: Call?, ioe: IOException?) {}
+    override fun requestFailed(call: Call, ioe: IOException) {}
 
     /**
      * Invoked just prior to receiving response headers.
@@ -198,7 +194,7 @@ open class DefaultEventListener : EventListener() {
      * This can be invoked more than 1 time for a single [Call]. For example, if the response
      * to the [Call.request] is a redirect to a different address.
      */
-    override fun responseHeadersStart(call: Call?) {}
+    override fun responseHeadersStart(call: Call) {}
 
     /**
      * Invoked immediately after receiving response headers.
@@ -209,7 +205,7 @@ open class DefaultEventListener : EventListener() {
      * @param response the response received over the network. It is an error to access the body of
      * this response.
      */
-    override fun responseHeadersEnd(call: Call?, response: Response?) {}
+    override fun responseHeadersEnd(call: Call, response: Response) {}
 
     /**
      * Invoked just prior to receiving the response body.
@@ -222,7 +218,7 @@ open class DefaultEventListener : EventListener() {
      * This will usually be invoked only 1 time for a single [Call],
      * exceptions are a limited set of cases including failure recovery.
      */
-    override fun responseBodyStart(call: Call?) {}
+    override fun responseBodyStart(call: Call) {}
 
     /**
      * Invoked immediately after receiving a response body and completing reading it.
@@ -234,7 +230,7 @@ open class DefaultEventListener : EventListener() {
      *
      * This method is always invoked after [.requestBodyStart].
      */
-    override fun responseBodyEnd(call: Call?, byteCount: Long) {}
+    override fun responseBodyEnd(call: Call, byteCount: Long) {}
 
     /**
      * Invoked when a response fails to be read.
@@ -243,7 +239,7 @@ open class DefaultEventListener : EventListener() {
      * This method is invoked after [.responseHeadersStart] or [.responseBodyStart].
      * Note that response failures do not necessarily fail the entire call.
      */
-    override fun responseFailed(call: Call?, ioe: IOException?) {}
+    override fun responseFailed(call: Call, ioe: IOException) {}
 
     /**
      * Invoked immediately after a call has completely ended.  This includes delayed consumption
@@ -252,7 +248,7 @@ open class DefaultEventListener : EventListener() {
      *
      * This method is always invoked after [.callStart].
      */
-    override fun callEnd(call: Call?) {
+    override fun callEnd(call: Call) {
         println("callEnd() called with: call = $call")
     }
 
@@ -262,6 +258,6 @@ open class DefaultEventListener : EventListener() {
      *
      * This method is always invoked after [.callStart].
      */
-    override fun callFailed(call: Call?, ioe: IOException?) {}
+    override fun callFailed(call: Call, ioe: IOException) {}
 
 }

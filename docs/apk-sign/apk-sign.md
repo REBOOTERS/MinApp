@@ -6,7 +6,7 @@ Android Apk 签名
 
 #### keytool 生成签名
 
-命令行生成 ,使用 `keytool -genkeypair` [options]
+命令行生成 ,使用 `keytool -genkeypair`
 
 options 部分说明
 

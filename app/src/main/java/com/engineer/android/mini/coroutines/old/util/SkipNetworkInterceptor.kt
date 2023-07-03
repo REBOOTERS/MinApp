@@ -18,6 +18,7 @@ package com.engineer.android.mini.coroutines.old.util
 
 import com.google.gson.Gson
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.adapter.rxjava2.Result
 
 /**
@@ -81,7 +82,7 @@ class SkipNetworkInterceptor: Interceptor {
                 .protocol(Protocol.HTTP_1_1)
                 .message("Bad server day")
                 .body(ResponseBody.create(
-                        MediaType.get("application/json"),
+                    "application/json".toMediaType(),
                         gson.toJson(mapOf("cause" to "not sure"))))
                 .build()
     }
@@ -108,7 +109,7 @@ class SkipNetworkInterceptor: Interceptor {
                 .protocol(Protocol.HTTP_1_1)
                 .message("OK")
                 .body(ResponseBody.create(
-                        MediaType.get("application/json"),
+                    "application/json".toMediaType(),
                         gson.toJson(nextResult)))
                 .build()
     }

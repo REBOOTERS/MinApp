@@ -7,4 +7,7 @@ interface WanAndroidService {
 
     @GET("wxarticle/chapters/json")
     fun getWeChatAccountList(): Observable<WeChatCountList>
+
+    @GET("navi/json")
+    fun getNav(): Observable<Any>
 }
