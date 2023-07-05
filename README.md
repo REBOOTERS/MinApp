@@ -1,6 +1,6 @@
 ![Alt](https://repobeats.axiom.co/api/embed/8ceb012f571254438ab95c18fa734cb400ffc368.svg "Repobeats analytics image")
 
-[![Android CI](https://github.com/REBOOTERS/MinApp/actions/workflows/android.yml/badge.svg)](https://github.com/REBOOTERS/MinApp/actions/workflows/android.yml)
+[![Android CI](https://github.com/REBOOTERS/MinApp/actions/workflows/android.yml/badge.svg)](https://github.com/REBOOTERS/MinApp/actions/workflows/android.yml)![Language](https://img.shields.io/github/languages/top/REBOOTERS/MinApp?color=blue&logo=kotlin)
 
 # MinApp
 
