@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.pure.CornerViewActivity">
+
+    <com.engineer.android.mini.util.RoundCornerLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        app:topCornerRadius="@dimen/roundRectCornerTop">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@android:color/holo_blue_light"
+            android:gravity="center"
+            android:text="outline" />
+    </com.engineer.android.mini.util.RoundCornerLayout>
+
+    <com.engineer.android.mini.util.RoundCornerLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        app:bottomCornerRadius="@dimen/roundRectCornerTop">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@android:color/holo_blue_light"
+            android:gravity="center"
+            android:text="outline" />
+        <ImageView
+            android:layout_gravity="end"
+            android:scaleType="fitXY"
+            android:src="@drawable/wallpaper_landscape"
+            android:layout_width="150dp"
+            android:layout_height="50dp"/>
+    </com.engineer.android.mini.util.RoundCornerLayout>
+
+    <com.engineer.android.mini.util.RoundCornerLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        app:bottomCornerRadius="@dimen/roundRectCornerTop"
+        app:topCornerRadius="@dimen/roundRectCornerTop">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@android:color/holo_blue_light"
+            android:gravity="center"
+            android:text="outline" />
+
+        <ImageView
+            android:layout_gravity="end"
+            android:scaleType="fitXY"
+            android:src="@drawable/wallpaper_landscape"
+            android:layout_width="150dp"
+            android:layout_height="80dp"/>
+    </com.engineer.android.mini.util.RoundCornerLayout>
+
+    <com.engineer.android.mini.util.RoundCornerLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        app:bottomCornerRadiusLeft="0dp"
+        app:bottomCornerRadiusRight="@dimen/roundRectCornerTop2"
+        app:cornerMode="xfermode"
+        app:topCornerRadiusLeft="@dimen/roundRectCornerTop"
+        app:topCornerRadiusRight="@dimen/roundRectCornerTop">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@android:color/holo_blue_light"
+            android:gravity="center"
+            android:text="xfermode" />
+
+        <ImageView
+            android:scaleType="fitXY"
+            android:src="@drawable/wallpaper_landscape"
+            android:layout_width="150dp"
+            android:layout_height="80dp"/>
+    </com.engineer.android.mini.util.RoundCornerLayout>
+
+    <com.engineer.android.mini.util.RoundCornerLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        app:bottomCornerRadiusLeft="0dp"
+        app:bottomCornerRadiusRight="@dimen/roundRectCornerTop2"
+        app:cornerMode="clip_path"
+        app:topCornerRadiusLeft="0dp"
+        app:topCornerRadiusRight="@dimen/roundRectCornerTop">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@android:color/holo_blue_light"
+            android:gravity="center"
+            android:text="clippath" />
+
+        <ImageView
+            android:scaleType="fitXY"
+            android:src="@drawable/wallpaper_landscape"
+            android:layout_width="150dp"
+            android:layout_height="100dp"/>
+    </com.engineer.android.mini.util.RoundCornerLayout>
+
+
+</LinearLayout>
