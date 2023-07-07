@@ -1,7 +1,16 @@
 package com.engineer.android.mini.net
 
 import android.util.Log
-import okhttp3.*
+import okhttp3.Call
+import okhttp3.Connection
+import okhttp3.ConnectionPool
+import okhttp3.Dns
+import okhttp3.EventListener
+import okhttp3.Handshake
+import okhttp3.OkHttpClient
+import okhttp3.Protocol
+import okhttp3.Request
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -339,8 +348,6 @@ object Net {
         .eventListener(eventListener)
         .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         .build()
-
-    private val okHttpClient1 = OkHttpClient()
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
