@@ -9,4 +9,18 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="RoundCornerLayout">
+        <attr name="topCornerRadius" format="dimension|reference" />
+        <attr name="topCornerRadiusLeft" format="dimension|reference" />
+        <attr name="topCornerRadiusRight" format="dimension|reference" />
+        <attr name="bottomCornerRadius" format="dimension|reference" />
+        <attr name="bottomCornerRadiusLeft" format="dimension|reference" />
+        <attr name="bottomCornerRadiusRight" format="dimension|reference" />
+        <attr name="cornerMode" format="string" >
+            <enum name="outline" value ="0"/>
+            <enum name="xfermode" value ="1"/>
+            <enum name="clip_path" value ="2"/>
+        </attr>
+    </declare-styleable>
+
 </resources>
