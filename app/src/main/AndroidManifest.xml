@@ -37,6 +37,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.pure.GifPlayerActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.pure.CornerViewActivity"
             android:exported="true" />
         <activity
