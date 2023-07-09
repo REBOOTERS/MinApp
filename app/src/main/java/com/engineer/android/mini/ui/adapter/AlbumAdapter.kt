@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.toast
+import com.engineer.android.mini.ui.pure.GifPlayerActivity
+import com.engineer.common.utils.AndroidFileUtils
 import com.engineer.common.utils.SystemTools
 import com.engineer.common.utils.PictureInfoUtil
 import dagger.Module
@@ -84,7 +86,8 @@ class AlbumAdapter(val context: Context, val imageList: ArrayList<Uri>, val imag
         holder.imageView.layoutParams.width = imageSize
         holder.imageView.layoutParams.height = imageSize
         val uri = imageList[position]
-        val options = RequestOptions().placeholder(R.drawable.album_loading_bg).override(imageSize, imageSize)
+        val options =
+            RequestOptions().placeholder(R.drawable.album_loading_bg).override(imageSize, imageSize)
 
         val bitmapOptions = BitmapFactory.Options()
         bitmapOptions.inJustDecodeBounds = true
@@ -126,16 +129,16 @@ class GifAdapter(val context: Context, val imageList: ArrayList<Uri>, val imageS
         holder.imageView.layoutParams.width = imageSize
         holder.imageView.layoutParams.height = imageSize
         val uri = imageList[position]
-        val gifFromUri = GifDrawable(context.contentResolver, uri)
-        holder.imageView.setImageDrawable(gifFromUri)
-//        Glide.with(context).load(uri).into(holder.imageView)
+        val path = AndroidFileUtils.getFilePathByUri(context, uri)
+        Log.e("GifAdapter", "uri is $uri ,path = $path")
+        holder.imageView.setImageURI(uri)
 
         holder.itemView.setOnClickListener {
-            val path = SystemTools.getVideoFilePathFromUri(it.context, uri)
             path.toString().toast()
             path?.let {
                 PictureInfoUtil.printExifInfo(path)
             }
+            GifPlayerActivity.launch(it.context, uri.toString())
         }
     }
 
