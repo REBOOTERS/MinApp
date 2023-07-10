@@ -13,6 +13,10 @@ import kotlin.collections.HashMap
  * @author rookie
  */
 fun main() {
+    listTest()
+}
+
+private fun listTest() {
     val list = arrayListOf("11", "cdd", "d", "cat")
     println(list)
     println(list.javaClass)
@@ -32,7 +36,6 @@ fun main() {
     println(aa)
     Collections.reverse(aa)
     println(aa)
-
 }
 
 class MaxSizeList<E>(private var maxSize: Int) : ArrayList<E>() {

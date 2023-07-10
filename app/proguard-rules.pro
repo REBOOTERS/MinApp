@@ -71,3 +71,8 @@
 -verbose    # 混淆时是否记录日志
 -ignorewarnings  # 忽略警告，避免打包时某些警告出现
 -optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*  # 混淆时所采用的算法
+
+## kotlin data class and kotlin-reflect
+-keepattributes *Annotation*
+-keep class kotlin.** { *; }
+-keep class org.jetbrains.** { *; }
