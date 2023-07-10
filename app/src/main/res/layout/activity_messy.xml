@@ -80,28 +80,7 @@
             android:id="@+id/range_slider"
             style="@style/mw_10_margin" />
 
-        <ImageView
-            android:id="@+id/phone2"
-            android:scaleType="fitXY"
-            android:layout_margin="10dp"
-            android:src="@drawable/wallpaper_landscape"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp" />
 
-        <ImageView
-            android:id="@+id/phone"
-            android:scaleType="fitXY"
-            android:src="@drawable/wallpaper_landscape"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp" />
-
-        <com.google.android.material.slider.Slider
-            android:id="@+id/slider"
-            style="@style/mw_10_margin" />
 
         <TextView
             android:id="@+id/version_msg"
