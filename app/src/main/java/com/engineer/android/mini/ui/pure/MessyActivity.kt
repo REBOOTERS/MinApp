@@ -12,7 +12,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
-import android.graphics.Outline
 import android.graphics.Paint
 import android.graphics.drawable.LevelListDrawable
 import android.net.Uri
@@ -27,7 +26,6 @@ import android.text.Spanned
 import android.text.style.ImageSpan
 import android.util.Log
 import android.view.View
-import android.view.ViewOutlineProvider
 import android.view.WindowManager
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
@@ -47,7 +45,6 @@ import com.engineer.android.mini.proguards.WEEK
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.DemoDialogActivity
 import com.engineer.android.mini.ui.pure.helper.SimpleCallback
-import com.engineer.android.mini.util.ImageUtils
 import com.engineer.android.mini.util.JavaUtil
 import com.engineer.android.mini.util.NetWorkUtil
 import com.engineer.android.mini.util.RxTimer
@@ -242,23 +239,6 @@ class MessyActivity : BaseActivity() {
         realBinding.rangeSlider.setValues(0.3f)
 
         "view level is ${viewLevel(realBinding.rangeSlider)}".toast()
-
-        realBinding.phone.clipToOutline = true
-        realBinding.slider.addOnChangeListener { _, value, fromUser ->
-            Log.e(TAG, "onCreate() called with: value = $value, fromUser = $fromUser")
-            realBinding.phone.outlineProvider = object : ViewOutlineProvider() {
-                override fun getOutline(view: View?, outline: Outline?) {
-                    val radius = value * 25.dp.toFloat()
-                    outline?.setRoundRect(0, 0, view!!.width, view.height, radius)
-                }
-            }
-        }
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.wallpaper_landscape)
-        val cornerBitmap = ImageUtils.toRoundCorner(
-            bitmap, 20.dp, ImageUtils.CORNER_BOTTOM_LEFT or ImageUtils
-                .CORNER_BOTTOM_RIGHT or ImageUtils.CORNER_TOP_LEFT
-        )
-        realBinding.phone2.setImageBitmap(cornerBitmap)
 
         initTimeAnimator()
 
