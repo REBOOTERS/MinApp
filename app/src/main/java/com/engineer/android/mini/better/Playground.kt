@@ -2,6 +2,8 @@ package com.engineer.android.mini.better
 
 import androidx.annotation.Keep
 import com.alibaba.fastjson.JSON
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 @Keep
@@ -19,9 +21,44 @@ class Wrapper2(var list: List<Animal?>?)
 @Keep
 class Wrapper3(var list: List<*>?)
 
+object Util {
+    private const val ONE_MINUTE = 60
+    private const val ONE_HOUR = ONE_MINUTE * ONE_MINUTE
+    private const val ONE_DAY = 24 * ONE_HOUR
+    fun timeStampToTime(ever: Long) {
+        val now = System.currentTimeMillis()
+        val secondDiff = (now - ever) / 1000
+
+        if (secondDiff > ONE_DAY) {
+            val day = secondDiff / ONE_DAY
+            println("${day}天之前")
+        } else if (secondDiff > ONE_HOUR) {
+            val hour = secondDiff / ONE_HOUR
+            val min = (secondDiff % ONE_HOUR) / ONE_MINUTE
+            println("${hour}小时${min}分钟之前")
+        } else {
+            val min = secondDiff / ONE_MINUTE
+            println("${min}分钟之前")
+        }
+    }
+}
 
 fun main() {
-    testfastjson()
+
+//    testfastjson()
+
+    val now: Long = System.currentTimeMillis()
+//    val now = 0
+    println(now)
+    println(now is Number)
+    val format = SimpleDateFormat("yyyy.MM.dd", Locale.CHINA)
+    println(format.format(now))
+    val format1 = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA)
+    println(format1.format(now))
+
+    val ever = 1689132504830
+    Util.timeStampToTime(ever)
+
 }
 
 fun testfastjson() {
