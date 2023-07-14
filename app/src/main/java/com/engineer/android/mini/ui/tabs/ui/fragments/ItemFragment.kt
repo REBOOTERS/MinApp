@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.FragmentItemListBinding
@@ -34,10 +35,10 @@ class ItemFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_item_list, container, false)
-
+        val recyclerView = view.findViewById<RecyclerView>(R.id.list)
         // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
+        if (recyclerView is RecyclerView) {
+            with(recyclerView) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
@@ -53,9 +54,14 @@ class ItemFragment : Fragment() {
 
 
         listViewModel.items.observe(viewLifecycleOwner) {
-            if (view is RecyclerView) {
-                view.adapter = MyItemRecyclerViewAdapter(listViewModel, it.ITEMS)
+            val recyclerView = view.findViewById<RecyclerView>(R.id.list)
+            if (recyclerView is RecyclerView) {
+                recyclerView.adapter = MyItemRecyclerViewAdapter(listViewModel, it.ITEMS)
             }
+        }
+        listViewModel.count.observe(viewLifecycleOwner) {
+            val countTv = view.findViewById<TextView>(R.id.list_count)
+            countTv.text = it.toString()
         }
     }
 
