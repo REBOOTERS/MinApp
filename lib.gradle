@@ -4,7 +4,7 @@ ext {
     targetSdkVersion = 33
 
 
-    kotlin_version = '1.8.0'
+    kotlin_version = '1.8.10'
     gradle_version = '8.0.2'
 
     kotlin_coroutines = '1.4.1'

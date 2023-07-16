@@ -33,6 +33,7 @@ import com.engineer.android.mini.ui.pure.MessyActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
 import com.engineer.android.mini.util.ProducerConsumerViewModel
 import com.engineer.common.utils.AndroidSystem
+import com.engineer.compose.ui.MainComposeActivity
 import com.engineer.third.CppActivity
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -171,6 +172,9 @@ class RootActivity : BaseActivity() {
         }
         viewBinding.ipcWay.setOnClickListener {
             gotoActivity(IpcActivity::class.java)
+        }
+        viewBinding.compose.setOnClickListener {
+            gotoActivity(MainComposeActivity::class.java)
         }
         viewBinding.cp.setOnClickListener { testPC() }
         viewBinding.crash.setOnClickListener { throw IllegalStateException() }
