@@ -78,6 +78,10 @@ android {
         dataBinding true
         viewBinding true
         aidl true
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.3"
     }
 
     sourceSets {
@@ -132,9 +136,6 @@ android {
     namespace 'com.engineer.android.mini'
     lint {
         checkReleaseBuilds false
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.4.0'
     }
     packagingOptions {
         resources {

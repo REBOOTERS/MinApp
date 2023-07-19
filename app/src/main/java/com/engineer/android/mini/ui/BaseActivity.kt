@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.engineer.android.mini.ui.widget.FloatingViewHelper
 
 /**
  * Created on 2020/9/17.
@@ -26,6 +27,10 @@ open class BaseActivity : AppCompatActivity() {
         window.statusBarColor = Color.TRANSPARENT
         controller = WindowInsetsControllerCompat(window, window.decorView)
         WindowCompat.setDecorFitsSystemWindows(window, false)
+    }
+
+    fun addAnyView() {
+        FloatingViewHelper.addAnyView(window, this)
     }
 
     override fun onResume() {
