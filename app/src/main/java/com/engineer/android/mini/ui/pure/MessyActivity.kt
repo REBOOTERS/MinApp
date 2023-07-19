@@ -29,6 +29,7 @@ import android.view.View
 import android.view.WindowManager
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import com.engineer.android.mini.R
 import com.engineer.android.mini.better.file.FileChangeWatcher
@@ -45,6 +46,7 @@ import com.engineer.android.mini.proguards.WEEK
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.DemoDialogActivity
 import com.engineer.android.mini.ui.pure.helper.SimpleCallback
+import com.engineer.android.mini.util.CustomToast
 import com.engineer.android.mini.util.JavaUtil
 import com.engineer.android.mini.util.NetWorkUtil
 import com.engineer.android.mini.util.RxTimer
@@ -210,6 +212,10 @@ class MessyActivity : BaseActivity() {
         val p = realBinding.contentImg.layoutParams
 
         testImageSpan()
+
+        realBinding.testTips.setOnClickListener {
+            addAnyView()
+        }
 
         realBinding.rangeSlider.addOnChangeListener { _, value, fromUser ->
             Log.e(

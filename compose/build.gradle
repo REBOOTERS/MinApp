@@ -53,7 +53,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
 
-    api 'androidx.activity:activity-compose:1.7.0'
+    api 'androidx.activity:activity-compose:1.7.2'
     api platform('androidx.compose:compose-bom:2022.10.00')
     api 'androidx.compose.ui:ui'
     api 'androidx.compose.ui:ui-graphics'
