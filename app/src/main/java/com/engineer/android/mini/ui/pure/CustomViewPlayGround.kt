@@ -530,6 +530,11 @@ class CustomViewActivity : BaseActivity() {
         }
 
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        maybeLeakView = null
+    }
 }
 
 class WrapContentActivity : BaseActivity() {
