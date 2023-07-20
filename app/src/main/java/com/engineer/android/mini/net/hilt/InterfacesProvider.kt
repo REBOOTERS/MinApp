@@ -10,7 +10,7 @@ interface AnalyticsService {
     fun analyticsMethods()
 }
 
-class analyticsMethodsImpl @Inject constructor() : AnalyticsService {
+class AnalyticsMethodsImpl @Inject constructor() : AnalyticsService {
     override fun analyticsMethods() {
         println("this is analyticsMethods")
     }
@@ -21,5 +21,5 @@ class analyticsMethodsImpl @Inject constructor() : AnalyticsService {
 abstract class AnalyticsModule {
 
     @Binds
-    abstract fun provideAnalyticsService(serviceImpl: analyticsMethodsImpl): AnalyticsService
+    abstract fun provideAnalyticsService(serviceImpl: AnalyticsMethodsImpl): AnalyticsService
 }
