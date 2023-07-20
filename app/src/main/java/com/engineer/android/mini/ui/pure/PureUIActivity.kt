@@ -8,7 +8,6 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.animation.AnticipateInterpolator
 import androidx.appcompat.app.AppCompatDelegate
@@ -20,6 +19,7 @@ import com.engineer.android.mini.ext.*
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.ForceBottomActivity
 import com.engineer.android.mini.ui.MD3Activity
+import com.engineer.android.mini.ui.adapter.ActionModeCallbackAdapter
 import com.engineer.android.mini.ui.adapter.RecyclerViewActivity
 import com.engineer.android.mini.ui.pure.helper.SimpleCallback
 import com.engineer.android.mini.ui.tabs.ui.TabsActivity
@@ -61,6 +61,7 @@ class PureUIActivity : BaseActivity() {
             })
         }
         realBinding.imageView.resizeMarginTop(getStatusBarHeight())
+        realBinding.editText.customSelectionActionModeCallback = ActionModeCallbackAdapter()
 
         systemDayNight()
     }
@@ -89,12 +90,10 @@ class PureUIActivity : BaseActivity() {
 //            changeBounds.interpolator = LinearInterpolator()
         changeBounds.interpolator = AnticipateInterpolator()
         TransitionManager.beginDelayedTransition(
-            realBinding.rootContent,
-            changeBounds
+            realBinding.rootContent, changeBounds
         )
         val params = realBinding.imageView.layoutParams
-        val hw: Float =
-            realBinding.imageView.measuredWidth * 1.0f / realBinding.imageView.measuredHeight
+        val hw: Float = realBinding.imageView.measuredWidth * 1.0f / realBinding.imageView.measuredHeight
         if (realBinding.imageView.measuredWidth >= (resources.displayMetrics.widthPixels - 20.dp)) {
             params.width = resources.displayMetrics.widthPixels / 2
             params.height = ((resources.displayMetrics.widthPixels / 2) * (1 / hw)).toInt()
@@ -126,8 +125,7 @@ class PureUIActivity : BaseActivity() {
     private fun systemDayNight() {
         val modeStr = if (isNightMode()) "夜间" else "日间"
         val current = AppCompatDelegate.getDefaultNightMode()
-        realBinding.currentTheme.text =
-            "当前日夜间模式 : $modeStr,mode = $current"
+        realBinding.currentTheme.text = "当前日夜间模式 : $modeStr,mode = $current"
         when (current) {
             AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> realBinding.followSystem.isChecked = true
             AppCompatDelegate.MODE_NIGHT_YES -> realBinding.forceDark.isChecked = true
@@ -183,19 +181,14 @@ class PureUIActivity : BaseActivity() {
         val screenRealSize = DisplayUtil.getScreenRealSize(activity).y
 
         val navHeight =
-            if (DisplayUtil.isNavigationBarShowing(activity))
-                DisplayUtil.getNavigationBarHeight(activity) else 0
+            if (DisplayUtil.isNavigationBarShowing(activity)) DisplayUtil.getNavigationBarHeight(activity) else 0
 
         val statusBarHeight = DisplayUtil.getStatusBarHeight2(activity)
         val dp45 = DisplayUtil.dp2px(45f)
         DisplayUtil.sVisibleHeight = screenRealSize - navHeight - statusBarHeight
         Log.d(
-            TAG, "getScreenInfo() called with:" +
-                    " screenRealSize = $screenRealSize," +
-                    "navH = $navHeight," +
-                    "statusBarH = $statusBarHeight," +
-                    "dp45 = $dp45," +
-                    "visibleH = ${DisplayUtil.sVisibleHeight}"
+            TAG,
+            "getScreenInfo() called with:" + " screenRealSize = $screenRealSize," + "navH = $navHeight," + "statusBarH = $statusBarHeight," + "dp45 = $dp45," + "visibleH = ${DisplayUtil.sVisibleHeight}"
         )
     }
 

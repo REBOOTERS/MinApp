@@ -16,9 +16,9 @@ import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.toast
 
 @SuppressLint("StaticFieldLeak")
-object FloatingViewHelper {
+class FloatingViewHelper {
 
-    private const val TAG = "FloatingViewHelper"
+    private val TAG = "FloatingViewHelper"
 
     private var subView: View? = null
     private val mainHandler = Handler(Looper.getMainLooper())

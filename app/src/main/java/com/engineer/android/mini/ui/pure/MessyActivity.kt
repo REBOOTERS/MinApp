@@ -90,11 +90,13 @@ class MessyActivity : BaseActivity() {
         proguardTest()
         SystemTools.getManifestPlaceHolderValue(this)
 
-        mainHandler.postDelayed(Runnable { realBinding.openSysDialog.performClick() }, 4000)
+//        mainHandler.postDelayed(Runnable { realBinding.openSysDialog.performClick() }, 4000)
 
         val devicePolicyManager: DevicePolicyManager = getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
 
-//        callback = intent?.getSerializableExtra("callback") as SimpleCallback
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            callback = intent?.getSerializableExtra("callback", SimpleCallback::class.java)
+        }
         Log.i(TAG, "mac1 ${NetWorkUtil.getWifiMacAddress()}")
         Log.i(TAG, "mac2 ${NetWorkUtil.getMac(this)}")
     }

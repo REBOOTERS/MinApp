@@ -30,7 +30,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun addAnyView() {
-        FloatingViewHelper.addAnyView(window, this)
+        FloatingViewHelper().addAnyView(window, this)
     }
 
     override fun onResume() {

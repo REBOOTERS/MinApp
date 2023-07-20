@@ -19,6 +19,14 @@
         tools:context=".ui.pure.PureUIActivity"
         tools:ignore="HardcodedText">
 
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edit_text"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp" />
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_view"
             style="@style/mw_10_margin"
