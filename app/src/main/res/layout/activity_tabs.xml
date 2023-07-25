@@ -18,8 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
+        app:tabSelectedTextColor="@color/white"
+        app:tabIndicatorColor="@color/white"
         android:background="@color/transparent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tabRippleColor="@android:color/transparent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
