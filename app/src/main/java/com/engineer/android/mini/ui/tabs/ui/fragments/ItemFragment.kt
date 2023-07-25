@@ -1,19 +1,18 @@
 package com.engineer.android.mini.ui.tabs.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.engineer.android.mini.R
-import com.engineer.android.mini.databinding.FragmentItemListBinding
+import com.engineer.android.mini.ui.adapter.MyDecoration
 import com.engineer.android.mini.ui.tabs.ListViewModel
-import com.engineer.android.mini.ui.tabs.ui.fragments.placeholder.PlaceholderContent
 
 /**
  * A fragment representing a list of Items.
@@ -44,6 +43,11 @@ class ItemFragment : Fragment() {
                     else -> GridLayoutManager(context, columnCount)
                 }
             }
+//            context?.let {
+//                recyclerView.addItemDecoration(
+//                    DividerItemDecoration(it, DividerItemDecoration.VERTICAL)
+//                )
+//            }
         }
         return view
     }
@@ -53,13 +57,13 @@ class ItemFragment : Fragment() {
         listViewModel = ListViewModel(requireActivity().application)
 
 
-        listViewModel.items.observe(viewLifecycleOwner) {
+        listViewModel.items.observe(requireActivity()) {
             val recyclerView = view.findViewById<RecyclerView>(R.id.list)
             if (recyclerView is RecyclerView) {
                 recyclerView.adapter = MyItemRecyclerViewAdapter(listViewModel, it.ITEMS)
             }
         }
-        listViewModel.count.observe(viewLifecycleOwner) {
+        listViewModel.count.observe(requireActivity()) {
             val countTv = view.findViewById<TextView>(R.id.list_count)
             countTv.text = it.toString()
         }

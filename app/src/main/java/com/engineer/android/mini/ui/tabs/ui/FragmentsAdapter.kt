@@ -7,10 +7,11 @@ import com.engineer.android.mini.ui.tabs.ui.fragments.ItemFragment
 import com.engineer.android.mini.ui.tabs.ui.fragments.PhotoFragment
 import com.engineer.android.mini.ui.tabs.ui.fragments.SimpleFragment
 
-class FragmentsAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
+class FragmentsAdapter(fragmentActivity: FragmentActivity) :
+    FragmentStateAdapter(fragmentActivity) {
 
     override fun getItemCount(): Int {
-        return 3
+        return 5
     }
 
     override fun createFragment(position: Int): Fragment {

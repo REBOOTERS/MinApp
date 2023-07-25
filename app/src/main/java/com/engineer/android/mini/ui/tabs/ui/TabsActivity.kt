@@ -19,21 +19,22 @@ class TabsActivity : BaseActivity() {
         showStatusBar(false)
         adapter = FragmentsAdapter(this)
         viewBinding.viewPager2.adapter = adapter
+        viewBinding.viewPager2.offscreenPageLimit = 3
         TabLayoutMediator(viewBinding.tabLayout, viewBinding.viewPager2) { tab, position ->
             tab.text = when (position) {
                 0 -> "Simple"
                 1 -> "Photo"
-                else -> "Item"
+                else -> "Item-$position"
             }
 
         }.attach()
         viewBinding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                Log.d(TAG, "onTabSelected() called with: tab = ${tab?.text}")
+                Log.d(TAG, "onTabSelected()   called with: tab = ${tab?.text},${tab?.position}")
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                Log.d(TAG, "onTabUnselected() called with: tab = $tab")
+                Log.d(TAG, "onTabUnselected() called with: tab = ${tab?.text},${tab?.position}")
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
