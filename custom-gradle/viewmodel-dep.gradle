@@ -1,5 +1,5 @@
 dependencies {
-    def lifecycle_version = "2.5.1"
+    def lifecycle_version = '2.6.1'
     def arch_version = "2.1.0"
     def room_version = '2.5.2'
 
