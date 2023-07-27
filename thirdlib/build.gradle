@@ -40,6 +40,7 @@ android {
         }
     }
     namespace 'com.engineer.gif.thirdlib'
+    ndkVersion "25.2.9519653"
     buildFeatures {
         aidl true
     }
