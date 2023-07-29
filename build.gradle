@@ -9,7 +9,7 @@ plugins {
 apply from: file('lib.gradle')
 apply from: file(rootProject.rootDir.absolutePath + "/custom-gradle/check-style.gradle")
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
     delete rootProject.rootDir.absolutePath + "/final.apk"
     delete rootDir.absolutePath + "/local_repo/"
