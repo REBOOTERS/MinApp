@@ -13,6 +13,8 @@ import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.adapter.AlbumAdapter
 import com.engineer.android.mini.ui.adapter.AlbumAdapterAnnotation
+import com.engineer.android.mini.ui.adapter.GifAdapter
+import com.engineer.android.mini.ui.adapter.GifAdapterAnnotation
 import com.engineer.android.mini.ui.viewmodel.CursorQueryViewModel
 import com.engineer.common.utils.SystemTools
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,29 +27,37 @@ import kotlin.concurrent.thread
  */
 private const val TAG = "PictureBottomDialog"
 
+enum class GalleryType {
+    PHOTO, GIF
+}
 
 @AndroidEntryPoint
-class PictureBottomDialog : BaseBottomSheetDialog() {
+class PictureBottomDialog(val type: GalleryType) : BaseBottomSheetDialog() {
 
     @Inject
     lateinit var imageList: ArrayList<Uri>
 
     @AlbumAdapterAnnotation
     @Inject
-    lateinit var adapter: AlbumAdapter
+    lateinit var albumAdapter: AlbumAdapter
+
+    @GifAdapterAnnotation
+    @Inject
+    lateinit var gifAdapter: GifAdapter
+
+    private lateinit var adapter: RecyclerView.Adapter<*>
 
     private val cursorQueryViewModel: CursorQueryViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.bottom_sheet_layout, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        adapter = if (type == GalleryType.GIF) gifAdapter else albumAdapter
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         val columns = 3
         recyclerView.layoutManager = GridLayoutManager(context, columns)
@@ -60,7 +70,8 @@ class PictureBottomDialog : BaseBottomSheetDialog() {
             adapter.notifyDataSetChanged()
             handleUri(it)
         }
-        cursorQueryViewModel.loadImages()
+
+        if (type == GalleryType.PHOTO) cursorQueryViewModel.loadImages() else cursorQueryViewModel.loadGifs()
 
         cursorQueryViewModel.videoResults.observe(this) {
             thread {
@@ -68,9 +79,11 @@ class PictureBottomDialog : BaseBottomSheetDialog() {
                 it.forEach { uri ->
                     context?.let {
                         Log.e(
-                            TAG, "uri=$uri," +
-                                    "fileName=${SystemTools.getFileNameByUri(it, uri)}," +
-                                    "path=${SystemTools.getVideoFilePathFromUri(it, uri)}"
+                            TAG, "uri=$uri," + "fileName=${
+                                SystemTools.getFileNameByUri(
+                                    it, uri
+                                )
+                            }," + "path=${SystemTools.getVideoFilePathFromUri(it, uri)}"
                         )
                     }
 
@@ -87,9 +100,11 @@ class PictureBottomDialog : BaseBottomSheetDialog() {
             it.forEach { uri ->
                 context?.let {
                     Log.e(
-                        TAG, "uri=$uri," +
-                                "fileName=${SystemTools.getFileNameByUri(it, uri)}," +
-                                "path=${SystemTools.getVideoFilePathFromUri(it, uri)}"
+                        TAG, "uri=$uri," + "fileName=${
+                            SystemTools.getFileNameByUri(
+                                it, uri
+                            )
+                        }," + "path=${SystemTools.getVideoFilePathFromUri(it, uri)}"
                     )
 //                    val fd = it.contentResolver.openFileDescriptor(uri, "r")
 //                    fd?.let {
