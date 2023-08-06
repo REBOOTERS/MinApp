@@ -21,7 +21,7 @@ import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityBehaviorBinding
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
-import com.engineer.android.mini.ui.fragments.GifBottomDialog
+import com.engineer.android.mini.ui.fragments.GalleryType
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
 import com.engineer.android.mini.ui.pure.MessyActivity
 import com.engineer.common.contract.ChooserResultContract
@@ -77,7 +77,7 @@ class BehaviorActivity : AppCompatActivity() {
             }
             PermissionX.init(this).permissions(permission).request { allGranted, _, _ ->
                 if (allGranted) {
-                    PictureBottomDialog().show(supportFragmentManager, "picture")
+                    PictureBottomDialog(GalleryType.PHOTO).show(supportFragmentManager, "picture")
                 }
             }
         }
@@ -89,7 +89,7 @@ class BehaviorActivity : AppCompatActivity() {
             }
             PermissionX.init(this).permissions(permission).request { allGranted, _, _ ->
                 if (allGranted) {
-                    GifBottomDialog().show(supportFragmentManager, "picture")
+                    PictureBottomDialog(GalleryType.GIF).show(supportFragmentManager, "picture")
                 }
             }
         }
