@@ -11,6 +11,8 @@ import androidx.lifecycle.*
 import com.engineer.android.mini.better.testCalendar
 import com.engineer.common.utils.AndroidSystem
 import com.facebook.stetho.Stetho
+import com.google.android.material.color.DynamicColors
+import com.google.android.material.color.utilities.DynamicColor
 import dagger.hilt.android.HiltAndroidApp
 
 /**
@@ -33,6 +35,7 @@ class MinApp : Application() {
         Log.d(TAG, "onCreate() called start")
         INSTANCE = this
         Stetho.initializeWithDefaults(this)
+        DynamicColors.applyToActivitiesIfAvailable(this)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
         appLifecycle()
