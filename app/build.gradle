@@ -200,6 +200,8 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.26'
     implementation "com.squareup.okhttp3:okhttp:4.11.0"
     implementation "com.squareup.okhttp3:logging-interceptor:4.11.0"
+
+    implementation 'com.github.microshow:RxFFmpeg:4.9.0'
 }
 
 apply from: file("../custom-gradle/test-dep.gradle") // unit test
