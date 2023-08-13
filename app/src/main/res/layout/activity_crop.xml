@@ -9,7 +9,18 @@
     <com.engineer.common.widget.cropper.CropImageView
         android:id="@+id/cropImageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toTopOf="@id/confirm"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/result_img"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toTopOf="@id/confirm"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/confirm"

@@ -76,3 +76,8 @@
 -keepattributes *Annotation*
 -keep class kotlin.** { *; }
 -keep class org.jetbrains.** { *; }
+
+
+
+    -dontwarn io.microshow.rxffmpeg.**
+    -keep class io.microshow.rxffmpeg.**{*;}
