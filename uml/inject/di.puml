@@ -1,0 +1,21 @@
+@startuml
+'https://plantuml.com/object-diagram
+
+interface IVideoPlayer
+
+object IVideoPlayerImpl
+
+object InjectHolder
+
+object App
+
+
+IVideoPlayer <|... IVideoPlayerImpl
+
+IVideoPlayerImpl ---o InjectHolder
+
+IVideoPlayer <... App
+InjectHolder <... App
+
+
+@enduml
