@@ -1,12 +1,11 @@
-import java.text.SimpleDateFormat
-
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
     id 'project-report'
+    id 'dagger.hilt.android.plugin'
 }
-
+import java.text.SimpleDateFormat
 
 def ext = rootProject.ext
 def buildTime = new SimpleDateFormat("yyMMddHHmm").format(new Date())

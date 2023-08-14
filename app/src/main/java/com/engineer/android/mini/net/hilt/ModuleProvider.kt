@@ -28,13 +28,13 @@ object RxCacheProvider {
     }
 }
 
-@Module
-@InstallIn(ActivityComponent::class)
-object ViewBindingProvider {
-
-    @Provides
-    fun provideViewBinding(@ActivityContext context: Context): ActivityRxCacheBinding {
-        val activity = context as Activity
-        return ActivityRxCacheBinding.inflate(activity.layoutInflater)
-    }
-}
+//@Module
+//@InstallIn(ActivityComponent::class)
+//object ViewBindingProvider {
+//
+//    @Provides
+//    fun provideViewBinding(context: Context): ActivityRxCacheBinding {
+//        val activity = context as Activity
+//        return ActivityRxCacheBinding.inflate(activity.layoutInflater)
+//    }
+//}
