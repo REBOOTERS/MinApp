@@ -40,7 +40,7 @@ private const val TAG = "RxCacheActivity"
 @AndroidEntryPoint
 class RxCacheActivity : AppCompatActivity() {
 
-    @Inject
+
     lateinit var viewBinding: ActivityRxCacheBinding
 
     @Inject
@@ -58,6 +58,7 @@ class RxCacheActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewBinding = ActivityRxCacheBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
 
