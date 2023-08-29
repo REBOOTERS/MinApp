@@ -27,7 +27,6 @@
     <application
         android:name=".MinApp"
         android:allowBackup="true"
-        android:extractNativeLibs="${extract_native_libs}"
         android:fullBackupOnly="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
