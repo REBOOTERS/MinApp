@@ -48,7 +48,7 @@ constructor(
         paint.strokeWidth = 5.dp.toFloat()
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas?.let {
 //            canvas.translate(width / 2.0f, height / 2.0f)
@@ -112,7 +112,7 @@ class SquareImageView @JvmOverloads constructor(
         invalidate()
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas?.drawText(textContent, 0f, 20f, paint)
     }
@@ -169,7 +169,7 @@ class LogLinearLayout @JvmOverloads constructor(
         )
     }
 
-    override fun dispatchDraw(canvas: Canvas?) {
+    override fun dispatchDraw(canvas: Canvas) {
         super.dispatchDraw(canvas)
         Log.e("LogLinearLayout", "dispatchDraw() called with: canvas = $canvas")
     }
@@ -194,9 +194,9 @@ class FirstViewGroup @JvmOverloads constructor(
         return MarginLayoutParams(context, attrs)
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas?.let {
+        canvas.let {
             it.drawText("FirstViewGroup", width / 2f, height / 2f, paint)
             it.drawText("FirstViewGroup", width / 2f, 25f, paint)
         }

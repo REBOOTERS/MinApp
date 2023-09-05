@@ -95,7 +95,7 @@ class ChangeViewActivity : AppCompatActivity() {
 
         val regex = Regex("Android")
 
-        override fun onDraw(canvas: Canvas?) {
+        override fun onDraw(canvas: Canvas) {
             if (text.contains("Android")) {
                 text = text.replaceFirst(regex, "android")
             }

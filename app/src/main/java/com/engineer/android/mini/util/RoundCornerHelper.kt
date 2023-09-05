@@ -147,22 +147,22 @@ class RoundCornerLayout @JvmOverloads constructor(
         }
     }
 
-    override fun dispatchDraw(canvas: Canvas?) {
+    override fun dispatchDraw(canvas: Canvas) {
         when (cornerMode) {
             CORNER_MODE_CLIPPATH -> {
-                canvas?.clipPath(mRoundRectPath) //切割指定区域
+                canvas.clipPath(mRoundRectPath) //切割指定区域
                 super.dispatchDraw(canvas)
             }
 
             CORNER_MODE_XFERMODE -> {
-                val layerId = canvas?.saveLayer(mRect, mPaint) ?: -1
+                val layerId = canvas.saveLayer(mRect, mPaint) ?: -1
                 super.dispatchDraw(canvas)
                 mPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN) //设置图层混合模式
                 maskBitmap?.run {
-                    canvas?.drawBitmap(this, 0f, 0f, mPaint)
+                    canvas.drawBitmap(this, 0f, 0f, mPaint)
                 }
                 mPaint.xfermode = null
-                canvas?.restoreToCount(layerId)
+                canvas.restoreToCount(layerId)
             }
 
             else -> {
