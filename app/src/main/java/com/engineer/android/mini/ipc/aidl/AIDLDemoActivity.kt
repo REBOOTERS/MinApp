@@ -128,7 +128,9 @@ class AIDLDemoActivity : AppCompatActivity() {
         Log.e(TAG, "startBookManger() called")
         binderBridge = BinderBridge()
         remoteIntent = Intent(this, BookManagerService::class.java)
-        isBookServiceRegistered = bindService(remoteIntent, binderBridge, BIND_AUTO_CREATE)
+        remoteIntent?.let {
+            isBookServiceRegistered = bindService(it, binderBridge, BIND_AUTO_CREATE)
+        }
     }
 
     private fun registerAsyncCallback() {
