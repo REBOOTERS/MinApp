@@ -1,0 +1,219 @@
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
+    id("project-report")
+    id("dagger.hilt.android.plugin")
+}
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+
+val ext = rootProject.ext
+val buildTime = SimpleDateFormat("yyMMddHHmm").format(Date())
+android {
+    compileSdk = ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId = "com.engineer.android.mini"
+        minSdk = ext.minSdkVersion
+        targetSdk = ext.targetSdkVersion
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        resourceConfigurations += ["zh-rCN", "xxhdpi"]
+
+        ndk {
+            abiFilters(["arm64-v8a", "armeabi-v7a"])
+        }
+
+        buildConfigField("Boolean", "enable_log", "false")
+        buildConfigField("String", "secret_id", "\"123456\"")
+        buildConfigField("String", "api_key", "\"${API_KEY}\"")
+//        manifestPlaceholders.activity_exported = true
+        manifestPlaceholders.set("max_aspect", 3)
+        manifestPlaceholders.set("extract_native_libs", "true")
+        manifestPlaceholders.set("activity_exported", "true")
+
+        vectorDrawables {
+            useSupportLibrary = true
+        }
+
+
+    }
+
+    signingConfigs {
+        release {
+            keyAlias MYAPP_RELEASE_KEY_ALIAS keyPassword MYAPP_RELEASE_KEY_PASSWORD storeFile file (MYAPP_RELEASE_STORE_FILE)
+            storePassword(MYAPP_RELEASE_STORE_PASSWORD)
+        }
+    }
+
+    buildTypes {
+        release {
+            //混淆
+            minifyEnabled = true
+            //所以尽可能的减少第三方的使用 也是可以降低混淆的难度
+            //Zipalign优化
+            zipAlignEnabled = true
+            // 移除无用的resource文件
+            shrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.release
+        }
+        debug {
+            debuggable = true
+            minifyEnabled = false
+            signingConfig = signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+        aidl = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.3"
+    }
+
+    sourceSets {
+        main {
+//            aidl.srcDirs = ["src/main/aidl"]
+        }
+        local {
+            manifest.srcFile = "src/local/AndroidManifest.xml"
+        }
+    }
+    flavorDimensions = listOf("channel", "type")
+    productFlavors {
+        xiaomi {
+            dimension = "channel"
+        }
+        oppo {
+            dimension = "channel"
+        }
+        huawei {
+            dimension = "channel"
+        }
+
+        global {
+            dimension = "type"
+        }
+        local {
+            dimension = "type"
+        }
+
+
+    }
+    variantFilter { variant ->
+        println("variant is ${variant.flavors.name}")
+        val dimens = variant.flavors.name
+        val type = dimens[1]
+        val channel = dimens[0]
+        when (type) {
+            "global" -> {
+                if (channel == "xiaomi") {
+                    setIgnore(true)
+                }
+            }
+
+            "local" -> {
+                if (channel == "oppo") {
+                    setIgnore(true)
+                }
+            }
+        }
+
+
+    }
+    namespace = "com.engineer.android.mini"
+    lint {
+        checkReleaseBuilds = false
+    }
+    packagingOptions {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+        jniLibs {
+            useLegacyPackaging = false
+        }
+    }
+
+    applicationVariants.all { variant ->
+        val versionName = "1.0.0_${buildTime}"
+        variant.outputs.each { output ->
+            println("output = $output,versionName =$versionName")
+            output.versionNameOverride = versionName
+        }
+    }
+}
+
+dependencies {
+//    implementation fileTree (dir: "libs", include: ["*.jar"])
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+
+    implementation("androidx.appcompat:appcompat:$appcompat")
+    implementation("androidx.core:core-ktx:$core_ktx")
+    implementation("androidx.constraintlayout:constraintlayout:$constraint_layout")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("com.google.android.material:material:$material")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlin_version")
+
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    implementation("androidx.preference:preference-ktx:1.2.1")
+
+    implementation("com.facebook.stetho:stetho:1.6.0")
+    implementation("com.facebook.stetho:stetho-okhttp3:1.6.0")
+
+    implementation("com.github.z-chu.RxCache:rxcache:2.3.5")
+    implementation("com.github.z-chu.RxCache:rxcache-kotlin:2.3.5")
+
+
+    if (source_code.toBoolean()) {
+        globalImplementation(project(mapOf("path" to ":thirdlib")))
+    } else {
+        globalImplementation("com.engineer.third:thirdlib:1.0.0")
+    }
+    implementation(project(mapOf("path" to ":common")))
+    implementation(project(mapOf("path" to ":compose")))
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.2")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+
+//    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.10"
+
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
+
+    implementation("com.alibaba:fastjson:1.1.73.android")
+    implementation("org.jetbrains.kotlin:kotlin-script-runtime:1.8.22")
+
+
+    // https://github.com/koral--/android-gif-drawable/tree/master
+    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.26")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+    implementation("com.github.microshow:RxFFmpeg:4.9.0-lite")
+}
+
+apply {
+    from(file("../custom-gradle/test-dep.gradle")) // unit test
+    from(file("../custom-gradle/res-guard.gradle")) // es-guard
+    from(file("../custom-gradle/viewmodel-dep.gradle")) // view-model-lifecycle 全家桶
+    from(file("../custom-gradle/coroutines-dep.gradle")) // kotlin coroutines
+    from(file("../custom-gradle/rx-retrofit-dep.gradle")) // rxjava retrofit gson 网络全家桶
+    from(file("../custom-gradle/hilt-dep.gradle")) // hilt 全家桶
+    from(file("../custom-gradle/apk_dest_dir_change.gradle")) // 修改 apk 生成文件路劲及地址
+    from(file("../custom-gradle/report_apk_size_after_package.gradle")) // 打包完成后输出 apk 大小
+}
