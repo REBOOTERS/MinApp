@@ -5,8 +5,10 @@
       <module name="MiniApp.app" target="17" />
       <module name="MiniApp.common" target="17" />
       <module name="MiniApp.compose" target="17" />
+      <module name="MiniApp.deps.common" target="17" />
+      <module name="MiniApp.deps.compose" target="17" />
+      <module name="MiniApp.deps.thirdlib" target="17" />
       <module name="MiniApp.other" target="17" />
-      <module name="MiniApp.thirdlib" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

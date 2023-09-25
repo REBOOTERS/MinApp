@@ -67,7 +67,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
     implementation "com.google.android.material:material:$material"
-    implementation project(path: ':common')
+    implementation project(path: ':deps:common')
 
 }
 
