@@ -64,4 +64,4 @@ dependencies {
 
 }
 
-apply from: file("../custom-gradle/test-dep.gradle") // unit test
+apply from: file("../../custom-gradle/test-dep.gradle") // unit test

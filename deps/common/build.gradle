@@ -52,5 +52,5 @@ dependencies {
     api 'io.github.scwang90:refresh-footer-classics:2.0.6'    //经典加载
 }
 
-apply from: file("../custom-gradle/test-dep.gradle") // unit test
-apply from: file("../custom-gradle/rx-retrofit-dep.gradle") // rxjava retrofit gson 网络全家桶
+apply from: file("../../custom-gradle/test-dep.gradle") // unit test
+apply from: file("../../custom-gradle/rx-retrofit-dep.gradle") // rxjava retrofit gson 网络全家桶

@@ -24,7 +24,7 @@ println "rootDir    =" + rootDir
 println "settings.dir=" + settingsDir
 println "settings.dir.parent=" + settingsDir.parent
 
-include ':thirdlib'
+
 rootProject.name = 'MiniApp'
 include ':app'
 
@@ -32,8 +32,8 @@ include ':app'
 //evaluate(new File(settingsDir, 'sub_flutter/.android/include_flutter.groovy'))
 //include ':sub_flutter'
 
-
-include ':compose'
+include ':deps:thirdlib'
+include ':deps:compose'
 include ':other'
-include ':common'
-include ':lib_jar'
+include ':deps:common'
+include ':deps:lib_jar'
