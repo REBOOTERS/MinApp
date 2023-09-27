@@ -92,7 +92,7 @@ android {
             manifest.srcFile 'src/local/AndroidManifest.xml'
         }
     }
-    flavorDimensions "channel", "type"
+    flavorDimensions = ["channel", "type"]
     productFlavors {
         xiaomi {
             dimension "channel"

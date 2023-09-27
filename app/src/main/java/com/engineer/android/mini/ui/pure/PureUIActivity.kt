@@ -5,12 +5,18 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.HandlerThread
 import android.os.Looper
 import android.util.Log
+import android.view.FrameMetrics
+import android.view.Window
 import android.view.animation.AnticipateInterpolator
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.FrameMetricsAggregator
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import com.engineer.android.mini.R
@@ -30,6 +36,29 @@ import radiography.Radiography
 @SuppressLint("SetTextI18n")
 class PureUIActivity : BaseActivity() {
     private lateinit var realBinding: ActivityPureUiBinding
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private val metricsAvailableListener =
+        Window.OnFrameMetricsAvailableListener { window, frameMetrics, dropCountSinceLastInvocation ->
+            val intent = frameMetrics?.getMetric(FrameMetrics.INTENDED_VSYNC_TIMESTAMP) ?: 0
+            val vsync = frameMetrics?.getMetric(FrameMetrics.VSYNC_TIMESTAMP) ?: 0
+            val animation = frameMetrics?.getMetric(FrameMetrics.ANIMATION_DURATION) ?: 0
+            val vsyncTotal = frameMetrics?.getMetric(FrameMetrics.TOTAL_DURATION) ?: 0
+            val measureCost = frameMetrics?.getMetric(FrameMetrics.LAYOUT_MEASURE_DURATION) ?: 0
+            //计算帧率
+
+            Log.d("zzz",intent.toString())
+            Log.d("zzz",vsync.toString())
+            Log.d("zzz",animation.toString())
+            Log.d("zzz",vsyncTotal.toString())
+            Log.d("zzz",measureCost.toString())
+            Log.d("zzz","====================")
+        }
+
+    private val frameMetricsAggregator = FrameMetricsAggregator()
+
+
+    private val handlerThread = HandlerThread("11")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +93,27 @@ class PureUIActivity : BaseActivity() {
         realBinding.editText.customSelectionActionModeCallback = ActionModeCallbackAdapter()
 
         systemDayNight()
+
+        testFrames()
+    }
+
+
+    private fun testFrames() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            handlerThread.start()
+            this.window.addOnFrameMetricsAvailableListener(//向window注册监听
+                metricsAvailableListener, Handler(handlerThread.looper)
+            )
+        }
+
+        frameMetricsAggregator.add(this)
+        frameMetricsAggregator.metrics?.let {
+            it[FrameMetricsAggregator.TOTAL_INDEX] //总耗时概况
+            it[FrameMetricsAggregator.INPUT_INDEX] //输入事件耗时
+            it[FrameMetricsAggregator.DRAW_INDEX]  //绘制事件耗时概况
+        }
+        Log.e("zzz", frameMetricsAggregator.metrics.contentToString())
     }
 
     private fun callFormActivity(callback: SimpleCallback) {
@@ -93,7 +143,8 @@ class PureUIActivity : BaseActivity() {
             realBinding.rootContent, changeBounds
         )
         val params = realBinding.imageView.layoutParams
-        val hw: Float = realBinding.imageView.measuredWidth * 1.0f / realBinding.imageView.measuredHeight
+        val hw: Float =
+            realBinding.imageView.measuredWidth * 1.0f / realBinding.imageView.measuredHeight
         if (realBinding.imageView.measuredWidth >= (resources.displayMetrics.widthPixels - 20.dp)) {
             params.width = resources.displayMetrics.widthPixels / 2
             params.height = ((resources.displayMetrics.widthPixels / 2) * (1 / hw)).toInt()
@@ -181,7 +232,9 @@ class PureUIActivity : BaseActivity() {
         val screenRealSize = DisplayUtil.getScreenRealSize(activity).y
 
         val navHeight =
-            if (DisplayUtil.isNavigationBarShowing(activity)) DisplayUtil.getNavigationBarHeight(activity) else 0
+            if (DisplayUtil.isNavigationBarShowing(activity)) DisplayUtil.getNavigationBarHeight(
+                activity
+            ) else 0
 
         val statusBarHeight = DisplayUtil.getStatusBarHeight2(activity)
         val dp45 = DisplayUtil.dp2px(45f)
