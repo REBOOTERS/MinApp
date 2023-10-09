@@ -31,12 +31,14 @@ import com.engineer.android.mini.ui.behavior.lifecycle.PanelActivity
 import com.engineer.android.mini.ui.pure.ChangeViewActivity
 import com.engineer.android.mini.ui.pure.MessyActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
+import com.engineer.android.mini.util.InstrumentationHelper
 import com.engineer.android.mini.util.ProducerConsumerViewModel
 import com.engineer.common.utils.AndroidSystem
 import com.engineer.compose.ui.MainComposeActivity
 import com.engineer.third.CppActivity
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import jp.wasabeef.blurry.Blurry
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
@@ -108,6 +110,23 @@ class RootActivity : BaseActivity() {
     }
 
     private fun testPC() {
+        val d2 = Observable.create<Int> {
+            it.onNext(0)
+            InstrumentationHelper.sendBackKey()
+            it.onComplete()
+        }
+            .subscribeOn(Schedulers.single())
+            .doOnError {
+                Log.e(TAG, it.stackTraceToString())
+            }
+            .onErrorReturn { 1 }
+            .doOnNext {
+                Log.d(TAG, it.toString())
+            }
+            .subscribe()
+        disposeOn.add(d2)
+
+
         if (disposeOn.size() > 1) {
             "producer and consumer is doing".toast()
             return
@@ -176,7 +195,9 @@ class RootActivity : BaseActivity() {
         viewBinding.compose.setOnClickListener {
             gotoActivity(MainComposeActivity::class.java)
         }
-        viewBinding.cp.setOnClickListener { testPC() }
+        viewBinding.cp.setOnClickListener {
+            testPC()
+        }
         viewBinding.crash.setOnClickListener { throw IllegalStateException() }
         viewBinding.cpp.setOnClickListener { gotoActivity(CppActivity::class.java) }
         viewBinding.better.setOnClickListener { gotoActivity(BetterActivity::class.java) }
