@@ -12,7 +12,7 @@ verify_apk_sign() {
   cert_XSA=`jar tf $1 | grep SA` #获取签名文件在Apk中路径
 #  echo  $cert_XSA
   jar xf $1 $cert_XSA #提取签名文件
-  sha1=`keytool -printcert -file $cert_XSA | grep SHA1`
+  sha1=(keytool -printcert -file $cert_XSA | grep SHA1)
   map["kye"]=$sha1
   echo --------------------------------------------------------------------------
   echo $1
@@ -30,14 +30,14 @@ verify_final() {
     verify_apk_sign $var
   done
 
-  for key in ${!map[*]}
+  for key in "${!map[@]}"
   do
-    echo $key ,${map[$key]}
+    echo "键: $key，值: ${map[$key]}"
   done
 }
 
 ###################################### function done ##########################
 
-package_apk
-
+#package_apk
+wait
 verify_final
