@@ -29,8 +29,9 @@ import android.view.View
 import android.view.WindowManager
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
-import android.widget.Toast
+import android.widget.LinearLayout
 import androidx.core.content.res.ResourcesCompat
+import androidx.metrics.performance.PerformanceMetricsState
 import com.engineer.android.mini.R
 import com.engineer.android.mini.better.file.FileChangeWatcher
 import com.engineer.android.mini.coroutines.old.log
@@ -46,7 +47,7 @@ import com.engineer.android.mini.proguards.WEEK
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.DemoDialogActivity
 import com.engineer.android.mini.ui.pure.helper.SimpleCallback
-import com.engineer.android.mini.util.CustomToast
+import com.engineer.android.mini.util.JankStatsAggregator
 import com.engineer.android.mini.util.JavaUtil
 import com.engineer.android.mini.util.NetWorkUtil
 import com.engineer.android.mini.util.RxTimer
@@ -54,7 +55,6 @@ import com.engineer.common.contract.ContentProviderHelper
 import com.engineer.common.utils.SystemTools
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.launch
 
 class MessyActivity : BaseActivity() {
@@ -78,6 +78,9 @@ class MessyActivity : BaseActivity() {
 
     private var callback: SimpleCallback? = null
 
+
+    private lateinit var jankStatsAggregator: JankStatsAggregator
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         realBinding = ActivityMessyBinding.inflate(layoutInflater)
@@ -99,7 +102,11 @@ class MessyActivity : BaseActivity() {
         }
         Log.i(TAG, "mac1 ${NetWorkUtil.getWifiMacAddress()}")
         Log.i(TAG, "mac2 ${NetWorkUtil.getMac(this)}")
+
+        setupJankStatus()
     }
+
+
 
     private fun timerTest() {
         rxTimer = RxTimer().interval(1000) {
@@ -243,6 +250,10 @@ class MessyActivity : BaseActivity() {
 
             val lenn = realBinding.contentView.paint.measureText(realBinding.contentView.text.toString())
             Log.e("len-measure", "lenn=$lenn")
+
+            val lp = realBinding.jankView.layoutParams as LinearLayout.LayoutParams
+            lp.leftMargin = 30.dp * (value * 10).toInt()
+            realBinding.jankView.layoutParams = lp
         }
         realBinding.rangeSlider.setValues(0.3f)
 
@@ -416,6 +427,45 @@ class MessyActivity : BaseActivity() {
     private fun updateProgress(progress: Int) {
         realBinding.progressBar.progress = progress
     }
+
+    override fun onResume() {
+        super.onResume()
+        jankStatsAggregator.jankStats.isTrackingEnabled = true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        jankStatsAggregator.issueJankReport("Activity paused")
+        jankStatsAggregator.jankStats.isTrackingEnabled = false
+    }
+
+    private val jankReportListener =
+        JankStatsAggregator.OnJankReportListener { reason, totalFrames, jankFrameData ->
+            // A real app could do something more interesting, like writing the info to local storage and later on report it.
+
+            Log.d(
+                "JankStatsSample",
+                "*** Jank Report ($reason), " +
+                        "totalFrames = $totalFrames, " +
+                        "jankFrames = ${jankFrameData.size}, jank = ${100f * jankFrameData.size / totalFrames}%"
+            )
+
+            jankFrameData.forEach { frameData ->
+                Log.v("JankStatsSample", frameData.toString())
+            }
+        }
+
+    private fun setupJankStatus() {
+        // metrics state holder can be retrieved regardless of JankStats initialization
+        val metricsStateHolder = PerformanceMetricsState.getHolderForHierarchy(realBinding.root)
+
+        // initialize JankStats for current window
+        jankStatsAggregator = JankStatsAggregator(window, jankReportListener)
+
+        // add activity name as state
+        metricsStateHolder.state?.putState("Activity", javaClass.simpleName)
+    }
+
 
 
     override fun onDestroy() {
