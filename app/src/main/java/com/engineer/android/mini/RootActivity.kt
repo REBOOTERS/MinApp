@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.media.AudioRecord
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
@@ -35,7 +36,9 @@ import com.engineer.android.mini.util.InstrumentationHelper
 import com.engineer.android.mini.util.ProducerConsumerViewModel
 import com.engineer.common.utils.AndroidSystem
 import com.engineer.compose.ui.MainComposeActivity
+import com.engineer.compose.ui.util.AudioRecordHelper
 import com.engineer.third.CppActivity
+import com.permissionx.guolindev.PermissionX
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -73,37 +76,38 @@ class RootActivity : BaseActivity() {
 
 
     private fun printSysInfo() {
-        val d = Observable.interval(0L, 1L, TimeUnit.SECONDS).compose(ThreadExTransform()).subscribe {
-            val oneMB = 1024 * 1024f
-            val sb = StringBuilder()
+        val d =
+            Observable.interval(0L, 1L, TimeUnit.SECONDS).compose(ThreadExTransform()).subscribe {
+                val oneMB = 1024 * 1024f
+                val sb = StringBuilder()
 
-            sb.append("count=").append(it).append("\n")
-            if (it > 10 && (it % 20 == 0L)) {
-                Runtime.getRuntime().gc()
-                "gc() called".toast()
+                sb.append("count=").append(it).append("\n")
+                if (it > 10 && (it % 20 == 0L)) {
+                    Runtime.getRuntime().gc()
+                    "gc() called".toast()
+                }
+                val maxMemory = Runtime.getRuntime().maxMemory() / oneMB
+                sb.append("maxMemory=").append(maxMemory).append("MB").append("\n")
+
+                val totalMemory = Runtime.getRuntime().totalMemory() / oneMB
+                sb.append("totalMemory=").append(totalMemory).append("MB").append("\n")
+
+                val freeMemory = Runtime.getRuntime().freeMemory() / oneMB
+                sb.append("freeMemory=").append(freeMemory).append("MB").append("\n")
+
+                val availableProcessor = Runtime.getRuntime().availableProcessors()
+                sb.append("availableProcessor=").append(availableProcessor).append("\n")
+
+                val isHarmonyOS = AndroidSystem.isHarmonyOS()
+                sb.append("isHarmonyOS : $isHarmonyOS").append("\n")
+
+                val systemTime = System.currentTimeMillis()
+                sb.append("System.currentTimeMillis()=$systemTime").append("\n")
+
+                val clockTime = SystemClock.uptimeMillis()
+                sb.append("SystemClock.uptimeMillis()=$clockTime").append("\n")
+                viewBinding.sysRuntimeInfo.text = sb.toString()
             }
-            val maxMemory = Runtime.getRuntime().maxMemory() / oneMB
-            sb.append("maxMemory=").append(maxMemory).append("MB").append("\n")
-
-            val totalMemory = Runtime.getRuntime().totalMemory() / oneMB
-            sb.append("totalMemory=").append(totalMemory).append("MB").append("\n")
-
-            val freeMemory = Runtime.getRuntime().freeMemory() / oneMB
-            sb.append("freeMemory=").append(freeMemory).append("MB").append("\n")
-
-            val availableProcessor = Runtime.getRuntime().availableProcessors()
-            sb.append("availableProcessor=").append(availableProcessor).append("\n")
-
-            val isHarmonyOS = AndroidSystem.isHarmonyOS()
-            sb.append("isHarmonyOS : $isHarmonyOS").append("\n")
-
-            val systemTime = System.currentTimeMillis()
-            sb.append("System.currentTimeMillis()=$systemTime").append("\n")
-
-            val clockTime = SystemClock.uptimeMillis()
-            sb.append("SystemClock.uptimeMillis()=$clockTime").append("\n")
-            viewBinding.sysRuntimeInfo.text = sb.toString()
-        }
         disposeOn.add(d)
         val info = "${BuildConfig.BUILD_TYPE}_${BuildConfig.FLAVOR}_${BuildConfig.VERSION_NAME}"
         viewBinding.versionInfo.text = info
@@ -114,16 +118,11 @@ class RootActivity : BaseActivity() {
             it.onNext(0)
             InstrumentationHelper.sendBackKey()
             it.onComplete()
-        }
-            .subscribeOn(Schedulers.single())
-            .doOnError {
-                Log.e(TAG, it.stackTraceToString())
-            }
-            .onErrorReturn { 1 }
-            .doOnNext {
-                Log.d(TAG, it.toString())
-            }
-            .subscribe()
+        }.subscribeOn(Schedulers.single()).doOnError {
+            Log.e(TAG, it.stackTraceToString())
+        }.onErrorReturn { 1 }.doOnNext {
+            Log.d(TAG, it.toString())
+        }.subscribe()
         disposeOn.add(d2)
 
 
@@ -193,7 +192,12 @@ class RootActivity : BaseActivity() {
             gotoActivity(IpcActivity::class.java)
         }
         viewBinding.compose.setOnClickListener {
-            gotoActivity(MainComposeActivity::class.java)
+            PermissionX.init(this).permissions(Manifest.permission.RECORD_AUDIO)
+                .request { allGranted, _, _ ->
+                    if (allGranted) {
+                        gotoActivity(MainComposeActivity::class.java)
+                    }
+                }
         }
         viewBinding.cp.setOnClickListener {
             testPC()
@@ -279,7 +283,10 @@ class RootActivity : BaseActivity() {
 
     private fun allPermissionGranted(context: Context, permissions: List<String>): Boolean {
         permissions.forEach {
-            if (ActivityCompat.checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(
+                    context, it
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 return false
             }
         }
@@ -293,7 +300,8 @@ class RootActivity : BaseActivity() {
         if (requestCode == 0) {
             for (result in grantResults) {
                 if (result != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "You must allow all the permissions.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "You must allow all the permissions.", Toast.LENGTH_SHORT)
+                        .show()
 //                    finish()
                 }
             }

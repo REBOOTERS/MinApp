@@ -61,7 +61,6 @@ dependencies {
     api 'androidx.compose.material3:material3'
     // Image for net
     implementation("io.coil-kt:coil-compose:2.4.0")
-
 }
 
 apply from: file("../../custom-gradle/test-dep.gradle") // unit test

@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.engineer.compose.R
 import com.engineer.compose.ui.ui.theme.MiniAppTheme
+import com.engineer.compose.ui.util.AudioRecordHelper
 
 /**
  * https://developer.android.google.cn/jetpack/compose/tutorial
@@ -37,6 +38,7 @@ class MainComposeActivity : ComponentActivity() {
                 }
             }
         }
+        AudioRecordHelper.init(this)
     }
 }
 
@@ -52,6 +54,16 @@ fun MessageCard(msg: Message) {
             contentDescription = "net img"
         )
         val context = LocalContext.current
+        Button(onClick = {
+            AudioRecordHelper.startRecord()
+        }) {
+            Text(text = "audio-record-start")
+        }
+        Button(onClick = {
+            AudioRecordHelper.stopRecording()
+        }) {
+            Text(text = "audio-record-stop")
+        }
         Button(onClick = {
             Toast.makeText(context, "you clicked me", Toast.LENGTH_SHORT).show()
         }) {
