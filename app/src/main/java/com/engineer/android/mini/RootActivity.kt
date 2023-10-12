@@ -115,7 +115,8 @@ class RootActivity : BaseActivity() {
     private fun testPC() {
         val d2 = Observable.create<Int> {
             it.onNext(0)
-            InstrumentationHelper.sendBackKey()
+//            InstrumentationHelper.sendBackKey()
+            InstrumentationHelper.openAppSwitch()
             it.onComplete()
         }.subscribeOn(Schedulers.single()).doOnError {
             Log.e(TAG, it.stackTraceToString())
