@@ -46,6 +46,11 @@
             tools:visibility="gone" />
 
         <Button
+            android:id="@+id/audio_record"
+            style="@style/mw_10_margin"
+            android:text="audio_record" />
+
+        <Button
             android:id="@+id/notification_case"
             style="@style/mw_10_margin"
             android:text="NotificationCase" />

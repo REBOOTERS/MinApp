@@ -5,7 +5,13 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -22,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.engineer.compose.R
 import com.engineer.compose.ui.ui.theme.MiniAppTheme
-import com.engineer.compose.ui.util.AudioRecordHelper
 
 /**
  * https://developer.android.google.cn/jetpack/compose/tutorial
@@ -38,7 +43,6 @@ class MainComposeActivity : ComponentActivity() {
                 }
             }
         }
-        AudioRecordHelper.init(this)
     }
 }
 
@@ -54,16 +58,6 @@ fun MessageCard(msg: Message) {
             contentDescription = "net img"
         )
         val context = LocalContext.current
-        Button(onClick = {
-            AudioRecordHelper.startRecord()
-        }) {
-            Text(text = "audio-record-start")
-        }
-        Button(onClick = {
-            AudioRecordHelper.stopRecording()
-        }) {
-            Text(text = "audio-record-stop")
-        }
         Button(onClick = {
             Toast.makeText(context, "you clicked me", Toast.LENGTH_SHORT).show()
         }) {
