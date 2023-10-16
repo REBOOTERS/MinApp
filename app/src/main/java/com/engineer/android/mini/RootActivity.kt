@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.media.AudioRecord
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
@@ -36,9 +35,7 @@ import com.engineer.android.mini.util.InstrumentationHelper
 import com.engineer.android.mini.util.ProducerConsumerViewModel
 import com.engineer.common.utils.AndroidSystem
 import com.engineer.compose.ui.MainComposeActivity
-import com.engineer.compose.ui.util.AudioRecordHelper
 import com.engineer.third.CppActivity
-import com.permissionx.guolindev.PermissionX
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -193,12 +190,7 @@ class RootActivity : BaseActivity() {
             gotoActivity(IpcActivity::class.java)
         }
         viewBinding.compose.setOnClickListener {
-            PermissionX.init(this).permissions(Manifest.permission.RECORD_AUDIO)
-                .request { allGranted, _, _ ->
-                    if (allGranted) {
-                        gotoActivity(MainComposeActivity::class.java)
-                    }
-                }
+            gotoActivity(MainComposeActivity::class.java)
         }
         viewBinding.cp.setOnClickListener {
             testPC()
