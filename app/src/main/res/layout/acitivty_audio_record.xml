@@ -1,47 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
-        android:layout_margin="10dp"
         android:id="@+id/progress"
-        android:textColor="#F44336"
-        android:textSize="32sp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textColor="#F44336"
+        android:textSize="32sp" />
 
+    <TextView
+        android:id="@+id/count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        tools:text="111" />
 
     <Button
         android:id="@+id/start"
-        android:text="start"
-        android:layout_margin="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="record_start" />
+
 
     <Button
         android:id="@+id/stop"
-        android:text="stop"
-        android:layout_margin="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="record_stop" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/black" />
+
+    <Button
+        android:id="@+id/convert_to_wav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="convert_pcm_to_wav"
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/play"
-        android:text="play"
-        android:visibility="gone"
-        android:layout_margin="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="play"
+        android:visibility="visible" />
 
     <Button
-        android:visibility="gone"
-        android:id="@+id/convert_to_wav"
-        android:text="convert_to_wav"
-        android:layout_margin="20dp"
+        android:id="@+id/play_stop"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="stop"
+        android:visibility="visible" />
+
 
 </LinearLayout>
