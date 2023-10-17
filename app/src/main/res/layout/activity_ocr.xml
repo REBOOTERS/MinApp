@@ -16,15 +16,23 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/android" />
 
-
-    <TextView
-        android:id="@+id/ocr_result"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="20dp"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/input_image"
-        tools:text="@string/app_name" />
+        android:background="#00BCD4"
+        app:layout_constraintBottom_toTopOf="@id/select_image"
+        app:layout_constraintTop_toBottomOf="@id/input_image">
+
+        <TextView
+            android:id="@+id/ocr_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:textColor="@color/white"
+            tools:text="@string/large_text" />
+    </androidx.core.widget.NestedScrollView>
+
 
     <Button
         android:id="@+id/select_image"

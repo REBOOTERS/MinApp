@@ -40,7 +40,6 @@ class OcrActivity : BaseActivity() {
             Glide.with(this).load(uri).into(viewBinding.inputImage)
             val image = InputImage.fromFilePath(this, uri)
             val result = recognizer.process(image).addOnSuccessListener {
-                Log.e(TAG, "success $it")
                 Log.e(TAG, "success ${it.text}")
                 viewBinding.ocrResult.text = it.text
 
