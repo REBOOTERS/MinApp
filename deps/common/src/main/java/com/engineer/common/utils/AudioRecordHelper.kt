@@ -2,6 +2,7 @@ package com.engineer.common.utils
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
@@ -37,11 +38,8 @@ object AudioRecordHelper {
     private val sb = StringBuilder()
 
 
+    @SuppressLint("StaticFieldLeak")
     fun init(fragment: Activity) {
-        // 使用应用私有目录，不用申请 sd 卡权限
-        audioFileName = fragment.baseContext.cacheDir.absolutePath + File.separator + "myaudio.pcm"
-
-        Log.i(TAG, audioFileName)
         Log.i(TAG, fragment.baseContext.filesDir.absolutePath)
         Log.i(TAG, fragment.baseContext.cacheDir.absolutePath)
         Log.i(TAG, fragment.baseContext.packageCodePath)
@@ -52,8 +50,12 @@ object AudioRecordHelper {
      * 开始录制
      */
     @SuppressLint("MissingPermission")
-    fun startRecord() {
+    fun startRecord(context: Context) {
         if (!isRecorded) {
+            // 使用应用私有目录，不用申请 sd 卡权限
+            audioFileName =
+                context?.cacheDir?.absolutePath + File.separator + "${System.currentTimeMillis()}_myaudio" + ".pcm"
+            Log.i(TAG, audioFileName)
             if (audioRecord == null) {
                 audioRecord = AudioRecord(source, sample, channelConfig, audioFormat, bufferSize)
             }

@@ -17,8 +17,8 @@ import java.io.IOException;
 public class AudioUtil {
 
 
-    public static void convertPcmToWav(Context context, File pcmFile) {
-        File wavFile = new File(context.getExternalFilesDir(Environment.DIRECTORY_MUSIC), "convert.wav");
+    public static File convertPcmToWav(Context context, File pcmFile) {
+        File wavFile = new File(context.getCacheDir(), "convert.wav");
         if (wavFile.exists()) {
             wavFile.delete();
         }
@@ -51,7 +51,7 @@ public class AudioUtil {
                 e.printStackTrace();
             }
         }
-
+        return wavFile;
     }
 
     private static void addWavHeader(FileOutputStream fileOutputStream, long audioByteLen, long wavByteLen, int sampleRateInHz, int channelConfig, int audioFormat) {

@@ -165,4 +165,5 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="title_activity_content_provider_page">ContentProviderPage</string>
+    <string name="record_count">"record count = %d"</string>
 </resources>
