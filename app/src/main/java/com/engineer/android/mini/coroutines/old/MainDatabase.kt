@@ -33,7 +33,11 @@ data class Address(val code: String, val city: String)
 
 @Entity
 data class Image constructor(
-    val path: String, val format: String, val size: Int, @PrimaryKey val id: Int
+    val path: String,
+    val format: String,
+    val size: Int,
+    val address: Address?,
+    @PrimaryKey val id: Int
 )
 
 @Dao
@@ -52,7 +56,7 @@ interface ImageDao {
 }
 
 private const val DATA_BASE_NAME = "titles.db"
-private const val DATA_BASE_VERSION = 4
+private const val DATA_BASE_VERSION = 5
 
 
 @Database(
@@ -61,6 +65,7 @@ private const val DATA_BASE_VERSION = 4
     autoMigrations = [AutoMigration(2, 3, TitleDatabase.ReNameColumnMigration::class)],
     exportSchema = true
 )
+@TypeConverters(AddressTypeConvert::class)
 abstract class TitleDatabase : RoomDatabase() {
     abstract val titleDao: TitleDao
 
@@ -92,6 +97,11 @@ val MIGRATION_3_4 = object : Migration(3, 4) {
         )
     }
 }
+val MIGRATION_4_5 = object : Migration(1, 2) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("ALTER TABLE Image ADD COLUMN address TEXT")
+    }
+}
 
 
 fun getDatabase(context: Context): TitleDatabase {
@@ -100,7 +110,8 @@ fun getDatabase(context: Context): TitleDatabase {
         if (!::INSTANCE.isInitialized) {
             INSTANCE = Room.databaseBuilder(
                 context.applicationContext, TitleDatabase::class.java, DATA_BASE_NAME
-            ).addMigrations(MIGRATION_1_2, MIGRATION_3_4).fallbackToDestructiveMigration().build()
+            ).addMigrations(MIGRATION_1_2, MIGRATION_3_4, MIGRATION_4_5)
+                .fallbackToDestructiveMigration().build()
         }
     }
     return INSTANCE
