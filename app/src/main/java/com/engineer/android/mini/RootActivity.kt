@@ -15,7 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.engineer.android.mini.better.BetterActivity
 import com.engineer.android.mini.better.testfastjson
-import com.engineer.android.mini.coroutines.old.OldWayActivity
+import com.engineer.android.mini.coroutines.old.DetailActivity
 import com.engineer.android.mini.databinding.ActivityRootBinding
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.log
@@ -177,7 +177,7 @@ class RootActivity : BaseActivity() {
             gotoActivity(BehaviorActivity::class.java)
         }
         viewBinding.coroutines.setOnClickListener {
-            gotoActivity(OldWayActivity::class.java)
+            gotoActivity(DetailActivity::class.java)
         }
         viewBinding.cache.setOnClickListener {
             gotoActivity(RxCacheActivity::class.java)

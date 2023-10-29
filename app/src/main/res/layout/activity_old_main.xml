@@ -20,7 +20,7 @@
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".coroutines.old.OldWayActivity">
+    tools:context=".coroutines.old.DetailActivity">
 
     <TextView
         android:id="@+id/title"

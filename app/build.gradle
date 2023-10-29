@@ -7,6 +7,23 @@ plugins {
 }
 import java.text.SimpleDateFormat
 
+class RoomSchemaArgProvider implements CommandLineArgumentProvider {
+
+    @InputDirectory
+    @PathSensitive(PathSensitivity.RELATIVE)
+    File schemaDir
+
+    RoomSchemaArgProvider(File schemaDir) {
+        this.schemaDir = schemaDir
+    }
+
+    @Override
+    Iterable<String> asArguments() {
+        // Note: If you're using KSP, change the line below to return
+        return ["room.schemaLocation=${schemaDir.path}".toString()]
+    }
+}
+
 def ext = rootProject.ext
 def buildTime = new SimpleDateFormat("yyMMddHHmm").format(new Date())
 android {
@@ -38,6 +55,10 @@ android {
         }
 
 
+    }
+
+    ksp {
+        arg(new RoomSchemaArgProvider(new File(projectDir, "schemas")))
     }
 
     signingConfigs {

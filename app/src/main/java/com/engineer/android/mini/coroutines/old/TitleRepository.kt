@@ -16,14 +16,12 @@
 
 package com.engineer.android.mini.coroutines.old
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
-import com.engineer.android.mini.coroutines.old.util.BACKGROUND
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
-import java.lang.Exception
-import java.util.concurrent.Executors
+import javax.inject.Inject
 
 /**
  * TitleRepository provides an interface to fetch a title or request a new one be generated.
@@ -33,7 +31,9 @@ import java.util.concurrent.Executors
  * when data is updated. You can consider repositories to be mediators between different data
  * sources, in our case it mediates between a network API and an offline database cache.
  */
-class TitleRepository(val network: MainNetwork, val titleDao: TitleDao) {
+class TitleRepository @Inject constructor(
+    val network: MainNetwork, val titleDao: TitleDao, val imageDao: ImageDao
+) {
 
     /**
      * [LiveData] to load title.
@@ -78,6 +78,7 @@ class TitleRepository(val network: MainNetwork, val titleDao: TitleDao) {
 //        }
 //    }
 
+    @SuppressLint("CheckResult")
     suspend fun refreshTitle() {
 //        delay(1000)
 //        withContext(Dispatchers.IO) {
@@ -95,11 +96,21 @@ class TitleRepository(val network: MainNetwork, val titleDao: TitleDao) {
 //        }
         try {
             val result = network.fetchNextTitle()
-            titleDao.insertTitle(Title(result))
-
+            Log.d("TAG", "refreshTitle: " + result)
+            titleDao.insertTitle(
+                Title(
+                    result,
+                    System.currentTimeMillis().toString(),
+                    System.currentTimeMillis().toInt()
+                )
+            )
+            val image = Image("test", "png", 1024, System.currentTimeMillis().toInt())
+            imageDao.saveImage(image)
+//            titleDao.insertTitle(Title(result,System.currentTimeMillis().toInt()))
             val result1 = network.fetchNextTitle1()
-            titleDao.insertTitle(Title(result1.uppercase()))
+//            titleDao.insertTitle(Title(result1.uppercase()))
         } catch (e: Exception) {
+            e.printStackTrace()
             throw TitleRefreshError("Unable to refresh title", e)
         }
     }

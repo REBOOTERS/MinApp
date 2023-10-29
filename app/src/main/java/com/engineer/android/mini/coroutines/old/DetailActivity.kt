@@ -22,16 +22,29 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityOldMainBinding
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
 /**
@@ -39,10 +52,14 @@ import kotlin.random.Random
  */
 private const val TAG = "Coroutines"
 
-class OldWayActivity : BaseActivity() {
+@AndroidEntryPoint
+class DetailActivity : BaseActivity() {
     private lateinit var viewBinding: ActivityOldMainBinding
 
     private var mainScope: CoroutineScope? = null
+
+    private val viewModel: MainViewModel by viewModels()
+
 
     /**
      * Inflate layout.activity_main and setup data binding.
@@ -103,8 +120,7 @@ class OldWayActivity : BaseActivity() {
 
         viewBinding.useFlow.setOnClickListener {
             lifecycleScope.launchWhenResumed {
-                createFlow()
-                    .flowOn(Dispatchers.IO)
+                createFlow().flowOn(Dispatchers.IO)
 //                    .map {
 //                        if (it > 5) {
 //                            it % 0
@@ -112,11 +128,9 @@ class OldWayActivity : BaseActivity() {
 //                    }
                     .catch {
                         Log.e(TAG, this.toString())
-                    }
-                    .onCompletion {
+                    }.onCompletion {
                         Log.e(TAG, "onCompletion")
-                    }
-                    .collect {
+                    }.collect {
                         if (it > 5) {
                             it / 0
                         }
@@ -147,9 +161,9 @@ class OldWayActivity : BaseActivity() {
         val spinner: ProgressBar = findViewById(R.id.spinner)
 
         // Get MainViewModel by passing a database to the factory
-        val database = getDatabase(this)
-        val repository = TitleRepository(getNetworkService(), database.titleDao)
-        val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+//        val database = getDatabase(this)
+//        val repository = TitleRepository(getNetworkService(), database.titleDao)
+//        val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         // When rootLayout is clicked call onMainViewClicked in ViewModel
         taps.setOnClickListener {
