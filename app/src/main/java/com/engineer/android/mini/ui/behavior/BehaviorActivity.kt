@@ -27,9 +27,13 @@ import com.engineer.android.mini.ui.fragments.PictureBottomDialog
 import com.engineer.android.mini.ui.pure.MessyActivity
 import com.engineer.common.contract.ChooserResultContract
 import com.engineer.common.contract.PickFileResultContract
+import com.engineer.common.utils.AndroidFileUtils
 import com.engineer.common.utils.SystemTools
 import com.permissionx.guolindev.PermissionX
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.File
@@ -49,6 +53,7 @@ private const val TAG = "BehaviorActivity_TAG"
 @AndroidEntryPoint
 class BehaviorActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityBehaviorBinding
+    private val mainScope = MainScope()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +64,17 @@ class BehaviorActivity : AppCompatActivity() {
         }
         val dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         Log.e(TAG, "onCreate: dir =$dir")
+
+        viewBinding.saveToBox.setOnClickListener {
+            mainScope.launch(Dispatchers.IO) {
+                val fileName = System.currentTimeMillis().toString() + ".txt"
+                val result = AndroidFileUtils.saveFileToBox(it.context, this::class.java.toString(), fileName)
+                mainScope.launch {
+                    result.toast()
+                }
+            }
+
+        }
 
         viewBinding.screenCapture.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {

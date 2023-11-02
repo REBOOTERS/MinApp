@@ -9,8 +9,11 @@ import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import org.apache.commons.io.FilenameUtils
+import java.io.BufferedOutputStream
 import java.io.BufferedReader
+import java.io.File
 import java.io.FileNotFoundException
+import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.InputStreamReader
 
@@ -21,6 +24,24 @@ import java.io.InputStreamReader
 private const val TAG = "AndroidFileUtils"
 
 object AndroidFileUtils {
+
+    fun saveFileToBox(context: Context, content: String, filename: String): String {
+        val filePath = context.cacheDir.absolutePath + File.separator + filename
+        val file = File(filePath)
+        val outputStream = FileOutputStream(file)
+        val bis = content.byteInputStream()
+        val bos = BufferedOutputStream(outputStream)
+        val buffer = ByteArray(1024)
+        var bytes = bis.read(buffer)
+        while (bytes >= 0) {
+            bos.write(buffer, 0, bytes)
+            bos.flush()
+            bytes = bis.read(buffer)
+        }
+        bos.close()
+        return filePath
+    }
+
     /**
      * 读取 assets 中特定文件名称数据
      */
@@ -95,8 +116,7 @@ object AndroidFileUtils {
             )
             if (cursor != null) {
                 if (cursor.moveToFirst()) {
-                    val columnIndex: Int =
-                        cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                    val columnIndex: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
                     if (columnIndex > -1) {
                         path = cursor.getString(columnIndex)
                     }
@@ -117,8 +137,7 @@ object AndroidFileUtils {
         val projection = arrayOf(column)
         try {
             uri?.let {
-                cursor =
-                    context.contentResolver.query(uri, projection, selection, selectionArgs, null)
+                cursor = context.contentResolver.query(uri, projection, selection, selectionArgs, null)
                 cursor?.let {
                     if (it.moveToFirst()) {
                         val columnIndex: Int = it.getColumnIndexOrThrow(column)

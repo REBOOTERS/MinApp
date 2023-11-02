@@ -23,6 +23,7 @@
 using namespace std;
 
 extern "C" {
+
 JNIEXPORT jstring JNICALL
 Java_com_engineer_third_CppActivity_getHello(JNIEnv *env, jobject) {
     string hello = "Hello From C++";
@@ -31,23 +32,21 @@ Java_com_engineer_third_CppActivity_getHello(JNIEnv *env, jobject) {
     hello = to_string(env->GetVersion()) + hello;
     return env->NewStringUTF(hello.c_str());
 }
-}
 
-extern "C"
 JNIEXPORT jint JNICALL
 Java_com_engineer_third_internal_NativeMethodsFactory_plus(JNIEnv *env, jobject thiz, jint a,
                                                            jint b) {
     jint sum = a + b;
     return sum;
 }
-extern "C"
+
 JNIEXPORT jint JNICALL
 Java_com_engineer_third_internal_NativeMethodsFactory_staticPlus(JNIEnv *env, jclass clazz, jint a,
                                                                  jint b) {
     jint sum = a + b;
     return sum;
 }
-extern "C"
+
 JNIEXPORT jstring JNICALL
 Java_com_engineer_third_internal_NativeMethodsFactory_transToNativeString(JNIEnv *env, jobject thiz,
                                                                           jstring input) {
@@ -61,3 +60,6 @@ Java_com_engineer_third_internal_NativeMethodsFactory_transToNativeString(JNIEnv
     env->ReleaseStringUTFChars(input, str);
     return nativeString;
 }
+
+}
+
