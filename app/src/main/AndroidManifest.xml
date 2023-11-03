@@ -268,7 +268,7 @@
             android:screenOrientation="fullSensor"
             tools:node="replace" />
 
-        <activity android:name=".AudioRecorderActivity" android:exported="true" />
+        <activity android:name=".ui.behavior.AudioRecorderActivity" android:exported="true" />
     </application>
 
 </manifest>

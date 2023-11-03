@@ -1,4 +1,4 @@
-package com.engineer.android.mini;
+package com.engineer.android.mini.ui.behavior;
 
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.engineer.android.mini.R;
 import com.engineer.common.utils.AudioRecordHelper;
 import com.engineer.common.utils.AudioUtil;
 import com.permissionx.guolindev.PermissionX;
