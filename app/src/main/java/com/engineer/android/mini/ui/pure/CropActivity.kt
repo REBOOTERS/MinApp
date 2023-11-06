@@ -2,17 +2,11 @@ package com.engineer.android.mini.ui.pure
 
 import android.graphics.BitmapFactory
 import android.graphics.Rect
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.ImageView
-import com.bumptech.glide.Glide
+import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.R
 import com.engineer.common.widget.cropper.CropImageView
-import io.microshow.rxffmpeg.RxFFmpegCommandList
-import io.microshow.rxffmpeg.RxFFmpegInvoke
 import java.io.File
 
 class CropActivity : AppCompatActivity() {
@@ -48,56 +42,56 @@ class CropActivity : AppCompatActivity() {
 
 
 
-        RxFFmpegInvoke.getInstance().setDebug(true);
-
-        findViewById<View>(R.id.confirm).setOnClickListener {
-            val text = "ffmpeg -v"
-//            val command = text.split(" ").toTypedArray()
-            val command = runDelogo()
-            RxFFmpegInvoke.getInstance()
-                .runCommand(command, object : RxFFmpegInvoke.IFFmpegListener {
-                    override fun onFinish() {
-                        Log.d(TAG, "onFinish() called ${Thread.currentThread().name}")
-
-                        val resultImg = findViewById<ImageView>(R.id.result_img)
-                        cropImage.visibility = View.GONE
-                        Glide.with(this@CropActivity).load(outPath).into(resultImg)
-
-                    }
-
-                    override fun onProgress(progress: Int, progressTime: Long) {
-                        Log.d(
-                            TAG,
-                            "onProgress() called with: progress = $progress, progressTime = $progressTime"
-                        )
-                    }
-
-                    override fun onCancel() {
-                        Log.d(TAG, "onCancel() called")
-                    }
-
-                    override fun onError(message: String?) {
-                        Log.d(TAG, "onError() called with: message = $message")
-                    }
-
-                });
-
-        }
+//        RxFFmpegInvoke.getInstance().setDebug(true);
+//
+//        findViewById<View>(R.id.confirm).setOnClickListener {
+//            val text = "ffmpeg -v"
+////            val command = text.split(" ").toTypedArray()
+//            val command = runDelogo()
+//            RxFFmpegInvoke.getInstance()
+//                .runCommand(command, object : RxFFmpegInvoke.IFFmpegListener {
+//                    override fun onFinish() {
+//                        Log.d(TAG, "onFinish() called ${Thread.currentThread().name}")
+//
+//                        val resultImg = findViewById<ImageView>(R.id.result_img)
+//                        cropImage.visibility = View.GONE
+//                        Glide.with(this@CropActivity).load(outPath).into(resultImg)
+//
+//                    }
+//
+//                    override fun onProgress(progress: Int, progressTime: Long) {
+//                        Log.d(
+//                            TAG,
+//                            "onProgress() called with: progress = $progress, progressTime = $progressTime"
+//                        )
+//                    }
+//
+//                    override fun onCancel() {
+//                        Log.d(TAG, "onCancel() called")
+//                    }
+//
+//                    override fun onError(message: String?) {
+//                        Log.d(TAG, "onError() called with: message = $message")
+//                    }
+//
+//                });
+//
+//        }
     }
 
 
     // /ffmpeg -i InputVideo.mp4 -vf delogo=x=90:y=945:w=85:h=85 OutputVideo.mp4
-    private fun runDelogo(): Array<out String>? {
-        val path = "/storage/emulated/0/DCIM/InsTakeDownloader/angieharmon_20200601_125317_2.jpg"
-
-        val list = RxFFmpegCommandList()
-        list.append("-i")
-        list.append(path)
-        list.add("-vf")
-        list.add("delogo=x=$x:y=$y:w=$w:h=$h:show=1")
-        list.add(outPath)
-        return list.build()
-    }
+//    private fun runDelogo(): Array<out String>? {
+//        val path = "/storage/emulated/0/DCIM/InsTakeDownloader/angieharmon_20200601_125317_2.jpg"
+//
+//        val list = RxFFmpegCommandList()
+//        list.append("-i")
+//        list.append(path)
+//        list.add("-vf")
+//        list.add("delogo=x=$x:y=$y:w=$w:h=$h:show=1")
+//        list.add(outPath)
+//        return list.build()
+//    }
 
     override fun onDestroy() {
         super.onDestroy()

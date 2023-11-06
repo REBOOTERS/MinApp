@@ -7,74 +7,11 @@
     android:background="#00BCD4"
     tools:context=".ui.pure.DuDuActivity">
 
-    <TextView
-        android:id="@+id/tv1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="50dp"
-        android:background="@drawable/tv_hint_bg"
-        android:paddingStart="20dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="8dp"
-        android:text="@string/app_name"
+    <com.engineer.android.mini.ui.pure.MyView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#FFEB3B"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/bootad_pre_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="4dp"
-        android:shadowColor="#66000000"
-        android:shadowDx="3"
-        android:shadowDy="1"
-        android:shadowRadius="1"
-        android:text="正在准备桌面…"
-        android:textColor="@color/white"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/img_1"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="100dp"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/img_2"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="300dp"
-        android:scaleType="fitXY"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="100dp"
-        app:cardBackgroundColor="@android:color/transparent"
-        app:cardCornerRadius="18dp"
-        app:cardElevation="0dp"
-        app:layout_constraintStart_toEndOf="@id/img_1"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/img_3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-
-    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

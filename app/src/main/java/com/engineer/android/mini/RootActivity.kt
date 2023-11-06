@@ -13,6 +13,8 @@ import android.util.LogPrinter
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
+import com.alibaba.fastjson.JSON
+import com.alibaba.fastjson.TypeReference
 import com.engineer.android.mini.better.BetterActivity
 import com.engineer.android.mini.better.testfastjson
 import com.engineer.android.mini.coroutines.old.DetailActivity
@@ -52,6 +54,7 @@ import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 import kotlin.system.exitProcess
 
+
 class RootActivity : BaseActivity() {
     // https://mp.weixin.qq.com/s/keR7bO-Nu9bBr5Nhevbe1Q  ViewBinding
     private lateinit var viewBinding: ActivityRootBinding
@@ -68,42 +71,46 @@ class RootActivity : BaseActivity() {
         setupUI()
         coroutineTest()
         testfastjson()
+        val dd: IntArray = intArrayOf(1, 2, 3, 4)
+        val json = dd.contentToString()
+        Log.e(TAG, json)
+        val oo = JSON.parseObject(json, object : TypeReference<List<Int?>?>() {})
+        Log.e(TAG, oo.toString())
     }
 
 
     private fun printSysInfo() {
-        val d =
-            Observable.interval(0L, 1L, TimeUnit.SECONDS).compose(ThreadExTransform()).subscribe {
-                val oneMB = 1024 * 1024f
-                val sb = StringBuilder()
+        val d = Observable.interval(0L, 1L, TimeUnit.SECONDS).compose(ThreadExTransform()).subscribe {
+            val oneMB = 1024 * 1024f
+            val sb = StringBuilder()
 
-                sb.append("count=").append(it).append("\n")
-                if (it > 10 && (it % 20 == 0L)) {
-                    Runtime.getRuntime().gc()
-                    "gc() called".toast()
-                }
-                val maxMemory = Runtime.getRuntime().maxMemory() / oneMB
-                sb.append("maxMemory=").append(maxMemory).append("MB").append("\n")
-
-                val totalMemory = Runtime.getRuntime().totalMemory() / oneMB
-                sb.append("totalMemory=").append(totalMemory).append("MB").append("\n")
-
-                val freeMemory = Runtime.getRuntime().freeMemory() / oneMB
-                sb.append("freeMemory=").append(freeMemory).append("MB").append("\n")
-
-                val availableProcessor = Runtime.getRuntime().availableProcessors()
-                sb.append("availableProcessor=").append(availableProcessor).append("\n")
-
-                val isHarmonyOS = AndroidSystem.isHarmonyOS()
-                sb.append("isHarmonyOS : $isHarmonyOS").append("\n")
-
-                val systemTime = System.currentTimeMillis()
-                sb.append("System.currentTimeMillis()=$systemTime").append("\n")
-
-                val clockTime = SystemClock.uptimeMillis()
-                sb.append("SystemClock.uptimeMillis()=$clockTime").append("\n")
-                viewBinding.sysRuntimeInfo.text = sb.toString()
+            sb.append("count=").append(it).append("\n")
+            if (it > 10 && (it % 20 == 0L)) {
+                Runtime.getRuntime().gc()
+                "gc() called".toast()
             }
+            val maxMemory = Runtime.getRuntime().maxMemory() / oneMB
+            sb.append("maxMemory=").append(maxMemory).append("MB").append("\n")
+
+            val totalMemory = Runtime.getRuntime().totalMemory() / oneMB
+            sb.append("totalMemory=").append(totalMemory).append("MB").append("\n")
+
+            val freeMemory = Runtime.getRuntime().freeMemory() / oneMB
+            sb.append("freeMemory=").append(freeMemory).append("MB").append("\n")
+
+            val availableProcessor = Runtime.getRuntime().availableProcessors()
+            sb.append("availableProcessor=").append(availableProcessor).append("\n")
+
+            val isHarmonyOS = AndroidSystem.isHarmonyOS()
+            sb.append("isHarmonyOS : $isHarmonyOS").append("\n")
+
+            val systemTime = System.currentTimeMillis()
+            sb.append("System.currentTimeMillis()=$systemTime").append("\n")
+
+            val clockTime = SystemClock.uptimeMillis()
+            sb.append("SystemClock.uptimeMillis()=$clockTime").append("\n")
+            viewBinding.sysRuntimeInfo.text = sb.toString()
+        }
         disposeOn.add(d)
         val info = "${BuildConfig.BUILD_TYPE}_${BuildConfig.FLAVOR}_${BuildConfig.VERSION_NAME}"
         viewBinding.versionInfo.text = info
@@ -291,8 +298,7 @@ class RootActivity : BaseActivity() {
         if (requestCode == 0) {
             for (result in grantResults) {
                 if (result != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "You must allow all the permissions.", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(this, "You must allow all the permissions.", Toast.LENGTH_SHORT).show()
 //                    finish()
                 }
             }

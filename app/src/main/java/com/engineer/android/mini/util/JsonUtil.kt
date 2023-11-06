@@ -32,13 +32,29 @@ object JsonUtil {
     }
 
     fun simpleParse() {
-        val json = "    {\n" +
-                "      \"name\": \"tom2\",\n" +
-                "      \"address\": \"tokyo2\"\n" +
-                "    }"
+        val json = "    {\n" + "      \"name\": \"tom2\",\n" + "      \"address\": \"tokyo2\"\n" + "    }"
         val people = JSONObject.parseObject(json, KotlinPeople::class.java)
         Log.d(TAG, "simpleParse() called people = $people")
         val jsonStr = JSONObject.toJSONString(people)
+    }
+
+    fun jsonToString(obj: Any): String {
+        return JSONObject.toJSONString(obj)
+    }
+
+    fun <T : Any> strToObj(str: String, t: T): T {
+        return JSONObject.parseObject(str, t::class.java)
+    }
+
+    fun <T : Any> strToObjArray(str: String, t: T): List<T> {
+        try {
+            return JSONObject.parseArray(str, t::class.java)
+
+        } catch (e: Exception) {
+
+        }
+        return ArrayList()
+
     }
 
 

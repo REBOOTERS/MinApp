@@ -22,6 +22,9 @@ class Wrapper2(var list: List<Animal?>?)
 class Wrapper3(var list: List<*>?)
 
 object Util {
+
+    private const val TAG = "Playground"
+
     private const val ONE_MINUTE = 60
     private const val ONE_HOUR = ONE_MINUTE * ONE_MINUTE
     private const val ONE_DAY = 24 * ONE_HOUR
