@@ -1,6 +1,5 @@
 package com.engineer.android.mini.ui.pure
 
-import android.R.color
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -20,8 +19,6 @@ class DuDuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_du_du)
-
-
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
