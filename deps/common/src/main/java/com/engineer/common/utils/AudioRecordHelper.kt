@@ -46,6 +46,15 @@ object AudioRecordHelper {
         Log.i(TAG, fragment.baseContext.getExternalFilesDirs(Environment.DIRECTORY_DCIM)[0].absolutePath)
     }
 
+    fun getAllPcmList(context: Context): List<String>? {
+        val basePath = context.cacheDir?.absolutePath + File.separator
+        return context.cacheDir?.list()?.filter {
+            it.endsWith("pcm")
+        }?.map {
+            basePath + it
+        }
+    }
+
     /**
      * 开始录制
      */
@@ -82,8 +91,7 @@ object AudioRecordHelper {
             isRecorded = false
 
             Log.e(TAG, "stopRecording")
-            sb.clear()
-            callback?.progress(sb.toString())
+            callback?.progress("")
         }
     }
 
@@ -127,11 +135,11 @@ object AudioRecordHelper {
     private fun progressWorker() {
         sb.clear()
         while (isRecorded) {
-            Thread.sleep(300)
             sb.append(".")
             if (isRecorded) {
                 callback?.progress(sb.toString())
             }
+            Thread.sleep(1000)
         }
     }
 

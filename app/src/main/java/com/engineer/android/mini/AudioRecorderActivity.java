@@ -15,6 +15,10 @@ import com.engineer.common.utils.AudioUtil;
 import com.permissionx.guolindev.PermissionX;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 public class AudioRecorderActivity extends AppCompatActivity {
     private static final String TAG = "AudioRecordHelper";
@@ -23,6 +27,8 @@ public class AudioRecorderActivity extends AppCompatActivity {
 
     private File wavFile;
     MediaPlayer mediaPlayer;
+
+    private int second = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,17 +43,23 @@ public class AudioRecorderActivity extends AppCompatActivity {
 
 
         TextView tv = findViewById(R.id.progress);
-        AudioRecordHelper.INSTANCE.setCallback(value -> runOnUiThread(() -> tv.setText(value)));
+        AudioRecordHelper.INSTANCE.setCallback(value -> runOnUiThread(() -> {
+            second++;
+            String str = String.format(Locale.getDefault(), "%d seconds %s", second, value);
+            tv.setText(str);
+        }));
 
         TextView counter = findViewById(R.id.count);
         counter.setText(getString(R.string.record_count, count));
 
         counter.setOnClickListener(v -> {
             count = 0;
+            second = 0;
             counter.setText(getString(R.string.record_count, count));
         });
 
         findViewById(R.id.start).setOnClickListener(v -> {
+            second = 0;
             AudioRecordHelper.INSTANCE.startRecord(v.getContext());
             count++;
             counter.setText(getString(R.string.record_count, count));
@@ -75,6 +87,13 @@ public class AudioRecorderActivity extends AppCompatActivity {
         findViewById(R.id.convert_to_wav).setOnClickListener(v -> {
             File pcmFile = new File(AudioRecordHelper.INSTANCE.getPcmPath());
             wavFile = AudioUtil.convertPcmToWav(v.getContext(), pcmFile);
+        });
+        findViewById(R.id.list_all_pcm).setOnClickListener(v -> {
+            List<String> pcms = AudioRecordHelper.INSTANCE.getAllPcmList(this);
+            if (pcms != null) {
+                Log.i(TAG, "pcm " + pcms);
+            }
+
         });
     }
 
