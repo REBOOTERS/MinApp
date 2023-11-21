@@ -7,23 +7,47 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.TypeReference
 import com.engineer.android.mini.R
 import com.engineer.common.utils.AndroidFileUtils
+import java.util.concurrent.Executors
 
 
 class DuDuActivity : AppCompatActivity() {
+    private val TAG = "DuDuActivity_TAG"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_du_du)
+
+        findViewById<Button>(R.id.test_t).setOnClickListener {
+            testT()
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         Log.e("DuDuActivity", "onTouchEvent: ${event?.action}")
         return super.onTouchEvent(event)
+    }
+
+    fun testT() {
+        val executor = Executors.newCachedThreadPool()
+        for (i in 0..180) {
+            executor.submit {
+                sum(i)
+            }
+        }
+    }
+
+    private fun sum(n: Int) {
+        var sum = 0
+        for (i in 0..n) {
+            sum += i
+        }
+        Log.i(TAG, "sum = $sum in thread ${Thread.currentThread().name}")
     }
 }
 
@@ -60,7 +84,7 @@ class MyView @JvmOverloads constructor(
                 pos += 4
             }
 
-            AndroidFileUtils.saveFileToBox(context,newData.contentToString(),"11.txt")
+            AndroidFileUtils.saveFileToBox(context, newData.contentToString(), "11.txt")
         }
 
 
