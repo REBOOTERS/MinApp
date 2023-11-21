@@ -205,8 +205,8 @@ dependencies {
     }
     implementation project(path: ':deps:common')
     implementation project(path: ':deps:compose')
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.3'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.7.3'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.5'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
 
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
@@ -218,7 +218,7 @@ dependencies {
 
 
     // https://github.com/koral--/android-gif-drawable/tree/master
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.26'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.28'
     implementation "com.squareup.okhttp3:okhttp:4.11.0"
     implementation "com.squareup.okhttp3:logging-interceptor:4.11.0"
 
@@ -226,6 +226,8 @@ dependencies {
 
     implementation "androidx.metrics:metrics-performance:1.0.0-alpha04"
     implementation "androidx.tracing:tracing-ktx:1.1.0"
+    // AndroidDraw Library
+    implementation 'com.github.divyanshub024:AndroidDraw:v0.1'
 }
 
 apply from: file("../custom-gradle/test-dep.gradle") // unit test
