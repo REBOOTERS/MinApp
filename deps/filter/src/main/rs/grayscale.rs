@@ -1,5 +1,5 @@
 #pragma version(1)
-#pragma rs java_package_name(com.example.background)
+#pragma rs java_package_name(com.example.background.filter)
 
 rs_allocation in;
 rs_allocation out;
