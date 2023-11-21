@@ -38,6 +38,10 @@
 
 [你好，Activity Results API！](https://mp.weixin.qq.com/s/jcnFN73d002OfRXRx6u3yA)
 
+## WorkManager
+
+[WorkManager 使用入门](https://developer.android.com/topic/libraries/architecture/workmanager/basics?hl=zh-cn)
+
 ## Hacks
 
  - 反射调用被标记为 ```@UnsupportedAppUsage(maxTargetSdk = 28) ``` 的字段或方法
