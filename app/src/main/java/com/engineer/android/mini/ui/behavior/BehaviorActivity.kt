@@ -21,6 +21,7 @@ import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityBehaviorBinding
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
+import com.engineer.android.mini.jetpack.work.SelectImageActivity
 import com.engineer.android.mini.ui.fragments.GalleryType
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
 import com.engineer.android.mini.ui.pure.MessyActivity
@@ -63,6 +64,10 @@ class BehaviorActivity : AppCompatActivity() {
         }
         val dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         Log.e(TAG, "onCreate: dir =$dir")
+
+        viewBinding.filterWork.setOnClickListener {
+            gotoActivity(SelectImageActivity::class.java)
+        }
 
         viewBinding.saveToBox.setOnClickListener {
             mainScope.launch(Dispatchers.IO) {

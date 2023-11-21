@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/deps" />
             <option value="$PROJECT_DIR$/deps/common" />
             <option value="$PROJECT_DIR$/deps/compose" />
+            <option value="$PROJECT_DIR$/deps/filter" />
             <option value="$PROJECT_DIR$/deps/lib_jar" />
             <option value="$PROJECT_DIR$/deps/thirdlib" />
             <option value="$PROJECT_DIR$/other" />

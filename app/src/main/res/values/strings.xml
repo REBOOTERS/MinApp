@@ -166,4 +166,30 @@
     </string>
     <string name="title_activity_content_provider_page">ContentProviderPage</string>
     <string name="record_count">"record count = %d"</string>
+    <string name="select_stock_image">Select Stock Image</string>
+    <string name="select_image">Select Image</string>
+    <!-- filters -->
+    <string name="filters_title">Choose Filters</string>
+    <string name="filter_watercolor">Watercolor</string>
+    <string name="filter_grayscale">Grayscale</string>
+    <string name="filter_blur">Blur</string>
+    <!-- destinations -->
+    <string name="destinations_title">Destination</string>
+    <string name="destination_save">Save Image</string>
+    <string name="destination_upload">Upload to Imgur</string>
+    <!-- actions -->
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
+    <string name="output">Output</string>
+    <!-- content descriptions -->
+    <string name="description_image">The image to filter and upload.</string>
+    <!-- messages -->
+    <string name="set_permissions_in_settings">
+        Go to Settings -> Apps and Notifications -> WorkManager Demo -> App Permissions
+        and grant access to Storage.
+    </string>
+    <string name="credits">
+        <![CDATA[Stock Photos by <a href="https://www.flickr.com/photos/romainguy">Romain Guy</a>.
+        CC2 License.]]>
+    </string>
 </resources>

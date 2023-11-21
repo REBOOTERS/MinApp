@@ -20,6 +20,11 @@
             android:text="allow screen capture" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/filter_work"
+            style="@style/mw_10_margin"
+            android:text="filter_work" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/save_to_box"
             style="@style/mw_10_margin"
             android:text="save_to_box" />
