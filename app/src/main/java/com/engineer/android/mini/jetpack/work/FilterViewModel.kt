@@ -17,8 +17,8 @@
 package com.engineer.android.mini.jetpack.work
 
 import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.work.WorkManager
 import com.example.background.Constants
 import com.example.background.ImageOperations
@@ -28,12 +28,11 @@ import com.example.background.ImageOperations
  *
  * Keeps track of pending image filter operations.
  */
-class FilterViewModel(application: Application) : ViewModel() {
+class FilterViewModel(application: Application) : AndroidViewModel(application) {
 
     private val workManager = WorkManager.getInstance(application)
 
-    internal val workInfo =
-        workManager.getWorkInfosByTagLiveData(Constants.TAG_OUTPUT)
+    internal val workInfo = workManager.getWorkInfosByTagLiveData(Constants.TAG_OUTPUT)
 
     internal fun apply(imageOperations: ImageOperations) {
         imageOperations.continuation.enqueue()
@@ -41,16 +40,5 @@ class FilterViewModel(application: Application) : ViewModel() {
 
     internal fun cancel() {
         workManager.cancelUniqueWork(Constants.IMAGE_MANIPULATION_WORK_NAME)
-    }
-}
-
-class FilterViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
-
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return if (modelClass.isAssignableFrom(FilterViewModel::class.java)) {
-            FilterViewModel(application) as T
-        } else {
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
     }
 }

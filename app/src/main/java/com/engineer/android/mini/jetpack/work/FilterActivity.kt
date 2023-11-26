@@ -33,7 +33,7 @@ import com.example.background.ImageOperations
 /** The [android.app.Activity] where the user picks filters to be applied on an image. */
 class FilterActivity : AppCompatActivity() {
 
-    private val viewModel: FilterViewModel by viewModels { FilterViewModelFactory(application) }
+    private val viewModel: FilterViewModel by viewModels()
     private var outputImageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +71,7 @@ class FilterActivity : AppCompatActivity() {
             }
 
             output.setOnClickListener {
-                Log.i("TAG","output = $outputImageUri")
+                Log.i("TAG", "output = $outputImageUri")
                 if (outputImageUri != null) {
                     val viewOutput = Intent(Intent.ACTION_VIEW, outputImageUri)
                     if (viewOutput.resolveActivity(packageManager) != null) {
@@ -102,6 +102,8 @@ class FilterActivity : AppCompatActivity() {
         outputData.getString(Constants.KEY_IMAGE_URI)?.let {
             outputImageUri = Uri.parse(it)
             binding.output.visibility = View.VISIBLE
+            Glide.with(this).load(outputImageUri)
+                .into(ActivityFilterBinding.inflate(layoutInflater).imageView)
         }
     }
 

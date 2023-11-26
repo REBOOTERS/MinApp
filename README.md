@@ -41,6 +41,8 @@
 ## WorkManager
 
 [WorkManager 使用入门](https://developer.android.com/topic/libraries/architecture/workmanager/basics?hl=zh-cn)
+[WorkManager 使用入门-国内版](https://developer.android.google.cn/topic/libraries/architecture/workmanager/basics?hl=zh-cn)
+[为什么使用 WorkManager](https://developer.android.google.cn/guide/background/persistent?hl=zh-cn)
 
 ## Hacks
 
