@@ -29,6 +29,7 @@ import androidx.work.WorkContinuation
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.example.background.workers.CleanupWorker
+import com.example.background.workers.EmptyWork
 import com.example.background.workers.SaveImageToGalleryWorker
 import com.example.background.workers.filters.BlurEffectFilterWorker
 import com.example.background.workers.filters.GrayScaleFilterWorker
@@ -57,8 +58,11 @@ class ImageOperations(
             OneTimeWorkRequest.from(CleanupWorker::class.java)
         ).thenMaybe<WaterColorFilterWorker>(waterColor).thenMaybe<GrayScaleFilterWorker>(grayScale)
             .thenMaybe<BlurEffectFilterWorker>(blur).then(
-                workRequest<SaveImageToGalleryWorker>(tag = Constants.TAG_OUTPUT)
-
+                if (save) {
+                    workRequest<SaveImageToGalleryWorker>(tag = Constants.TAG_OUTPUT)
+                } else {
+                    workRequest<EmptyWork>()
+                }
             )
     }
 

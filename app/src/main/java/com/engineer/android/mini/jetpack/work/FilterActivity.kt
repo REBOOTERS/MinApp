@@ -44,7 +44,7 @@ class FilterActivity : AppCompatActivity() {
             bindViews(this)
             // Check to see if we have output.
             viewModel.workInfo.observe(this@FilterActivity) { info ->
-                Log.i("FilterActivity","info -> $info")
+                Log.i("FilterActivity", "info -> $info")
                 if (info.size == 0) return@observe else onStateChange(info[0], this)
             }
         }
@@ -56,10 +56,6 @@ class FilterActivity : AppCompatActivity() {
             Glide.with(this@FilterActivity).load(imageUri).into(imageView)
 
             // Only show output options if a Imgur client id is set.
-            val multipleDestinationsPossible = Constants.IMGUR_CLIENT_ID.isNotEmpty()
-            if (!multipleDestinationsPossible) {
-                destinationsGroup.visibility = View.GONE
-            }
 
             apply.setOnClickListener {
                 val applyWaterColor = filterWatercolor.isChecked
@@ -75,6 +71,7 @@ class FilterActivity : AppCompatActivity() {
             }
 
             output.setOnClickListener {
+                Log.i("TAG","output = $outputImageUri")
                 if (outputImageUri != null) {
                     val viewOutput = Intent(Intent.ACTION_VIEW, outputImageUri)
                     if (viewOutput.resolveActivity(packageManager) != null) {
@@ -117,8 +114,9 @@ class FilterActivity : AppCompatActivity() {
          * @param imageUri the input image [Uri].
          * @return the instance of [Intent].
          */
-        internal fun newIntent(context: Context, imageUri: Uri) = Intent(context, FilterActivity::class.java).putExtra(
-            Constants.KEY_IMAGE_URI, imageUri.toString()
-        )
+        internal fun newIntent(context: Context, imageUri: Uri) =
+            Intent(context, FilterActivity::class.java).putExtra(
+                Constants.KEY_IMAGE_URI, imageUri.toString()
+            )
     }
 }

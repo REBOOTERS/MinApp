@@ -41,12 +41,14 @@
             <intent-filter android:priority="1000">
 
                 <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT"/>
+
+                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="http" />
                 <data android:scheme="https" />
-                <data android:host="github.com"/>
-                <data android:pathPrefix="/google/"/>
+                <data android:host="github.com" />
+                <data android:pathPrefix="/google/" />
             </intent-filter>
         </activity>
         <activity
@@ -268,9 +270,10 @@
             android:screenOrientation="fullSensor"
             tools:node="replace" />
 
-        <activity android:name=".ui.behavior.AudioRecorderActivity" android:exported="true" />
-        <activity android:name=".jetpack.work.FilterActivity"/>
-        <activity android:name=".jetpack.work.SelectImageActivity"/>
+        <activity
+            android:name=".ui.behavior.AudioRecorderActivity"
+            android:exported="true" />
+        <activity android:name=".jetpack.work.FilterActivity" />
     </application>
 
 </manifest>

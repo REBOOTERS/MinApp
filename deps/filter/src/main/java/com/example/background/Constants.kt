@@ -30,7 +30,4 @@ object Constants {
     const val KEY_IMAGE_URI = "KEY_IMAGE_URI"
 
     const val TAG_OUTPUT = "OUTPUT"
-
-    // Provide your own clientId to test Imgur uploads.
-    const val IMGUR_CLIENT_ID = ""
 }

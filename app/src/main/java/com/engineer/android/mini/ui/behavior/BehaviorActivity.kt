@@ -15,13 +15,15 @@ import android.util.Log
 import android.util.LogPrinter
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityBehaviorBinding
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
-import com.engineer.android.mini.jetpack.work.SelectImageActivity
+import com.engineer.android.mini.jetpack.work.FilterActivity
 import com.engineer.android.mini.ui.fragments.GalleryType
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
 import com.engineer.android.mini.ui.pure.MessyActivity
@@ -55,6 +57,12 @@ class BehaviorActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityBehaviorBinding
     private val mainScope = MainScope()
 
+    private val pickPictureCallback =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri == null) Log.e(TAG, "Invalid input image Uri.")
+            else startActivity(FilterActivity.newIntent(this, uri))
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityBehaviorBinding.inflate(layoutInflater)
@@ -66,13 +74,17 @@ class BehaviorActivity : AppCompatActivity() {
         Log.e(TAG, "onCreate: dir =$dir")
 
         viewBinding.filterWork.setOnClickListener {
-            gotoActivity(SelectImageActivity::class.java)
+            requestMediaPermission {
+                pickPictureCallback.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
         }
 
         viewBinding.saveToBox.setOnClickListener {
             mainScope.launch(Dispatchers.IO) {
                 val fileName = System.currentTimeMillis().toString() + ".txt"
-                val result = AndroidFileUtils.saveFileToBox(it.context, this::class.java.toString(), fileName)
+                val result = AndroidFileUtils.saveFileToBox(
+                    it.context, this::class.java.toString(), fileName
+                )
                 mainScope.launch {
                     result.toast()
                 }
@@ -91,27 +103,13 @@ class BehaviorActivity : AppCompatActivity() {
         viewBinding.tree.setOnClickListener { gotoActivity(TreeActivity::class.java) }
         viewBinding.fish.setOnClickListener { gotoActivity(FishActivity::class.java) }
         viewBinding.pictureQuery.setOnClickListener {
-            val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                listOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)
-            } else {
-                listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            }
-            PermissionX.init(this).permissions(permission).request { allGranted, _, _ ->
-                if (allGranted) {
-                    PictureBottomDialog(GalleryType.PHOTO).show(supportFragmentManager, "picture")
-                }
+            requestMediaPermission {
+                PictureBottomDialog(GalleryType.PHOTO).show(supportFragmentManager, "picture")
             }
         }
         viewBinding.gifQuery.setOnClickListener {
-            val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                listOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)
-            } else {
-                listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            }
-            PermissionX.init(this).permissions(permission).request { allGranted, _, _ ->
-                if (allGranted) {
-                    PictureBottomDialog(GalleryType.GIF).show(supportFragmentManager, "picture")
-                }
+            requestMediaPermission {
+                PictureBottomDialog(GalleryType.GIF).show(supportFragmentManager, "picture")
             }
         }
 
@@ -166,7 +164,8 @@ class BehaviorActivity : AppCompatActivity() {
         }
 
         viewBinding.useHideApi.setOnClickListener {
-            val downloadManager: DownloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val downloadManager: DownloadManager =
+                getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
@@ -176,7 +175,8 @@ class BehaviorActivity : AppCompatActivity() {
                         it.isAccessible = true
                         Log.e(TAG, "it = ${it.name}: ${it.get(downloadManager)}")
                     }
-                    val mAccessFilename: Field = downloadManager.javaClass.getDeclaredField("mAccessFilename")
+                    val mAccessFilename: Field =
+                        downloadManager.javaClass.getDeclaredField("mAccessFilename")
                     mAccessFilename.isAccessible = true
                     Log.e(TAG, "before hack value is $mAccessFilename")
 
@@ -199,7 +199,8 @@ class BehaviorActivity : AppCompatActivity() {
             Log.e(TAG, "\n")
             val h = Handler(Looper.getMainLooper()) { msg ->
                 Log.e(
-                    TAG, "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg" + ",${msg.target}"
+                    TAG,
+                    "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg" + ",${msg.target}"
                 )
                 true
             }
@@ -209,7 +210,8 @@ class BehaviorActivity : AppCompatActivity() {
             handlerThread.looper.setMessageLogging(LogPrinter(Log.DEBUG, "ActivityThread"))
             val subHandler = Handler(handlerThread.looper) { msg ->
                 Log.e(
-                    TAG, "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg " + ",${msg.target}"
+                    TAG,
+                    "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg " + ",${msg.target}"
                 )
                 // 为了方便调试多次方法，正常情况下，用完后记得立即关闭
 //                handlerThread.quitSafely()
@@ -391,21 +393,23 @@ class BehaviorActivity : AppCompatActivity() {
         pickGifLauncher.launch("选择 Gif")
     }
 
-    private val pickFileLauncher = registerForActivityResult(PickFileResultContract("*/*")) { result ->
-        if (result != null) {
-            val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
+    private val pickFileLauncher =
+        registerForActivityResult(PickFileResultContract("*/*")) { result ->
+            if (result != null) {
+                val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
 //            copyUriToExternalFilesDir(result, fileName)
-            fileName.toast()
+                fileName.toast()
+            }
         }
-    }
 
-    private val pickGifLauncher = registerForActivityResult(PickFileResultContract("image/gif")) { result ->
-        if (result != null) {
-            val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
+    private val pickGifLauncher =
+        registerForActivityResult(PickFileResultContract("image/gif")) { result ->
+            if (result != null) {
+                val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
 //            copyUriToAlbumDir(this, result, fileName, "image/gif")
-            fileName.toast()
+                fileName.toast()
+            }
         }
-    }
 
     private val chooserLauncher = registerForActivityResult(ChooserResultContract()) { result ->
         if (result != null) {
@@ -433,7 +437,8 @@ class BehaviorActivity : AppCompatActivity() {
                 bos.close()
                 fos.close()
                 runOnUiThread {
-                    Toast.makeText(this, "Copy file into $tempDir succeeded.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Copy file into $tempDir succeeded.", Toast.LENGTH_LONG)
+                        .show()
                 }
             }
         }
@@ -474,7 +479,8 @@ class BehaviorActivity : AppCompatActivity() {
                 )
             }
             val bis = BufferedInputStream(inputStream)
-            val uri = context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+            val uri =
+                context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
             if (uri != null) {
                 val outputStream = context.contentResolver.openOutputStream(uri)
                 if (outputStream != null) {
@@ -496,5 +502,18 @@ class BehaviorActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun requestMediaPermission(trigger: () -> Unit) {
+        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            listOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)
+        } else {
+            listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+        PermissionX.init(this).permissions(permission).request { allGranted, _, _ ->
+            if (allGranted) {
+                trigger()
+            }
+        }
     }
 }

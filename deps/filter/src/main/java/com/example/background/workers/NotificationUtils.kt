@@ -33,18 +33,17 @@ import java.util.UUID
 /**
  * Create the notification and required channel (O+) for running work in a foreground service.
  */
-fun createNotification(context: Context, workRequestId: UUID, notificationTitle: String): Notification {
+fun createNotification(
+    context: Context, workRequestId: UUID, notificationTitle: String
+): Notification {
     val channelId = context.getString(R.string.notification_channel_id)
     val cancelText = context.getString(R.string.cancel_processing)
     val name = context.getString(R.string.channel_name)
     // This PendingIntent can be used to cancel the Worker.
     val cancelIntent = WorkManager.getInstance(context).createCancelPendingIntent(workRequestId)
 
-    val builder = NotificationCompat.Builder(context, channelId)
-        .setContentTitle(notificationTitle)
-        .setTicker(notificationTitle)
-        .setSmallIcon(R.drawable.baseline_gradient)
-        .setOngoing(true)
+    val builder = NotificationCompat.Builder(context, channelId).setContentTitle(notificationTitle)
+        .setTicker(notificationTitle).setSmallIcon(R.drawable.baseline_gradient).setOngoing(true)
         .addAction(android.R.drawable.ic_delete, cancelText, cancelIntent)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         createNotificationChannel(context, channelId, name).also {
