@@ -29,12 +29,15 @@ import com.bumptech.glide.Glide
 import com.engineer.android.mini.databinding.ActivityFilterBinding
 import com.example.background.Constants
 import com.example.background.ImageOperations
+import java.io.File
 
 /** The [android.app.Activity] where the user picks filters to be applied on an image. */
 class FilterActivity : AppCompatActivity() {
 
     private val viewModel: FilterViewModel by viewModels()
     private var outputImageUri: Uri? = null
+
+    private val workManagerViewModel: WorkManagerViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +49,18 @@ class FilterActivity : AppCompatActivity() {
             viewModel.workInfo.observe(this@FilterActivity) { info ->
                 Log.i("FilterActivity", "info -> $info")
                 if (info.size == 0) return@observe else onStateChange(info[0], this)
+            }
+            viewModel.uploadUserLogInfo.observe(this@FilterActivity) {
+                Log.i("FilterActivity", "info -> $it")
+            }
+            workManagerViewModel.cleanWorkInfo.observe(this@FilterActivity) {
+                Log.i("cleanWork", "info -> $it")
+                if (it != null && it.size > 0) {
+                    val work = it[it.size - 1]
+                    Log.i("cleanWork", "$work")
+                    val out = work.outputData.getString("result")
+                    Log.i("cleanWork", "$out")
+                }
             }
         }
     }
@@ -80,6 +95,11 @@ class FilterActivity : AppCompatActivity() {
                 }
             }
             cancel.setOnClickListener { viewModel.cancel() }
+
+            cleanWork.setOnClickListener {
+                val path = cacheDir.absolutePath + File.separator + "current.txt"
+                WorkUtil.clean(it.context, path)
+            }
         }
     }
 

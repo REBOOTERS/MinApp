@@ -34,6 +34,8 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
 
     internal val workInfo = workManager.getWorkInfosByTagLiveData(Constants.TAG_OUTPUT)
 
+    internal val uploadUserLogInfo = workManager.getWorkInfosByTagLiveData(WORK_TAG)
+
     internal fun apply(imageOperations: ImageOperations) {
         imageOperations.continuation.enqueue()
     }

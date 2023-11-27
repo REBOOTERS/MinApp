@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.collection.LruCache
 import androidx.lifecycle.*
 import com.engineer.android.mini.better.testCalendar
+import com.engineer.android.mini.jetpack.work.triggerWork
 import com.engineer.common.utils.AndroidSystem
 import com.facebook.stetho.Stetho
 import com.google.android.material.color.DynamicColors
@@ -54,6 +55,8 @@ class MinApp : Application() {
         testCalendar()
         applicationProcessInfo()
         Log.d(TAG, "onCreate() called end")
+
+        triggerWork(INSTANCE)
     }
 
     private fun applicationProcessInfo() {
@@ -67,16 +70,14 @@ class MinApp : Application() {
         for ((index, value) in processList.withIndex()) {
             Log.e(
                 "ProcessInfo",
-                "index = $index, value =${value.processName},${value.pid}" +
-                        ",${value.uid},${value.lastTrimLevel}"
+                "index = $index, value =${value.processName},${value.pid}" + ",${value.uid},${value.lastTrimLevel}"
             )
             value.pkgList.forEachIndexed { i, s ->
                 Log.e("ProcessInfo", "i=$i,s=$s")
             }
         }
         Log.e(
-            "ProcessInfo",
-            "process pid " + Process.myPid() + ",is64Bit= " + Process.is64Bit()
+            "ProcessInfo", "process pid " + Process.myPid() + ",is64Bit= " + Process.is64Bit()
         )
     }
 
@@ -112,8 +113,7 @@ class MinApp : Application() {
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleEventObserver {
             override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                 Log.e(
-                    "ProcessLife",
-                    "onStateChanged() called with: source = $source, event = $event"
+                    "ProcessLife", "onStateChanged() called with: source = $source, event = $event"
                 )
             }
         })

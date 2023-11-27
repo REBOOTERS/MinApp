@@ -23,6 +23,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
@@ -30,10 +31,10 @@
         android:contentDescription="@string/description_image"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="100"
         app:layout_constraintHeight_percent="50"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="100" />
 
     <TextView
         android:id="@+id/filters_title"
@@ -136,10 +137,10 @@
         android:layout_height="wrap_content"
         android:text="@string/output"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/apply"
+        app:layout_constraintBottom_toBottomOf="parent  "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent  "
+        app:layout_constraintTop_toBottomOf="@id/apply"
         tools:visibility="visible" />
 
     <ProgressBar
@@ -153,5 +154,13 @@
         app:layout_constraintStart_toStartOf="@id/imageView"
         app:layout_constraintTop_toTopOf="@id/imageView"
         tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/clean_work"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="clean_work"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

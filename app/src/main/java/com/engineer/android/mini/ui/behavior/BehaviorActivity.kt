@@ -81,11 +81,12 @@ class BehaviorActivity : AppCompatActivity() {
 
         viewBinding.saveToBox.setOnClickListener {
             mainScope.launch(Dispatchers.IO) {
-                val fileName = System.currentTimeMillis().toString() + ".txt"
+                val fileName = "current.txt"
                 val result = AndroidFileUtils.saveFileToBox(
                     it.context, this::class.java.toString(), fileName
                 )
                 mainScope.launch {
+                    Log.i(TAG, result)
                     result.toast()
                 }
             }
