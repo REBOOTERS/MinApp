@@ -1,10 +1,16 @@
 package com.engineer.android.mini.ui.pure
 
+import android.app.AppOpsManager
+import android.app.AppOpsManager.MODE_ALLOWED
+import android.app.AppOpsManager.OPSTR_GET_USAGE_STATS
 import android.app.usage.UsageStatsManager
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.os.Process
+import android.provider.Settings
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
@@ -37,9 +43,26 @@ class DuDuActivity : AppCompatActivity() {
         }
         findViewById<Button>(R.id.test_usage_manager).setOnClickListener {
             val usageManager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
-            val result = usageManager.queryAndAggregateUsageStats(
-                System.currentTimeMillis() - 3600000, System.currentTimeMillis()
-            )
+
+            val start = System.currentTimeMillis() - 3600000
+            val end = System.currentTimeMillis()
+
+            val active = usageManager.isAppInactive(packageName)
+            val events = usageManager.queryEvents(start, end)
+            val dd = usageManager.queryConfigurations(UsageStatsManager.INTERVAL_BEST, start, end)
+
+            Log.e(TAG, "active $active,events = $events,config = $dd")
+
+
+            val appOps: AppOpsManager = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+            val mode = appOps.checkOpNoThrow(OPSTR_GET_USAGE_STATS, Process.myUid(), packageName)
+            if (mode != MODE_ALLOWED) {
+                startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
+                return@setOnClickListener
+            }
+//
+
+            val result = usageManager.queryAndAggregateUsageStats(start, end)
             for (mutableEntry in result) {
                 val usageStats = mutableEntry.value
                 val info = String.format(
