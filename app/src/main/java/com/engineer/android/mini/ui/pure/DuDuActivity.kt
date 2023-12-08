@@ -1,5 +1,6 @@
 package com.engineer.android.mini.ui.pure
 
+import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -14,8 +15,16 @@ import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.TypeReference
 import com.engineer.android.mini.R
 import com.engineer.common.utils.AndroidFileUtils
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import java.util.concurrent.Executors
 
+fun Long.toTime(): String {
+    val date = Date(this)
+    val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+    return format.format(date)
+}
 
 class DuDuActivity : AppCompatActivity() {
     private val TAG = "DuDuActivity_TAG"
@@ -26,7 +35,26 @@ class DuDuActivity : AppCompatActivity() {
         findViewById<Button>(R.id.test_t).setOnClickListener {
             testT()
         }
+        findViewById<Button>(R.id.test_usage_manager).setOnClickListener {
+            val usageManager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+            val result = usageManager.queryAndAggregateUsageStats(
+                System.currentTimeMillis() - 3600000, System.currentTimeMillis()
+            )
+            for (mutableEntry in result) {
+                val usageStats = mutableEntry.value
+                val info = String.format(
+                    "%-40s,%-20s,%-20s,%-20s,%-20s",
+                    usageStats.packageName,
+                    usageStats.firstTimeStamp.toTime(),
+                    usageStats.lastTimeStamp.toTime(),
+                    usageStats.lastTimeUsed.toTime(),
+                    usageStats.totalTimeInForeground.toString()
+                )
+                Log.e(TAG, info)
+            }
+        }
     }
+
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         Log.e("DuDuActivity", "onTouchEvent: ${event?.action}")
