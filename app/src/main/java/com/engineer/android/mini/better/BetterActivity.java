@@ -1,5 +1,7 @@
 package com.engineer.android.mini.better;
 
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -17,6 +19,7 @@ import com.engineer.android.mini.R;
 import com.engineer.android.mini.better.bitmap.BitmapDelegate;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class BetterActivity extends AppCompatActivity {
 
@@ -113,5 +116,14 @@ public class BetterActivity extends AppCompatActivity {
         }
         SharedPreferences sp = getSharedPreferences("better", Context.MODE_PRIVATE);
         sp.edit().putBoolean("ok", true).apply();
+
+
+        UsageStatsManager usm = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
+        long beginTime = 0;
+        long endTime = 0;
+        Map<String, UsageStats> dd = usm.queryAndAggregateUsageStats(beginTime, endTime);
+
+
+
     }
 }
