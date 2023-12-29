@@ -54,7 +54,7 @@ dependencies {
 //    implementation deps.coroutines.android
 //    implementation deps.glide.runtime
 
-    implementation "androidx.work:work-runtime-ktx:2.8.1"
+    implementation 'androidx.work:work-runtime-ktx:2.9.0'
 
 
 

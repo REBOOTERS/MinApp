@@ -205,8 +205,8 @@ dependencies {
     }
     implementation project(path: ':deps:common')
     implementation project(path: ':deps:compose')
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.5'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.7.5'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.6'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.6'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
 
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
@@ -225,7 +225,7 @@ dependencies {
 //    implementation 'com.github.microshow:RxFFmpeg:4.9.0-lite'
 
     implementation "androidx.metrics:metrics-performance:1.0.0-alpha04"
-    implementation "androidx.tracing:tracing-ktx:1.1.0"
+    implementation "androidx.tracing:tracing-ktx:1.2.0"
     // AndroidDraw Library
     implementation 'com.github.divyanshub024:AndroidDraw:v0.1'
 }
