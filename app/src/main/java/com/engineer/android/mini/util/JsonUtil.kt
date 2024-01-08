@@ -5,10 +5,13 @@ import android.util.Log
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.JSONArray
 import com.alibaba.fastjson.JSONObject
+import com.alibaba.fastjson.TypeReference
 import com.alibaba.fastjson.serializer.SerializerFeature
 import com.engineer.android.mini.util.model.Item
 import com.engineer.android.mini.util.model.KotlinPeople
 import com.engineer.common.utils.AndroidFileUtils
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 
 object JsonUtil {
@@ -57,6 +60,24 @@ object JsonUtil {
 
     }
 
+    fun parseSpecialJson2(context: Context) {
+        val specialJson = AndroidFileUtils.getStringFromAssets(context, "special_json.json")
+
+        val type = object : TypeToken<HashMap<String, List<Item>>>() {}.type
+        val map = Gson().fromJson<java.util.HashMap<String, List<Item>>>(specialJson, type)
+
+        val result = printBeautyJson(map)
+        Log.e(TAG, "parseSpecialJson2:\n $result")
+    }
+
+    fun parseSpecialJson1(context: Context) {
+        val specialJson = AndroidFileUtils.getStringFromAssets(context, "special_json.json")
+        val map: HashMap<String, List<Item>> =
+            JSONObject.parseObject(specialJson, object : TypeReference<HashMap<String, List<Item>>>() {})
+
+        val result = printBeautyJson(map)
+        Log.e(TAG, "parseSpecialJson1:\n $result")
+    }
 
     fun parseSpecialJson(context: Context) {
         val specialJson = AndroidFileUtils.getStringFromAssets(context, "special_json.json")

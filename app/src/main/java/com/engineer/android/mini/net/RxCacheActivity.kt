@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.text.Html
 import android.text.TextUtils
 import android.util.Log
 import android.util.SparseArray
@@ -82,6 +83,10 @@ class RxCacheActivity : AppCompatActivity() {
             arrayLiveData.value = array
 
             JsonUtil.parseSpecialJson(this)
+            JsonUtil.parseSpecialJson1(this)
+            JsonUtil.parseSpecialJson2(this)
+
+            SimpleDialog().show(supportFragmentManager, TAG)
         }
         viewBinding.tvArray.setOnLongClickListener {
             array.clear()
@@ -111,14 +116,23 @@ class RxCacheActivity : AppCompatActivity() {
             if (TextUtils.isEmpty(ip)) it.onError(Throwable("ip is null")) else it.onNext(ip)
             it.onComplete()
         }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).doOnNext {
-                println("ip is $it")
-            }.doOnError {
-                it.printStackTrace()
-            }.subscribe()
+            println("ip is $it")
+        }.doOnError {
+            it.printStackTrace()
+        }.subscribe()
 
         val url =
             "https://search.jd.com/Search?keyword=%E5%8F%B0%E5%BC%8F%E6%9C%BA&enc=utf-8&suggest=2.his.0.0&wq=&pvid=e33792a4dc654b29af0caae2c63bce53"
         parseUri(Uri.parse(url))
+
+        val sb = StringBuilder()
+        sb.append("这是一段文本，<b>部分文本</b>将会加粗显示、")
+//        sb.append("打开 <a href=\"http://www.baidu.com\">baidu</a> 首页").append("、")
+        var s = sb.toString()
+        Log.i(TAG, "s length ${s.length}")
+        s = s.substring(0, s.length - 1)
+        val content = Html.fromHtml(s)
+        viewBinding.fullTv.text = content
 
     }
 
