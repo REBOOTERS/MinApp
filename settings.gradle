@@ -13,6 +13,7 @@ dependencyResolutionManagement {
         mavenCentral()
         gradlePluginPortal()
         maven { url "https://jitpack.io" }
+        maven { url "${rootDir}/local_repo/" }
     }
 }
 
