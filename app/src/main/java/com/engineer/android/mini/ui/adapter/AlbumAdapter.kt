@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.pure.GifPlayerActivity
+import com.engineer.android.mini.util.ImageUtils
 import com.engineer.common.utils.AndroidFileUtils
 import com.engineer.common.utils.SystemTools
 import com.engineer.common.utils.PictureInfoUtil
@@ -25,6 +26,7 @@ import dagger.hilt.android.components.FragmentComponent
 import dagger.hilt.android.qualifiers.ActivityContext
 import pl.droidsonroids.gif.GifDrawable
 import pl.droidsonroids.gif.GifImageView
+import java.io.File
 import javax.inject.Qualifier
 
 @Qualifier
@@ -86,8 +88,7 @@ class AlbumAdapter(val context: Context, val imageList: ArrayList<Uri>, val imag
         holder.imageView.layoutParams.width = imageSize
         holder.imageView.layoutParams.height = imageSize
         val uri = imageList[position]
-        val options =
-            RequestOptions().placeholder(R.drawable.album_loading_bg).override(imageSize, imageSize)
+        val options = RequestOptions().placeholder(R.drawable.album_loading_bg).override(imageSize, imageSize)
 
         val bitmapOptions = BitmapFactory.Options()
         bitmapOptions.inJustDecodeBounds = true
@@ -102,8 +103,22 @@ class AlbumAdapter(val context: Context, val imageList: ArrayList<Uri>, val imag
         holder.itemView.setOnClickListener {
             val path = SystemTools.getVideoFilePathFromUri(it.context, uri)
             path.toString().toast()
-            path?.let {
-                PictureInfoUtil.printExifInfo(path)
+            path?.let { p ->
+                if (p.endsWith(".gif") || p.endsWith(".webp")) {
+                    Log.i("ImageUtils", "ignore $p")
+                    return@setOnClickListener
+                }
+                PictureInfoUtil.printExifInfo(p)
+                Log.i("ImageUtils", "start handle $p")
+                val result = ImageUtils.compressImageToSize(p, 400)
+                val targetPath = context.cacheDir.absolutePath + File.separator + "400_kb.jpg"
+                if (ImageUtils.saveByteArrayToFile(result, targetPath)) {
+                    "save success".toast()
+                    Log.i("ImageUtils", "save success")
+                } else {
+                    "save fail".toast()
+                    Log.i("ImageUtils", "save fail")
+                }
             }
         }
     }

@@ -27,6 +27,7 @@ import com.engineer.android.mini.jetpack.work.FilterActivity
 import com.engineer.android.mini.ui.fragments.GalleryType
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
 import com.engineer.android.mini.ui.pure.MessyActivity
+import com.engineer.android.mini.util.ImageUtils
 import com.engineer.common.contract.ChooserResultContract
 import com.engineer.common.contract.PickFileResultContract
 import com.engineer.common.utils.AndroidFileUtils
@@ -400,6 +401,7 @@ class BehaviorActivity : AppCompatActivity() {
                 val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
 //            copyUriToExternalFilesDir(result, fileName)
                 fileName.toast()
+                Log.d(TAG, "pick $fileName")
             }
         }
 
