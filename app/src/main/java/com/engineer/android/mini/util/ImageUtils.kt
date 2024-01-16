@@ -1,5 +1,6 @@
 package com.engineer.android.mini.util
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
@@ -8,7 +9,12 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.RectF
+import android.util.Base64
 import android.util.Log
+import com.engineer.android.mini.BuildConfig
+import com.engineer.common.utils.AndroidFileUtils
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -113,5 +119,36 @@ object ImageUtils {
         }
     }
 
+    fun img2Base64(context: Context, filePath: String?): Observable<String> {
+        val bitmap = BitmapFactory.decodeFile(filePath)
+        return base64Observable(context, bitmap)
+    }
 
+    fun img2Base64(context: Context, resId: Int): Observable<String> {
+        val res = context.resources
+        val bitmap = BitmapFactory.decodeResource(res, resId)
+        return base64Observable(context, bitmap)
+    }
+
+    private fun base64Observable(context: Context, bitmap: Bitmap): Observable<String> {
+        return Observable.create {
+            val outputStream = compressBitmapToByteArray(bitmap, 300)
+            if (BuildConfig.DEBUG) {
+                Log.i(TAG, "output ${outputStream.size}")
+                val filePath = context.cacheDir.absolutePath + File.separator + "300_kb.jpg"
+                saveByteArrayToFile(outputStream, filePath)
+            }
+            val result = Base64.encodeToString(outputStream, Base64.NO_WRAP)
+            if (BuildConfig.DEBUG) {
+                AndroidFileUtils.saveFileToBox(context, result, "${System.currentTimeMillis()}.txt")
+            }
+            it.onNext(result)
+            it.onComplete()
+        }.subscribeOn(Schedulers.io())
+    }
+
+    fun base64ToBitmap(base64Str: String): Bitmap {
+        val bytes = Base64.decode(base64Str, Base64.DEFAULT)
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+    }
 }
