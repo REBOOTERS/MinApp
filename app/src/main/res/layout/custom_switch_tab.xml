@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/left_select"
+        android:paddingStart="24dp"
+        android:paddingTop="3dp"
+        android:paddingEnd="18dp"
+        android:paddingBottom="3dp"
+        android:text="Book"
+        android:textColor="#fff"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/right_unselect"
+        android:paddingStart="18dp"
+        android:paddingTop="3dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="3dp"
+        android:text="Movie"
+        android:textColor="#CCCCCC"
+        android:textSize="16sp" />
+
+</LinearLayout>

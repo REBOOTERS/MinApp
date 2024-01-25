@@ -20,7 +20,7 @@ task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
         // , the pattern for the name is:
         //[archiveBaseName]-[archiveAppendix]-[archiveVersion]-[archiveClassifier].[archiveExtension]
         // 存档名称的分类器部分，名称后面加的类别区分的名字.e.g. xxxx-javadoc.jar。
-        classifier = 'javadoc'
+        archiveClassifier = 'javadoc'
         from androidJavadocs.destinationDir
     }
 }

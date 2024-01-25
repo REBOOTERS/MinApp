@@ -47,6 +47,7 @@ import com.engineer.android.mini.proguards.WEEK
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.DemoDialogActivity
 import com.engineer.android.mini.ui.pure.helper.SimpleCallback
+import com.engineer.android.mini.ui.widget.CustomSwitchTab
 import com.engineer.android.mini.util.JankStatsAggregator
 import com.engineer.android.mini.util.JavaUtil
 import com.engineer.android.mini.util.NetWorkUtil
@@ -105,7 +106,6 @@ class MessyActivity : BaseActivity() {
 
         setupJankStatus()
     }
-
 
 
     private fun timerTest() {
@@ -226,6 +226,11 @@ class MessyActivity : BaseActivity() {
             addAnyView()
         }
 
+        realBinding.customTab.onCustomTabClickListener = object : CustomSwitchTab.OnCustomTabClickListener {
+            override fun onSelect(text: String) {
+                text.toast()
+            }
+        }
         realBinding.rangeSlider.addOnChangeListener { _, value, fromUser ->
             Log.e(
                 TAG, "onCreate() called with: value = $value, fromUser = $fromUser"
@@ -439,21 +444,18 @@ class MessyActivity : BaseActivity() {
         jankStatsAggregator.jankStats.isTrackingEnabled = false
     }
 
-    private val jankReportListener =
-        JankStatsAggregator.OnJankReportListener { reason, totalFrames, jankFrameData ->
-            // A real app could do something more interesting, like writing the info to local storage and later on report it.
+    private val jankReportListener = JankStatsAggregator.OnJankReportListener { reason, totalFrames, jankFrameData ->
+        // A real app could do something more interesting, like writing the info to local storage and later on report it.
 
-            Log.d(
-                "JankStatsSample",
-                "*** Jank Report ($reason), " +
-                        "totalFrames = $totalFrames, " +
-                        "jankFrames = ${jankFrameData.size}, jank = ${100f * jankFrameData.size / totalFrames}%"
-            )
+        Log.d(
+            "JankStatsSample",
+            "*** Jank Report ($reason), " + "totalFrames = $totalFrames, " + "jankFrames = ${jankFrameData.size}, jank = ${100f * jankFrameData.size / totalFrames}%"
+        )
 
-            jankFrameData.forEach { frameData ->
-                Log.v("JankStatsSample", frameData.toString())
-            }
+        jankFrameData.forEach { frameData ->
+            Log.v("JankStatsSample", frameData.toString())
         }
+    }
 
     private fun setupJankStatus() {
         // metrics state holder can be retrieved regardless of JankStats initialization
@@ -465,7 +467,6 @@ class MessyActivity : BaseActivity() {
         // add activity name as state
         metricsStateHolder.state?.putState("Activity", javaClass.simpleName)
     }
-
 
 
     override fun onDestroy() {
