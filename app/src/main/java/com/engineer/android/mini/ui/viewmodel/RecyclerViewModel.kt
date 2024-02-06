@@ -10,7 +10,7 @@ class RecyclerViewModel(app: Application) : AndroidViewModel(app) {
 
     fun loadData() {
         val list = ArrayList<String>()
-        for (i in 0..3) {
+        for (i in 0..23) {
             list.add(i.toString())
         }
         datas.postValue(list)

@@ -23,6 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger
 class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var layoutManager: LinearLayoutManager
     private lateinit var recyclerViewModel: RecyclerViewModel
 
     private lateinit var viewBinding: ActivityRecyclerViewBinding
@@ -35,7 +36,8 @@ class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
         recyclerViewModel = ViewModelProvider(this)[RecyclerViewModel::class.java]
         recyclerView = findViewById(R.id.recycler_view)
         val adapter = MyAdapter()
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = layoutManager
         recyclerView.addItemDecoration(MyDecoration(this))
 //        recyclerView.addItemDecoration(DividerItemDecoration(this, RecyclerView.VERTICAL))
         recyclerView.itemAnimator = DefaultItemAnimator()
@@ -56,6 +58,14 @@ class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     reflectValue(recyclerView)
+
+                    val p1 = layoutManager.findLastVisibleItemPosition()
+                    val p2 = layoutManager.findLastCompletelyVisibleItemPosition()
+                    val count = adapter.itemCount
+
+                    val info =
+                        String.format("LastVisiblePos = %d,LastCompletelyVisiblePos = %d,count = %d", p1, p2, count)
+                    Log.i(TAG, info)
                 }
             }
         })
