@@ -1,5 +1,6 @@
 package com.engineer.common.utils
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.app.ActivityManager.RunningAppProcessInfo
 import android.app.Service
@@ -62,6 +63,7 @@ object AndroidSystem {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
     }
 
+    @SuppressLint("MissingPermission")
     fun deviceId(): String {
         var id = ""
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

@@ -22,6 +22,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 import android.util.Pair;
 
@@ -71,7 +72,9 @@ final class BitmapUtils {
     try {
       InputStream is = context.getContentResolver().openInputStream(uri);
       if (is != null) {
-        ei = new ExifInterface(is);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+          ei = new ExifInterface(is);
+        }
         is.close();
       }
     } catch (Exception ignored) {
@@ -88,20 +91,12 @@ final class BitmapUtils {
     int degrees;
     int orientation =
         exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-    switch (orientation) {
-      case ExifInterface.ORIENTATION_ROTATE_90:
-        degrees = 90;
-        break;
-      case ExifInterface.ORIENTATION_ROTATE_180:
-        degrees = 180;
-        break;
-      case ExifInterface.ORIENTATION_ROTATE_270:
-        degrees = 270;
-        break;
-      default:
-        degrees = 0;
-        break;
-    }
+    degrees = switch (orientation) {
+      case ExifInterface.ORIENTATION_ROTATE_90 -> 90;
+      case ExifInterface.ORIENTATION_ROTATE_180 -> 180;
+      case ExifInterface.ORIENTATION_ROTATE_270 -> 270;
+      default -> 0;
+    };
     return new RotateBitmapResult(bitmap, degrees);
   }
 

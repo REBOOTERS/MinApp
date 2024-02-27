@@ -1,6 +1,7 @@
 package com.engineer.android.mini.ui.behavior
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.content.ContentValues
 import android.content.Context
@@ -169,32 +170,7 @@ class BehaviorActivity : AppCompatActivity() {
             val downloadManager: DownloadManager =
                 getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
-                try {
-                    val fields: Array<Field> = downloadManager.javaClass.declaredFields
-                    fields.forEach {
-                        it.isAccessible = true
-                        Log.e(TAG, "it = ${it.name}: ${it.get(downloadManager)}")
-                    }
-                    val mAccessFilename: Field =
-                        downloadManager.javaClass.getDeclaredField("mAccessFilename")
-                    mAccessFilename.isAccessible = true
-                    Log.e(TAG, "before hack value is $mAccessFilename")
-
-                    val method = downloadManager.javaClass.getDeclaredMethod(
-                        "setAccessFilename", Boolean::class.java.componentType
-                    )
-                    method.isAccessible = true
-                    method.invoke(downloadManager, true)
-
-                    Log.e(TAG, "after hack value is $mAccessFilename")
-                } catch (e: Exception) {
-                    Log.e(TAG, "e = $e")
-                    e.message.toast()
-                }
-
-            }
+            extracted(downloadManager)
         }
 
         viewBinding.handler.setOnClickListener {
@@ -290,6 +266,36 @@ class BehaviorActivity : AppCompatActivity() {
             val magicNum = magicNumberStr.substring(2)
             val value = Integer.parseInt(magicNum, 16)
             val valueBin = Integer.toBinaryString(value)
+        }
+    }
+
+    @SuppressLint("SoonBlockedPrivateApi")
+    private fun extracted(downloadManager: DownloadManager) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+            try {
+                val fields: Array<Field> = downloadManager.javaClass.declaredFields
+                fields.forEach {
+                    it.isAccessible = true
+                    Log.e(TAG, "it = ${it.name}: ${it.get(downloadManager)}")
+                }
+                val mAccessFilename: Field =
+                    downloadManager.javaClass.getDeclaredField("mAccessFilename")
+                mAccessFilename.isAccessible = true
+                Log.e(TAG, "before hack value is $mAccessFilename")
+
+                val method = downloadManager.javaClass.getDeclaredMethod(
+                    "setAccessFilename", Boolean::class.java.componentType
+                )
+                method.isAccessible = true
+                method.invoke(downloadManager, true)
+
+                Log.e(TAG, "after hack value is $mAccessFilename")
+            } catch (e: Exception) {
+                Log.e(TAG, "e = $e")
+                e.message.toast()
+            }
+
         }
     }
 

@@ -28,17 +28,17 @@
         </activity>
         <activity android:name=".skip.SkipActivity" />
         <activity
-            android:name=".FakePureUiActivity"
+            android:name="com.engineer.other.ui.FakePureUiActivity"
             android:allowTaskReparenting="true"
             android:taskAffinity="com.engineer.android.mini" />
         <activity
-            android:name=".FakeOldWayActivity"
+            android:name="com.engineer.other.ui.FakeOldWayActivity"
             android:allowTaskReparenting="true"
             android:launchMode="singleTop"
             android:taskAffinity="com.engineer.same.task" />
-        <activity android:name=".EmptyActivity" />
+        <activity android:name="com.engineer.other.ui.EmptyActivity" />
         <activity
-            android:name=".OpenByOtherActivity"
+            android:name="com.engineer.other.ui.OpenByOtherActivity"
             android:exported="true"
             android:permission="com.engineer.other.permission.open">
             <intent-filter>

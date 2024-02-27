@@ -1,5 +1,6 @@
 package com.engineer.android.mini.better.file
 
+import android.os.Build
 import android.os.FileObserver
 import android.util.Log
 import com.engineer.android.mini.MinApp
@@ -13,14 +14,16 @@ object FileChangeWatcher {
     private var fileChangeObserver: FileObserver? = null
 
     init {
-        fileChangeObserver = object : FileObserver(File(FILE_PATH)) {
-            override fun onEvent(event: Int, path: String?) {
-                val flag = Integer.toHexString(event)
-                var filePath = ""
-                path?.let {
-                    filePath = FILE_PATH + File.separator + it
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            fileChangeObserver = object : FileObserver(File(FILE_PATH)) {
+                override fun onEvent(event: Int, path: String?) {
+                    val flag = Integer.toHexString(event)
+                    var filePath = ""
+                    path?.let {
+                        filePath = FILE_PATH + File.separator + it
+                    }
+                    Log.d(TAG, "onEvent() called with: event = $flag, path = $filePath")
                 }
-                Log.d(TAG, "onEvent() called with: event = $flag, path = $filePath")
             }
         }
     }
