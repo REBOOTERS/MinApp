@@ -8,12 +8,15 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.os.Process
 import android.provider.Settings
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
@@ -25,6 +28,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executors
+import kotlin.random.Random
 
 fun Long.toTime(): String {
     val date = Date(this)
@@ -76,8 +80,45 @@ class DuDuActivity : AppCompatActivity() {
                 Log.e(TAG, info)
             }
         }
+        findViewById<View>(R.id.gradient_view).setOnClickListener {
+            refreshView()
+        }
     }
 
+    private fun refreshView() {
+        val json = AndroidFileUtils.getStringFromAssets(this, "colors.json")
+        val colorMap = JSON.parseObject(json)
+        val colors = IntArray(9)
+        colors.forEachIndexed { index, _ ->
+            val value = Random.nextInt(0, 255)
+            colors[index] = value
+        }
+//        val colors = intArrayOf(9, 127, 46, 46, 127, 9, 207, 209)
+        Log.i(TAG, colors.joinToString())
+        val colorList = ArrayList<Int>()
+        for (color in colors) {
+            val value = colorMap.getString(color.toString())
+            Log.i(TAG, "color  $value")
+            val dd = Color.parseColor("#${value}")
+            Log.i(TAG, "dd     $dd")
+            colorList.add(dd)
+        }
+        val results = colorList.toIntArray()
+        val gradient = GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, results)
+        gradient.gradientType = GradientDrawable.LINEAR_GRADIENT
+        val view = findViewById<View>(R.id.gradient)
+        view.background = gradient
+
+        val gradient1 = GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, results)
+        gradient1.gradientType = GradientDrawable.RADIAL_GRADIENT
+        val view1 = findViewById<View>(R.id.gradient1)
+        view1.background = gradient1
+
+        val gradient2 = GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, results)
+        gradient2.gradientType = GradientDrawable.SWEEP_GRADIENT
+        val view2 = findViewById<View>(R.id.gradient2)
+        view2.background = gradient2
+    }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         Log.e("DuDuActivity", "onTouchEvent: ${event?.action}")
@@ -98,7 +139,7 @@ class DuDuActivity : AppCompatActivity() {
         for (i in 0..n) {
             sum += i
         }
-        Log.i(TAG, "sum = $sum in thread ${Thread.currentThread().name}")
+        Log.i(TAG, "n = $n,sum = $sum in thread ${Thread.currentThread().name}")
     }
 }
 
@@ -110,7 +151,7 @@ class MyView @JvmOverloads constructor(
     var bitmap: Bitmap? = null
 
 
-    val screenDu: Triple<String, Int, Int> = Triple("frame.txt", 426, 266)
+    private val screenDu: Triple<String, Int, Int> = Triple("frame.txt", 426, 266)
 //    val screenDu: Triple<String, Int, Int> = Triple("screen_girl.json", 1200, 800)
 
     init {

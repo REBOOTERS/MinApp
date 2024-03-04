@@ -26,6 +26,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/test_t"
+            android:text="test_t"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -36,6 +37,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+
+        <LinearLayout
+            android:id="@+id/gradient_view"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/gradient"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:background="#80FF00"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/gradient1"
+                android:layout_gravity="center"
+                android:background="#80FF00"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/gradient2"
+                android:layout_gravity="center"
+                android:background="#80FF00"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
+        </LinearLayout>
     </LinearLayout>
 
 
