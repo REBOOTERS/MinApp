@@ -49,9 +49,9 @@ object JsonUtil {
         return JSONObject.parseObject(str, t::class.java)
     }
 
-    fun <T : Any> strToObjArray(str: String, t: T): List<T> {
+    fun <T : Any> strToObjArray(str: String, t: Class<T>): List<T> {
         try {
-            return JSONObject.parseArray(str, t::class.java)
+            return JSONObject.parseArray(str, t)
 
         } catch (e: Exception) {
 
