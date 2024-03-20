@@ -1,16 +1,21 @@
 package com.engineer.android.mini.ui.pure
 
+import android.annotation.SuppressLint
 import android.app.AppOpsManager
 import android.app.AppOpsManager.MODE_ALLOWED
 import android.app.AppOpsManager.OPSTR_GET_USAGE_STATS
 import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.Process
 import android.provider.Settings
 import android.util.AttributeSet
@@ -18,12 +23,15 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.TypeReference
 import com.engineer.android.mini.R
 import com.engineer.common.utils.AndroidFileUtils
+import org.w3c.dom.Text
+import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -36,11 +44,72 @@ fun Long.toTime(): String {
     return format.format(date)
 }
 
+object LoadingUtil {
+    val words = "正在努力思考中..."
+    val arrays = words.toCharArray()
+    val length = arrays.size
+    var index = 0
+    val sb = StringBuilder()
+    var running = false
+    var callback: ((String) -> Unit)? = null
+    val handle = Handler(Looper.getMainLooper())
+
+    val runnable = object : Runnable {
+        override fun run() {
+            if (running) {
+                val word = arrays[index % length]
+                sb.append(word)
+                callback?.invoke(sb.toString())
+                handle.postDelayed(this, 300)
+                index++
+
+                if (index >= length) {
+                    index = 0
+                    sb.clear()
+                }
+            }
+
+        }
+    }
+
+    fun start(callback: ((String) -> Unit)? = null) {
+        running = true
+        this.callback = callback
+
+        handle.removeCallbacks(runnable)
+        handle.postDelayed(runnable, 300)
+    }
+
+    fun stop() {
+        handle.removeCallbacks(runnable)
+        running = false
+        index = 0
+        handle.removeCallbacks(runnable)
+        sb.clear()
+    }
+}
+
 class DuDuActivity : AppCompatActivity() {
     private val TAG = "DuDuActivity_TAG"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_du_du)
+
+        var running = false
+        val loadingTv = findViewById<TextView>(R.id.loading_tv)
+        val controlBtn = findViewById<Button>(R.id.loading_control)
+        controlBtn.setOnClickListener {
+            if (running) {
+                controlBtn.text = "start"
+                LoadingUtil.stop()
+            } else {
+                LoadingUtil.start {
+                    loadingTv.text = it
+                }
+                controlBtn.text = "stop"
+            }
+            running = !running
+        }
 
         findViewById<Button>(R.id.test_t).setOnClickListener {
             testT()
