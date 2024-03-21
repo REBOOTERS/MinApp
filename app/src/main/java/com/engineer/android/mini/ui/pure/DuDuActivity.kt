@@ -7,12 +7,10 @@ import android.app.AppOpsManager.OPSTR_GET_USAGE_STATS
 import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -30,8 +28,6 @@ import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.TypeReference
 import com.engineer.android.mini.R
 import com.engineer.common.utils.AndroidFileUtils
-import org.w3c.dom.Text
-import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -45,28 +41,38 @@ fun Long.toTime(): String {
 }
 
 object LoadingUtil {
-    val words = "正在努力思考中..."
-    val arrays = words.toCharArray()
+    private const val WORDS = "正在努力思考中..."
+    val arrays = WORDS.toCharArray()
     val length = arrays.size
     var index = 0
     val sb = StringBuilder()
     var running = false
     var callback: ((String) -> Unit)? = null
     val handle = Handler(Looper.getMainLooper())
-
-    val runnable = object : Runnable {
+    var content = ""
+    private val runnable = object : Runnable {
         override fun run() {
             if (running) {
-                val word = arrays[index % length]
-                sb.append(word)
-                callback?.invoke(sb.toString())
+                if (index < length) {
+                    val word = arrays[index % length]
+                    sb.append(word)
+                    callback?.invoke(sb.toString())
+                    content = sb.toString()
+                } else {
+
+                    if (content == "正在努力思考中...") {
+                        content = "正在努力思考中"
+                    } else if (content == "正在努力思考中") {
+                        content = "正在努力思考中."
+                    } else if (content == "正在努力思考中.") {
+                        content = "正在努力思考中.."
+                    } else if (content == "正在努力思考中..") {
+                        content = "正在努力思考中..."
+                    }
+                    callback?.invoke(content)
+                }
                 handle.postDelayed(this, 300)
                 index++
-
-                if (index >= length) {
-                    index = 0
-                    sb.clear()
-                }
             }
 
         }
@@ -81,6 +87,8 @@ object LoadingUtil {
     }
 
     fun stop() {
+        callback?.invoke("")
+        callback = null
         handle.removeCallbacks(runnable)
         running = false
         index = 0
@@ -91,6 +99,7 @@ object LoadingUtil {
 
 class DuDuActivity : AppCompatActivity() {
     private val TAG = "DuDuActivity_TAG"
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_du_du)
