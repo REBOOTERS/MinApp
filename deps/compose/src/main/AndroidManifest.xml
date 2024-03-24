@@ -8,6 +8,10 @@
             android:exported="true"
             android:label="@string/title_activity_main_compose"
             android:theme="@style/ComposeApp.Theme" />
+        <activity
+            android:name=".ui.ChatActivity"
+            android:exported="true"
+            android:theme="@style/ComposeApp.Theme" />
     </application>
 
 </manifest>

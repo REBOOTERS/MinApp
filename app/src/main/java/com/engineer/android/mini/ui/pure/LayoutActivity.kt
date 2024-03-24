@@ -2,15 +2,21 @@ package com.engineer.android.mini.ui.pure
 
 import android.content.Context
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
-import android.os.PersistableBundle
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
-import android.view.*
-import android.widget.*
+import android.view.Choreographer
+import android.view.Gravity
+import android.view.KeyEvent
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.core.view.setMargins
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityLayoutBinding
@@ -18,8 +24,6 @@ import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
-import com.google.android.flexbox.FlexboxLayout
-import java.lang.StringBuilder
 
 class LayoutActivity : BaseActivity() {
     private lateinit var viewBinding: ActivityLayoutBinding

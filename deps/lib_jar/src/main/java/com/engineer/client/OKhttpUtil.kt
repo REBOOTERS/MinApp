@@ -15,11 +15,11 @@ import java.io.IOException
 import java.io.InputStreamReader
 
 fun main() {
-    OKhttpUtil.sseHandler<SSResponse> {
-        println(it.event)
-    }
+//    OKhttpUtil.sseHandler<SSResponse> {
+//        println(it.event)
+//    }
 
-//    OKhttpUtil.asyncCall()
+    OKhttpUtil.asyncCall()
 }
 
 data class SSEResult(val id: String, val data: String)
