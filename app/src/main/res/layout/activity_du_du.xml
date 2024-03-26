@@ -16,18 +16,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
     <LinearLayout
-        android:layout_marginTop="100dp"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:orientation="vertical"
-        android:layout_height="wrap_content">
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.engineer.android.mini.ui.widget.VoteWidget
+            android:id="@+id/vote_widget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/loading_tv"
@@ -47,55 +52,54 @@
         </LinearLayout>
 
         <Button
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/test_t"
-            android:text="test_t"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="test_t"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/test_usage_manager"
-            android:text="test_usage_manager"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="test_usage_manager"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
         <LinearLayout
             android:id="@+id/gradient_view"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:layout_height="wrap_content">
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/gradient"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:background="#80FF00"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"/>
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="#80FF00" />
 
             <TextView
-                android:layout_marginTop="10dp"
                 android:id="@+id/gradient1"
-                android:layout_gravity="center"
-                android:background="#80FF00"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"/>
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="#80FF00" />
 
             <TextView
-                android:layout_marginTop="10dp"
                 android:id="@+id/gradient2"
-                android:layout_gravity="center"
-                android:background="#80FF00"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"/>
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="#80FF00" />
         </LinearLayout>
     </LinearLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

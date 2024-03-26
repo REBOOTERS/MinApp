@@ -27,6 +27,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.TypeReference
 import com.engineer.android.mini.R
+import com.engineer.android.mini.ui.widget.VoteWidget
 import com.engineer.common.utils.AndroidFileUtils
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -99,6 +100,7 @@ object LoadingUtil {
 
 class DuDuActivity : AppCompatActivity() {
     private val TAG = "DuDuActivity_TAG"
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,6 +120,17 @@ class DuDuActivity : AppCompatActivity() {
                 controlBtn.text = "stop"
             }
             running = !running
+        }
+
+        val voteWidget = findViewById<VoteWidget>(R.id.vote_widget)
+        voteWidget.voteClickListener = object : VoteWidget.VoteClickListener {
+            override fun voteUp(on: Boolean) {
+                Log.d(TAG, "voteUp() called with: on = $on")
+            }
+
+            override fun voteDown(on: Boolean) {
+                Log.d(TAG, "voteDown() called with: on = $on")
+            }
         }
 
         findViewById<Button>(R.id.test_t).setOnClickListener {
