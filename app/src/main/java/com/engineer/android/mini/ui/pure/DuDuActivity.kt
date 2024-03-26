@@ -27,6 +27,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.TypeReference
 import com.engineer.android.mini.R
+import com.engineer.android.mini.ui.widget.RecommendWidget
 import com.engineer.android.mini.ui.widget.VoteWidget
 import com.engineer.common.utils.AndroidFileUtils
 import java.text.SimpleDateFormat
@@ -121,6 +122,14 @@ class DuDuActivity : AppCompatActivity() {
             }
             running = !running
         }
+        val recommendWidget: RecommendWidget = findViewById(R.id.recommend_widget)
+        val datas = listOf("导航去最近的那个", "去第一个", "选个最便宜的")
+        recommendWidget.itemClickListener = object : RecommendWidget.ItemClickListener {
+            override fun onClickUp(item: String) {
+                Log.d(TAG, "onClickUp() called with: item = $item")
+            }
+        }
+        recommendWidget.setData(datas)
 
         val voteWidget = findViewById<VoteWidget>(R.id.vote_widget)
         voteWidget.voteClickListener = object : VoteWidget.VoteClickListener {
