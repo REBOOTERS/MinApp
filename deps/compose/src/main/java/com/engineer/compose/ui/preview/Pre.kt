@@ -1,7 +1,7 @@
 package com.engineer.compose.ui.preview
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.engineer.compose.ui.ChatMessage
+import com.engineer.compose.viewmodel.ChatMessage
 
 class ChatMessageItemPre : PreviewParameterProvider<ChatMessage> {
     override val values: Sequence<ChatMessage>

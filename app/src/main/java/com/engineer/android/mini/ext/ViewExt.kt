@@ -13,6 +13,7 @@ fun View?.resizeMarginTop(top: Int = 0) {
         }
         this.layoutParams = params
     }
+    this?.visibility
 }
 
 fun View?.resizeWidthWithDp(width: Int) {

@@ -11,6 +11,7 @@
         <activity
             android:name=".ui.ChatActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/ComposeApp.Theme" />
     </application>
 

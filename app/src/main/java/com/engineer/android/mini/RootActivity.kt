@@ -69,13 +69,13 @@ class RootActivity : BaseActivity() {
         mainScope = MainScope()
         handlePermissions()
         setupUI()
-        coroutineTest()
-        testfastjson()
-        val dd: IntArray = intArrayOf(1, 2, 3, 4)
-        val json = dd.contentToString()
-        Log.e(TAG, json)
-        val oo = JSON.parseObject(json, object : TypeReference<List<Int?>?>() {})
-        Log.e(TAG, oo.toString())
+//        coroutineTest()
+//        testfastjson()
+//        val dd: IntArray = intArrayOf(1, 2, 3, 4)
+//        val json = dd.contentToString()
+//        Log.e(TAG, json)
+//        val oo = JSON.parseObject(json, object : TypeReference<List<Int?>?>() {})
+//        Log.e(TAG, oo.toString())
     }
 
 

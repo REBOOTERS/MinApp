@@ -24,7 +24,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -63,7 +65,7 @@ data class Message(val author: String, val body: String)
 fun MessageCard(msg: Message) {
 
     var text by rememberSaveable { mutableStateOf("") }
-
+    val count = remember { mutableIntStateOf(0) }
     Column {
         CircularProgressIndicator()
         NetImage()
@@ -72,12 +74,14 @@ fun MessageCard(msg: Message) {
             Toast.makeText(context, "you clicked me", Toast.LENGTH_SHORT).show()
         }) {
             Text(text = "click me")
+            count.value++
         }
         Button(onClick = {
             context.startActivity(Intent(context, ChatActivity::class.java))
         }) {
             Text(text = "open Chat")
         }
+        Text(text = "${count.value}")
         Row(modifier = Modifier.padding(all = 8.dp)) {
             Image(
                 painter = painterResource(R.drawable.profile_picture),
