@@ -15,11 +15,11 @@ import java.io.IOException
 import java.io.InputStreamReader
 
 fun main() {
-//    OKhttpUtil.sseHandler<SSResponse> {
-//        println(it.event)
-//    }
+    OkHttpUtil.sseHandler<SSResponse> {
+        println(it.event)
+    }
 
-    OKhttpUtil.asyncCall()
+//    OkHttpUtil.asyncCall()
 }
 
 data class SSEResult(val id: String, val data: String)
@@ -29,8 +29,7 @@ data class SSResponse(val code: Int, val message: String, val event: SSEResult)
  * Created on 2021/5/2.
  * @author rookie
  */
-object OKhttpUtil {
-    private const val TAG = "OKhttpUtil"
+object OkHttpUtil {
 
     private var url = "http://localhost:8199/stream_chat"
 
@@ -50,7 +49,7 @@ object OKhttpUtil {
     }
 
     inline fun <reified T> sseHandler(noinline callback: ((T) -> Unit)? = null) {
-        val TAG = "OKhttpUtil"
+        val TAG = "OkHttpUtil"
         val sseListener = object : EventSourceListener() {
             override fun onOpen(eventSource: EventSource, response: Response) {
                 super.onOpen(eventSource, response)
@@ -65,7 +64,7 @@ object OKhttpUtil {
                 super.onEvent(eventSource, id, type, data)
 //                log(
 //                    TAG,
-//                    "onEvent() called with: eventSource = $eventSource, id = $id, type = $type, data = $data"
+//                    "onEvent() called with: id = $id, type = $type, data = $data"
 //                )
 
                 val result = jsonToObj<T>(data)
