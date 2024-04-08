@@ -9,6 +9,7 @@
     tools:context=".ui.adapter.RecyclerViewActivity">
 
     <LinearLayout
+
         android:id="@+id/control_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +20,7 @@
             android:id="@+id/add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginStart="5dp"
             android:text="add"
             android:textColor="@color/white" />
 
@@ -27,7 +28,7 @@
             android:id="@+id/remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginStart="5dp"
             android:text="remove"
             android:textColor="@color/white" />
     </LinearLayout>

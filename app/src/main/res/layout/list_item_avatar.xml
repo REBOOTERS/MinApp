@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:padding="10dp"
+    android:paddingBottom="0dp">
+
+
+    <ImageView
+        android:id="@+id/head"
+        android:layout_width="46.5dp"
+        android:layout_height="46.5dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/avatar"
+        android:visibility="visible"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/label_chat_bg"
+        android:lineSpacingExtra="5dp"
+        android:minWidth="45dp"
+        android:maxWidth="250dp"
+        android:paddingLeft="21dp"
+        android:paddingTop="12.75dp"
+        android:paddingRight="21dp"
+        android:paddingBottom="12.75dp"
+        android:textColor="#000"
+        android:textSize="13.5sp"
+        app:layout_constraintEnd_toStartOf="@+id/head"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="ABI是应用程序与处理器指令集之间的接口，不同的ABI对应不同的CPU架构。例如，armeabi-v7a支持ARMv7架构的设备，arm64-v8a支持64位ARM架构的设备，x86支持x86架构的设备，等等" />
+
+    <TextView
+        android:id="@+id/index_tv"
+        android:gravity="end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:layout_constraintTop_toBottomOf="@id/head"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="@string/app_name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

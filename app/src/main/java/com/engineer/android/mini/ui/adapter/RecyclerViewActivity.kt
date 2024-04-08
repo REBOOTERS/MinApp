@@ -1,5 +1,6 @@
 package com.engineer.android.mini.ui.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.os.Bundle
@@ -19,6 +20,7 @@ import com.engineer.android.mini.ui.viewmodel.RecyclerViewModel
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.random.Random
 
 class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
 
@@ -38,7 +40,7 @@ class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
         val adapter = MyAdapter()
         layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        recyclerView.addItemDecoration(MyDecoration(this))
+//        recyclerView.addItemDecoration(MyDecoration(this))
 //        recyclerView.addItemDecoration(DividerItemDecoration(this, RecyclerView.VERTICAL))
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = adapter
@@ -80,6 +82,7 @@ class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
         }
         viewBinding.add.setOnClickListener {
             adapter.addData("new item")
+            viewBinding.recyclerView.scrollToPosition(adapter.itemCount - 1)
 
             viewBinding.add.post {
                 println(1)
@@ -156,6 +159,8 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.MyHolder>() {
 
     private var createCount = AtomicInteger()
     private val datas: ArrayList<String> = ArrayList()
+
+    @SuppressLint("NotifyDataSetChanged")
     fun updateDatas(inputs: List<String>) {
         datas.clear()
         datas.addAll(inputs)
@@ -183,17 +188,17 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.MyHolder>() {
             }
 
             override fun getNewListSize(): Int {
-                return datas.size
+                return inputs.size
             }
 
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return datas[oldItemPosition] == datas[newItemPosition]
+                return datas[oldItemPosition] == inputs[newItemPosition]
             }
 
             override fun areContentsTheSame(
                 oldItemPosition: Int, newItemPosition: Int
             ): Boolean {
-                return datas[oldItemPosition] == datas[newItemPosition]
+                return datas[oldItemPosition] == inputs[newItemPosition]
             }
         })
         result.dispatchUpdatesTo(this)
@@ -209,7 +214,7 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.MyHolder>() {
             "CreateHolder",
             "onCreateViewHolder() called with: viewType = $viewType, createCount=${createCount.incrementAndGet()}"
         )
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_avatar, parent, false)
         val holder = MyHolder(view)
 
         view.setOnClickListener {
@@ -220,11 +225,14 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.MyHolder>() {
         return holder
     }
 
+    val str =
+        "ABI是应用程序与处理器指令集之间的接口，不同的ABI对应不同的CPU架构。例如，armeabi-v7a支持ARMv7架构的设备，arm64-v8a支持64位ARM架构的设备，x86支持x86架构的设备，等等"
+
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         Log.e(
             "BindHolder", "onBindViewHolder() called with: holder = $holder, position = $position"
         )
-        holder.title.text = ('A' + position).toString()
+        holder.title.text = str.substring(Random(position).nextInt(str.length))
         holder.index.text = datas[position]
     }
 
