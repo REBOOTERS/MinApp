@@ -17,25 +17,28 @@
 package com.engineer.android.mini.coroutines.old.util
 
 import com.google.gson.Gson
-import okhttp3.*
+import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
-import retrofit2.adapter.rxjava2.Result
+import okhttp3.Protocol
+import okhttp3.Request
+import okhttp3.Response
+import okhttp3.ResponseBody.Companion.toResponseBody
 
 /**
  * A list of fake results to return.
  */
 private val FAKE_RESULTS = listOf(
-        "Hello, coroutines!",
-        "My favorite feature",
-        "Async made easy",
-        "Coroutines by example",
-        "Check out the Advanced Coroutines codelab next!"
+    "Hello, coroutines!",
+    "My favorite feature",
+    "Async made easy",
+    "Coroutines by example",
+    "Check out the Advanced Coroutines codelab next!"
 )
 
 /**
  * This class will return fake [Response] objects to Retrofit, without actually using the network.
  */
-class SkipNetworkInterceptor: Interceptor {
+class SkipNetworkInterceptor : Interceptor {
     private var lastResult: String = ""
     val gson = Gson()
 
@@ -76,41 +79,18 @@ class SkipNetworkInterceptor: Interceptor {
      * ```
      */
     private fun makeErrorResult(request: Request): Response {
-        return Response.Builder()
-                .code(500)
-                .request(request)
-                .protocol(Protocol.HTTP_1_1)
-                .message("Bad server day")
-                .body(ResponseBody.create(
-                    "application/json".toMediaType(),
-                        gson.toJson(mapOf("cause" to "not sure"))))
-                .build()
+        return Response.Builder().code(500).request(request).protocol(Protocol.HTTP_1_1).message("Bad server day")
+            .body(gson.toJson(mapOf("cause" to "not sure")).toResponseBody("application/json".toMediaType())).build()
     }
 
-    /**
-     * Generate a success response.
-     *
-     * ```
-     * HTTP/1.1 200 OK
-     * Content-type: application/json
-     *
-     * "$random_string"
-     * ```
-     */
     private fun makeOkResult(request: Request): Response {
         var nextResult = lastResult
         while (nextResult == lastResult) {
             nextResult = FAKE_RESULTS.random()
         }
         lastResult = nextResult
-        return Response.Builder()
-                .code(200)
-                .request(request)
-                .protocol(Protocol.HTTP_1_1)
-                .message("OK")
-                .body(ResponseBody.create(
-                    "application/json".toMediaType(),
-                        gson.toJson(nextResult)))
-                .build()
+        return Response.Builder().code(200).request(request).protocol(Protocol.HTTP_1_1).message("OK").body(
+                gson.toJson(nextResult).toResponseBody("application/json".toMediaType())
+            ).build()
     }
 }
