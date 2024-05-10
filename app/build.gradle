@@ -188,7 +188,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
-    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
     implementation 'androidx.preference:preference-ktx:1.2.1'
 
     implementation 'com.facebook.stetho:stetho:1.6.0'
@@ -205,29 +205,32 @@ dependencies {
     }
     implementation project(path: ':deps:common')
     implementation project(path: ':deps:compose')
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.6'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.7.6'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.7'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.7'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
 
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
-    implementation 'com.alibaba:fastjson:1.1.73.android'
-    implementation 'org.jetbrains.kotlin:kotlin-script-runtime:1.8.22'
+    implementation 'com.alibaba:fastjson:1.2.69'
+    implementation 'org.jetbrains.kotlin:kotlin-script-runtime:1.9.22'
 
 
     // https://github.com/koral--/android-gif-drawable/tree/master
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.28'
-    implementation "com.squareup.okhttp3:okhttp:4.11.0"
-    implementation "com.squareup.okhttp3:logging-interceptor:4.11.0"
+    implementation "com.squareup.okhttp3:okhttp:4.12.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.12.0"
 
 //    implementation 'com.github.microshow:RxFFmpeg:4.9.0-lite'
 
-    implementation "androidx.metrics:metrics-performance:1.0.0-alpha04"
+    implementation "androidx.metrics:metrics-performance:1.0.0-beta01"
     implementation "androidx.tracing:tracing-ktx:1.2.0"
     // AndroidDraw Library
     implementation 'com.github.divyanshub024:AndroidDraw:v0.1'
+
+    implementation "io.noties.markwon:core:4.6.2"
+    implementation "io.noties.markwon:ext-latex:4.6.2"
 }
 
 apply from: file("../custom-gradle/test-dep.gradle") // unit test

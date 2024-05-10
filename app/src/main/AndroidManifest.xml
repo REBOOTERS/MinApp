@@ -277,6 +277,7 @@
             android:name=".ui.behavior.AudioRecorderActivity"
             android:exported="true" />
         <activity android:name=".jetpack.work.FilterActivity" />
+        <activity android:name=".ui.behavior.MDActivity" android:exported="true"/>
     </application>
 
 </manifest>
