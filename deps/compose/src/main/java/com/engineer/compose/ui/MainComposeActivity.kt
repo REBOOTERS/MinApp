@@ -72,9 +72,9 @@ fun MessageCard(msg: Message) {
         val context = LocalContext.current
         Button(onClick = {
             Toast.makeText(context, "you clicked me", Toast.LENGTH_SHORT).show()
+            count.value++
         }) {
             Text(text = "click me")
-            count.value++
         }
         Button(onClick = {
             context.startActivity(Intent(context, ChatActivity::class.java))
