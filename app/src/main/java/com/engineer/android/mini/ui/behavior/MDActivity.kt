@@ -48,7 +48,6 @@ class MDActivity : BaseActivity() {
 //        val spanned = markwon.toMarkdown("**Hello there!**");
         spannedString.setSpan(spanned, 0, spannedString.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
-        textView.text = spannedString
 
 
         textView.setPadding(10.dp)
@@ -57,7 +56,7 @@ class MDActivity : BaseActivity() {
         val p = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
         p.topMargin = 48.dp
         window.decorView.setBackgroundColor(Color.WHITE)
-
+        textView.setTextColor(Color.BLUE)
         ll.addView(textView)
 
         val tt = TextView(this)
@@ -75,6 +74,9 @@ class MDActivity : BaseActivity() {
         tt1.setPadding(10.dp)
         tt1.setTextColor(Color.RED)
         ll.addView(tt1)
+
+        spannedString.append("$$(a^2+b)$$",kk.toSpanned(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        textView.text = spannedString
 
         setContentView(ll, p)
 
