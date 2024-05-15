@@ -31,6 +31,22 @@
             android:layout_marginStart="5dp"
             android:text="remove"
             android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/fix_pos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="fix_pos"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/move_pos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="move_pos"
+            android:textColor="@color/white" />
     </LinearLayout>
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout

@@ -19,6 +19,7 @@ import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.viewmodel.RecyclerViewModel
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
+import java.util.Locale
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.random.Random
 
@@ -27,9 +28,11 @@ class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var recyclerViewModel: RecyclerViewModel
+    private val adapter = MyAdapter()
 
     private lateinit var viewBinding: ActivityRecyclerViewBinding
     private var loadMoreCount = 0
+    private var targetPos = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +40,7 @@ class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
         setContentView(viewBinding.root)
         recyclerViewModel = ViewModelProvider(this)[RecyclerViewModel::class.java]
         recyclerView = findViewById(R.id.recycler_view)
-        val adapter = MyAdapter()
+
         layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
 //        recyclerView.addItemDecoration(MyDecoration(this))
@@ -65,12 +68,21 @@ class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
                     val p2 = layoutManager.findLastCompletelyVisibleItemPosition()
                     val count = adapter.itemCount
 
-                    val info =
-                        String.format("LastVisiblePos = %d,LastCompletelyVisiblePos = %d,count = %d", p1, p2, count)
-                    Log.i(TAG, info)
+                    val info = String.format(
+                        Locale.getDefault(),
+                        "LastVisiblePos = %d,LastCompletelyVisiblePos = %d,count = %d",
+                        p1,
+                        p2,
+                        count
+                    )
+//                    Log.i(TAG, info)
+                    val p3 = layoutManager.findFirstVisibleItemPosition()
+                    val view = layoutManager.findViewByPosition(p3)
+                    Log.i(TAG, "findFirstVisibleItemPosition $p3, top ${view?.top},${view?.height}")
                 }
             }
         })
+
 
 //        recyclerView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
 //            reflectValue(recyclerView)
@@ -91,11 +103,28 @@ class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
                 reflectValue(recyclerView)
             }, 300)
         }
+        viewBinding.fixPos.setOnClickListener {
+            targetPos += 2
+            targetPos %= adapter.itemCount
+            "to $targetPos".toast()
+            recyclerView.scrollToPosition(targetPos)
+        }
+        viewBinding.movePos.setOnClickListener {
+            targetPos -= 1
+            if (targetPos < 0) {
+                targetPos = 0
+            }
+            "move to $targetPos".toast()
+            recyclerView.scrollToPosition(targetPos)
+            layoutManager.scrollToPositionWithOffset(targetPos,0)
+        }
 
         viewBinding.refreshLayout.setOnRefreshLoadMoreListener(this)
 
 //        viewBinding.refreshLayout.autoRefreshAnimationOnly()
         recyclerViewModel.loadData()
+
+        handleScroll()
     }
 
     private fun reflectValue(recyclerView: RecyclerView) {
@@ -152,6 +181,28 @@ class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
         } else {
             viewBinding.refreshLayout.finishLoadMoreWithNoMoreData()
         }
+    }
+
+    private fun handleScroll() {
+        val observer = object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                super.onChanged()
+                Log.i(TAG, "onChanged")
+            }
+
+            override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+                super.onItemRangeChanged(positionStart, itemCount)
+                Log.i(TAG, "onItemRangeChanged $positionStart $itemCount")
+
+            }
+
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                super.onItemRangeInserted(positionStart, itemCount)
+                Log.i(TAG, "onItemRangeInserted $positionStart $itemCount")
+
+            }
+        }
+        adapter.registerAdapterDataObserver(observer)
     }
 }
 
@@ -232,7 +283,11 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.MyHolder>() {
         Log.e(
             "BindHolder", "onBindViewHolder() called with: holder = $holder, position = $position"
         )
-        holder.title.text = str.substring(Random(position).nextInt(str.length))
+        if (position == 12) {
+            holder.title.text = str + str + str + str + str
+        } else {
+            holder.title.text = str.substring(Random(position).nextInt(str.length))
+        }
         holder.index.text = datas[position]
     }
 
