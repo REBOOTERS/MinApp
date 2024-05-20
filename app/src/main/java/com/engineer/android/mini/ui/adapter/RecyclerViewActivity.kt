@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.*
@@ -34,6 +35,9 @@ class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
     private var loadMoreCount = 0
     private var targetPos = 2
 
+    private var globalPos = 0
+    private var globalOffset = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityRecyclerViewBinding.inflate(layoutInflater)
@@ -51,6 +55,8 @@ class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
         recyclerViewModel.datas.observe(this) {
             adapter.updateDatas(it)
             viewBinding.refreshLayout.finishRefresh(0)
+
+            viewBinding.seekbar.max = adapter.itemCount - 1
         }
 
 //        val linearSnapHelper = LinearSnapHelper()
@@ -116,8 +122,41 @@ class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
             }
             "move to $targetPos".toast()
             recyclerView.scrollToPosition(targetPos)
-            layoutManager.scrollToPositionWithOffset(targetPos,0)
+            layoutManager.scrollToPositionWithOffset(targetPos, 0)
         }
+        viewBinding.seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                Log.i(TAG, "seekbar Change $progress")
+                globalPos = progress
+                globalMove()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
+        })
+
+
+        viewBinding.seekbar2.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                Log.i(TAG, "seekbar2 Change $progress")
+                globalOffset = progress
+                globalMove()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
+        })
+        viewBinding.seekbar2.max = 100.dp
 
         viewBinding.refreshLayout.setOnRefreshLoadMoreListener(this)
 
@@ -125,6 +164,12 @@ class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
         recyclerViewModel.loadData()
 
         handleScroll()
+    }
+
+    private fun globalMove() {
+        Log.i(TAG, "GlobalMove $globalPos $globalOffset")
+        recyclerView.scrollToPosition(globalPos)
+        layoutManager.scrollToPositionWithOffset(globalPos, globalOffset)
     }
 
     private fun reflectValue(recyclerView: RecyclerView) {

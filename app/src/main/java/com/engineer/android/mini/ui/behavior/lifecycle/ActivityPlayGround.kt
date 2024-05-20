@@ -72,10 +72,10 @@ open class BaseLifeActivity : BaseActivity() {
         Log.e(TAG, "onRestart() called")
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        Log.e(TAG, "onNewIntent() called with: intent = $intent")
-    }
+//    override fun onNewIntent(intent: Intent) {
+//        super.onNewIntent(intent)
+//        Log.e(TAG, "onNewIntent() called with: intent = $intent")
+//    }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
