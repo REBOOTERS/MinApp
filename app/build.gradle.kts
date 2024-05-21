@@ -9,9 +9,9 @@ plugins {
 }
 
 val buildTime: String = SimpleDateFormat("yyMMddHHmm").format(Date())
-val API_KEY: String = project.findProperty("API_KEY") as String
-val source_code_value: String = project.findProperty("source_code") as String
-val source_code: Boolean = source_code_value == "true"
+val apiKey: String = project.findProperty("API_KEY") as String
+val sourceCodeValue: String = project.findProperty("source_code") as String
+val sourceCode: Boolean = sourceCodeValue == "true"
 
 class RoomSchemaArgProvider(
     @get:InputDirectory @get:PathSensitive(PathSensitivity.RELATIVE) val schemaDir: File
@@ -33,7 +33,7 @@ android {
         minSdk = 24
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0_$buildTime"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -41,7 +41,7 @@ android {
         }
         buildConfigField("Boolean", "enable_log", "false")
         buildConfigField("String", "secret_id", "\"123456\"")
-        buildConfigField("String", "api_key", "\"${API_KEY}\"")
+        buildConfigField("String", "api_key", "\"${apiKey}\"")
 //        manifestPlaceholders.activity_exported = true
         manifestPlaceholders["max_aspect"] = 3
         manifestPlaceholders["extract_native_libs"] = true
@@ -111,21 +111,18 @@ android {
     flavorDimensions.add("channel")
     flavorDimensions.add("type")
     productFlavors {
-        create("xiaomi") { dimension = "channel" }
-        create("oppo") { dimension = "channel" }
-        create("huawei") { dimension = "channel" }
-        create("global") { dimension = "type" }
-        create("local") { dimension = "type" }
-    }
-    applicationVariants.all {
-        val versionName = "1.0.0_${buildTime}"
-        this.outputs.all {
-            println("output = $this,versionName =$versionName")
+        create("xiaomi") {
+            dimension = "channel"
         }
-        this.outputs.forEach { output ->
-            output as com.android.build.gradle.internal.api.BaseVariantOutputImpl
-//            output.outputFileName = versionName
-//            output.versionNameOverride = versionName
+        create("oppo") {
+            dimension = "channel"
+
+            create("local") { dimension = "type" }
+        }
+        create("huawei") {
+            dimension = "channel"
+
+            create("global") { dimension = "type" }
         }
     }
 }
@@ -147,8 +144,7 @@ dependencies {
     implementation("com.github.z-chu.RxCache:rxcache:2.3.5")
     implementation("com.github.z-chu.RxCache:rxcache-kotlin:2.3.5")
 
-
-    if (source_code) {
+    if (sourceCode) {
         implementation(project(":deps:thirdlib"))
     } else {
         implementation("com.engineer.third:thirdlib:1.0.0")
@@ -158,7 +154,6 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 
     implementation("com.google.android.flexbox:flexbox:3.0.0")
