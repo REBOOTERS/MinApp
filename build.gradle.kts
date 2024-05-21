@@ -6,10 +6,10 @@ plugins {
     alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.tools.ksp) apply false
 }
-apply(from=rootProject.rootDir.absolutePath + "/custom-gradle/check-style.gradle")
+apply(from = rootProject.rootDir.absolutePath + "/custom-gradle/check-style.gradle")
 
-//tasks.register('clean', Delete) {
-//    delete(rootProject.buildDir
-//            delete rootProject.rootDir.absolutePath + "/final.apk")
-//    delete(rootDir.absolutePath + "/local_repo/")
-//}
+tasks.create("clean") {
+    delete(rootProject.buildDir)
+    delete(rootProject.rootDir.absolutePath + "/final.apk")
+    delete(rootDir.absolutePath + "/local_repo/")
+}

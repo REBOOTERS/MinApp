@@ -1,5 +1,5 @@
 dependencies {
-    def gson_version = '2.10.1'
+    def gson_version = '2.11.0'
     def retrofit_gson_version = '2.11.0'
     def retrofit_version = '2.11.0'
 
