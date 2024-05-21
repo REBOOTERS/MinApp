@@ -36,7 +36,7 @@ include(":app")
 include(":deps:thirdlib")
 include(":deps:compose")
 include(":deps:filter")
-//include(":other")
+include(":other")
 include(":deps:common")
 include(":deps:lib_jar")
  
