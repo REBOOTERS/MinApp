@@ -16,7 +16,6 @@
             <option value="$PROJECT_DIR$/deps/filter" />
             <option value="$PROJECT_DIR$/deps/lib_jar" />
             <option value="$PROJECT_DIR$/deps/thirdlib" />
-            <option value="$PROJECT_DIR$/other" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
