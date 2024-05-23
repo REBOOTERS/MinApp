@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.ApplicationProductFlavor
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -51,6 +52,7 @@ android {
         resourceConfigurations += listOf("zh-rCN", "xxhdpi")
 
         ndk {
+            //noinspection ChromeOsAbiSupport
             abiFilters += setOf("armeabi-v7a", "arm64-v8a")
         }
     }
@@ -111,18 +113,41 @@ android {
     flavorDimensions.add("channel")
     flavorDimensions.add("type")
     productFlavors {
-        create("xiaomi") {
-            dimension = "channel"
-        }
-        create("oppo") {
-            dimension = "channel"
+        create("xiaomi") { dimension = "channel" }
+        create("oppo") { dimension = "channel" }
+        create("huawei") { dimension = "channel" }
+        create("local") { dimension = "type" }
+        create("global") { dimension = "type" }
+    }
 
-            create("local") { dimension = "type" }
-        }
-        create("huawei") {
-            dimension = "channel"
 
-            create("global") { dimension = "type" }
+    variantFilter {
+        println("***************************")
+        val flavorChannel = flavors.find { it.dimension == "channel" }?.name
+        val flavorType = flavors.find { it.dimension == "type" }?.name
+
+
+        println("flavor=$flavorChannel,type=$flavorType")
+        if (flavorChannel == "huawei" && flavorType == "global") {
+            ignore = true
+        }
+        if (flavorChannel == "xiaomi" && flavorType == "local") {
+            ignore = true
+        }
+    }
+
+}
+
+androidComponents {
+    beforeVariants { variantBuilder ->
+        val flavorChannel = variantBuilder.productFlavors.find {
+            it.first == "channel"
+        }?.second
+        val flavorType = variantBuilder.productFlavors.find {
+            it.first == "type"
+        }?.second
+        if (flavorChannel == "oppo" && flavorType == "global") {
+            variantBuilder.enable = false
         }
     }
 }
