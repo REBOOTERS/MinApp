@@ -128,7 +128,7 @@ android {
 
 
         println("flavor=$flavorChannel,type=$flavorType")
-        if (flavorChannel == "huawei" && flavorType == "global") {
+        if (flavorChannel == "huawei" && flavorType == "local") {
             ignore = true
         }
         if (flavorChannel == "xiaomi" && flavorType == "local") {
@@ -201,6 +201,14 @@ dependencies {
 
     implementation("io.noties.markwon:core:4.6.2")
     implementation("io.noties.markwon:ext-latex:4.6.2")
+    implementation("com.facebook.fresco:fresco:3.1.3") {
+        exclude("com.facebook.soloader","soloader")
+        exclude("com.facebook.fresco","soloader")
+        exclude("com.facebook.fresco","soloader")
+        exclude("com.facebook.fresco","nativeimagefilters")
+        exclude("com.facebook.fresco","memory-type-native")
+        exclude("com.facebook.fresco","imagepipeline-native")
+    }
 
 }
 apply(from = "../custom-gradle/test-dep.gradle")
