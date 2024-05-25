@@ -21,4 +21,5 @@ def replace_implementation(file_path):
 
 
 if __name__ == '__main__':
-    replace_implementation("coroutines-dep.txt")
+    target_file ="../custom-gradle/coroutines-dep.gradle"
+    replace_implementation(target_file)
