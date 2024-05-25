@@ -48,6 +48,8 @@ dependencies {
     api("io.github.scwang90:refresh-header-classics:2.0.6")    //经典刷新头
     api("io.github.scwang90:refresh-header-material:2.0.6")    //谷歌刷新头
     api("io.github.scwang90:refresh-footer-classics:2.0.6")    //经典加载
+
+    api("org.jsoup:jsoup:1.17.2")
 }
 
 apply(from = "../../custom-gradle/test-dep.gradle") // unit test

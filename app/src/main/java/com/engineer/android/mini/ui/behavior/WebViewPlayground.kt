@@ -1,5 +1,6 @@
 package com.engineer.android.mini.ui.behavior
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -8,7 +9,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
-import android.webkit.*
+import android.webkit.JavascriptInterface
+import android.webkit.MimeTypeMap
+import android.webkit.WebChromeClient
+import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Button
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -18,8 +25,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.*
-import java.io.*
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
 import java.net.InetAddress
 
 private const val TAG = "WebViewPlayground"
@@ -33,10 +48,19 @@ class WebViewActivity : AppCompatActivity() {
     private val mainScope = MainScope()
 
     private lateinit var webView: WebView
+
+    @SuppressLint("JavascriptInterface")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
         webView = WebView(this)
+        webView.setBackgroundColor(Color.WHITE)
+        webView.settings.apply {
+            javaScriptEnabled = true
+            loadWithOverviewMode = true
+            useWideViewPort = true
+        }
+        webView.addJavascriptInterface(WebInterface(this), "Android")
         Log.e(TAG, "webview is ${webView.hashCode()}")
 
 
@@ -52,13 +76,11 @@ class WebViewActivity : AppCompatActivity() {
         val frameLayout = FrameLayout(this)
         frameLayout.setBackgroundColor(Color.RED)
         val params = FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
         )
         frameLayout.addView(webView, params)
         val params1 = FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
         )
         params1.gravity = Gravity.BOTTOM or Gravity.END
         params1.marginEnd = 30.dp
@@ -66,19 +88,16 @@ class WebViewActivity : AppCompatActivity() {
         clearCacheBtn.text = "clear cache"
         frameLayout.addView(clearCacheBtn, params1)
         val params2 = FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
         )
         params2.gravity = Gravity.BOTTOM or Gravity.END
         params2.marginEnd = 30.dp
         params2.bottomMargin = 100.dp
         downloadCacheBtn.text = "download cache"
-        frameLayout.addView(downloadCacheBtn,params2)
+        frameLayout.addView(downloadCacheBtn, params2)
         setContentView(frameLayout)
 
         WebView.setWebContentsDebuggingEnabled(true)
-        val settints = webView.settings
-        settints.javaScriptEnabled = true
 
         targetUrl = "https://images.pexels.com/photos/11163123/pexels-photo-11163123.jpeg"
 
@@ -94,8 +113,7 @@ class WebViewActivity : AppCompatActivity() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
                 Log.d(
-                    TAG,
-                    "onPageStarted() called with: url = $url, favicon = $favicon"
+                    TAG, "onPageStarted() called with: url = $url, favicon = $favicon"
                 )
             }
 
@@ -103,11 +121,17 @@ class WebViewActivity : AppCompatActivity() {
                 super.onPageFinished(view, url)
                 Log.d(TAG, "onPageFinished() called with: url = $url")
                 "onPageFinished".toast()
+
+//                val javascript =
+//                    "javascript:(function() { " + "var targetElement = document.querySelector('img'); " + "if (targetElement) { " + "   targetElement.style.display='block'; " + "   targetElement.style.position='absolute'; " + "   targetElement.style.top='0'; " + "   targetElement.style.left='0'; " + "   document.body.appendChild(targetElement); " + "} " + "})()"
+//                view?.loadUrl(javascript)
+
+                view?.loadUrl("javascript:window.Android.getHtml(document.documentElement.outerHTML);");
+
             }
 
             override fun shouldInterceptRequest(
-                view: WebView?,
-                request: WebResourceRequest?
+                view: WebView?, request: WebResourceRequest?
             ): WebResourceResponse? {
                 val url = request?.url?.toString() ?: ""
                 Log.e(TAG, WebResourceCacheManager.getMimeTypeFromUrl(url) + ",url is $url")
@@ -155,11 +179,17 @@ class WebViewActivity : AppCompatActivity() {
     }
 }
 
+class WebInterface(private val context: Context) {
+    @JavascriptInterface
+    fun getHtml(html: String) {
+        Log.i(TAG, "html is $html")
+    }
+}
+
 object WebResourceCacheManager {
 
     fun getMimeTypeFromUrl(url: String): String {
-        return MimeTypeMap.getSingleton()
-            .getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(url)) ?: ""
+        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(url)) ?: ""
     }
 
     fun providePath(context: Context, url: String): File {

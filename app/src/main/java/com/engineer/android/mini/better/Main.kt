@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON
 import com.engineer.android.mini.util.TimeUtil
 import io.reactivex.Observable
 import org.json.JSONObject
+import org.jsoup.Jsoup
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.HashMap
@@ -13,8 +14,23 @@ import kotlin.collections.HashMap
  * @author rookie
  */
 fun main() {
-    listTest()
+//    listTest()
+    getElement()
 }
+
+fun getElement() {
+    val url = "https://gifbin.com/990416--1"
+    val doc = Jsoup.connect(url).get()
+    val element = doc.getElementById("gif-container")
+    element?.let {
+//        println(it.html())
+        val video = it.getElementsByTag("video")
+        val source = video[0].getElementsByTag("source")
+        val s1 = source[0].attr("src")
+        println(s1)
+    }
+}
+
 
 private fun listTest() {
     val list = arrayListOf("11", "cdd", "d", "cat")
