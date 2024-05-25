@@ -21,10 +21,10 @@ dependencyResolutionManagement {
         // 添加 jitpack 的依赖
         maven { url = uri("https://jitpack.io") }
         // 添加 私有仓库的依赖
-        maven {
-            this.isAllowInsecureProtocol = true
-            url = uri("http://192.168.11.112")
-        }
+//        maven {
+//            this.isAllowInsecureProtocol = true
+//            url = uri("http://192.168.11.112")
+//        }
         // 添加本地仓库的依赖
         maven { url = uri("${rootDir}/local_repo/") }
     }
