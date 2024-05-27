@@ -28,3 +28,4 @@ local_repo/com/engineer/third/thirdlib/*.xml.*
 /.idea/copilot/chatSessions/00000000000.xd
 /.idea/copilot/chatSessions/blobs/version
 /.idea/copilot/chatSessions/xd.lck
+url.json

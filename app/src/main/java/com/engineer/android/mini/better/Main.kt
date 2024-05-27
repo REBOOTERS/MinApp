@@ -15,26 +15,28 @@ import kotlin.collections.HashMap
  */
 fun main() {
 //    listTest()
-//    getElement()
-    // 示例使用
-    appendStringToFile("url", "exampleValue")
-    appendStringToFile("url", "exampleValue1")
-    appendStringToFile("url", "exampleValue1")
-    appendStringToFile("url", "exampleValue1")
+    getElement()
 }
 
 
 fun getElement() {
-    val url = "https://gifbin.com/990416--1"
-    val doc = Jsoup.connect(url).get()
-    val element = doc.getElementById("gif-container")
-    element?.let {
+
+    for (i in 989237..989547) {
+        val url = "https://gifbin.com/${i}"
+        val doc = Jsoup.connect(url).get()
+        val element = doc.getElementById("gif-container")
+        element?.let {
 //        println(it.html())
-        val video = it.getElementsByTag("video")
-        val source = video[0].getElementsByTag("source")
-        val s1 = source[0].attr("src")
-        println(s1)
+            val video = it.getElementsByTag("video")
+            val source = video[0].getElementsByTag("source")
+            val s1 = source[0].attr("src")
+            println(s1)
+            appendStringToFile("url", s1)
+            Thread.sleep(4000)
+        }
     }
+
+
 }
 
 

@@ -18,7 +18,7 @@ fun appendStringToFile(key: String, value: String) {
     try {
         val writer = BufferedWriter(FileWriter(file.absolutePath, true)) // 打开文件进行追加写操作
         // 将字符串格式化为 JSON 格式，并追加写入文件
-        writer.write("{\"$key\": \"$value\"}\n")
+        writer.write("{\"$key\": \"$value\"},\n")
         writer.close()
     } catch (e: IOException) {
         e.printStackTrace()
