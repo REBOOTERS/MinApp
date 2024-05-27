@@ -15,8 +15,14 @@ import kotlin.collections.HashMap
  */
 fun main() {
 //    listTest()
-    getElement()
+//    getElement()
+    // 示例使用
+    appendStringToFile("url", "exampleValue")
+    appendStringToFile("url", "exampleValue1")
+    appendStringToFile("url", "exampleValue1")
+    appendStringToFile("url", "exampleValue1")
 }
+
 
 fun getElement() {
     val url = "https://gifbin.com/990416--1"
