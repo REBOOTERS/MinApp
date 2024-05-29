@@ -116,7 +116,9 @@ android {
         create("xiaomi") { dimension = "channel" }
         create("oppo") { dimension = "channel" }
         create("huawei") { dimension = "channel" }
-        create("local") { dimension = "type" }
+        create("local") {
+            isDefault = true
+            dimension = "type"  }
         create("global") { dimension = "type" }
     }
 
