@@ -192,7 +192,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
-//    implementation("com.github.microshow:RxFFmpeg:4.9.0-lite'
+//    implementation("com.github.microshow:RxFFmpeg:4.9.0")
 
     implementation("androidx.metrics:metrics-performance:1.0.0-beta01")
     implementation("androidx.tracing:tracing-ktx:1.2.0")

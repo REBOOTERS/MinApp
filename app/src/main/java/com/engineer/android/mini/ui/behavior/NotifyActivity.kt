@@ -41,6 +41,19 @@ class NotifyActivity : BaseActivity() {
         }
         contentView.addView(openNotifySetting, param)
 
+
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        val openPoorNotify = Button(this)
+        openPoorNotify.text = "poor notify"
+        openPoorNotify.setOnClickListener {
+            NotificationHelper.showPoorNotification(this, "哈哈", "我是嘿嘿嘿", intent)
+        }
+
+
+        contentView.addView(openPoorNotify, param)
+
         val simpleNotify = Button(this)
         simpleNotify.text = "simple Notify"
         simpleNotify.setOnClickListener {
@@ -102,9 +115,10 @@ class NotifyActivity : BaseActivity() {
         setContentView(contentView)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            PermissionX.init(this).permissions(arrayListOf(Manifest.permission.POST_NOTIFICATIONS)).request { _, _, _ ->
+            PermissionX.init(this).permissions(arrayListOf(Manifest.permission.POST_NOTIFICATIONS))
+                .request { _, _, _ ->
 
-            }
+                }
         }
     }
 }

@@ -33,6 +33,29 @@ interface NotificationBuilder {
     fun provideNotificationId() = 100
 }
 
+class PoorNotification(
+    private val title: String, private val content: String, private val intent: Intent
+) : NotificationBuilder {
+
+    val CHANNEL_ID = "CHANNEL_ID_110"
+
+    override fun provideChannelId(): String {
+        return CHANNEL_ID
+    }
+
+    override fun provideNotification(context: Context): NotificationCompat.Builder {
+        val pendingIntent: PendingIntent =
+            PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+
+        return NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_baseline_notifications_24).setContentTitle(title)
+            .setContentText(content).setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent).setAutoCancel(true)
+    }
+
+}
+
 class SimpleNotification : NotificationBuilder {
 
     val CHANNEL_ID = "CHANNEL_ID_123456"
@@ -56,8 +79,9 @@ class SimpleNotification : NotificationBuilder {
         val pendingIntent1 = PendingIntent.getBroadcast(
             context, 0, receiver, PendingIntent.FLAG_IMMUTABLE
         )
-        return NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_baseline_notifications_24)
-            .setContentTitle(textTitle).setContentText(textContent).setStyle(
+        return NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_baseline_notifications_24).setContentTitle(textTitle)
+            .setContentText(textContent).setStyle(
                 NotificationCompat.BigTextStyle().bigText(
                     "Much longer text that cannot fit one line " + ",longer text that cannot fit one line ..."
                 )
@@ -76,8 +100,9 @@ class MyForegroundNotification : NotificationBuilder {
 
     override fun provideNotification(context: Context): NotificationCompat.Builder {
 
-        return NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_baseline_notifications_red_24)
-            .setContentTitle(textTitle).setContentText(textContent).setStyle(
+        return NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_baseline_notifications_red_24).setContentTitle(textTitle)
+            .setContentText(textContent).setStyle(
                 NotificationCompat.BigTextStyle().bigText(
                     "前台通知内容 前台通知内容前台通知内容前台通知内容前台通知内容 " + ",前台通知内容前台通知内容前台通知内容..."
                 )
@@ -103,8 +128,9 @@ class MyProgressNotification : NotificationBuilder {
     private val textTitle = "下载"
     private val textContent = "下载进行中"
     override fun provideNotification(context: Context): NotificationCompat.Builder {
-        return NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_baseline_notifications_red_24)
-            .setContentTitle(textTitle).setContentText(textContent).setProgress(100, 0, false)
+        return NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_baseline_notifications_red_24).setContentTitle(textTitle)
+            .setContentText(textContent).setProgress(100, 0, false)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
     }
 
@@ -134,9 +160,10 @@ class CustomNotification : NotificationBuilder {
         )
         customView.setOnClickPendingIntent(R.id.close_notify, pendingIntent)
 
-        return NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.drawable.ic_baseline_notifications_red_24)
-            .setStyle(NotificationCompat.DecoratedCustomViewStyle()).setCustomContentView(customView)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        return NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_baseline_notifications_red_24)
+            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+            .setCustomContentView(customView).setPriority(NotificationCompat.PRIORITY_DEFAULT)
     }
 
     override fun provideChannelId(): String {
@@ -187,7 +214,8 @@ class MyForegroundService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(
-            TAG, "onStartCommand() called with: intent = $intent, flags = $flags, startId = $startId"
+            TAG,
+            "onStartCommand() called with: intent = $intent, flags = $flags, startId = $startId"
         )
         val type = intent?.getStringExtra("type") ?: "standard"
 
@@ -234,7 +262,8 @@ class MyBackgroundService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(
-            TAG, "onStartCommand() called with: intent = $intent, flags = $flags, startId = $startId"
+            TAG,
+            "onStartCommand() called with: intent = $intent, flags = $flags, startId = $startId"
         )
         return super.onStartCommand(intent, flags, startId)
     }
@@ -263,7 +292,8 @@ class MyBackgroundProcess : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(
-            TAG, "onStartCommand() called with: intent = $intent, flags = $flags, startId = $startId"
+            TAG,
+            "onStartCommand() called with: intent = $intent, flags = $flags, startId = $startId"
         )
         val intent = Intent(this, MyBackgroundService::class.java)
         OpenTaskManager.startApp(this, intent)
@@ -304,6 +334,14 @@ object NotificationHelper {
         }
     }
 
+    fun showPoorNotification(context: Context, title: String, content: String, intent: Intent) {
+        val poorNotification = PoorNotification(title, content, intent)
+        val builder = poorNotification.provideNotification(context)
+        createNotificationChannel(context, poorNotification)
+        showNotifyInternal(context, builder, System.currentTimeMillis().toInt())
+
+    }
+
     fun showNotification(context: Context) {
         val simpleNotification = SimpleNotification()
         val builder = simpleNotification.provideNotification(context)
@@ -335,14 +373,16 @@ object NotificationHelper {
         showNotifyInternal(context, builder, provideNotificationId())
     }
 
-    private fun showNotifyInternal(context: Context, builder: NotificationCompat.Builder, notifyId: Int) {
+    private fun showNotifyInternal(
+        context: Context, builder: NotificationCompat.Builder, notifyId: Int
+    ) {
         if (ActivityCompat.checkSelfPermission(
                 context, Manifest.permission.POST_NOTIFICATIONS
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             return
         }
-        Log.e("MyForegroundService","showNotifyInternal $notifyId")
+        Log.e("MyForegroundService", "showNotifyInternal $notifyId")
         NotificationManagerCompat.from(context).notify(notifyId, builder.build())
     }
 
@@ -388,6 +428,7 @@ object NotificationHelper {
                 intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
                 intent.putExtra("android.provider.extra.APP_PACKAGE", context?.packageName)
             }
+
             else -> {
                 intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
                 intent.putExtra("app_package", context?.packageName)
