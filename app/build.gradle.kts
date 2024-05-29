@@ -67,6 +67,12 @@ android {
             keyAlias = project.findProperty("MYAPP_RELEASE_KEY_ALIAS") as String
             keyPassword = project.findProperty("MYAPP_RELEASE_KEY_PASSWORD") as String
         }
+        this.getByName("debug") {
+            storeFile = file(project.findProperty("MYAPP_RELEASE_STORE_FILE") as String)
+            storePassword = project.findProperty("MYAPP_RELEASE_STORE_PASSWORD") as String
+            keyAlias = project.findProperty("MYAPP_RELEASE_KEY_ALIAS") as String
+            keyPassword = project.findProperty("MYAPP_RELEASE_KEY_PASSWORD") as String
+        }
     }
 
 

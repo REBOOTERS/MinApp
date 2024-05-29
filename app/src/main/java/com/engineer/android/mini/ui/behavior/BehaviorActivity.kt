@@ -14,6 +14,7 @@ import android.os.*
 import android.provider.MediaStore
 import android.util.Log
 import android.util.LogPrinter
+import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
@@ -60,11 +61,10 @@ class BehaviorActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityBehaviorBinding
     private val mainScope = MainScope()
 
-    private val pickPictureCallback =
-        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            if (uri == null) Log.e(TAG, "Invalid input image Uri.")
-            else startActivity(FilterActivity.newIntent(this, uri))
-        }
+    private val pickPictureCallback = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri == null) Log.e(TAG, "Invalid input image Uri.")
+        else startActivity(FilterActivity.newIntent(this, uri))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -172,8 +172,7 @@ class BehaviorActivity : AppCompatActivity() {
         }
 
         viewBinding.useHideApi.setOnClickListener {
-            val downloadManager: DownloadManager =
-                getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val downloadManager: DownloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
 
             extracted(downloadManager)
         }
@@ -182,8 +181,7 @@ class BehaviorActivity : AppCompatActivity() {
             Log.e(TAG, "\n")
             val h = Handler(Looper.getMainLooper()) { msg ->
                 Log.e(
-                    TAG,
-                    "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg" + ",${msg.target}"
+                    TAG, "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg" + ",${msg.target}"
                 )
                 true
             }
@@ -193,8 +191,7 @@ class BehaviorActivity : AppCompatActivity() {
             handlerThread.looper.setMessageLogging(LogPrinter(Log.DEBUG, "ActivityThread"))
             val subHandler = Handler(handlerThread.looper) { msg ->
                 Log.e(
-                    TAG,
-                    "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg " + ",${msg.target}"
+                    TAG, "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg " + ",${msg.target}"
                 )
                 // 为了方便调试多次方法，正常情况下，用完后记得立即关闭
 //                handlerThread.quitSafely()
@@ -275,7 +272,12 @@ class BehaviorActivity : AppCompatActivity() {
     }
 
     private fun showSnackBar() {
-        Snackbar.make(viewBinding.rootScrollerView, "hello", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(viewBinding.rootScrollerView, getString(R.string.long_chinese_content), Snackbar.LENGTH_SHORT)
+            .setAction("OPEN", object : View.OnClickListener {
+                override fun onClick(v: View?) {
+                    "OPEN CLICKED".toast()
+                }
+            }).show()
     }
 
     @SuppressLint("SoonBlockedPrivateApi")
@@ -288,8 +290,7 @@ class BehaviorActivity : AppCompatActivity() {
                     it.isAccessible = true
                     Log.e(TAG, "it = ${it.name}: ${it.get(downloadManager)}")
                 }
-                val mAccessFilename: Field =
-                    downloadManager.javaClass.getDeclaredField("mAccessFilename")
+                val mAccessFilename: Field = downloadManager.javaClass.getDeclaredField("mAccessFilename")
                 mAccessFilename.isAccessible = true
                 Log.e(TAG, "before hack value is $mAccessFilename")
 
@@ -410,24 +411,22 @@ class BehaviorActivity : AppCompatActivity() {
         pickGifLauncher.launch("选择 Gif")
     }
 
-    private val pickFileLauncher =
-        registerForActivityResult(PickFileResultContract("*/*")) { result ->
-            if (result != null) {
-                val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
+    private val pickFileLauncher = registerForActivityResult(PickFileResultContract("*/*")) { result ->
+        if (result != null) {
+            val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
 //            copyUriToExternalFilesDir(result, fileName)
-                fileName.toast()
-                Log.d(TAG, "pick $fileName")
-            }
+            fileName.toast()
+            Log.d(TAG, "pick $fileName")
         }
+    }
 
-    private val pickGifLauncher =
-        registerForActivityResult(PickFileResultContract("image/gif")) { result ->
-            if (result != null) {
-                val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
+    private val pickGifLauncher = registerForActivityResult(PickFileResultContract("image/gif")) { result ->
+        if (result != null) {
+            val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
 //            copyUriToAlbumDir(this, result, fileName, "image/gif")
-                fileName.toast()
-            }
+            fileName.toast()
         }
+    }
 
     private val chooserLauncher = registerForActivityResult(ChooserResultContract()) { result ->
         if (result != null) {
@@ -455,8 +454,7 @@ class BehaviorActivity : AppCompatActivity() {
                 bos.close()
                 fos.close()
                 runOnUiThread {
-                    Toast.makeText(this, "Copy file into $tempDir succeeded.", Toast.LENGTH_LONG)
-                        .show()
+                    Toast.makeText(this, "Copy file into $tempDir succeeded.", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -497,8 +495,7 @@ class BehaviorActivity : AppCompatActivity() {
                 )
             }
             val bis = BufferedInputStream(inputStream)
-            val uri =
-                context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+            val uri = context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
             if (uri != null) {
                 val outputStream = context.contentResolver.openOutputStream(uri)
                 if (outputStream != null) {
