@@ -33,6 +33,7 @@ import com.engineer.common.contract.ChooserResultContract
 import com.engineer.common.contract.PickFileResultContract
 import com.engineer.common.utils.AndroidFileUtils
 import com.engineer.common.utils.SystemTools
+import com.google.android.material.snackbar.Snackbar
 import com.permissionx.guolindev.PermissionX
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -74,6 +75,10 @@ class BehaviorActivity : AppCompatActivity() {
         }
         val dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         Log.e(TAG, "onCreate: dir =$dir")
+
+        viewBinding.snackBar.setOnClickListener {
+            showSnackBar()
+        }
 
         viewBinding.filterWork.setOnClickListener {
             requestMediaPermission {
@@ -267,6 +272,10 @@ class BehaviorActivity : AppCompatActivity() {
             val value = Integer.parseInt(magicNum, 16)
             val valueBin = Integer.toBinaryString(value)
         }
+    }
+
+    private fun showSnackBar() {
+        Snackbar.make(viewBinding.rootScrollerView, "hello", Snackbar.LENGTH_SHORT).show()
     }
 
     @SuppressLint("SoonBlockedPrivateApi")

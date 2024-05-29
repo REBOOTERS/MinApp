@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/root_scroller_view"
     tools:context=".ui.behavior.BehaviorActivity"
     tools:ignore="HardcodedText">
 
@@ -18,6 +19,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="allow screen capture" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/snack_bar"
+            style="@style/mw_10_margin"
+            android:text="snack_bar" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/filter_work"
