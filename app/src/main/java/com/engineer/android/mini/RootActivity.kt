@@ -274,9 +274,7 @@ class RootActivity : BaseActivity() {
         if (allPermissionGranted(this, permission)) {
             return
         }
-        if (permission.isEmpty().not()) {
-            ActivityCompat.requestPermissions(this, permission.toTypedArray(), 0)
-        }
+        ActivityCompat.requestPermissions(this, permission.toTypedArray(), 0)
     }
 
     private fun allPermissionGranted(context: Context, permissions: List<String>): Boolean {

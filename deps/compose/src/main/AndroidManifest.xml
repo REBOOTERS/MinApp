@@ -2,7 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application>
+        <activity
+            android:name=".ui.GalleryActivity"
+            android:exported="false"
+            android:label="@string/title_activity_gallery"
+            android:theme="@style/Theme.MiniApp" />
         <activity
             android:name=".ui.MainComposeActivity"
             android:exported="true"
@@ -11,8 +17,8 @@
         <activity
             android:name=".ui.ChatActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/ComposeApp.Theme" />
+            android:theme="@style/ComposeApp.Theme"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

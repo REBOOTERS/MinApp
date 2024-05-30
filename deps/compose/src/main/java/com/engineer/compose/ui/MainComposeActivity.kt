@@ -81,6 +81,11 @@ fun MessageCard(msg: Message) {
         }) {
             Text(text = "open Chat")
         }
+        Button(onClick = {
+            context.startActivity(Intent(context, GalleryActivity::class.java))
+        }) {
+            Text(text = "open gallery")
+        }
         Text(text = "${count.value}")
         Row(modifier = Modifier.padding(all = 8.dp)) {
             Image(
