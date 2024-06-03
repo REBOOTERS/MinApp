@@ -2,10 +2,14 @@ package com.engineer.compose.ui
 
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,11 +45,15 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.engineer.compose.R
 import com.engineer.compose.ui.ui.theme.MiniAppTheme
+import com.engineer.compose.viewmodel.ImagePreviewPayload
 
 /**
  * https://developer.android.google.cn/jetpack/compose/tutorial
  */
+private const val TAG = "MainComposeActivity"
+
 class MainComposeActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -62,8 +70,28 @@ class MainComposeActivity : ComponentActivity() {
 data class Message(val author: String, val body: String)
 
 @Composable
-fun MessageCard(msg: Message) {
+fun SelectImageButton() {
+//    var imageUris by remember { mutableStateOf<List<Uri>>(emptyList()) }
+    val context = LocalContext.current
+    val pickImagesLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetMultipleContents(), onResult = { uris ->
+            Log.i(TAG, "uris = $uris")
+            val intent = Intent(context, GalleryActivity::class.java)
+            val list = uris.map { it.toString() }
+            val payload = ImagePreviewPayload(2, list)
+            intent.putExtra("payload", payload)
+            context.startActivity(intent)
+        })
+    Button(
+        onClick = { pickImagesLauncher.launch("image/*") },
+    ) {
+        Text(text = "Pick Images from Gallery")
+    }
 
+}
+
+@Composable
+fun MessageCard(msg: Message) {
     var text by rememberSaveable { mutableStateOf("") }
     val count = remember { mutableIntStateOf(0) }
     Column {
@@ -86,6 +114,7 @@ fun MessageCard(msg: Message) {
         }) {
             Text(text = "open gallery")
         }
+        SelectImageButton()
         Text(text = "${count.value}")
         Row(modifier = Modifier.padding(all = 8.dp)) {
             Image(
@@ -103,8 +132,7 @@ fun MessageCard(msg: Message) {
             }
         }
 
-        OutlinedTextField(
-            value = text,
+        OutlinedTextField(value = text,
             onValueChange = { text = it },
             label = { Text("输入消息") },
             modifier = Modifier

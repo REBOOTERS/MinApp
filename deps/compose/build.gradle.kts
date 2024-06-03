@@ -63,6 +63,7 @@ dependencies {
     api(libs.androidx.material3)
     // Image for net
     implementation(libs.coil.compose)
+    implementation("io.coil-kt:coil-gif:2.6.0")
     implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
