@@ -17,6 +17,10 @@ import com.engineer.android.mini.ui.adapter.GifAdapter
 import com.engineer.android.mini.ui.adapter.GifAdapterAnnotation
 import com.engineer.android.mini.ui.viewmodel.CursorQueryViewModel
 import com.engineer.common.utils.SystemTools
+import com.google.android.flexbox.AlignItems
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.concurrent.thread
@@ -60,7 +64,13 @@ class PictureBottomDialog(val type: GalleryType) : BaseBottomSheetDialog() {
         adapter = if (type == GalleryType.GIF) gifAdapter else albumAdapter
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         val columns = 3
-        recyclerView.layoutManager = GridLayoutManager(context, columns)
+
+        val flexboxLayoutManager = FlexboxLayoutManager(context).apply {
+            flexWrap = FlexWrap.WRAP
+            flexDirection = FlexDirection.ROW
+            alignItems = AlignItems.STRETCH
+        }
+        recyclerView.layoutManager = flexboxLayoutManager
         recyclerView.adapter = adapter
 
         cursorQueryViewModel.imageResults.observe(this) {

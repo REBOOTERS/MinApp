@@ -19,12 +19,12 @@ import com.engineer.android.mini.util.ImageUtils
 import com.engineer.common.utils.AndroidFileUtils
 import com.engineer.common.utils.SystemTools
 import com.engineer.common.utils.PictureInfoUtil
+import com.google.android.flexbox.FlexboxLayoutManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.FragmentComponent
 import dagger.hilt.android.qualifiers.ActivityContext
-import pl.droidsonroids.gif.GifDrawable
 import pl.droidsonroids.gif.GifImageView
 import java.io.File
 import javax.inject.Qualifier
@@ -69,11 +69,12 @@ object AlbumAdapterProvider {
     }
 }
 
-class AlbumAdapter(val context: Context, val imageList: ArrayList<Uri>, val imageSize: Int) :
+class AlbumAdapter(val context: Context, private val imageList: ArrayList<Uri>, val imageSize: Int) :
     RecyclerView.Adapter<AlbumAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.imageView)
+        val lp = imageView.layoutParams
         val tv: TextView = view.findViewById(R.id.info)
     }
 
@@ -85,10 +86,20 @@ class AlbumAdapter(val context: Context, val imageList: ArrayList<Uri>, val imag
     override fun getItemCount() = imageList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.imageView.layoutParams.width = imageSize
-        holder.imageView.layoutParams.height = imageSize
+//        holder.imageView.layoutParams.width = imageSize
+//        holder.imageView.layoutParams.height = imageSize
+        if (holder.lp is FlexboxLayoutManager.LayoutParams) {
+            holder.lp.flexGrow = 1f
+        }
+
+        val lp = holder.itemView.layoutParams
+        if (lp is FlexboxLayoutManager.LayoutParams) {
+            lp.flexGrow = 1f
+        }
+
         val uri = imageList[position]
-        val options = RequestOptions().placeholder(R.drawable.album_loading_bg).override(imageSize, imageSize)
+//        val options = RequestOptions().placeholder(R.drawable.album_loading_bg).override(imageSize, imageSize)
+        val options = RequestOptions().placeholder(R.drawable.album_loading_bg)
 
         val bitmapOptions = BitmapFactory.Options()
         bitmapOptions.inJustDecodeBounds = true
@@ -96,7 +107,7 @@ class AlbumAdapter(val context: Context, val imageList: ArrayList<Uri>, val imag
         val bitmap = BitmapFactory.decodeStream(inputStream, null, bitmapOptions)
         val w = bitmapOptions.outWidth
         val h = bitmapOptions.outHeight
-        Log.e("AlbumAdapter", "w=$w,h=$h")
+        Log.e("AlbumAdapter", "w=$w,h=$h,uri=$uri")
         holder.tv.text = "w=$w,h=$h"
         Glide.with(context).load(uri).apply(options).into(holder.imageView)
 
@@ -125,11 +136,14 @@ class AlbumAdapter(val context: Context, val imageList: ArrayList<Uri>, val imag
 
 }
 
-class GifAdapter(val context: Context, val imageList: ArrayList<Uri>, val imageSize: Int) :
+class GifAdapter(val context: Context, private val imageList: ArrayList<Uri>, val imageSize: Int) :
     RecyclerView.Adapter<GifAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: GifImageView = view.findViewById(R.id.imageView)
+        val lp = imageView.layoutParams
+
+
         val tv: TextView = view.findViewById(R.id.info)
     }
 
@@ -141,8 +155,12 @@ class GifAdapter(val context: Context, val imageList: ArrayList<Uri>, val imageS
     override fun getItemCount() = imageList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.imageView.layoutParams.width = imageSize
-        holder.imageView.layoutParams.height = imageSize
+//        holder.imageView.layoutParams.width = imageSize
+//        holder.imageView.layoutParams.height = imageSize
+
+        if (holder.lp is FlexboxLayoutManager.LayoutParams) {
+            holder.lp.flexGrow = 1f
+        }
         val uri = imageList[position]
         val path = AndroidFileUtils.getFilePathByUri(context, uri)
         Log.e("GifAdapter", "uri is $uri ,path = $path")
