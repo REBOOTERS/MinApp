@@ -86,11 +86,9 @@ class AlbumAdapter(val context: Context, private val imageList: ArrayList<Uri>, 
     override fun getItemCount() = imageList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        holder.imageView.layoutParams.width = imageSize
-//        holder.imageView.layoutParams.height = imageSize
-        if (holder.lp is FlexboxLayoutManager.LayoutParams) {
-            holder.lp.flexGrow = 1f
-        }
+        holder.imageView.layoutParams.width = imageSize
+        holder.imageView.layoutParams.height = imageSize
+
 
         val lp = holder.itemView.layoutParams
         if (lp is FlexboxLayoutManager.LayoutParams) {
@@ -98,8 +96,8 @@ class AlbumAdapter(val context: Context, private val imageList: ArrayList<Uri>, 
         }
 
         val uri = imageList[position]
-//        val options = RequestOptions().placeholder(R.drawable.album_loading_bg).override(imageSize, imageSize)
-        val options = RequestOptions().placeholder(R.drawable.album_loading_bg)
+        val options = RequestOptions().placeholder(R.drawable.album_loading_bg).override(imageSize, imageSize)
+//        val options = RequestOptions().placeholder(R.drawable.album_loading_bg)
 
         val bitmapOptions = BitmapFactory.Options()
         bitmapOptions.inJustDecodeBounds = true
@@ -119,17 +117,18 @@ class AlbumAdapter(val context: Context, private val imageList: ArrayList<Uri>, 
                     Log.i("ImageUtils", "ignore $p")
                     return@setOnClickListener
                 }
-                PictureInfoUtil.printExifInfo(p)
-                Log.i("ImageUtils", "start handle $p")
-                val result = ImageUtils.compressImageToSize(p, 400)
-                val targetPath = context.cacheDir.absolutePath + File.separator + "400_kb.jpg"
-                if (ImageUtils.saveByteArrayToFile(result, targetPath)) {
-                    "save success".toast()
-                    Log.i("ImageUtils", "save success")
-                } else {
-                    "save fail".toast()
-                    Log.i("ImageUtils", "save fail")
-                }
+                GifPlayerActivity.launch(it.context, path)
+//                PictureInfoUtil.printExifInfo(p)
+//                Log.i("ImageUtils", "start handle $p")
+//                val result = ImageUtils.compressImageToSize(p, 400)
+//                val targetPath = context.cacheDir.absolutePath + File.separator + "400_kb.jpg"
+//                if (ImageUtils.saveByteArrayToFile(result, targetPath)) {
+//                    "save success".toast()
+//                    Log.i("ImageUtils", "save success")
+//                } else {
+//                    "save fail".toast()
+//                    Log.i("ImageUtils", "save fail")
+//                }
             }
         }
     }

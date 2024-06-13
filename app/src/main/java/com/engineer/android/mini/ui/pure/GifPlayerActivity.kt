@@ -5,7 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.engineer.android.mini.R
+import com.engineer.android.mini.ext.gone
+import com.engineer.android.mini.ext.show
 import pl.droidsonroids.gif.GifImageView
 
 class GifPlayerActivity : AppCompatActivity() {
@@ -23,9 +27,18 @@ class GifPlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gif_player)
-        val path = intent.getStringExtra(URI_PATH)
-        val uri = Uri.parse(path)
+
         val gifImageView: GifImageView = findViewById(R.id.gif_imageView)
-        gifImageView.setImageURI(uri)
+        val iv: ImageView = findViewById(R.id.iv)
+        val path = intent.getStringExtra(URI_PATH)
+        if (path?.endsWith(".gif") == true) {
+            val uri = Uri.parse(path)
+            gifImageView.setImageURI(uri)
+            gifImageView.show()
+        } else {
+            iv.show()
+            Glide.with(this).load(path).into(iv)
+        }
+
     }
 }

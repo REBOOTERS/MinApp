@@ -16,6 +16,14 @@ fun View?.resizeMarginTop(top: Int = 0) {
     this?.visibility
 }
 
+fun View?.gone() {
+    this?.visibility = View.GONE
+}
+
+fun View?.show() {
+    this?.visibility = View.VISIBLE
+}
+
 fun View?.resizeWidthWithDp(width: Int) {
     this?.let {
         val params = this.layoutParams
