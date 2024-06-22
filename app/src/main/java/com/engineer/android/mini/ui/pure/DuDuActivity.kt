@@ -28,6 +28,10 @@ import androidx.appcompat.widget.AppCompatImageView
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.TypeReference
 import com.engineer.android.mini.R
+import com.engineer.android.mini.ext.dp
+import com.engineer.android.mini.ext.px
+import com.engineer.android.mini.ui.widget.CustomRoundedImageView
+import com.engineer.android.mini.ui.widget.CustomRoundedImageViewJava
 import com.engineer.android.mini.ui.widget.RecommendWidget
 import com.engineer.android.mini.ui.widget.VoteWidget
 import com.engineer.common.utils.AndroidFileUtils
@@ -111,6 +115,13 @@ class DuDuActivity : AppCompatActivity() {
         window.apply {
             setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         }
+
+        val customRound: CustomRoundedImageView = findViewById(R.id.custom_round)
+        val dp20 = 20f
+        val dp0 = 0f
+        customRound.setCornerRadii(dp20, dp0, dp20, dp0)
+        val customRoundJava: CustomRoundedImageViewJava = findViewById(R.id.custom_round_java)
+        customRoundJava.setCornerRadii(dp20, dp0, dp20, dp0)
 
         var running = false
         val loadingTv = findViewById<TextView>(R.id.loading_tv)

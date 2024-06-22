@@ -10,110 +10,128 @@
     <com.engineer.android.mini.ui.pure.MyView
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_marginTop="100dp"
         android:background="#FFEB3B"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="100dp"
-        android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
-
-        <com.engineer.android.mini.ui.widget.RecommendWidget
-            android:id="@+id/recommend_widget"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp" />
-
-        <com.engineer.android.mini.ui.widget.VoteWidget
-            android:id="@+id/vote_widget"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/loading_tv"
+            <com.engineer.android.mini.ui.widget.CustomRoundedImageView
+                android:id="@+id/custom_round"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/bot" />
+            <com.engineer.android.mini.ui.widget.CustomRoundedImageViewJava
+                android:id="@+id/custom_round_java"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/bot" />
+
+            <com.engineer.android.mini.ui.widget.RecommendWidget
+                android:id="@+id/recommend_widget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp" />
+
+            <com.engineer.android.mini.ui.widget.VoteWidget
+                android:id="@+id/vote_widget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="..."
-                tools:text="@string/app_name" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/loading_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="..."
+                    tools:text="@string/app_name" />
+
+                <Button
+                    android:id="@+id/loading_control"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="start" />
+
+            </LinearLayout>
 
             <Button
-                android:id="@+id/loading_control"
+                android:id="@+id/test_t"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="test_t"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/test_usage_manager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="test_usage_manager"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="start" />
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:hint="input some thing" />
+
+            <LinearLayout
+                android:id="@+id/gradient_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/gradient"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="#80FF00" />
+
+                <TextView
+                    android:id="@+id/gradient1"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="#80FF00" />
+
+                <TextView
+                    android:id="@+id/gradient2"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="#80FF00" />
+            </LinearLayout>
+
 
         </LinearLayout>
-
-        <Button
-            android:id="@+id/test_t"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="test_t"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/test_usage_manager"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="test_usage_manager"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:hint="input some thing" />
-
-        <LinearLayout
-            android:id="@+id/gradient_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:paddingBottom="10dp">
-
-            <TextView
-                android:id="@+id/gradient"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="#80FF00" />
-
-            <TextView
-                android:id="@+id/gradient1"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="#80FF00" />
-
-            <TextView
-                android:id="@+id/gradient2"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="#80FF00" />
-        </LinearLayout>
-
-
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

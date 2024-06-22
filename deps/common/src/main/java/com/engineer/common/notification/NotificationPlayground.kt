@@ -49,9 +49,12 @@ class PoorNotification(
 
 
         return NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_baseline_notifications_24).setContentTitle(title)
-            .setContentText(content).setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(pendingIntent).setAutoCancel(true)
+            .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+            .setContentTitle(title)
+            .setContentText(content)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
     }
 
 }
@@ -321,7 +324,7 @@ object NotificationHelper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = builder.provideChannelName()
             val descriptionText = builder.provideChannelDesc()
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(builder.provideChannelId(), name, importance).apply {
                 description = descriptionText
                 vibrationPattern = longArrayOf(1, 0, 1)
@@ -365,7 +368,10 @@ object NotificationHelper {
 
     fun updateProgress(context: Context, progress: Int) {
         if (progress < 100) {
-            builder.setProgress(100, progress, false)
+            builder
+                .setContentText(progress.toString())
+                .setContentTitle("下载---")
+                .setProgress(100, progress, false)
         } else {
             builder.setContentText("下载完成").setProgress(0, 0, false)
         }
