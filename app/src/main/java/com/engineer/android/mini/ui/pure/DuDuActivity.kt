@@ -117,7 +117,7 @@ class DuDuActivity : AppCompatActivity() {
         }
 
         val customRound: CustomRoundedImageView = findViewById(R.id.custom_round)
-        val dp20 = 20f
+        val dp20 = 20.dp.toFloat()
         val dp0 = 0f
         customRound.setCornerRadii(dp20, dp0, dp20, dp0)
         val customRoundJava: CustomRoundedImageViewJava = findViewById(R.id.custom_round_java)

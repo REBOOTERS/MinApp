@@ -12,10 +12,10 @@ import androidx.appcompat.widget.AppCompatImageView
 class CustomRoundedImageView : AppCompatImageView {
     private val paint = Paint()
     private val path = Path()
-    private var topLeftRadius = 0f
-    private var topRightRadius = 0f
-    private var bottomLeftRadius = 0f
-    private var bottomRightRadius = 0f
+    private var topLeftRadius = 120f
+    private var topRightRadius = 120f
+    private var bottomLeftRadius = 120f
+    private var bottomRightRadius = 120f
 
     constructor(context: Context?) : super(context!!) {
         init()
@@ -35,8 +35,8 @@ class CustomRoundedImageView : AppCompatImageView {
         paint.isAntiAlias = true
         paint.isFilterBitmap = true
 
-        paint.color  = Color.RED
-        paint.strokeWidth = 10f
+        paint.color = Color.RED
+        paint.strokeWidth = 5f
         paint.style = Paint.Style.STROKE
     }
 
@@ -44,20 +44,49 @@ class CustomRoundedImageView : AppCompatImageView {
         super.onSizeChanged(w, h, oldw, oldh)
 
         // 定义绘制路径
-        path.reset()
-        path.moveTo(0 + topLeftRadius, 0f)
-        path.arcTo(RectF(0f, 0f, topLeftRadius * 2, topLeftRadius * 2), -90f, 90f) // 左上角
-//        path.lineTo(width - topRightRadius, 0f)
-//        path.arcTo(RectF(width - topRightRadius * 2, 0f, width.toFloat(), topRightRadius * 2), -180f, 90f) // 右上角
-//        path.lineTo(width.toFloat(), height - bottomRightRadius)
-//        path.arcTo(
-//            RectF(
-//                width - bottomRightRadius * 2, height - bottomRightRadius * 2, width.toFloat(), height.toFloat()
-//            ), 0f, 90f
-//        ) // 右下角
-//        path.lineTo(bottomLeftRadius, height.toFloat())
-//        path.arcTo(RectF(0f, height - bottomLeftRadius * 2, bottomLeftRadius * 2, height.toFloat()), 90f, 90f) // 左下角
-//        path.close()
+
+        // 定义绘制路径
+        path.reset() // 重置路径
+
+
+        // 左上角开始
+        path.moveTo(0f, topLeftRadius) // 移动到左上角的圆角开始位置
+        path.arcTo(RectF(0f, 0f, topLeftRadius * 2, topLeftRadius * 2), 180f, 90f) // 左上角圆弧
+
+
+        // 右上角
+        path.lineTo(width - topRightRadius, 0f) // 移动到右上角的开始位置
+        path.arcTo(
+            RectF(width - topRightRadius * 2, 0f, width.toFloat(), topRightRadius * 2),
+            270f,
+            90f
+        ) // 右上角圆弧
+
+
+        // 右下角
+        path.lineTo(width.toFloat(), height - bottomRightRadius) // 移动到右下角的开始位置
+        path.arcTo(
+            RectF(
+                width - bottomRightRadius * 2,
+                height - bottomRightRadius * 2,
+                width.toFloat(),
+                height.toFloat()
+            ), 0f, 90f
+        ) // 右下角圆弧
+
+
+        // 左下角
+        path.lineTo(bottomLeftRadius, height.toFloat()) // 移动到左下角的开始位置
+        path.arcTo(
+            RectF(0f, height - bottomLeftRadius * 2, bottomLeftRadius * 2, height.toFloat()),
+            90f,
+            90f
+        ) // 左下角圆弧
+
+
+        // 闭合路径
+        path.close() // 关闭路径
+
 
     }
 
@@ -65,10 +94,12 @@ class CustomRoundedImageView : AppCompatImageView {
         canvas.save()
 
         // 应用路径
-        canvas.drawPath(path,paint)
-//        canvas.clipPath(path)
+
+        canvas.clipPath(path)
         // 绘制ImageView中的图片
-//        super.onDraw(canvas)
+        super.onDraw(canvas)
+
+        canvas.drawPath(path, paint)
         // 恢复画布状态
         canvas.restore()
     }

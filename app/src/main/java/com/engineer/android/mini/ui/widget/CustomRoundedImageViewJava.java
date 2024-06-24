@@ -40,16 +40,26 @@ public class CustomRoundedImageViewJava extends AppCompatImageView {
         super.onSizeChanged(w, h, oldw, oldh);
 
         // 定义绘制路径
-        path.reset();
-        path.moveTo(0 + topLeftRadius, 0);
-        path.arcTo(new RectF(0, 0, topLeftRadius * 2, topLeftRadius * 2), -90, 90); // 左上角
-        path.lineTo(getWidth() - topRightRadius, 0);
-        path.arcTo(new RectF(getWidth() - topRightRadius * 2, 0, getWidth(), topRightRadius * 2), -180, 90); // 右上角
-        path.lineTo(getWidth(), getHeight() - bottomRightRadius);
-        path.arcTo(new RectF(getWidth() - bottomRightRadius * 2, getHeight() - bottomRightRadius * 2, getWidth(), getHeight()), 0, 90); // 右下角
-        path.lineTo(bottomLeftRadius, getHeight());
-        path.arcTo(new RectF(0, getHeight() - bottomLeftRadius * 2, bottomLeftRadius * 2, getHeight()), 90, 90); // 左下角
-        path.close();
+        path.reset(); // 重置路径
+
+        // 左上角开始
+        path.moveTo(0, topLeftRadius); // 移动到左上角的圆角开始位置
+        path.arcTo(new RectF(0, 0, topLeftRadius * 2, topLeftRadius * 2), 180, 90); // 左上角圆弧
+
+        // 右上角
+        path.lineTo(getWidth() - topRightRadius, 0); // 移动到右上角的开始位置
+        path.arcTo(new RectF(getWidth() - topRightRadius * 2, 0, getWidth(), topRightRadius * 2), 270, 90); // 右上角圆弧
+
+        // 右下角
+        path.lineTo(getWidth(), getHeight() - bottomRightRadius); // 移动到右下角的开始位置
+        path.arcTo(new RectF(getWidth() - bottomRightRadius * 2, getHeight() - bottomRightRadius * 2, getWidth(), getHeight()), 0, 90); // 右下角圆弧
+
+        // 左下角
+        path.lineTo(bottomLeftRadius, getHeight()); // 移动到左下角的开始位置
+        path.arcTo(new RectF(0, getHeight() - bottomLeftRadius * 2, bottomLeftRadius * 2, getHeight()), 90, 90); // 左下角圆弧
+
+        // 闭合路径
+        path.close(); // 关闭路径
     }
 
     @Override

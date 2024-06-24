@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00BCD4"
+    android:background="#1700BCD4"
     tools:context=".ui.pure.DuDuActivity">
 
     <com.engineer.android.mini.ui.pure.MyView
