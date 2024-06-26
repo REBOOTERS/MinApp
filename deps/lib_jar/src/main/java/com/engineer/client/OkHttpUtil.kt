@@ -7,23 +7,35 @@ import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import okhttp3.internal.platform.Platform
 import okhttp3.internal.sse.RealEventSource
 import okhttp3.sse.EventSource
 import okhttp3.sse.EventSourceListener
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
+import java.util.Objects
 
 fun main() {
-    OkHttpUtil.sseHandler<SSResponse> {
-        println(it.event)
-    }
-
+    sseCall()
 //    OkHttpUtil.asyncCall()
 }
 
+private fun sseCall() {
+    val sb = StringBuilder()
+    OkHttpUtil.sseHandler<SSResponse> { it, k ->
+        if (it != null) {
+            sb.append(it.event.data)
+        }
+        log(sb.toString())
+        if (Objects.isNull(k).not()) {
+            log(k!!)
+        }
+    }
+}
+
 data class SSEResult(val id: String, val data: String)
-data class SSResponse(val code: Int, val message: String, val event: SSEResult)
+data class SSResponse(val code: Int, val message: String, val isEnd: Boolean, val event: SSEResult)
 
 /**
  * Created on 2021/5/2.
@@ -36,11 +48,11 @@ object OkHttpUtil {
     val request = Request.Builder().url(this.url).build()
 
 
-    val client = OkHttpClient.Builder().addInterceptor {
-        println("request is ${it.request()}")
+    val client = OkHttpClient.Builder().addInterceptor(NetInterceptor()).addInterceptor {
+        log("request is ${it.request()}")
         val response = it.proceed(it.request())
-        println("response body header \n${response.headers}")
-        println("response body length ${response.body?.contentLength()}")
+        log("response body header \n${response.headers}")
+        log("response body length ${response.body?.contentLength()}")
         response
     }.build()
 
@@ -48,7 +60,7 @@ object OkHttpUtil {
         this.url = url
     }
 
-    inline fun <reified T> sseHandler(noinline callback: ((T) -> Unit)? = null) {
+    inline fun <reified T> sseHandler(noinline callback: ((T?, String?) -> Unit)? = null) {
         val TAG = "OkHttpUtil"
         val sseListener = object : EventSourceListener() {
             override fun onOpen(eventSource: EventSource, response: Response) {
@@ -63,13 +75,12 @@ object OkHttpUtil {
             ) {
                 super.onEvent(eventSource, id, type, data)
 //                log(
-//                    TAG,
-//                    "onEvent() called with: id = $id, type = $type, data = $data"
+//                    TAG, "onEvent() called with: id = $id, type = $type, data = $data"
 //                )
 
                 val result = jsonToObj<T>(data)
                 result?.let {
-                    callback?.invoke(it)
+                    callback?.invoke(it, null)
                 }
             }
 
@@ -79,11 +90,13 @@ object OkHttpUtil {
                     TAG,
                     "onFailure() called with: eventSource = $eventSource, t = $t, response = $response"
                 )
+                callback?.invoke(null, t?.message ?: "")
             }
 
             override fun onClosed(eventSource: EventSource) {
                 super.onClosed(eventSource)
                 log(TAG, "onClosed() called with: eventSource = $eventSource")
+                callback?.invoke(null, "closed")
             }
         }
         val eventSource = RealEventSource(request, sseListener)
@@ -95,20 +108,20 @@ object OkHttpUtil {
         val call: Call = client.newCall(request)
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                println("onFailure() called with: call = $call, e = $e")
+                log("onFailure() called with: call = $call, e = $e")
                 if (call.isCanceled().not()) {
                     call.cancel()
                 }
             }
 
             override fun onResponse(call: Call, response: Response) {
-                println("onResponse() called with: call = $call, response = $response")
+                log("onResponse() called with: call = $call, response = $response")
 
                 response.body?.let {
                     val reader = BufferedReader(InputStreamReader(it.byteStream()))
                     var line = reader.readLine()
                     while (line != null) {
-                        println(line)
+                        log(line)
                         line = reader.readLine()
                     }
                 }
@@ -118,13 +131,22 @@ object OkHttpUtil {
     }
 
 
-    fun log(tag: String, msg: String) {
-        println("$tag:$msg")
-    }
-
     inline fun <reified T> jsonToObj(json: String): T? {
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
         val adapter = moshi.adapter(T::class.java)
         return adapter.fromJson(json)
     }
+}
+
+fun log(tag: String, msg: String) {
+    if (tag != "") {
+        println("$tag:$msg")
+    } else {
+        println(msg)
+    }
+//    Platform.get().log("$tag:$msg")
+}
+
+fun log(msg: String) {
+    log("", msg)
 }
