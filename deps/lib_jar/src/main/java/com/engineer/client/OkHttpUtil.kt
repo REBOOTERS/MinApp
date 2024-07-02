@@ -48,13 +48,16 @@ object OkHttpUtil {
     val request = Request.Builder().url(this.url).build()
 
 
-    val client = OkHttpClient.Builder().addInterceptor(NetInterceptor()).addInterceptor {
-        log("request is ${it.request()}")
+    val client = OkHttpClient.Builder().addInterceptor {
+        log("request is ${it.request().method}")
+        log("request is2 ${it.request().body?.isDuplex()}")
+        log("request is3 ${it.request().body?.isOneShot()}")
         val response = it.proceed(it.request())
         log("response body header \n${response.headers}")
         log("response body length ${response.body?.contentLength()}")
         response
-    }.build()
+    }.addInterceptor(NetInterceptor())
+        .build()
 
     fun init(url: String) {
         this.url = url
