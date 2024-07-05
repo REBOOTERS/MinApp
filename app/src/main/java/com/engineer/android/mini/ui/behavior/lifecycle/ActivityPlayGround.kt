@@ -12,6 +12,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.setMargins
@@ -433,6 +434,7 @@ class ActivityG : BaseLifeActivity() {
         val frameLayout = FrameLayout(this)
         frameLayout.setBackgroundColor(randomColor())
         val inputEditText = EditText(this)
+        inputEditText.inputType = EditorInfo.IME_ACTION_SEARCH
         val param = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.WRAP_CONTENT

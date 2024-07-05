@@ -76,6 +76,9 @@ class BehaviorActivity : AppCompatActivity() {
         val dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         Log.e(TAG, "onCreate: dir =$dir")
 
+        viewBinding.markdown.setOnClickListener {
+            gotoActivity(MDActivity::class.java)
+        }
         viewBinding.snackBar.setOnClickListener {
             showSnackBar()
         }

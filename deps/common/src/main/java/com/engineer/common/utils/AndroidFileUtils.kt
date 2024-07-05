@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.text.TextUtils
 import org.apache.commons.io.FilenameUtils
 import java.io.BufferedOutputStream
 import java.io.BufferedReader
@@ -55,7 +56,11 @@ object AndroidFileUtils {
             inputStream = context.assets.open(filename)
             br = BufferedReader(InputStreamReader(inputStream))
             while (br.readLine().also { line = it } != null) {
-                sb.append(line)
+                if (TextUtils.isEmpty(line)) {
+                    sb.append("\n\n")
+                } else{
+                    sb.append(line).append("\n")
+                }
             }
             result = sb.toString()
         } catch (e: FileNotFoundException) {

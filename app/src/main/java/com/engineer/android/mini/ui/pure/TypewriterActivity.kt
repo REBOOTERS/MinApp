@@ -14,6 +14,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.engineer.android.mini.R
+import com.engineer.android.mini.util.TypewriterHelper
 import java.util.concurrent.LinkedBlockingQueue
 
 class TypewriterActivity : AppCompatActivity() {
@@ -44,60 +45,14 @@ class TypewriterActivity : AppCompatActivity() {
         }
 
         tv = findViewById(R.id.tv)
-        TypewriterHelper.start {
+        TypewriterHelper.start { it, i ->
             tv.text = it
         }
     }
 }
 
-object TypewriterHelper {
-    private val handler = Handler(Looper.getMainLooper())
-    private val messageQueue = LinkedBlockingQueue<String>()
-
-    private var callback: ((String) -> Unit)? = null
-
-    private var lastText = ""
-    private var end = false
-
-    private val typewriterRunnable = object : Runnable {
-        override fun run() {
-
-            val message = messageQueue.poll()
-            Log.i("TypewriterActivity", "message is $message")
-            if (message != null) {
-                val currentText = lastText
-                val newText = currentText + message
-                lastText = newText
-                callback?.invoke(lastText)
-                if (messageQueue.isEmpty() && end) {
-                    lastText = ""
-                    end = false
-                }
-            }
-            handler.postDelayed(this, TYPING_DELAY)
-        }
-    }
-
-    fun start(cb: (String) -> Unit) {
-        if (callback == null) {
-            callback = cb
-            handler.post(typewriterRunnable)
-        }
-    }
-
-    fun addMessage(message: String, end: Boolean) {
-        this.end = end
-        messageQueue.offer(message)
-    }
-
-    fun reset() {
-        lastText = ""
-    }
-
-    private const val TYPING_DELAY = 50L
-}
-
-class TypewriterTextView(context: Context, attrs: AttributeSet) : AppCompatTextView(context, attrs) {
+class TypewriterTextView(context: Context, attrs: AttributeSet) :
+    AppCompatTextView(context, attrs) {
 
     private val handler = Handler(Looper.getMainLooper())
     private val messageQueue = LinkedBlockingQueue<String>()

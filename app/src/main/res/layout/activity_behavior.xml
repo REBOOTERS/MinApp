@@ -21,6 +21,11 @@
             android:text="allow screen capture" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/markdown"
+            style="@style/mw_10_margin"
+            android:text="markdown" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/snack_bar"
             style="@style/mw_10_margin"
             android:text="snack_bar" />
