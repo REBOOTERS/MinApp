@@ -369,8 +369,9 @@ object NotificationHelper {
     fun updateProgress(context: Context, progress: Int) {
         if (progress < 100) {
             builder
-                .setContentText(progress.toString())
-                .setContentTitle("下载---")
+                .setContentText("已完成${progress}%")
+                .setSubText("哈哈")
+                .setContentInfo("info在这里")
                 .setProgress(100, progress, false)
         } else {
             builder.setContentText("下载完成").setProgress(0, 0, false)

@@ -6,6 +6,7 @@
     <application>
         <service
             android:name=".notification.MyForegroundService"
+            android:foregroundServiceType="mediaProjection"
             android:exported="false" />
         <service
             android:name=".notification.MyBackgroundProcess"
