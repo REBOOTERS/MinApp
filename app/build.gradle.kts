@@ -97,7 +97,7 @@ android {
         aidl = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.8"
     }
     lint {
         checkReleaseBuilds = false
