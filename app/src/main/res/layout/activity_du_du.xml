@@ -33,6 +33,7 @@
                 android:layout_height="200dp"
                 android:layout_margin="10dp"
                 android:src="@drawable/bot" />
+
             <com.engineer.android.mini.ui.widget.CustomRoundedImageViewJava
                 android:id="@+id/custom_round_java"
                 android:layout_width="200dp"
@@ -132,6 +133,26 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <View
+        android:id="@+id/centerView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="50dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/circleView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorAccent"
+        app:layout_constraintCircle="@+id/centerView"
+        app:layout_constraintCircleAngle="45"
+        app:layout_constraintCircleRadius="50dp"
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
