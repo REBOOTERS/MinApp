@@ -15,6 +15,7 @@ import com.engineer.android.mini.util.ImageUtils
 
 class CornerViewActivity : BaseActivity() {
 
+
     private lateinit var realBinding: ActivityCornerViewBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -69,6 +69,7 @@ class PureUIActivity : BaseActivity() {
 //        realBinding.root.layoutParams = p
 
         TransitionManager.beginDelayedTransition(realBinding.rootContent)
+        realBinding.cropView.setOnClickListener { gotoActivity(CropActivity::class.java) }
         realBinding.roundCorner.setOnClickListener { gotoActivity(CornerViewActivity::class.java) }
         realBinding.viewPage2Test.setOnClickListener { gotoActivity(TabsActivity::class.java) }
         realBinding.materialDesign3.setOnClickListener { gotoActivity(MD3Activity::class.java) }

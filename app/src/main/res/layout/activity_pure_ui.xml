@@ -79,6 +79,11 @@
             app:flexWrap="wrap">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/crop_view"
+                style="@style/ww_10_margin"
+                android:text="crop_view" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/round_corner"
                 style="@style/ww_10_margin"
                 android:text="round_corner" />

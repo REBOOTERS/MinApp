@@ -26,6 +26,7 @@ import com.engineer.android.mini.databinding.ActivityBehaviorBinding
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.jetpack.work.FilterActivity
+import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.fragments.GalleryType
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
 import com.engineer.android.mini.ui.pure.MessyActivity
@@ -57,7 +58,7 @@ private const val TAG = "BehaviorActivity_TAG"
  */
 
 @AndroidEntryPoint
-class BehaviorActivity : AppCompatActivity() {
+class BehaviorActivity : BaseActivity() {
     private lateinit var viewBinding: ActivityBehaviorBinding
     private val mainScope = MainScope()
 
@@ -520,18 +521,5 @@ class BehaviorActivity : AppCompatActivity() {
         }
 
 
-    }
-
-    private fun requestMediaPermission(trigger: () -> Unit) {
-        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            listOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)
-        } else {
-            listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        }
-        PermissionX.init(this).permissions(permission).request { allGranted, _, _ ->
-            if (allGranted) {
-                trigger()
-            }
-        }
     }
 }

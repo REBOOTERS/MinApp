@@ -4,13 +4,19 @@ import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.R
+import com.engineer.android.mini.jetpack.work.FilterActivity
+import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.common.widget.cropper.CropImageView
 import java.io.File
+import java.io.InputStream
 
-class CropActivity : AppCompatActivity() {
-    private val TAG = "CropActivity"
+class CropActivity : BaseActivity() {
+
     private var currentRect: Rect = Rect(0, 0, 0, 0)
     private var x = 0
     private var y = 0
@@ -20,15 +26,26 @@ class CropActivity : AppCompatActivity() {
     private var outPath =
         "/storage/emulated/0/DCIM/InsTakeDownloader/angieharmon_20200601_125317_${System.currentTimeMillis()}.jpg"
 
+    private lateinit var cropImage: CropImageView
+
+    private val pickPictureCallback =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri == null) Log.e(TAG, "Invalid input image Uri.")
+            else {
+                Log.i(TAG, "uri = $uri")
+                cropImage.setImageUriAsync(uri)
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crop)
 
-        val cropImage = findViewById<CropImageView>(R.id.cropImageView)
+        cropImage = findViewById(R.id.cropImageView)
 //        cropImage.imageResource = R.drawable.wallpaper_portrait
-        val bitmap =
-            BitmapFactory.decodeFile("/storage/emulated/0/DCIM/InsTakeDownloader/angieharmon_20200601_125317_2.jpg")
-        cropImage.setImageBitmap(bitmap)
+//        val bitmap =
+//            BitmapFactory.decodeFile("/storage/emulated/0/DCIM/InsTakeDownloader/angieharmon_20200601_125317_2.jpg")
+//        cropImage.setImageBitmap(bitmap)
 
         cropImage.setOnSetCropOverlayMovedListener {
             Log.d(TAG, "onCreate() called $it")
@@ -40,6 +57,11 @@ class CropActivity : AppCompatActivity() {
             currentRect = it
         }
 
+        findViewById<View>(R.id.select_img).setOnClickListener {
+            requestMediaPermission {
+                pickPictureCallback.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
+        }
 
 
 //        RxFFmpegInvoke.getInstance().setDebug(true);
