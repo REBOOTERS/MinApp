@@ -18,6 +18,8 @@ import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.viewmodel.RecyclerViewModel
+import com.engineer.android.mini.util.BindingClosure
+import com.engineer.android.mini.util.bind
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import java.util.Locale
@@ -58,6 +60,35 @@ class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
 
             viewBinding.seekbar.max = adapter.itemCount - 1
         }
+        val datas: ArrayList<String> = ArrayList()
+
+        recyclerView.bind(datas, R.layout.list_item_avatar, object : (View, String, Int) -> Unit {
+            override fun invoke(p1: View, item: String, position: Int) {
+                val title: TextView = p1.findViewById(R.id.title_tv)
+                val index: TextView = p1.findViewById(R.id.index_tv)
+
+                title.text = item
+                index.text = position.toString()
+            }
+        })
+
+        recyclerView.bind(datas).map(R.layout.list_item, object : (String, Int) -> Boolean {
+                override fun invoke(p1: String, p2: Int): Boolean {
+                    return p2 < 5
+                }
+            }, object : (View, String, Int) -> Unit {
+                override fun invoke(p1: View, p2: String, p3: Int) {
+                    // view 和数据绑定
+                }
+            }).map(R.layout.list_item_avatar, object : (String, Int) -> Boolean {
+                override fun invoke(p1: String, p2: Int): Boolean {
+                    return p2 >= 5
+                }
+            }, object : (View, String, Int) -> Unit {
+                override fun invoke(p1: View, p2: String, p3: Int) {
+                    // view 和数据绑定
+                }
+            })
 
 //        val linearSnapHelper = LinearSnapHelper()
 //        linearSnapHelper.attachToRecyclerView(recyclerView)
@@ -310,7 +341,8 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.MyHolder>() {
             "CreateHolder",
             "onCreateViewHolder() called with: viewType = $viewType, createCount=${createCount.incrementAndGet()}"
         )
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_avatar, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.list_item_avatar, parent, false)
         val holder = MyHolder(view)
 
         view.setOnClickListener {
