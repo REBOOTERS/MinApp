@@ -29,3 +29,4 @@ local_repo/com/engineer/third/thirdlib/*.xml.*
 /.idea/copilot/chatSessions/blobs/version
 /.idea/copilot/chatSessions/xd.lck
 url.json
+gradle.dev.properties

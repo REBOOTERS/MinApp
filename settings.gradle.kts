@@ -38,6 +38,12 @@ println("rootDir    =$rootDir")
 println("settings.dir=$settingsDir")
 println("settings.dir.parent=" + settingsDir.parent)
 
+val env = System.getenv()
+println("env--------------------------->")
+env.keys.forEach {
+    println("$it  ${env.get(it)}")
+}
+println("env---------------------------<")
 rootProject.name = "MiniApp"
 include(":app")
 include(":deps:thirdlib")
