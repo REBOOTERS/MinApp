@@ -14,11 +14,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.*
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityRecyclerViewBinding
+import com.engineer.android.mini.databinding.ListItemBinding
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.viewmodel.RecyclerViewModel
 import com.engineer.android.mini.util.BindingClosure
+import com.engineer.android.mini.util.CreateClosure
+import com.engineer.android.mini.util.FastListViewHolder
 import com.engineer.android.mini.util.bind
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
@@ -60,35 +63,61 @@ class RecyclerViewActivity : BaseActivity(), OnRefreshLoadMoreListener {
 
             viewBinding.seekbar.max = adapter.itemCount - 1
         }
+
+        class MyHolder(container: View, viewType: Int) :
+            FastListViewHolder<String>(container, viewType) {
+            val title: TextView = container.findViewById(R.id.title_tv)
+            val index: TextView = container.findViewById(R.id.index_tv)
+        }
+
+
         val datas: ArrayList<String> = ArrayList()
-
-        recyclerView.bind(datas, R.layout.list_item_avatar, object : (View, String, Int) -> Unit {
-            override fun invoke(p1: View, item: String, position: Int) {
-                val title: TextView = p1.findViewById(R.id.title_tv)
-                val index: TextView = p1.findViewById(R.id.index_tv)
-
-                title.text = item
-                index.text = position.toString()
-            }
-        })
-
-        recyclerView.bind(datas).map(R.layout.list_item, object : (String, Int) -> Boolean {
-                override fun invoke(p1: String, p2: Int): Boolean {
-                    return p2 < 5
-                }
-            }, object : (View, String, Int) -> Unit {
-                override fun invoke(p1: View, p2: String, p3: Int) {
-                    // view 和数据绑定
-                }
-            }).map(R.layout.list_item_avatar, object : (String, Int) -> Boolean {
-                override fun invoke(p1: String, p2: Int): Boolean {
-                    return p2 >= 5
-                }
-            }, object : (View, String, Int) -> Unit {
-                override fun invoke(p1: View, p2: String, p3: Int) {
-                    // view 和数据绑定
+        for (i in 0..10) {
+            datas.add(i.toString())
+        }
+        recyclerView.bind(datas,
+            R.layout.list_item_avatar,
+            { container: View, viewType: Int -> MyHolder(container, viewType) },
+            { item: String, pos: Int ->
+                if (this is MyHolder) {
+                    this.title.text = item
+                    this.index.text = pos.toString()
                 }
             })
+
+        class MyHolder1(container: View, viewType: Int) :
+            FastListViewHolder<String>(container, viewType) {
+            val title: TextView = container.findViewById(R.id.title_tv)
+            val index: TextView = container.findViewById(R.id.index_tv)
+
+            override fun bind(entry: String, position: Int) {
+                super.bind(entry, position)
+                title.text = "$entry @ holder 1"
+                index.text = position.toString()
+            }
+        }
+
+        class MyHolder2(container: View, viewType: Int) :
+            FastListViewHolder<String>(container, viewType) {
+            val title: TextView = container.findViewById(R.id.title_tv)
+            val index: TextView = container.findViewById(R.id.index_tv)
+
+            override fun bind(entry: String, position: Int) {
+                super.bind(entry, position)
+                title.text = "$entry @ holder 2"
+                index.text = (position * position).toString()
+            }
+        }
+//
+        recyclerView.bind(datas).map(R.layout.list_item_avatar,
+            { _: String, pos: Int -> pos % 2 == 0 },
+            { container, viewType -> MyHolder1(container, viewType) }).map(R.layout.list_item,
+            { _, pos -> pos % 2 != 0 },
+            { container: View, viewType: Int -> MyHolder2(container, viewType) })
+//
+//        recyclerView.bind(datas, R.layout.list_item,
+//            { container, viewType -> MyHolder1(container, viewType) })
+
 
 //        val linearSnapHelper = LinearSnapHelper()
 //        linearSnapHelper.attachToRecyclerView(recyclerView)
