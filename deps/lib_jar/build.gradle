@@ -16,4 +16,6 @@ dependencies {
     // https://github.com/square/moshi
     implementation 'com.squareup.moshi:moshi:1.15.1'
     implementation 'com.squareup.moshi:moshi-kotlin:1.15.1'
+
+    implementation "com.alibaba:fastjson:1.2.69"
 }
