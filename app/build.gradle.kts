@@ -214,6 +214,9 @@ dependencies {
         exclude("com.facebook.fresco","imagepipeline-native")
     }
 
+    add("globalImplementation","io.noties.markwon:core:4.6.2")
+//    add("huaweiGlobalImplementation","io.noties.markwon:core:4.6.2")
+
 }
 apply(from = "../custom-gradle/test-dep.gradle")
 apply(from = "../custom-gradle/viewmodel-dep.gradle")
@@ -222,3 +225,11 @@ apply(from = "../custom-gradle/rx-retrofit-dep.gradle")
 apply(from = "../custom-gradle/hilt-dep.gradle")
 apply(from = "../custom-gradle/apk_dest_dir_change.gradle")
 apply(from = "../custom-gradle/report_apk_size_after_package.gradle")
+
+tasks.register("listConfigurations") {
+    doLast {
+        configurations.forEach { config ->
+            println(config.name)
+        }
+    }
+}
