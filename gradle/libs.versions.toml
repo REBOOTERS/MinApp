@@ -25,8 +25,8 @@ accompanistPager = "0.24.7-alpha"
 # @keep
 lifecycleRuntimeKtxVersion = "2.7.0"
 minSdk = "21"
-targetSdk = "34"
-compileSdk = "34"
+targetSdk = "35"
+compileSdk = "35"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

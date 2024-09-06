@@ -43,7 +43,7 @@ class WaterColorFilterWorker(context: Context, parameters: WorkerParameters) :
 //                _out = outAlloc
 //                invoke_filter()
 //            }
-            Bitmap.createBitmap(input.width, input.height, input.config).apply {
+            Bitmap.createBitmap(input.width, input.height, input.config!!).apply {
                 outAlloc.copyTo(this)
             }
         } finally {

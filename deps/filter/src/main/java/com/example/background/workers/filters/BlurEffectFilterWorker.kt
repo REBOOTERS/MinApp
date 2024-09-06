@@ -43,7 +43,7 @@ class BlurEffectFilterWorker(context: Context, parameters: WorkerParameters) :
             theIntrinsic.setInput(inAlloc)
             theIntrinsic.forEach(outAlloc)
 
-            Bitmap.createBitmap(input.width, input.height, input.config).apply {
+            Bitmap.createBitmap(input.width, input.height, input.config!!).apply {
                 // Copy to the output input from the allocation.
                 outAlloc.copyTo(this)
             }
