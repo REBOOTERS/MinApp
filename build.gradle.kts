@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android) apply false
     alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.tools.ksp) apply false
+    alias(libs.plugins.compose.compiler) apply false
 }
 apply(from = rootProject.rootDir.absolutePath + "/custom-gradle/check-style.gradle")
 

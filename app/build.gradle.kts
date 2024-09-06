@@ -91,13 +91,9 @@ android {
         jvmTarget = "17"
     }
     buildFeatures {
-        compose = true
         dataBinding = true
         viewBinding = true
         aidl = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.8"
     }
     lint {
         checkReleaseBuilds = false
@@ -161,7 +157,7 @@ androidComponents {
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
@@ -184,15 +180,15 @@ dependencies {
     }
     implementation(project(":deps:common"))
     implementation(project(":deps:compose"))
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.8.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.8.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.5")
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 
     implementation("com.google.android.flexbox:flexbox:3.0.0")
 
     implementation("com.alibaba:fastjson:1.2.69")
-    implementation("org.jetbrains.kotlin:kotlin-script-runtime:1.9.22")
+    implementation("org.jetbrains.kotlin:kotlin-script-runtime:2.0.20")
 
 
     // https://github.com/koral--/android-gif-drawable/tree/master
