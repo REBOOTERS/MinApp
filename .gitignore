@@ -31,3 +31,4 @@ local_repo/com/engineer/third/thirdlib/*.xml.*
 url.json
 gradle.dev.properties
 /.idea/other.xml
+/.kotlin/sessions/kotlin-compiler-12524141894393142792.salive
