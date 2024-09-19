@@ -44,7 +44,7 @@ env.keys.forEach {
     println("$it  ${env.get(it)}")
 }
 println("env---------------------------<")
-rootProject.name = "MiniApp"
+rootProject.name = "MinApp"
 include(":app")
 include(":deps:thirdlib")
 include(":deps:compose")
