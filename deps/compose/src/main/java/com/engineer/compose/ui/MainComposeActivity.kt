@@ -100,7 +100,7 @@ fun MessageCard(msg: Message) {
         val context = LocalContext.current
         Button(onClick = {
             Toast.makeText(context, "you clicked me", Toast.LENGTH_SHORT).show()
-            count.value++
+            count.intValue++
         }) {
             Text(text = "click me")
         }
@@ -115,7 +115,7 @@ fun MessageCard(msg: Message) {
             Text(text = "open gallery")
         }
         SelectImageButton()
-        Text(text = "${count.value}")
+        Text(text = "${count.intValue}")
         Row(modifier = Modifier.padding(all = 8.dp)) {
             Image(
                 painter = painterResource(R.drawable.profile_picture),
@@ -147,7 +147,7 @@ fun MessageCard(msg: Message) {
 fun NetImage() {
     val context = LocalContext.current
     val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.profile_picture)
-    val painter = BitmapPainter(bitmap.asImageBitmap(), srcSize = IntSize(200, 200))
+    val painter = BitmapPainter(bitmap.asImageBitmap(), srcSize = IntSize(100, 100))
     AsyncImage(
         modifier = Modifier.padding(8.dp),
         placeholder = painter,

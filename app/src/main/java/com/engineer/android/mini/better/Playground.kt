@@ -3,7 +3,9 @@ package com.engineer.android.mini.better
 import androidx.annotation.Keep
 import com.alibaba.fastjson.JSON
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
+import kotlin.random.Random
 
 
 @Keep
@@ -50,6 +52,20 @@ fun main() {
 
 //    testfastjson()
 
+    val randomMinute = Random.nextInt(0, 60)
+    println(randomMinute)
+    val randomSecond = Random.nextInt(0,60)
+    println(randomSecond)
+
+    val targetTime = Calendar.getInstance()
+    targetTime.set(Calendar.HOUR_OF_DAY, 15)
+    targetTime.set(Calendar.MINUTE, randomMinute)
+    targetTime.set(Calendar.SECOND, randomSecond)
+    println(targetTime.time)
+
+}
+
+fun testTime() {
     val now: Long = System.currentTimeMillis()
 //    val now = 0
     println(now)
@@ -61,7 +77,6 @@ fun main() {
 
     val ever = 1689132504830
     Util.timeStampToTime(ever)
-
 }
 
 fun testfastjson() {
