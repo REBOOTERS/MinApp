@@ -99,25 +99,18 @@ fun ViewPagerExample(imageUrls: List<String>, initialPage: Int = 0, modifier: Mo
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-//                val painter = rememberAsyncImagePainter(model = imageUrls[page])
                 val painter = rememberAsyncImagePainter(
                     model = ImageRequest.Builder(context).data(imageUrls[page])
                         .size(Size.ORIGINAL) // Set the size to ORIGINAL to load the full resolution
                         .build(), imageLoader = imageLoader
                 )
-//                Image(
-//                    painter = painter,
-//                    contentDescription = "Image $page",
-//                    contentScale = ContentScale.Inside,
-//                    modifier = Modifier.fillMaxSize()
-//                )
                 Image(
                     painter = painter,
                     contentDescription = "Image $page",
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .aspectRatio(9.0f / 16)
+//                        .aspectRatio(9.0f / 16)
 //                        .aspectRatio(painter.intrinsicSize.width / painter.intrinsicSize.height)
                 )
             }
