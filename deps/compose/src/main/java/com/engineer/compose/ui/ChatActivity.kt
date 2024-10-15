@@ -42,6 +42,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.engineer.compose.R
 import com.engineer.compose.ui.preview.ChatMessageItemPre
@@ -79,6 +80,11 @@ fun ChatScreen(
 ) {
     var inpuValue by remember { mutableStateOf("") }
     val msg by viewModel.messageList.observeAsState(ArrayList())
+
+    viewModel.messageList.observe(LocalLifecycleOwner.current) {
+//        Log.e("TAG_TAG", it.toString())
+    }
+
     val temp = provideTestChat()
     val kk by viewModel.kkk.observeAsState("11")
     Column(modifier = Modifier.fillMaxSize()) {
