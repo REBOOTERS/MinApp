@@ -38,6 +38,7 @@ import com.engineer.common.utils.AndroidFileUtils
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimerTask
 import java.util.concurrent.Executors
 import kotlin.random.Random
 
@@ -106,6 +107,14 @@ object LoadingUtil {
 
 class DuDuActivity : AppCompatActivity() {
     private val TAG = "DuDuActivity_TAG"
+
+    private val task1 = object : TimerTask() {
+        override fun run() {
+            Log.d(TAG, "task1 run() called")
+        }
+    }
+
+    private val task2  = Runnable { Log.d(TAG, "task2 run() called") }
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -197,7 +206,10 @@ class DuDuActivity : AppCompatActivity() {
             }
         }
         findViewById<View>(R.id.gradient_view).setOnClickListener {
-            refreshView()
+//            refreshView()
+            Log.d(TAG, "gradient_view() click called")
+            Handler(Looper.getMainLooper()).postDelayed(task1, 2000)
+            Handler(Looper.getMainLooper()).postDelayed(task2, 4000)
         }
     }
 
