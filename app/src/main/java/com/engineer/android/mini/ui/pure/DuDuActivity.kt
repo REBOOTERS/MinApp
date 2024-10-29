@@ -29,7 +29,6 @@ import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.TypeReference
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
-import com.engineer.android.mini.ext.px
 import com.engineer.android.mini.ui.widget.CustomRoundedImageView
 import com.engineer.android.mini.ui.widget.CustomRoundedImageViewJava
 import com.engineer.android.mini.ui.widget.RecommendWidget
@@ -108,13 +107,7 @@ object LoadingUtil {
 class DuDuActivity : AppCompatActivity() {
     private val TAG = "DuDuActivity_TAG"
 
-    private val task1 = object : TimerTask() {
-        override fun run() {
-            Log.d(TAG, "task1 run() called")
-        }
-    }
-
-    private val task2  = Runnable { Log.d(TAG, "task2 run() called") }
+    private val task = Runnable { Log.d(TAG, "task run() called") }
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -206,11 +199,31 @@ class DuDuActivity : AppCompatActivity() {
             }
         }
         findViewById<View>(R.id.gradient_view).setOnClickListener {
-//            refreshView()
+            refreshView()
             Log.d(TAG, "gradient_view() click called")
-            Handler(Looper.getMainLooper()).postDelayed(task1, 2000)
-            Handler(Looper.getMainLooper()).postDelayed(task2, 4000)
+            trigger(it)
         }
+    }
+
+    private fun trigger(it:View) {
+
+        it.postDelayed({
+            Log.i(TAG,"111")
+            task.run()
+            Log.i(TAG,"222")
+        }, 1000)
+        it.postDelayed(task, 2000)
+
+        Log.i(TAG,"start for-each")
+        val list = listOf(1, 2, 3, 4, 5)
+        list.forEach {
+            Log.i(TAG,"it :${it}")
+            if (it >= 3) {
+                return
+            }
+        }
+        Log.i(TAG,"after for-each")
+
     }
 
     private fun refreshView() {
