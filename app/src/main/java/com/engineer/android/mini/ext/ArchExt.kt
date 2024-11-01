@@ -3,6 +3,7 @@ package com.engineer.android.mini.ext
 import android.app.Activity
 import android.app.Service
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 
 /**
@@ -18,10 +19,14 @@ fun <T, R> T.easy(block: (T) -> R, ifNull: () -> Unit) {
     }
 }
 
-fun Activity.gotoActivity(targetClass: Class<out Activity>?) {
+fun Activity.gotoActivity(targetClass: Class<out Activity>?, bundle: Bundle? = null) {
     targetClass?.easy({
         val tag = "START_ACTIVITY_${it.simpleName}"
-        this.startActivity(Intent(this, it))
+        if (bundle!=null) {
+            this.startActivity(Intent(this, it), bundle)
+        } else {
+            this.startActivity(Intent(this, it))
+        }
         Log.d(tag, "startActivity $targetClass")
     }, {
         "targetClass is Null".toast()

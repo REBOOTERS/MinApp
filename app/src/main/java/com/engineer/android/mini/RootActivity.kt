@@ -1,8 +1,11 @@
 package com.engineer.android.mini
 
 import android.Manifest
+import android.app.ActivityOptions
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -217,7 +220,9 @@ class RootActivity : BaseActivity() {
             exitProcess(0)
         }
         viewBinding.openMessy.setOnClickListener {
-            gotoActivity(MessyActivity::class.java)
+            val bitmap = Bitmap.createBitmap(it.width,it.height, Bitmap.Config.ARGB_8888)
+            val bundle = ActivityOptions.makeThumbnailScaleUpAnimation(it,bitmap,0,0).toBundle()
+            gotoActivity(MessyActivity::class.java, bundle)
         }
         viewBinding.openChangeView.setOnClickListener {
             gotoActivity(ChangeViewActivity::class.java)
