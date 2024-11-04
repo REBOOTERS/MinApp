@@ -1,5 +1,8 @@
 package com.engineer.android.mini.better;
 
+import android.os.Handler;
+import android.util.Log;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.engineer.android.mini.util.TimeUtil;
@@ -12,6 +15,7 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.LogManager;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
@@ -137,5 +141,18 @@ public class Demo {
 
     private static void test2() throws Exception {
         throw new Exception("null");
+    }
+    private Runnable task = () -> Log.d("tag", "run() called");
+
+    private void max(int a, int b) {
+        new Handler().post(() -> {
+            Log.d("tag", "111");
+//            task;
+            Log.d("tag", "222");
+        });
+
+
+
+        new Handler().post(task);
     }
 }

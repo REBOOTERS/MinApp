@@ -107,7 +107,8 @@ object LoadingUtil {
 class DuDuActivity : AppCompatActivity() {
     private val TAG = "DuDuActivity_TAG"
 
-    private val task = Runnable { Log.d(TAG, "task run() called") }
+    private val task1 = Runnable { Log.d(TAG, "task1 run() called") }
+    private val task2 = Runnable { Log.d(TAG, "task2 run() called") }
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -199,30 +200,31 @@ class DuDuActivity : AppCompatActivity() {
             }
         }
         findViewById<View>(R.id.gradient_view).setOnClickListener {
-            refreshView()
-            Log.d(TAG, "gradient_view() click called")
+//            refreshView()
+//            Log.d(TAG, "gradient_view() click called")
             trigger(it)
         }
     }
 
-    private fun trigger(it:View) {
-
+    private fun trigger(it: View) {
+        Log.i(TAG, "start call")
         it.postDelayed({
-            Log.i(TAG,"111")
-            task.run()
-            Log.i(TAG,"222")
+            Log.i(TAG, "111")
+            task1.run()
+            Log.i(TAG, "222")
         }, 1000)
-        it.postDelayed(task, 2000)
+//        it.postDelayed({ task1 }, 1000)
+        it.postDelayed(task2, 2000)
 
-        Log.i(TAG,"start for-each")
+        Log.i(TAG, "start for-each")
         val list = listOf(1, 2, 3, 4, 5)
         list.forEach {
-            Log.i(TAG,"it :${it}")
+            Log.i(TAG, "it :${it}")
             if (it >= 3) {
                 return
             }
         }
-        Log.i(TAG,"after for-each")
+        Log.i(TAG, "after for-each")
 
     }
 
