@@ -6,14 +6,15 @@ import android.content.Context
 import android.os.Process
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.collection.LruCache
-import androidx.lifecycle.*
-import com.engineer.android.mini.better.testCalendar
-import com.engineer.android.mini.jetpack.work.triggerWork
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.work.WorkManager
 import com.engineer.common.utils.AndroidSystem
 import com.facebook.stetho.Stetho
 import com.google.android.material.color.DynamicColors
-import com.google.android.material.color.utilities.DynamicColor
 import dagger.hilt.android.HiltAndroidApp
 
 /**
@@ -40,7 +41,6 @@ class MinApp : Application() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
         appLifecycle()
-        lruTest()
         val defaultExc = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler { t, e ->
             Log.e(MINI, "current process    : ${Process.myPid()}")
@@ -50,13 +50,26 @@ class MinApp : Application() {
         }
 
         if (BuildConfig.DEBUG) {
-            Log.e(MINI, BuildConfig.FLAVOR)
+            Log.e(MINI, "flavor is = ${BuildConfig.FLAVOR}")
         }
-        testCalendar()
         applicationProcessInfo()
         Log.d(TAG, "onCreate() called end")
 
-        triggerWork(INSTANCE)
+        if (WorkManager.isInitialized().not()) {
+//            triggerWork(INSTANCE)
+        }
+    }
+
+    private fun isMainProcess(): Boolean {
+        val mainPackageName = packageName
+        val am: ActivityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val processList = am.runningAppProcesses
+        processList.forEach {
+            if (it.processName == mainPackageName) {
+                return true
+            }
+        }
+        return false
     }
 
     private fun applicationProcessInfo() {
@@ -79,6 +92,7 @@ class MinApp : Application() {
         Log.e(
             "ProcessInfo", "process pid " + Process.myPid() + ",is64Bit= " + Process.is64Bit()
         )
+        Log.d("ProcessInfo", "is mainProcess ${isMainProcess()}")
     }
 
     private fun appLifecycle() {
@@ -119,22 +133,6 @@ class MinApp : Application() {
         })
     }
 
-    private fun lruTest() {
-        val lruCache = LruCache<Int, Char>(10)
-        for (i in 65..90) {
-            lruCache.put(i, i.toChar())
-        }
-        Log.e(MINI, "lruTest() called $lruCache")
-        val map = lruCache.snapshot()
-        map.keys.forEach {
-            Log.e(MINI, "key=$it,value=${lruCache[it]}")
-        }
-
-        val range = 0..10
-        Log.d("what", range.javaClass.name)
-        val range1 = 0 until 10
-        Log.d("what", range1.javaClass.name)
-    }
 
     override fun onLowMemory() {
         super.onLowMemory()

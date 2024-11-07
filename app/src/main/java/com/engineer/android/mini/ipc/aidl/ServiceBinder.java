@@ -72,7 +72,7 @@ public class ServiceBinder extends IBookInterface.Stub {
 
     @Override
     public void addBookToRepo(Book book) {
-        Observable.timer(5, TimeUnit.SECONDS)
+        Observable.just(5, TimeUnit.SECONDS)
                 .doOnComplete(() -> {
                     Log.e(TAG, "mBinder.pingBinder() = " + pingBinder()
                             + ",iBookInfoCallback = " + iBookInfoCallback);

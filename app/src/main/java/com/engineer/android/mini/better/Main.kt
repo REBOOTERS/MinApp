@@ -1,13 +1,15 @@
 package com.engineer.android.mini.better
 
+import androidx.collection.LruCache
 import com.alibaba.fastjson.JSON
+import com.engineer.android.mini.MinApp.Companion.MINI
 import com.engineer.android.mini.util.TimeUtil
 import io.reactivex.Observable
-import org.json.JSONObject
 import org.jsoup.Jsoup
-import java.util.*
+import java.util.Calendar
+import java.util.Collections
+import java.util.Date
 import java.util.concurrent.TimeUnit
-import kotlin.collections.HashMap
 
 /**
  * Created on 2021/8/9.
@@ -15,7 +17,35 @@ import kotlin.collections.HashMap
  */
 fun main() {
 //    listTest()
-    getElement()
+//    getElement()
+    lruTest()
+}
+
+object Log {
+    fun e(tag: String, msg: String) {
+        println("$tag $msg")
+    }
+
+    fun d(tag: String, msg: String) {
+        e(tag, msg)
+    }
+}
+
+private fun lruTest() {
+    val lruCache = LruCache<Int, Char>(10)
+    for (i in 65..90) {
+        lruCache.put(i, i.toChar())
+    }
+    Log.e(MINI, "lruTest() called $lruCache")
+    val map = lruCache.snapshot()
+    map.keys.forEach {
+        Log.e(MINI, "key=$it,value=${lruCache[it]}")
+    }
+
+    val range = 0..10
+    Log.d("what", range.javaClass.name)
+    val range1 = 0 until 10
+    Log.d("what", range1.javaClass.name)
 }
 
 
