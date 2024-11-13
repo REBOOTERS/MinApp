@@ -35,6 +35,11 @@ class MDActivity : BaseActivity() {
 
         markwon.setMarkdown(viewBinding.tv2, "$$(a^2+b)$$")
 
+        markwon.setMarkdown(viewBinding.tv5,"有本书叫做 **《历史的天空》**，很好")
+
+        markwon.setMarkdown(viewBinding.tv4,"有本书叫做 ** 《历史的天空》 **，很好")
+
+
 
         viewBinding.tv1.setOnClickListener {
             val spanned = markwon.toMarkdown("**Hello World**,Android")
