@@ -10,6 +10,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.toast
+import com.engineer.android.mini.ipc.aidl.impls.IResponseListenerImpl
+import com.engineer.android.mini.ipc.manager.BindServiceCallback
+import com.engineer.android.mini.ipc.manager.BinderBridge
+import com.engineer.android.mini.ipc.manager.ServiceHelper
 
 private const val TAG = "AIDLDemoActivity"
 
@@ -18,7 +22,6 @@ class AIDLDemoActivity : AppCompatActivity() {
 
     private var isBookServiceRegistered = false
 
-    private lateinit var binderBridge: BinderBridge
     private var count = 0
 
     private var textView: TextView? = null
@@ -35,6 +38,19 @@ class AIDLDemoActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.aidl).setOnClickListener {
             startBookManger()
+        }
+
+        findViewById<View>(R.id.startRequest).setOnClickListener {
+            if (isBookServiceRegistered.not()) {
+                "service 未启动".toast()
+                return@setOnClickListener
+            }
+            val bookInterface = getIBookInterface()
+            bookInterface?.let {
+                it.unRegisterIResponseListener(IResponseListenerImpl)
+                it.registerIResponseListener(IResponseListenerImpl)
+                it.startRequest(System.currentTimeMillis().toString())
+            }
         }
 
         findViewById<View>(R.id.start_other_app_service).setOnClickListener {
@@ -59,8 +75,7 @@ class AIDLDemoActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             count++
-            val book =
-                Book(count, "人类群星闪耀时$count")
+            val book = Book(count, "人类群星闪耀时$count")
             try {
                 Log.e(TAG, "onViewClicked() called add book $book")
                 getIBookInterface()?.addBook(book)
@@ -74,8 +89,7 @@ class AIDLDemoActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             try {
-                val books =
-                    getIBookInterface()?.bookList
+                val books = getIBookInterface()?.bookList
                 Log.e(TAG, "onViewClicked() called get book $books")
             } catch (e: RemoteException) {
                 e.printStackTrace()
@@ -87,8 +101,7 @@ class AIDLDemoActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             try {
-                val book =
-                    Book(count, "人类群星闪耀时$count")
+                val book = Book(count, "人类群星闪耀时$count")
                 Log.e(TAG, "onViewClicked() called delete book $book")
                 getIBookInterface()?.deleteBook(book)
             } catch (e: RemoteException) {
@@ -104,12 +117,10 @@ class AIDLDemoActivity : AppCompatActivity() {
             }
             registerAsyncCallback()
             count++
-            val book =
-                Book(count, "人类群星闪耀时$count")
+            val book = Book(count, "人类群星闪耀时$count")
             try {
                 Log.e(
-                    TAG,
-                    "onViewClicked() called add book to repo $book"
+                    TAG, "onViewClicked() called add book to repo $book"
                 )
                 getIBookInterface()?.addBookToRepo(book)
             } catch (e: RemoteException) {
@@ -126,55 +137,69 @@ class AIDLDemoActivity : AppCompatActivity() {
 
     private fun startBookManger() {
         Log.e(TAG, "startBookManger() called")
-        binderBridge = BinderBridge()
-        remoteIntent = Intent(this, BookManagerService::class.java)
-        remoteIntent?.let {
-            isBookServiceRegistered = bindService(it, binderBridge, BIND_AUTO_CREATE)
-        }
+
+        ServiceHelper.registerBindServiceCallback(object : BindServiceCallback {
+            override fun bindSuccess() {
+                Log.d(TAG, "bindSuccess() called")
+                isBookServiceRegistered = true
+            }
+
+            override fun bindFail(e: String) {
+                Log.d(TAG, "bindFail() called with: e = $e")
+                isBookServiceRegistered = false
+            }
+
+        })
+        ServiceHelper.bindService(
+            this,
+            "com.engineer.android.mini",
+            "com.engineer.android.mini.ipc.aidl.BookManagerService"
+        )
     }
 
     private fun registerAsyncCallback() {
-        binderBridge.asyncCallback = object : BinderBridge.AsyncProcessCallback {
-            override fun notifyBookInfo(books: List<Book>) {
-                Log.e(
-                    "MyCallback", "On Thread " + Thread.currentThread().name
-                            + ",notifyBookInfo() called with: books = [" + books + "] "
-                )
-                mainHandler.post {
-                    textView?.text = books.toString()
-                    button?.performClick()
-
+        ServiceHelper.provideConnection().asyncCallback =
+            object : BinderBridge.AsyncProcessCallback {
+                override fun notifyBookInfo(books: List<Book>) {
                     Log.e(
                         "MyCallback",
-                        "**************************************************************"
+                        "On Thread " + Thread.currentThread().name + ",notifyBookInfo() called with: books = [" + books + "] "
                     )
+                    mainHandler.post {
+                        textView?.text = books.toString()
+                        button?.performClick()
+
+                        Log.e(
+                            "MyCallback",
+                            "**************************************************************"
+                        )
+                    }
+
                 }
 
+                override fun operationSuccess(action: String) {
+                    Log.e(
+                        "MyCallback",
+                        "On Thread " + Thread.currentThread().name + ",operationSuccess() called with: action = [" + action + "]"
+                    )
+                }
             }
-
-            override fun operationSuccess(action: String) {
-                Log.e(
-                    "MyCallback", "On Thread " + Thread.currentThread().name
-                            + ",operationSuccess() called with: action = [" + action + "]"
-                )
-            }
-        }
     }
 
 
     override fun onDestroy() {
         super.onDestroy()
         if (isBookServiceRegistered) {
-            unbindService(binderBridge)
+            unbindService(ServiceHelper.provideConnection())
             isBookServiceRegistered = false
         }
-        binderBridge.releaseCallback()
+        ServiceHelper.releaseCallback()
         Log.e(TAG, "onDestroy() called")
     }
 
 
     private fun getIBookInterface(): IBookInterface? {
-        return binderBridge.provideIBookInterface()
+        return ServiceHelper.provideIBookInterface()
     }
 
     private fun stopRemote() {
@@ -183,10 +208,10 @@ class AIDLDemoActivity : AppCompatActivity() {
             stopService(it)
         }
         if (isBookServiceRegistered) {
-            unbindService(binderBridge)
+            unbindService(ServiceHelper.provideConnection())
             isBookServiceRegistered = false
         }
-        binderBridge.releaseCallback()
+        ServiceHelper.releaseCallback()
 
     }
 }

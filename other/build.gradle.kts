@@ -66,6 +66,7 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation(project(":deps:common"))
+    implementation(project(":deps:thirdlib"))
 
 }
 

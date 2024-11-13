@@ -5,6 +5,7 @@ package com.engineer.android.mini.ipc.aidl;
 
 import com.engineer.android.mini.ipc.aidl.Book;
 import com.engineer.android.mini.ipc.aidl.IBookInfoCallback;
+import com.engineer.android.mini.ipc.aidl.IResponseListener;
 
 interface IBookInterface {
     /**
@@ -26,4 +27,9 @@ interface IBookInterface {
 
     void startOtherAppService();
     void startOtherApp();
+
+    void startRequest(String param);
+
+    void registerIResponseListener(IResponseListener response);
+    void unRegisterIResponseListener(IResponseListener response);
 }

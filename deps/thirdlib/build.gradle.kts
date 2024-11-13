@@ -41,6 +41,7 @@ android {
     buildFeatures {
         aidl= true
     }
+//    aidlPackagedList = mutableListOf("com.engineer.android.mini.ipc.aidl")
 }
 
 dependencies {

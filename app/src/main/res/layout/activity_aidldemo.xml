@@ -12,6 +12,10 @@
         style="@style/mw_10_margin"
         android:text="aidl_start_service" />
 
+    <Button
+        android:id="@+id/startRequest"
+        style="@style/mw_10_margin"
+        android:text="startRequest" />
 
     <Button
         android:id="@+id/add_book"

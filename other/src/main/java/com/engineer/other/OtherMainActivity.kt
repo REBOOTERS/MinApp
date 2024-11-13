@@ -9,8 +9,11 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.engineer.android.mini.ipc.manager.BindServiceCallback
+import com.engineer.android.mini.ipc.manager.ServiceHelper
 import com.engineer.common.contract.ContentProviderHelper
 import com.engineer.common.utils.ApplySigningUtils
+import com.engineer.other.impls.IResponseListenerImpl
 import com.engineer.other.skip.SkipActivity
 import com.engineer.other.ui.EmptyActivity
 import com.engineer.other.ui.FakeOldWayActivity
@@ -20,6 +23,9 @@ import com.engineer.other.ui.OpenByOtherActivity
 class OtherMainActivity : AppCompatActivity() {
     private val TAG = "OtherMainActivity_TAG"
     private lateinit var tv: TextView
+    private var isBookServiceRegistered = false
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
@@ -52,8 +58,33 @@ class OtherMainActivity : AppCompatActivity() {
             ContentProviderHelper.call(this, "add", "1", null)
         }
 
-        val value = ContentProviderHelper.read(this, "name")
-        Log.e(TAG, "onCreate: value =$value")
+        findViewById<View>(R.id.bind_service).setOnClickListener {
+            ServiceHelper.registerBindServiceCallback(object : BindServiceCallback {
+                override fun bindSuccess() {
+                    Log.d(TAG, "bindSuccess() called")
+                    isBookServiceRegistered = true
+                }
+
+                override fun bindFail(e: String) {
+                    Log.d(TAG, "bindFail() called with: e = $e")
+                    isBookServiceRegistered = false
+                }
+
+            })
+            ServiceHelper.bindService(
+                this,
+                "com.engineer.android.mini",
+                "com.engineer.android.mini.ipc.aidl.BookManagerService"
+            )
+        }
+        findViewById<View>(R.id.request).setOnClickListener {
+            ServiceHelper.provideIBookInterface()?.unRegisterIResponseListener(IResponseListenerImpl)
+            ServiceHelper.provideIBookInterface()?.registerIResponseListener(IResponseListenerImpl)
+            ServiceHelper.provideIBookInterface()?.startRequest("111")
+        }
+
+//        val value = ContentProviderHelper.read(this, "name")
+//        Log.e(TAG, "onCreate: value =$value")
     }
 
     override fun onResume() {

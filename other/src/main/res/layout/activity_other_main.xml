@@ -37,6 +37,20 @@
         android:layout_margin="10dp"
         android:text="cv_call_method" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bind_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="bind_service" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/request"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="request" />
+
     <TextView
         android:id="@+id/tv"
         android:layout_width="match_parent"
