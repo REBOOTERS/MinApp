@@ -121,7 +121,7 @@ public class ServiceBinder extends IBookInterface.Stub {
 
     private void handleResponseListeners(String param, int result) {
         try {
-            Log.d(TAG, param + "-> broadcast begin");
+            Log.d(TAG, param + "-> broadcast begin listener size = ");
             int cb = onResponseListeners.beginBroadcast();
             for (int i = 0; i < cb; i++) {
                 onResponseListeners.getBroadcastItem(i).onSuccess(String.valueOf(result));
