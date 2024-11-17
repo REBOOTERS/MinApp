@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+repeat
+:数据 X 输入;
+:基于初始参数 W,经过多层的计算得到输出 Y;
+:根据 Y 和正确解的 T 输入损失函数进行计算;
+:返回损失函数的值 loss;
+:计算梯度 grad;
+:根据梯度值 grad 更新输入参数 X;
+:计算次数--;
+repeat while (计算次数 > 0)
+stop
+
+@enduml
