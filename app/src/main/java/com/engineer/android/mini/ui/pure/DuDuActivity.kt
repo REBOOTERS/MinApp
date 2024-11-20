@@ -22,6 +22,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
@@ -29,6 +30,8 @@ import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.TypeReference
 import com.engineer.android.mini.R
 import com.engineer.android.mini.ext.dp
+import com.engineer.android.mini.ext.screenHeight
+import com.engineer.android.mini.ext.screenWidth
 import com.engineer.android.mini.ui.widget.CustomRoundedImageView
 import com.engineer.android.mini.ui.widget.CustomRoundedImageViewJava
 import com.engineer.android.mini.ui.widget.RecommendWidget
@@ -203,6 +206,15 @@ class DuDuActivity : AppCompatActivity() {
 //            refreshView()
 //            Log.d(TAG, "gradient_view() click called")
             trigger(it)
+        }
+        val debugTv = findViewById<TextView>(R.id.debug)
+        debugTv.setOnClickListener {
+            val iv = findViewById<ImageView>(R.id.debug_iv)
+            val w = iv.width
+            val h = iv.height
+            val screenW = screenWidth
+            val screenH = screenHeight
+            debugTv.text = "w = $w,h=$h ,screenWidth=$screenWidth,screenHeight=$screenHeight"
         }
     }
 

@@ -5,4 +5,6 @@
 
     <dimen name="roundRectCornerTop">12dp</dimen>
     <dimen name="roundRectCornerTop2">24dp</dimen>
+
+    <dimen name="tv_size">18sp</dimen>
 </resources>
