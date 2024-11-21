@@ -116,6 +116,9 @@
             android:name=".ui.pure.DuDuActivity"
             android:exported="true" />
         <activity
+            android:name=".ui.pure.InputFocusActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.pure.LandscapeActivity"
             android:exported="true"
             android:screenOrientation="fullSensor" />
