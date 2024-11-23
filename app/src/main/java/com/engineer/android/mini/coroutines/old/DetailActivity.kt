@@ -60,6 +60,7 @@ class DetailActivity : BaseActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
+    val hello : String by lazy { "hello" }
 
     /**
      * Inflate layout.activity_main and setup data binding.

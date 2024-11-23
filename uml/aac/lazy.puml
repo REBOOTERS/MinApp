@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+interface Lazy<T> {
+    + value:T
+    + isInitialized() : Boolean
+}
+class SynchronizedLazyImpl<out T> {
+    - initializer: (() -> T)?
+}
+class SafePublicationLazyImpl<out T> {
+    - initializer: (() -> T)?
+}
+class UnsafeLazyImpl<out T> {
+    - initializer: (() -> T)?
+}
+Lazy <|---- SynchronizedLazyImpl
+Lazy <|---- SafePublicationLazyImpl
+Lazy <|---- UnsafeLazyImpl
+
+
+@enduml
