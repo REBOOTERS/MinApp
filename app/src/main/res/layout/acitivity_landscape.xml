@@ -9,11 +9,21 @@
 
 
     <ImageView
+        android:background="@color/black_overlay"
         android:id="@+id/background_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:src="@drawable/android" />
+
+    <TextView
+        android:layout_marginTop="50dp"
+        android:id="@+id/img_info"
+        tools:text="w=0 h=0"
+        android:textColor="@color/white"
+        android:layout_gravity="end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 
     <RadioGroup

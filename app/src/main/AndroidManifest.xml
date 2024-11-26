@@ -123,6 +123,9 @@
             android:exported="true"
             android:screenOrientation="fullSensor" />
         <activity
+            android:name=".ui.pure.LandscapeSubActivity"
+            android:exported="true" />
+        <activity
             android:name=".RootActivity"
             android:exported="true">
             <intent-filter>

@@ -1,18 +1,24 @@
 package com.engineer.android.mini.ui.pure
 
 import android.app.Activity
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowInsetsController
 import android.view.WindowManager
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.RadioGroup
+import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +26,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.engineer.android.mini.R
+import com.engineer.android.mini.ext.getResImgWHString
 import com.engineer.android.mini.util.DisplayUtil
 import com.google.android.material.switchmaterial.SwitchMaterial
 
@@ -42,7 +49,6 @@ class LandscapeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate() called ")
-
         window.statusBarColor = Color.TRANSPARENT
         setContentView(R.layout.acitivity_landscape)
         backgroundImageView = findViewById(R.id.background_img)
@@ -50,6 +56,14 @@ class LandscapeActivity : AppCompatActivity() {
             backgroundImageView.setImageResource(R.drawable.wallpaper_portrait)
         } else {
             backgroundImageView.setImageResource(R.drawable.wallpaper_landscape)
+        }
+        val imgInfo = findViewById<TextView>(R.id.img_info)
+        imgInfo.setOnClickListener {
+            imgInfo.text = getResImgWHString(R.drawable.wallpaper_portrait) + "\nw=${backgroundImageView.width},h=${backgroundImageView.height}"
+        }
+        imgInfo.text = getResImgWHString(R.drawable.wallpaper_portrait)
+        backgroundImageView.setOnClickListener {
+            startActivity(Intent(this, LandscapeSubActivity::class.java))
         }
 
         controller = WindowInsetsControllerCompat(window, window.decorView)
@@ -141,6 +155,7 @@ class LandscapeActivity : AppCompatActivity() {
 
 
     private fun updateScreenInfo(activity: Activity) {
+        window.decorView.requestLayout()
         val screenRealSize = DisplayUtil.getScreenRealSize(activity).y
 
         val navHeight =
@@ -155,12 +170,9 @@ class LandscapeActivity : AppCompatActivity() {
                     + "navH = $navHeight," + "statusBarH = $statusBarHeight," + "dp45 = $dp45,"
                     + "visibleH = ${DisplayUtil.sVisibleHeight}"
         )
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            moreInfo()
-        }
+        moreInfo()
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun moreInfo() {
         val deviceDensityNow = DisplayMetrics.DENSITY_DEVICE_STABLE
         Log.d(TAG, "deviceDensityNow= $deviceDensityNow")
@@ -182,4 +194,25 @@ class LandscapeActivity : AppCompatActivity() {
 
     }
 
+}
+
+class LandscapeSubActivity: AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        val frameLayout = FrameLayout(this)
+        val backgroundImageView = ImageView(this)
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            backgroundImageView.setImageResource(R.drawable.wallpaper_portrait)
+        } else {
+            backgroundImageView.setImageResource(R.drawable.wallpaper_landscape)
+        }
+        val p = FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        p.gravity = Gravity.CENTER
+        frameLayout.setBackgroundResource(R.color.warm)
+        frameLayout.addView(backgroundImageView, p)
+        setContentView(frameLayout)
+    }
 }

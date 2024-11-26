@@ -27,7 +27,7 @@ class FlutterRootActivity : BaseActivity() {
 //            )
         }
         viewBinding.flutterFragment.setOnClickListener {
-            if (supportFragmentManager.fragments.size > 0) {
+            if (supportFragmentManager.fragments.isNotEmpty()) {
                 return@setOnClickListener
             }
 //            currentFragment = FlutterFragment.withCachedEngine(MinApp.FLUTTER_ENGINE_ID).build()
@@ -38,7 +38,7 @@ class FlutterRootActivity : BaseActivity() {
 
         val onBackPressCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (supportFragmentManager.fragments.size > 0 && currentFragment != null) {
+                if (supportFragmentManager.fragments.isNotEmpty() && currentFragment != null) {
                     supportFragmentManager.beginTransaction().remove(currentFragment!!)
                         .commitAllowingStateLoss()
                 }
