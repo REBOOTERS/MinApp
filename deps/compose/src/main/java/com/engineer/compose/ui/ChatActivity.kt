@@ -78,22 +78,16 @@ fun ChatScreen(
     viewModel: ChatViewModel = viewModel(),
     @PreviewParameter(ChatUIWithKeyboardPre::class, 1) chatUIWithKeyboard: ChatUIWithKeyboard
 ) {
-    var inpuValue by remember { mutableStateOf("") }
+    var inputValue by remember { mutableStateOf("") }
     val msg by viewModel.messageList.observeAsState(ArrayList())
 
-    viewModel.messageList.observe(LocalLifecycleOwner.current) {
-//        Log.e("TAG_TAG", it.toString())
-    }
-
-    val temp = provideTestChat()
-    val kk by viewModel.kkk.observeAsState("11")
     Column(modifier = Modifier.fillMaxSize()) {
-        Text(text = kk, modifier = Modifier.size(1.dp))
+
         // 消息列表
         MessageList(messages = msg, modifier = Modifier.weight(1f))
         // 输入框和发送按钮
-        InputArea(inputValue = inpuValue, viewModel = viewModel, messageText = {
-            inpuValue = it
+        InputArea(inputValue = inputValue, viewModel = viewModel, messageText = {
+            inputValue = it
         }) {
             chatUIWithKeyboard.hideKeyboard()
         }

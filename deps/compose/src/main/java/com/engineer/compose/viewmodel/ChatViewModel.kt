@@ -17,7 +17,6 @@ class ChatViewModel : ViewModel() {
 
     val messageList: LiveData<ArrayList<ChatMessage>> = _messageList
 
-    val kkk = MutableLiveData<String>()
     fun query(userQuery: String) {
         val history = _messageList.value ?: ArrayList()
         val userMsg = ChatMessage("IAM四十二", userQuery, true)
@@ -61,17 +60,17 @@ class ChatViewModel : ViewModel() {
                 val history = _messageList.value ?: ArrayList()
                 val lastMsg = history.last()
                 sb.append(c)
-                kkk.postValue(sb.toString())
                 if (lastMsg.sender == "Bot") {
                     val newMsg = ChatMessage("Bot", sb.toString(), false)
                     history[history.size - 1] = newMsg
+                    _messageList.postValue(ArrayList(history))
                 } else {
                     val newMsg = ChatMessage("Bot", sb.toString(), false)
                     history.add(newMsg)
+                    _messageList.postValue(history)
                 }
                 Log.d(TAG, "history $history")
 
-                _messageList.postValue(history)
 
                 Thread.sleep(10)
             }
