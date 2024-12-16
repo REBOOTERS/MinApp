@@ -33,6 +33,7 @@ import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.behavior.lifecycle.PanelActivity
 import com.engineer.android.mini.ui.pure.ChangeViewActivity
+import com.engineer.android.mini.ui.pure.DuDuActivity
 import com.engineer.android.mini.ui.pure.MessyActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
 import com.engineer.android.mini.util.InstrumentationHelper
@@ -226,6 +227,9 @@ class RootActivity : BaseActivity() {
         }
         viewBinding.openChangeView.setOnClickListener {
             gotoActivity(ChangeViewActivity::class.java)
+        }
+        viewBinding.openDudu.setOnClickListener {
+            gotoActivity(DuDuActivity::class.java)
         }
     }
 

@@ -49,7 +49,8 @@ android {
         manifestPlaceholders["activity_exported"] = true
 
 
-        resourceConfigurations += listOf("zh-rCN", "xxhdpi")
+//        resourceConfigurations += listOf("zh-rCN", "xxhdpi")
+        resourceConfigurations += listOf("zh-rCN")
 
         ndk {
             //noinspection ChromeOsAbiSupport

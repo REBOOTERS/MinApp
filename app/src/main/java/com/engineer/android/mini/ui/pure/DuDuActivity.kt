@@ -216,6 +216,10 @@ class DuDuActivity : AppCompatActivity() {
             val screenH = screenHeight
             debugTv.text = "w = $w,h=$h ,screenWidth=$screenWidth,screenHeight=$screenHeight"
         }
+        val widths = FloatArray(2)
+        debugTv.paint.getTextWidths("度", widths)
+        Log.i(TAG,"widths = ${widths[0]},${widths[1]}")
+
     }
 
     private fun trigger(it: View) {
