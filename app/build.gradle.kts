@@ -126,20 +126,20 @@ android {
     }
 
 
-    variantFilter {
-        println("***************************")
-        val flavorChannel = flavors.find { it.dimension == "channel" }?.name
-        val flavorType = flavors.find { it.dimension == "type" }?.name
-
-
-        println("flavor=$flavorChannel,type=$flavorType")
-        if (flavorChannel == "huawei" && flavorType == "local") {
-            ignore = true
-        }
-        if (flavorChannel == "xiaomi" && flavorType == "local") {
-            ignore = true
-        }
-    }
+//    variantFilter {
+//        println("***************************")
+//        val flavorChannel = flavors.find { it.dimension == "channel" }?.name
+//        val flavorType = flavors.find { it.dimension == "type" }?.name
+//
+//
+//        println("flavor=$flavorChannel,type=$flavorType")
+//        if (flavorChannel == "huawei" && flavorType == "local") {
+//            ignore = true
+//        }
+//        if (flavorChannel == "xiaomi" && flavorType == "local") {
+//            ignore = true
+//        }
+//    }
 
 }
 
@@ -151,7 +151,7 @@ androidComponents {
         val flavorType = variantBuilder.productFlavors.find {
             it.first == "type"
         }?.second
-        if (flavorChannel == "oppo" && flavorType == "global") {
+        if (flavorChannel == "oppo" || flavorChannel == "xiaomi") {
             variantBuilder.enable = false
         }
     }
