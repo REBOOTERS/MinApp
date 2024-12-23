@@ -49,7 +49,7 @@ class PoorNotification(
 
 
         return NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+            .setSmallIcon(R.drawable.baseline_notification_important_24)
             .setContentTitle(title)
             .setContentText(content)
             .setContentIntent(pendingIntent)
