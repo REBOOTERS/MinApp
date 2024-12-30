@@ -1,10 +1,10 @@
 
 dependencies {
-    implementation'com.google.dagger:hilt-android:2.51.1'
+    implementation 'com.google.dagger:hilt-android:2.54'
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.android.material:material:1.12.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
     implementation project(path: ':deps:filter')
-    implementation 'androidx.activity:activity:1.9.2'
-    ksp 'com.google.dagger:hilt-android-compiler:2.51.1'
+    implementation 'androidx.activity:activity:1.9.3'
+    ksp 'com.google.dagger:hilt-android-compiler:2.54'
 }

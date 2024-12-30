@@ -76,10 +76,10 @@ class InputFocusActivity : AppCompatActivity() {
 
 //        viewBinding.name1.isEnabled = false
         viewBinding.name2.isEnabled = true
-        viewBinding.ddd.setOnClickListener {
-            Toast.makeText(this, "hhhhhh", Toast.LENGTH_SHORT).show()
-            viewBinding.ddd.text = System.currentTimeMillis().toString()
-        }
+//        viewBinding.ddd.setOnClickListener {
+//            Toast.makeText(this, "hhhhhh", Toast.LENGTH_SHORT).show()
+//            viewBinding.ddd.text = System.currentTimeMillis().toString()
+//        }
     }
 
 
