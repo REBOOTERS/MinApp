@@ -27,20 +27,26 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <Button
+                android:id="@+id/time_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="run_time_task" />
+
             <TextView
                 android:id="@+id/debug"
-                android:layout_margin="5dp"
-                android:textSize="@dimen/tv_size"
-                android:text="测试字体测试字体测试字体测试字体测试字体"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="测试字体测试字体测试字体测试字体测试字体"
+                android:textSize="@dimen/tv_size" />
 
             <ImageView
                 android:id="@+id/debug_iv"
                 android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_margin="10dp"
-                android:src="@drawable/android_golden"
-                android:layout_height="100dp"/>
+                android:src="@drawable/android_golden" />
 
             <com.engineer.android.mini.ui.widget.CustomRoundedImageView
                 android:id="@+id/custom_round"
@@ -153,10 +159,10 @@
         android:id="@+id/centerView"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginEnd="50dp"
         android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="50dp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View

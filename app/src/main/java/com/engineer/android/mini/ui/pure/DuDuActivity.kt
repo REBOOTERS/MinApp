@@ -30,6 +30,8 @@ import androidx.appcompat.widget.AppCompatImageView
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.TypeReference
 import com.engineer.android.mini.R
+import com.engineer.android.mini.better.tasks.SchedulerTaskManager
+import com.engineer.android.mini.better.tasks.TimeConfig
 import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.screenHeight
 import com.engineer.android.mini.ext.screenWidth
@@ -216,8 +218,28 @@ class DuDuActivity : AppCompatActivity() {
         }
         val widths = FloatArray(2)
         debugTv.paint.getTextWidths("度", widths)
-        Log.i(TAG,"widths = ${widths[0]},${widths[1]}")
+        Log.i(TAG, "widths = ${widths[0]},${widths[1]}")
 
+        findViewById<View>(R.id.time_task).setOnClickListener {
+            val list = ArrayList<TimeConfig>()
+            val t1 = TimeConfig()
+            t1.startTime = "15:30"
+            t1.repeatModeConfig = "none"
+
+            val t2 = TimeConfig()
+            t2.startTime = "15:33"
+            t2.repeatModeConfig = "daily"
+
+            val t3 = TimeConfig()
+            t3.startTime = "15:40"
+            t3.repeatModeConfig = "1,3,5"
+
+            list.add(t1)
+            list.add(t2)
+            list.add(t3)
+
+            SchedulerTaskManager.setUpTaskByConfig(list)
+        }
     }
 
     private fun trigger(it: View) {
@@ -297,6 +319,11 @@ class DuDuActivity : AppCompatActivity() {
             sum += i
         }
         Log.i(TAG, "n = $n,sum = $sum in thread ${Thread.currentThread().name}")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        SchedulerTaskManager.shutDownAllTask()
     }
 }
 
