@@ -95,6 +95,7 @@ android {
         dataBinding = true
         viewBinding = true
         aidl = true
+        buildConfig = true
     }
     lint {
         checkReleaseBuilds = false
