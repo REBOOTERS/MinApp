@@ -81,7 +81,9 @@ android {
         release {
             isMinifyEnabled = true
             signingConfig = signingConfigs.findByName("release")
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -96,6 +98,7 @@ android {
         viewBinding = true
         aidl = true
         buildConfig = true
+        mlModelBinding = true
     }
     lint {
         checkReleaseBuilds = false
@@ -122,7 +125,8 @@ android {
         create("huawei") { dimension = "channel" }
         create("local") {
             isDefault = true
-            dimension = "type"  }
+            dimension = "type"
+        }
         create("global") { dimension = "type" }
     }
 
@@ -208,17 +212,19 @@ dependencies {
     implementation("io.noties.markwon:core:4.6.2")
     implementation("io.noties.markwon:ext-latex:4.6.2")
     implementation("com.facebook.fresco:fresco:3.1.3") {
-        exclude("com.facebook.soloader","soloader")
-        exclude("com.facebook.fresco","soloader")
-        exclude("com.facebook.fresco","soloader")
-        exclude("com.facebook.fresco","nativeimagefilters")
-        exclude("com.facebook.fresco","memory-type-native")
-        exclude("com.facebook.fresco","imagepipeline-native")
+        exclude("com.facebook.soloader", "soloader")
+        exclude("com.facebook.fresco", "soloader")
+        exclude("com.facebook.fresco", "soloader")
+        exclude("com.facebook.fresco", "nativeimagefilters")
+        exclude("com.facebook.fresco", "memory-type-native")
+        exclude("com.facebook.fresco", "imagepipeline-native")
     }
+    implementation("org.tensorflow:tensorflow-lite:2.13.0")
+    implementation("org.tensorflow:tensorflow-lite-support:0.3.1")
+    implementation("org.tensorflow:tensorflow-lite-metadata:0.2.0")
 
-    add("globalImplementation","io.noties.markwon:core:4.6.2")
+    add("globalImplementation", "io.noties.markwon:core:4.6.2")
 //    add("huaweiGlobalImplementation","io.noties.markwon:core:4.6.2")
-
 }
 apply(from = "../custom-gradle/test-dep.gradle")
 apply(from = "../custom-gradle/viewmodel-dep.gradle")

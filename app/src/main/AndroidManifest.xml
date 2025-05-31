@@ -287,6 +287,9 @@
         <activity
             android:name=".ui.behavior.MDActivity"
             android:exported="true" />
+        <activity
+            android:name=".ui.FastStyleTransActivity2"
+            android:exported="true" />
     </application>
 
 </manifest>
