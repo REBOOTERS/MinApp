@@ -12,10 +12,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +34,8 @@ fun ImagePickScreen(
     generateImage: () -> Unit,
     viewModel: TransViewModel
 ) {
+    val selectedOption by viewModel.selectedOption.collectAsState()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -75,6 +81,28 @@ fun ImagePickScreen(
                 }
             }
 
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                (0..4).forEach { option ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.selectable(
+                            selected = (option == selectedOption),
+                            onClick = { viewModel.updateSelectedOption(option) }
+                        )
+                    ) {
+                        RadioButton(
+                            selected = (option == selectedOption),
+                            onClick = { viewModel.updateSelectedOption(option) }
+                        )
+                        Text(text = option.toString(), modifier = Modifier.padding(start = 4.dp))
+                    }
+                }
+            }
             // 按钮固定在底部
             Row(
                 modifier = Modifier

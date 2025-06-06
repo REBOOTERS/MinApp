@@ -60,7 +60,7 @@ class StyleTransActivity : ComponentActivity() {
 
 
     private fun genImage() {
-        viewModel.generateImage(this, 0)
+        viewModel.generateImage(this)
     }
 
     private fun showBitmap(bitmap: Bitmap?) {
