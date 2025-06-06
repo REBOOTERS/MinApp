@@ -25,4 +25,7 @@
 
     <color name="red">#F44336</color>
     <color name="green">#009688</color>
+    <color name="tflite_orange_color">#FF6F00</color>
+    <color name="toolbar_background">#EEEEEE</color>
+    <color name="control_ui_text_color">@android:color/black</color>
 </resources>

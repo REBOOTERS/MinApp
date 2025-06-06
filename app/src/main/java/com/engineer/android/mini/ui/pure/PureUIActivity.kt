@@ -24,7 +24,7 @@ import com.engineer.android.mini.databinding.ActivityPureUiBinding
 import com.engineer.android.mini.ext.*
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.ForceBottomActivity
-import com.engineer.android.mini.ui.MD3Activity
+import com.engineer.android.mini.ui.TransMultiActivity
 import com.engineer.android.mini.ui.adapter.ActionModeCallbackAdapter
 import com.engineer.android.mini.ui.adapter.RecyclerViewActivity
 import com.engineer.android.mini.ui.pure.helper.SimpleCallback
@@ -72,7 +72,7 @@ class PureUIActivity : BaseActivity() {
         realBinding.cropView.setOnClickListener { gotoActivity(CropActivity::class.java) }
         realBinding.roundCorner.setOnClickListener { gotoActivity(CornerViewActivity::class.java) }
         realBinding.viewPage2Test.setOnClickListener { gotoActivity(TabsActivity::class.java) }
-        realBinding.materialDesign3.setOnClickListener { gotoActivity(MD3Activity::class.java) }
+        realBinding.materialDesign3.setOnClickListener { gotoActivity(TransMultiActivity::class.java) }
         realBinding.imageView.setOnClickListener { boundsAnimation() }
         realBinding.statusBarTest.setOnClickListener { gotoActivity(LandscapeActivity::class.java) }
         realBinding.layoutAc.setOnClickListener { gotoActivity(LayoutActivity::class.java) }

@@ -30,8 +30,10 @@ import com.engineer.android.mini.jetpack.FragmentManagerActivity
 import com.engineer.android.mini.net.RxCacheActivity
 import com.engineer.android.mini.net.ThreadExTransform
 import com.engineer.android.mini.ui.BaseActivity
+import com.engineer.android.mini.ui.TransMultiActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.behavior.lifecycle.PanelActivity
+import com.engineer.android.mini.ui.compose.pickimg.StyleTransActivity
 import com.engineer.android.mini.ui.pure.ChangeViewActivity
 import com.engineer.android.mini.ui.pure.DuDuActivity
 import com.engineer.android.mini.ui.pure.MessyActivity
@@ -84,37 +86,38 @@ class RootActivity : BaseActivity() {
 
 
     private fun printSysInfo() {
-        val d = Observable.interval(0L, 1L, TimeUnit.SECONDS).compose(ThreadExTransform()).subscribe {
-            val oneMB = 1024 * 1024f
-            val sb = StringBuilder()
+        val d =
+            Observable.interval(0L, 1L, TimeUnit.SECONDS).compose(ThreadExTransform()).subscribe {
+                val oneMB = 1024 * 1024f
+                val sb = StringBuilder()
 
-            sb.append("count=").append(it).append("\n")
-            if (it > 10 && (it % 20 == 0L)) {
-                Runtime.getRuntime().gc()
-                "gc() called".toast()
+                sb.append("count=").append(it).append("\n")
+                if (it > 10 && (it % 20 == 0L)) {
+                    Runtime.getRuntime().gc()
+                    "gc() called".toast()
+                }
+                val maxMemory = Runtime.getRuntime().maxMemory() / oneMB
+                sb.append("maxMemory=").append(maxMemory).append("MB").append("\n")
+
+                val totalMemory = Runtime.getRuntime().totalMemory() / oneMB
+                sb.append("totalMemory=").append(totalMemory).append("MB").append("\n")
+
+                val freeMemory = Runtime.getRuntime().freeMemory() / oneMB
+                sb.append("freeMemory=").append(freeMemory).append("MB").append("\n")
+
+                val availableProcessor = Runtime.getRuntime().availableProcessors()
+                sb.append("availableProcessor=").append(availableProcessor).append("\n")
+
+                val isHarmonyOS = AndroidSystem.isHarmonyOS()
+                sb.append("isHarmonyOS : $isHarmonyOS").append("\n")
+
+                val systemTime = System.currentTimeMillis()
+                sb.append("System.currentTimeMillis()=$systemTime").append("\n")
+
+                val clockTime = SystemClock.uptimeMillis()
+                sb.append("SystemClock.uptimeMillis()=$clockTime").append("\n")
+                viewBinding.sysRuntimeInfo.text = sb.toString()
             }
-            val maxMemory = Runtime.getRuntime().maxMemory() / oneMB
-            sb.append("maxMemory=").append(maxMemory).append("MB").append("\n")
-
-            val totalMemory = Runtime.getRuntime().totalMemory() / oneMB
-            sb.append("totalMemory=").append(totalMemory).append("MB").append("\n")
-
-            val freeMemory = Runtime.getRuntime().freeMemory() / oneMB
-            sb.append("freeMemory=").append(freeMemory).append("MB").append("\n")
-
-            val availableProcessor = Runtime.getRuntime().availableProcessors()
-            sb.append("availableProcessor=").append(availableProcessor).append("\n")
-
-            val isHarmonyOS = AndroidSystem.isHarmonyOS()
-            sb.append("isHarmonyOS : $isHarmonyOS").append("\n")
-
-            val systemTime = System.currentTimeMillis()
-            sb.append("System.currentTimeMillis()=$systemTime").append("\n")
-
-            val clockTime = SystemClock.uptimeMillis()
-            sb.append("SystemClock.uptimeMillis()=$clockTime").append("\n")
-            viewBinding.sysRuntimeInfo.text = sb.toString()
-        }
         disposeOn.add(d)
         val info = "${BuildConfig.BUILD_TYPE}_${BuildConfig.FLAVOR}_${BuildConfig.VERSION_NAME}"
         viewBinding.versionInfo.text = info
@@ -221,8 +224,8 @@ class RootActivity : BaseActivity() {
             exitProcess(0)
         }
         viewBinding.openMessy.setOnClickListener {
-            val bitmap = Bitmap.createBitmap(it.width,it.height, Bitmap.Config.ARGB_8888)
-            val bundle = ActivityOptions.makeThumbnailScaleUpAnimation(it,bitmap,0,0).toBundle()
+            val bitmap = Bitmap.createBitmap(it.width, it.height, Bitmap.Config.ARGB_8888)
+            val bundle = ActivityOptions.makeThumbnailScaleUpAnimation(it, bitmap, 0, 0).toBundle()
             gotoActivity(MessyActivity::class.java, bundle)
         }
         viewBinding.openChangeView.setOnClickListener {
@@ -230,6 +233,12 @@ class RootActivity : BaseActivity() {
         }
         viewBinding.openDudu.setOnClickListener {
             gotoActivity(DuDuActivity::class.java)
+        }
+        viewBinding.openStyleTrans.setOnClickListener {
+            gotoActivity(StyleTransActivity::class.java)
+        }
+        viewBinding.openStyleTrans2.setOnClickListener {
+            gotoActivity(TransMultiActivity::class.java)
         }
     }
 
@@ -305,7 +314,8 @@ class RootActivity : BaseActivity() {
         if (requestCode == 0) {
             for (result in grantResults) {
                 if (result != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "You must allow all the permissions.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "You must allow all the permissions.", Toast.LENGTH_SHORT)
+                        .show()
 //                    finish()
                 }
             }

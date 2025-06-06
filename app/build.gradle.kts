@@ -221,7 +221,10 @@ dependencies {
         exclude("com.facebook.fresco", "memory-type-native")
         exclude("com.facebook.fresco", "imagepipeline-native")
     }
-    implementation("org.tensorflow:tensorflow-lite:2.13.0")
+    val tensorLiteVersion = "2.9.0"
+    implementation("org.tensorflow:tensorflow-lite:$tensorLiteVersion")
+//    implementation("org.tensorflow:tensorflow-lite-gpu:$tensorLiteVersion")
+//    implementation("org.tensorflow:tensorflow-lite-select-tf-ops:$tensorLiteVersion")
     implementation("org.tensorflow:tensorflow-lite-support:0.3.1")
     implementation("org.tensorflow:tensorflow-lite-metadata:0.2.0")
 

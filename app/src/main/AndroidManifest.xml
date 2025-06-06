@@ -99,7 +99,7 @@
             android:name=".ui.behavior.FishActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.MD3Activity"
+            android:name=".ui.TransMultiActivity"
             android:exported="true"
             android:label="@string/title_activity_md3"
             android:theme="@style/Theme.M3" />
