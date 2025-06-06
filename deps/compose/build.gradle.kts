@@ -62,10 +62,10 @@ dependencies {
     api(libs.androidx.ui.tooling.preview)
     api(libs.androidx.material3)
     // Image for net
-    implementation(libs.coil.compose)
-    implementation("io.coil-kt:coil-gif:2.6.0")
-    implementation(libs.androidx.compose.runtime)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    api(libs.coil.compose)
+    api("io.coil-kt:coil-gif:2.6.0")
+    api(libs.androidx.compose.runtime)
+    api(libs.androidx.lifecycle.viewmodel.compose)
 
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pager.indicator)

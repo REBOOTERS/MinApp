@@ -1,4 +1,4 @@
-package com.engineer.android.mini.ui
+package com.engineer.android.mini.ui.compose.pickimg
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -6,119 +6,65 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.Companion.isPhotoPickerAvailable
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.scale
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.lifecycle.lifecycleScope
-import com.engineer.android.mini.databinding.ActivityTansStyleBinding
-import com.engineer.android.mini.ext.gone
-import com.engineer.android.mini.ext.show
-import com.engineer.android.mini.ml.WhiteboxCartoonGanDr
-import com.engineer.android.mini.ml.WhiteboxCartoonGanFp16
-import com.engineer.android.mini.ml.WhiteboxCartoonGanInt8
-import com.engineer.android.mini.util.AsyncExecutor
+import com.engineer.android.mini.ui.compose.ImagePickScreen
+import com.engineer.compose.ui.ui.theme.MiniAppTheme
 
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
-import org.tensorflow.lite.support.image.TensorImage
-import org.tensorflow.lite.support.model.Model
-
-
-class FastStyleTransActivity2 : AppCompatActivity() {
-    private val TAG = "FastStyleTransActivity_TAG"
-
-    private val modelName = "mosaic.pt"
-    private var currentBitmap: Bitmap? = null
-
-    private lateinit var viewBinding: ActivityTansStyleBinding
+class StyleTransActivity : ComponentActivity() {
+    private val TAG = "StyleTransActivity"
+    private val viewModel: TransViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         WindowInsetsControllerCompat(
             window, window.decorView
         ).hide(WindowInsetsCompat.Type.statusBars())
-        viewBinding = ActivityTansStyleBinding.inflate(layoutInflater)
-        setContentView(viewBinding.root)
-        viewBinding.pickImg.setOnClickListener {
-            pickImage()
-        }
-        viewBinding.gen.setOnClickListener {
-            refreshLoading(true)
-            GlobalScope.launch {
-                genImage()
-            }
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        lifecycleScope.cancel()
-    }
-
-    private fun showBitmap(bitmap: Bitmap) {
-        viewBinding.pickResult.setImageBitmap(bitmap)
-
-        Log.i(TAG, "ori = ${bitmap.width},${bitmap.height}")
-        currentBitmap = bitmap
-    }
-
-    private fun refreshLoading(show: Boolean) {
-        if (show) viewBinding.loading.show() else viewBinding.loading.gone()
-    }
-
-    private fun process(bitmap: Bitmap, cb: (Bitmap) -> Unit) {
-        AsyncExecutor.fromIO().execute {
-//            val b = bitmap.scale(512, 512)
-            // GPU delegate
-            val options = Model.Options.Builder()
-                .setDevice(Model.Device.GPU)
-                .setNumThreads(4)
-                .build()
-            val tensorImage = TensorImage.fromBitmap(bitmap)
-//            val model = WhiteboxCartoonGanFp16.newInstance(this)
-//            val model = WhiteboxCartoonGanDr.newInstance(this)
-            val model = WhiteboxCartoonGanInt8.newInstance(this)
-            val out = model.process(tensorImage)
-            val result = out.cartoonizedImageAsTensorImage
-            cb(result.bitmap)
-            model.close()
-        }
-    }
-
-
-    private fun genImage() {
-        currentBitmap?.let {
-
-            viewBinding.transResult.setImageBitmap(null)
-            process(it) {
-                runOnUiThread {
-                    refreshLoading(false)
-                    viewBinding.transResult.setImageBitmap(it)
+        setContent {
+            MiniAppTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(color = MaterialTheme.colorScheme.background) {
+                    ImagePickScreen(
+                        pickImage = {
+                        pickImage()
+                    }, generateImage = {
+                        genImage()
+                    }, viewModel = viewModel
+                    )
                 }
             }
         }
     }
 
-
     private fun pickImage() {
         // 检查设备是否支持照片选择器
-        if (isPhotoPickerAvailable(this)) {
+        if (ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable(this)) {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         } else {
             // 回退到传统方法
             checkAndRequestPermission()
         }
+    }
+
+
+    private fun genImage() {
+        viewModel.generateImage(this, 0)
+    }
+
+    private fun showBitmap(bitmap: Bitmap?) {
+        viewModel.updatePickedImage(bitmap)
     }
 
     private val pickMedia =

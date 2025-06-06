@@ -288,7 +288,7 @@
             android:name=".ui.behavior.MDActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.FastStyleTransActivity2"
+            android:name=".ui.compose.pickimg.StyleTransActivity"
             android:exported="true" />
     </application>
 

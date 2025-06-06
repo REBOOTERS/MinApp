@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.tools.ksp)
+    alias(libs.plugins.compose.compiler)
 }
 
 val buildTime: String = SimpleDateFormat("yyMMddHHmm").format(Date())
@@ -99,6 +100,7 @@ android {
         aidl = true
         buildConfig = true
         mlModelBinding = true
+        compose = true
     }
     lint {
         checkReleaseBuilds = false
