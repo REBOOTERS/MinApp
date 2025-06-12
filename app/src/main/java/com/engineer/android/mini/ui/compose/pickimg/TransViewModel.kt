@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.engineer.android.mini.ml.ArbitraryImageStylizationV1Tflite256Fp16TransferV1
 import com.engineer.android.mini.ml.ArbitraryImageStylizationV1Tflite256Int8TransferV1
+import com.engineer.android.mini.ml.PredictInt8
 import com.engineer.android.mini.ml.WhiteboxCartoonGanDr
 import com.engineer.android.mini.ml.WhiteboxCartoonGanFp16
 import com.engineer.android.mini.ml.WhiteboxCartoonGanInt8
@@ -105,8 +106,14 @@ class TransViewModel : ViewModel() {
                 model.close()
             }
             if (model is ArbitraryImageStylizationV1Tflite256Int8TransferV1) {
-                val styleBottleneck =
-                    TensorBuffer.createFixedSize(intArrayOf(1, 1, 1, 100), DataType.FLOAT32)
+                val predict = PredictInt8.newInstance(context)
+
+                val styleImage = TensorImage.fromBitmap(bitmap)
+                // Runs model inference and gets result.
+                val outputs = predict.process(styleImage)
+                val styleBottleneck = outputs.styleBottleneckAsTensorBuffer
+
+
                 val byteBuffer = ByteBuffer.allocate(bitmap.width * bitmap.height * 3)
                 styleBottleneck.loadBuffer(byteBuffer)
                 val out = model.process(tensorImage, styleBottleneck)
