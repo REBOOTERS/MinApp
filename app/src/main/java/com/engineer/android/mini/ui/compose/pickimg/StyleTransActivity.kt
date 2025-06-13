@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.engineer.android.mini.ext.getBitmapFromAssets
 import com.engineer.android.mini.ui.compose.ImagePickScreen
 import com.engineer.compose.ui.ui.theme.MiniAppTheme
 
@@ -65,6 +66,10 @@ class StyleTransActivity : ComponentActivity() {
 
     private fun showBitmap(bitmap: Bitmap?) {
         viewModel.updatePickedImage(bitmap)
+
+        val styleBitmap = getBitmapFromAssets("thumbnails/style0.jpg")
+        viewModel.updateStyleImage(styleBitmap)
+
     }
 
     private val pickMedia =

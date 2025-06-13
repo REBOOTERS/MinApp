@@ -1,8 +1,11 @@
 package com.engineer.android.mini.ext
 
 import android.content.Context
+import android.content.res.AssetManager
 import android.content.res.Resources
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import java.io.InputStream
 
 fun Context?.getStatusBarHeight(): Int {
     var result = 0
@@ -38,6 +41,18 @@ fun Context?.getResImgWHString(id: Int): String {
         return "w=$w,h=$h"
     } ?: run {
         return "w=0,h=0"
+    }
+}
+
+fun Context.getBitmapFromAssets(fileName: String): Bitmap? {
+    val assetManager: AssetManager = this.assets
+    return try {
+        val istr: InputStream = assetManager.open(fileName)
+        val bitmap = BitmapFactory.decodeStream(istr)
+        istr.close()
+        bitmap
+    } catch (e: Exception) {
+        null
     }
 }
 

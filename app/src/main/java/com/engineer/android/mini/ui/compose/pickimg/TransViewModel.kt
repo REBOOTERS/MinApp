@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.engineer.android.mini.ml.ArbitraryImageStylizationV1Tflite256Fp16TransferV1
 import com.engineer.android.mini.ml.ArbitraryImageStylizationV1Tflite256Int8TransferV1
+import com.engineer.android.mini.ml.PredictFloat16
 import com.engineer.android.mini.ml.PredictInt8
 import com.engineer.android.mini.ml.WhiteboxCartoonGanDr
 import com.engineer.android.mini.ml.WhiteboxCartoonGanFp16
@@ -19,11 +20,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.model.Model
-import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
-import java.nio.ByteBuffer
 
 class TransViewModel : ViewModel() {
     private val TAG = "TransViewModel"
@@ -36,8 +34,15 @@ class TransViewModel : ViewModel() {
     var isLoading by mutableStateOf(false)
         private set
 
+    var styleBitmap by mutableStateOf<Bitmap?>(null)
+        private set
+
     fun updatePickedImage(bitmap: Bitmap?) {
         pickedImageBitmap = bitmap
+    }
+
+    fun updateStyleImage(bitmap: Bitmap?) {
+        styleBitmap = bitmap
     }
 
     private val _selectedOption = MutableStateFlow(0)
@@ -94,33 +99,38 @@ class TransViewModel : ViewModel() {
                 model.close()
             }
             if (model is ArbitraryImageStylizationV1Tflite256Fp16TransferV1) {
-                val styleBottleneck =
-                    TensorBuffer.createFixedSize(intArrayOf(1, 1, 1, 100), DataType.FLOAT32)
-                val byteBuffer = ByteBuffer.allocate(bitmap.width * bitmap.height * 3)
-                styleBottleneck.loadBuffer(byteBuffer)
+
+                val predict = PredictFloat16.newInstance(context)
+                val styleImage = TensorImage.fromBitmap(styleBitmap)
+                val outputs = predict.process(styleImage)
+
+                val styleBottleneck = outputs.styleBottleneckAsTensorBuffer
                 val out = model.process(tensorImage, styleBottleneck)
 
                 val result = out.styledImageAsTensorImage
                 cb(result.bitmap)
 
+                predict.close()
                 model.close()
             }
             if (model is ArbitraryImageStylizationV1Tflite256Int8TransferV1) {
                 val predict = PredictInt8.newInstance(context)
 
-                val styleImage = TensorImage.fromBitmap(bitmap)
+                val styleImage = TensorImage.fromBitmap(styleBitmap)
+
                 // Runs model inference and gets result.
                 val outputs = predict.process(styleImage)
+
                 val styleBottleneck = outputs.styleBottleneckAsTensorBuffer
+                Log.i(TAG, "styleBottleneck ${styleBottleneck}")
 
 
-                val byteBuffer = ByteBuffer.allocate(bitmap.width * bitmap.height * 3)
-                styleBottleneck.loadBuffer(byteBuffer)
                 val out = model.process(tensorImage, styleBottleneck)
 
                 val result = out.styledImageAsTensorImage
                 cb(result.bitmap)
 
+                predict.close()
                 model.close()
             }
             Log.d(TAG, "finish")
