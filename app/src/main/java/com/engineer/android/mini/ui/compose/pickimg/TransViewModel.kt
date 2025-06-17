@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.engineer.android.mini.ml.ArbitraryImageStylizationV1Tflite256Fp16TransferV1
@@ -16,12 +18,14 @@ import com.engineer.android.mini.ml.WhiteboxCartoonGanDr
 import com.engineer.android.mini.ml.WhiteboxCartoonGanFp16
 import com.engineer.android.mini.ml.WhiteboxCartoonGanInt8
 import com.engineer.android.mini.util.AsyncExecutor
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.model.Model
+import java.io.InputStream
 
 class TransViewModel : ViewModel() {
     private val TAG = "TransViewModel"
@@ -48,9 +52,44 @@ class TransViewModel : ViewModel() {
     private val _selectedOption = MutableStateFlow(0)
     val selectedOption: StateFlow<Int> = _selectedOption.asStateFlow()
 
+    // 风格图片列表（从 Assets 加载）
+    private val _styleImages = MutableStateFlow<List<ImageBitmap>>(emptyList())
+    val styleImages: StateFlow<List<ImageBitmap>> = _styleImages.asStateFlow()
+
     fun updateSelectedOption(option: Int) {
         _selectedOption.value = option
     }
+
+    private val _selectedStyleIndex = MutableStateFlow(-1)
+    val selectedStyleIndex: StateFlow<Int> = _selectedStyleIndex.asStateFlow()
+
+    fun updateSelectedStyle(index: Int) {
+        _selectedStyleIndex.value = index
+    }
+
+    fun loadStyleImages(context: Context) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val images = mutableListOf<ImageBitmap>()
+            context.assets.list("thumbnails")?.forEach { i ->
+                Log.d(TAG,"i == $i")
+                val path = "thumbnails/${i}"
+                val bitmap = loadImageFromAssets(path, context)?.asImageBitmap()
+                bitmap?.let { images.add(it) }
+            }
+            _styleImages.value = images
+            Log.d(TAG,"_size = ${_styleImages.value.size}")
+        }
+    }
+
+    private fun loadImageFromAssets(path: String, context: Context): Bitmap? {
+        return try {
+            val inputStream: InputStream = context.assets.open(path)
+            android.graphics.BitmapFactory.decodeStream(inputStream)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
 
     fun generateImage(context: Context) {
         if (pickedImageBitmap == null) {
