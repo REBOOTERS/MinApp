@@ -119,17 +119,17 @@ android {
         }
     }
 
-    flavorDimensions.add("channel")
+//    flavorDimensions.add("channel")
     flavorDimensions.add("type")
     productFlavors {
-        create("xiaomi") { dimension = "channel" }
-        create("oppo") { dimension = "channel" }
-        create("huawei") { dimension = "channel" }
+//        create("xiaomi") { dimension = "channel" }
+//        create("oppo") { dimension = "channel" }
+//        create("huawei") { dimension = "channel" }
         create("local") {
             isDefault = true
             dimension = "type"
         }
-        create("global") { dimension = "type" }
+//        create("global") { dimension = "type" }
     }
 
 
@@ -228,7 +228,7 @@ dependencies {
     implementation("org.tensorflow:tensorflow-lite-support:0.3.1")
     implementation("org.tensorflow:tensorflow-lite-metadata:0.2.0")
 
-    add("globalImplementation", "io.noties.markwon:core:4.6.2")
+    add("localImplementation", "io.noties.markwon:core:4.6.2")
 //    add("huaweiGlobalImplementation","io.noties.markwon:core:4.6.2")
 }
 apply(from = "../custom-gradle/test-dep.gradle")

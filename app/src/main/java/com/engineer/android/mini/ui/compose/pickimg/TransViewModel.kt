@@ -92,6 +92,7 @@ class TransViewModel : ViewModel() {
 
 
     fun generateImage(context: Context) {
+        Log.d(TAG,"generateImage")
         if (pickedImageBitmap == null) {
             return
         }
@@ -138,8 +139,12 @@ class TransViewModel : ViewModel() {
                 model.close()
             }
             if (model is ArbitraryImageStylizationV1Tflite256Fp16TransferV1) {
-
+                if (styleBitmap == null) {
+                    cb(bitmap)
+                    return@execute
+                }
                 val predict = PredictFloat16.newInstance(context)
+
                 val styleImage = TensorImage.fromBitmap(styleBitmap)
                 val outputs = predict.process(styleImage)
 
@@ -153,8 +158,11 @@ class TransViewModel : ViewModel() {
                 model.close()
             }
             if (model is ArbitraryImageStylizationV1Tflite256Int8TransferV1) {
+                if (styleBitmap == null) {
+                    cb(bitmap)
+                    return@execute
+                }
                 val predict = PredictInt8.newInstance(context)
-
                 val styleImage = TensorImage.fromBitmap(styleBitmap)
 
                 // Runs model inference and gets result.

@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.engineer.android.mini.ui.compose.pickimg.TransViewModel
 
@@ -95,6 +96,7 @@ fun ImagePickScreen(
                         // 处理选中的风格索引（例如更新ViewModel）
                         viewModel.updateSelectedStyle(index)
                         viewModel.updateStyleImage(bitmap)
+                        generateImage()
                     }, viewModel
                 )
             }
@@ -113,7 +115,10 @@ fun ImagePickScreen(
                     ) {
                         RadioButton(
                             selected = (option == selectedOption),
-                            onClick = { viewModel.updateSelectedOption(option) })
+                            onClick = {
+                                viewModel.updateSelectedOption(option)
+                                generateImage()
+                            })
                         Text(text = option.toString(), modifier = Modifier.padding(start = 4.dp))
                     }
                 }
@@ -163,22 +168,22 @@ fun StyleImageList(
 //    var selectedIndex by remember { mutableStateOf(-1) } // 当前选中项
     val selectedIndex by viewModel.selectedStyleIndex.collectAsState()
     Column {
-        Text("选择风格:", modifier = Modifier.padding(8.dp))
+        Text("选择风格:", modifier = Modifier.padding(4.dp))
         Row(
             modifier = Modifier
                 .horizontalScroll(rememberScrollState())
-                .padding(8.dp)
+                .padding(4.dp)
         ) {
             images.forEachIndexed { index, bitmap ->
                 Image(
                     bitmap = bitmap,
                     contentDescription = "Style Image",
                     modifier = Modifier
-                        .size(100.dp)
+                        .size(70.dp)
                         .padding(4.dp)
                         // 根据选中状态添加边框
                         .border(
-                            border = if (selectedIndex == index) BorderStroke(3.dp, Color.Red)
+                            border = if (selectedIndex == index) BorderStroke(1.dp, Color.Red)
                             else BorderStroke(0.dp, Color.Transparent),
                             shape = MaterialTheme.shapes.medium
                         )
