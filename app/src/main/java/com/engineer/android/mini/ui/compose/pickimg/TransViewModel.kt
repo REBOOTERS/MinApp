@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.engineer.android.mini.ml.ArbitraryImageStylizationV1Tflite256Fp16TransferV1
 import com.engineer.android.mini.ml.ArbitraryImageStylizationV1Tflite256Int8TransferV1
+import com.engineer.android.mini.ml.Mnist
 import com.engineer.android.mini.ml.PredictFloat16
 import com.engineer.android.mini.ml.PredictInt8
 import com.engineer.android.mini.ml.WhiteboxCartoonGanDr
@@ -181,7 +182,6 @@ class TransViewModel : ViewModel() {
                 model.close()
             }
             Log.d(TAG, "finish")
-
         }
     }
 
