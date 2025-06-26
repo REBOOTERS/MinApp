@@ -18,8 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import com.engineer.android.mini.ui.compose.ImagePickScreen
 import com.engineer.compose.ui.ui.theme.MiniAppTheme
 
@@ -29,9 +27,6 @@ class StyleTransActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        WindowInsetsControllerCompat(
-            window, window.decorView
-        ).hide(WindowInsetsCompat.Type.statusBars())
         setContent {
             MiniAppTheme {
                 // A surface container using the 'background' color from the theme
