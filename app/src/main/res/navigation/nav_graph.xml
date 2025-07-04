@@ -17,9 +17,9 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.engineer.android.mini.ui.fragments.TransformationFragment"
+        android:name="com.engineer.android.mini.ui.tabs.ui.fragments.SimpleFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_transformation">
+        tools:layout="@layout/fragment_simple">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"

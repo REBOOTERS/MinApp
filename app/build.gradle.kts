@@ -200,7 +200,7 @@ dependencies {
 
 
     // https://github.com/koral--/android-gif-drawable/tree/master
-    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.28")
+    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.29")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
@@ -213,7 +213,7 @@ dependencies {
 
     implementation("io.noties.markwon:core:4.6.2")
     implementation("io.noties.markwon:ext-latex:4.6.2")
-    implementation("com.facebook.fresco:fresco:3.1.3") {
+    implementation("com.facebook.fresco:fresco:3.6.0") {
         exclude("com.facebook.soloader", "soloader")
         exclude("com.facebook.fresco", "soloader")
         exclude("com.facebook.fresco", "soloader")

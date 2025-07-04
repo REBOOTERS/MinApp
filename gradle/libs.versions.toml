@@ -1,5 +1,5 @@
 [versions]
-agp = "8.10.1"
+agp = "8.11.0"
 kotlin = "2.0.20"
 coreKtx = "1.16.0"
 junit = "4.13.2"
@@ -27,6 +27,8 @@ lifecycleRuntimeKtxVersion = "2.7.0"
 minSdk = "21"
 targetSdk = "35"
 compileSdk = "35"
+navigationFragmentKtx = "2.9.1"
+navigationUiKtx = "2.9.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,6 +56,8 @@ androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecy
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 accompanist-pager = {group = "com.google.accompanist",name="accompanist-pager",version.ref = "accompanistPager"}
 accompanist-pager-indicator = {group = "com.google.accompanist",name="accompanist-pager-indicators",version.ref = "accompanistPager"}
+androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
+androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
