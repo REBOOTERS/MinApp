@@ -134,6 +134,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity-alias
+            android:exported="true"
+            android:name=".AliasEntry"
+            android:icon="@drawable/android"
+            android:label="Trans"
+            android:targetActivity=".ui.compose.pickimg.StyleTransActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
         <activity
             android:name=".ui.pure.MessyActivity"
             android:exported="true" />
@@ -288,6 +299,7 @@
             android:name=".ui.behavior.MDActivity"
             android:exported="true" />
         <activity
+            android:taskAffinity=".trans"
             android:name=".ui.compose.pickimg.StyleTransActivity"
             android:exported="true" />
     </application>
