@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.tools.ksp) apply false
     alias(libs.plugins.compose.compiler) apply false
 }
-apply(from = rootProject.rootDir.absolutePath + "/custom-gradle/check-style.gradle")
+//apply(from = rootProject.rootDir.absolutePath + "/custom-gradle/check-style.gradle")
 
 tasks.create("clean") {
     delete(rootProject.buildDir)
