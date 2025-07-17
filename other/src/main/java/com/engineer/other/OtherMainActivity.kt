@@ -83,8 +83,8 @@ class OtherMainActivity : AppCompatActivity() {
             ServiceHelper.provideIBookInterface()?.startRequest("111")
         }
 
-//        val value = ContentProviderHelper.read(this, "name")
-//        Log.e(TAG, "onCreate: value =$value")
+        val value = ContentProviderHelper.read(this, "name")
+        Log.e(TAG, "onCreate: value =$value")
     }
 
     override fun onResume() {

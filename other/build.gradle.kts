@@ -25,12 +25,12 @@ android {
             keyPassword = project.findProperty("MYAPP_RELEASE_KEY_PASSWORD") as String
         }
 
-//        debug {
-//            keyAlias ="other"
-//            keyPassword= "123456"
-//            storeFile=file("other_debug.jks")
-//            storePassword ="123456"
-//        }
+        getByName("debug") {
+            storeFile = file(project.findProperty("MYAPP_RELEASE_STORE_FILE") as String)
+            storePassword = project.findProperty("MYAPP_RELEASE_STORE_PASSWORD") as String
+            keyAlias = project.findProperty("MYAPP_RELEASE_KEY_ALIAS") as String
+            keyPassword = project.findProperty("MYAPP_RELEASE_KEY_PASSWORD") as String
+        }
     }
 
     buildTypes {
@@ -47,7 +47,7 @@ android {
         }
         debug {
             isMinifyEnabled = false
-//            signingConfig = signingConfigs.release
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
