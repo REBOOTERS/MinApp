@@ -35,7 +35,8 @@ object ContentProviderHelper {
         if (rowId != null) {
             val where = "_id = ?"
             val whereValue = arrayOf(rowId)
-            val rowNum = contentResolver.update(MiniContract.Entry.CONTENT_URL, values, where, whereValue)
+            val rowNum =
+                contentResolver.update(MiniContract.Entry.CONTENT_URL, values, where, whereValue)
             if (rowNum >= 0) {
                 finish = true
             }
@@ -75,8 +76,23 @@ object ContentProviderHelper {
         return result
     }
 
-    fun call(context: Context, method: String, arg: String?, bundle: Bundle?) {
+    @JvmStatic
+    fun callMinAppMethod(context: Context, method: String, arg: String?, bundle: Bundle?) {
         val contentResolver = context.contentResolver
-        contentResolver.call(MiniContract.Entry.CONTENT_URL, method, arg, bundle)
+        try {
+            contentResolver.call(MiniContract.Entry.CONTENT_URL, method, arg, bundle)
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+        }
+    }
+
+    @JvmStatic
+    fun callOtherAppMethod(context: Context, method: String, arg: String?, bundle: Bundle?) {
+        val contentResolver = context.contentResolver
+        try {
+            contentResolver.call(OtherContract.Entry.CONTENT_URL, method, arg, bundle)
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+        }
     }
 }

@@ -72,7 +72,7 @@ android {
         def groupName = "jiagu"
         def assembleTask = variant.assembleProvider.name
         def taskName = assembleTask.replace("assemble", taskPrefix)
-        tasks.create(taskName) {
+        tasks.register(taskName) {
             it.group groupName
             it.dependsOn assembleTask
             variant.assembleProvider.configure() {

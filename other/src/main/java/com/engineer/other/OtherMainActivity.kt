@@ -55,7 +55,11 @@ class OtherMainActivity : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.cv_call_method).setOnClickListener {
-            ContentProviderHelper.call(this, "add", "1", null)
+            val bundle = Bundle().apply {
+                putInt("a", 1)
+                putInt("b", 2)
+            }
+            ContentProviderHelper.callMinAppMethod(this, "add", "", bundle)
         }
 
         findViewById<View>(R.id.bind_service).setOnClickListener {
@@ -78,7 +82,8 @@ class OtherMainActivity : AppCompatActivity() {
             )
         }
         findViewById<View>(R.id.request).setOnClickListener {
-            ServiceHelper.provideIBookInterface()?.unRegisterIResponseListener(IResponseListenerImpl)
+            ServiceHelper.provideIBookInterface()
+                ?.unRegisterIResponseListener(IResponseListenerImpl)
             ServiceHelper.provideIBookInterface()?.registerIResponseListener(IResponseListenerImpl)
             ServiceHelper.provideIBookInterface()?.startRequest("111")
         }

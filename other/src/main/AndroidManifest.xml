@@ -8,8 +8,9 @@
     <queries>
         <package android:name="com.engineer.android.mini" />
     </queries>
-    <uses-permission android:name="mini.info.permission.READ_INFO"/>
-    <uses-permission android:name="mini.info.permission.WRITE_INFO"/>
+
+    <uses-permission android:name="mini.info.permission.READ_INFO" />
+    <uses-permission android:name="mini.info.permission.WRITE_INFO" />
 
     <application
         android:allowBackup="true"
@@ -18,34 +19,44 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MiniApp">
+
+        <provider
+            android:name=".ipc.OtherContentProvider"
+            android:authorities="com.engineer.other.provider"
+            android:enabled="true"
+            android:exported="true"/>
+
         <activity
             android:name=".OtherMainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".skip.SkipActivity" />
         <activity
-            android:name="com.engineer.other.ui.FakePureUiActivity"
+            android:name=".ui.FakePureUiActivity"
             android:allowTaskReparenting="true"
             android:taskAffinity="com.engineer.android.mini" />
         <activity
-            android:name="com.engineer.other.ui.FakeOldWayActivity"
+            android:name=".ui.FakeOldWayActivity"
             android:allowTaskReparenting="true"
             android:launchMode="singleTop"
             android:taskAffinity="com.engineer.same.task" />
-        <activity android:name="com.engineer.other.ui.EmptyActivity" />
+        <activity android:name=".ui.EmptyActivity" />
         <activity
-            android:name="com.engineer.other.ui.OpenByOtherActivity"
+            android:name=".ui.OpenByOtherActivity"
             android:exported="true"
             android:permission="com.engineer.other.permission.open">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <data
                     android:host="easy_link"
                     android:scheme="phoenix" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -58,17 +69,18 @@
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility" />
         </service>
-
         <service
             android:name=".service.MyBackgroundService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.engineer.other.custom_background_service" />
+
                 <data
                     android:host="*"
                     android:scheme="*" />

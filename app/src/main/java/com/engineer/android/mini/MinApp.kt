@@ -13,6 +13,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.work.WorkManager
 import com.engineer.common.utils.AndroidSystem
+import com.engineer.common.utils.ApplySigningUtils
 import com.facebook.stetho.Stetho
 import com.google.android.material.color.DynamicColors
 import dagger.hilt.android.HiltAndroidApp
@@ -58,6 +59,9 @@ class MinApp : Application() {
         if (WorkManager.isInitialized().not()) {
 //            triggerWork(INSTANCE)
         }
+
+        val sign = ApplySigningUtils.getRawSignatureStr(this, this.packageName)
+        Log.e(TAG, "sign is $sign")
     }
 
     private fun isMainProcess(): Boolean {

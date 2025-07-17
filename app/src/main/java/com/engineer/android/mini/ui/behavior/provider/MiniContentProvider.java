@@ -13,6 +13,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.engineer.common.contract.ContentProviderHelper;
 import com.engineer.common.contract.MiniContract;
 
 public class MiniContentProvider extends ContentProvider {
@@ -107,7 +108,24 @@ public class MiniContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
-        Log.d(TAG, "call() called with: method = [" + method + "], arg = [" + arg + "], extras = [" + extras + "]");
+        Log.d(TAG, "call() called with: method = [" + method + "], arg = [" + arg + "], thread = [" + Thread.currentThread().getName() + "]");
+        handleOtherProcessCall(method, arg, extras);
         return super.call(method, arg, extras);
+    }
+
+
+    private void handleOtherProcessCall(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
+        switch (method) {
+            case "add":
+                int a = extras.getInt("a");
+                int b = extras.getInt("b");
+                int sum = a + b;
+                Bundle bundle = new Bundle();
+                bundle.putInt("sum", sum);
+                ContentProviderHelper.callOtherAppMethod(getContext(), "sum", "", bundle);
+                break;
+            default:
+                break;
+        }
     }
 }
