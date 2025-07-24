@@ -16,7 +16,7 @@ import com.engineer.android.mini.databinding.ActivityMd3Binding
 import com.engineer.android.mini.ui.fragments.MainViewModel
 
 class TransMultiActivity : AppCompatActivity() {
-    private val TAG = "MD3Activity"
+    private val TAG = "TransMultiActivity"
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMd3Binding
     private val viewModel: MainViewModel by viewModels()

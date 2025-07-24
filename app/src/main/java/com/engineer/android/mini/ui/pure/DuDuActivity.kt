@@ -12,6 +12,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.os.Process
@@ -240,6 +241,10 @@ class DuDuActivity : AppCompatActivity() {
 
             SchedulerTaskManager.setUpTaskByConfig(list)
         }
+
+        val freeSpace = Environment.getExternalStorageDirectory().freeSpace
+        val humanSpace = freeSpace / (1024 * 1024 * 1024)
+        Log.i(TAG,"freeSpace = $freeSpace byte, humanSpace = $humanSpace GB")
     }
 
     private fun trigger(it: View) {
