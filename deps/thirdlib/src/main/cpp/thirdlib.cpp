@@ -52,7 +52,7 @@ Java_com_engineer_third_internal_NativeMethodsFactory_transToNativeString(JNIEnv
                                                                           jstring input) {
 
     jstring nativeString = env->NewStringUTF("hello from native");
-    const char *str = env->GetStringUTFChars(input, 0);
+    const char *str = env->GetStringUTFChars(input, nullptr);
     if (str != nullptr) {
         printf("input is %s", str);
         LOGE("input is %s", str);
