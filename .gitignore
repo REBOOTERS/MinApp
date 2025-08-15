@@ -35,3 +35,4 @@ gradle.dev.properties
 /.idea/material_theme_project_new.xml
 /.kotlin/
 /.idea/AndroidProjectSystem.xml
+/.idea/studiobot.xml
