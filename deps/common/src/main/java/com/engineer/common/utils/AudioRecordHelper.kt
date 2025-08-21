@@ -43,7 +43,10 @@ object AudioRecordHelper {
         Log.i(TAG, fragment.baseContext.filesDir.absolutePath)
         Log.i(TAG, fragment.baseContext.cacheDir.absolutePath)
         Log.i(TAG, fragment.baseContext.packageCodePath)
-        Log.i(TAG, fragment.baseContext.getExternalFilesDirs(Environment.DIRECTORY_DCIM)[0].absolutePath)
+        Log.i(
+            TAG,
+            fragment.baseContext.getExternalFilesDirs(Environment.DIRECTORY_DCIM)[0].absolutePath
+        )
     }
 
     fun getAllPcmList(context: Context): List<String>? {
@@ -83,7 +86,7 @@ object AudioRecordHelper {
      * 停止录制
      */
     fun stopRecording() {
-        Log.d(TAG, "before stopRecording isRecorded = $isRecorded")
+        Log.e(TAG, "before stopRecording isRecorded = $isRecorded")
         if (isRecorded) {
             audioRecord!!.stop()
             audioRecord!!.release()

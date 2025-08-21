@@ -86,6 +86,13 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
+        debug {
+            isMinifyEnabled = false
+            signingConfig = signingConfigs.findByName("debug")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            )
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
@@ -126,10 +133,12 @@ android {
 //        create("oppo") { dimension = "channel" }
 //        create("huawei") { dimension = "channel" }
         create("local") {
-            isDefault = true
+
             dimension = "type"
         }
-//        create("global") { dimension = "type" }
+        create("global") {
+            isDefault = true
+            dimension = "type" }
     }
 
 
@@ -187,7 +196,8 @@ dependencies {
         implementation("com.engineer.third:thirdlib:1.0.0")
     }
     implementation(project(":deps:common"))
-    implementation(project(":deps:compose"))
+//    globalImplementation(project(":deps:compose"))
+    add("globalImplementation",project(":deps:compose"))
     implementation("androidx.navigation:navigation-fragment-ktx:2.8.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.8.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.5")

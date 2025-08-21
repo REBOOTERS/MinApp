@@ -81,3 +81,13 @@
 
     -dontwarn io.microshow.rxffmpeg.**
     -keep class io.microshow.rxffmpeg.**{*;}
+
+
+# 移除所有 Log.d(), Log.v(), Log.i() 调用
+-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** v(...);
+    public static *** i(...);
+    public static *** w(...);
+    public static *** e(...);
+}

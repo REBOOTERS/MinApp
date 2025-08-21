@@ -87,13 +87,24 @@ public class AudioRecorderActivity extends AppCompatActivity {
 
         findViewById(R.id.convert_to_wav).setOnClickListener(v -> {
             File pcmFile = new File(AudioRecordHelper.INSTANCE.getPcmPath());
+            if (!pcmFile.exists()) {
+                String msg = "待转换的文件不存在";
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            AudioUtil.analyzePcmFile(pcmFile, AudioRecordHelper.sample, AudioRecordHelper.channelConfig, AudioRecordHelper.audioFormat);
             wavFile = AudioUtil.convertPcmToWav(v.getContext(), pcmFile);
         });
         findViewById(R.id.list_all_pcm).setOnClickListener(v -> {
             List<String> pcms = AudioRecordHelper.INSTANCE.getAllPcmList(this);
+            StringBuilder sb = new StringBuilder();
             if (pcms != null) {
                 Log.i(TAG, "pcm " + pcms);
+
+                TextView tv1 = findViewById(R.id.pcm_list);
+                tv1.setText(pcms.toString());
             }
+
 
         });
     }
