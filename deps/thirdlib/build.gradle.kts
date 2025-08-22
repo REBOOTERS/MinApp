@@ -20,6 +20,10 @@ android {
                 arguments += listOf("-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON")
             }
         }
+        ndk {
+            //noinspection ChromeOsAbiSupport
+            abiFilters += setOf("arm64-v8a")
+        }
     }
     buildTypes {
         release {
