@@ -31,7 +31,7 @@ public class UDPBroadcastSender {
     public void sendBroadcast(String msg, Context context) {
 
         String wlanIp = getWifiIP(context);
-        String message = String.format("response from :%s ", wlanIp);
+        String message = String.format("%s from :%s ", msg, wlanIp);
         new Thread() {
             @Override
             public void run() {
@@ -40,7 +40,8 @@ public class UDPBroadcastSender {
                     socket = new DatagramSocket();
                     socket.setBroadcast(true);
                     byte[] sendData = message.getBytes();
-                    String broadcastIP2 = getBroadcastIP2();
+//                    String broadcastIP2 = getBroadcastIP2();
+                    String broadcastIP2 = "255.255.255.255";
                     Log.i(TAG, "broadcastIP=" + broadcastIP2);
                     InetAddress broadcastAddr = InetAddress.getByName(broadcastIP2);
                     DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, broadcastAddr, PORT);

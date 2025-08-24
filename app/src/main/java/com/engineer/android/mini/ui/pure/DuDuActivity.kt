@@ -40,6 +40,8 @@ import com.engineer.android.mini.ui.widget.CustomRoundedImageView
 import com.engineer.android.mini.ui.widget.CustomRoundedImageViewJava
 import com.engineer.android.mini.ui.widget.RecommendWidget
 import com.engineer.android.mini.ui.widget.VoteWidget
+import com.engineer.android.mini.util.udp.UDPBroadcastReceiver
+import com.engineer.android.mini.util.udp.UDPBroadcastSender
 import com.engineer.common.utils.AndroidFileUtils
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -117,11 +119,23 @@ class DuDuActivity : AppCompatActivity() {
     private val task1 = Runnable { Log.d(TAG, "task1 run() called") }
     private val task2 = Runnable { Log.d(TAG, "task2 run() called") }
 
+    private val udpBroadcastSender = UDPBroadcastSender()
+    private val udpBroadcastReceiver = UDPBroadcastReceiver()
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_du_du)
+
+        findViewById<View>(R.id.udp_send).setOnClickListener {
+            udpBroadcastSender.sendBroadcast("11111",this)
+        }
+
+        findViewById<View>(R.id.udp_receiver_start).setOnClickListener {
+            udpBroadcastReceiver.init()
+            udpBroadcastReceiver.startListening()
+        }
 
         val customRound: CustomRoundedImageView = findViewById(R.id.custom_round)
         val dp20 = 20.dp.toFloat()
@@ -329,6 +343,8 @@ class DuDuActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         SchedulerTaskManager.shutDownAllTask()
+
+        udpBroadcastReceiver.stopListening()
     }
 }
 

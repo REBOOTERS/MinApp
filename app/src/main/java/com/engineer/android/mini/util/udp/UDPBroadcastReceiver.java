@@ -5,9 +5,8 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 
-
-import com.facebook.stetho.common.LogUtil;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -25,8 +24,14 @@ public class UDPBroadcastReceiver {
     private HandlerThread handlerThread = new HandlerThread("MyHandlerThread");
     private Handler handler;
 
+    private boolean init = false;
 
     public void init() {
+        Log.d(TAG, "init() called");
+        if (init) {
+            return;
+        }
+        init = true;
         handlerThread.start();
 
         handler = new Handler(handlerThread.getLooper()) {
@@ -42,26 +47,27 @@ public class UDPBroadcastReceiver {
                     return;
                 }
 
-                LogUtil.i(TAG, "cmd error $cmd");
+                Log.i(TAG, "cmd is " + cmd);
             }
         };
     }
 
     public UDPBroadcastReceiver() {
+        Log.d(TAG, "UDPBroadcastReceiver() called");
         // 初始化 socket
         try {
             InetAddress inetAddress = InetAddress.getByName(HOST);
             socket = new DatagramSocket(PORT, inetAddress);
             socket.setBroadcast(true);
         } catch (Exception e) {
-            LogUtil.e(TAG, e.getMessage());
+            Log.e(TAG, e.getMessage());
             e.printStackTrace();
         }
     }
 
     public void startListening() {
         if (!isRunning) {
-            LogUtil.i(TAG, "udp server start listen");
+            Log.i(TAG, "udp server start listen");
             isRunning = true;
             new ListenThread().start();
         }
@@ -70,12 +76,13 @@ public class UDPBroadcastReceiver {
     public void stopListening() {
         isRunning = false;
         if (socket != null && !socket.isClosed()) {
-            LogUtil.i(TAG, "udp server stop listen");
+            Log.i(TAG, "udp server stop listen");
             socket.close();
         }
         if (handlerThread != null) {
             handlerThread.quitSafely();
         }
+        init = false;
     }
 
     class ListenThread extends Thread {
@@ -84,7 +91,7 @@ public class UDPBroadcastReceiver {
 
             byte[] buffer = new byte[1024];
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-            LogUtil.i(TAG, "start listen udp broadcast");
+            Log.i(TAG, "start listen udp broadcast");
 
 
             while (isRunning) {
@@ -103,9 +110,9 @@ public class UDPBroadcastReceiver {
                         Message message = handler.obtainMessage();
                         message.obj = receivedCMD;
                         handler.sendMessage(message);
-                        LogUtil.i(TAG, "handler send msg");
+                        Log.i(TAG, "handler send msg");
                     }
-                    LogUtil.i(TAG, "recv udp broadcast=" + receivedCMD + "- from ip=" + address + " port=" + port);
+                    Log.i(TAG, "recv udp broadcast=" + receivedCMD + "- from ip=" + address + " port=" + port);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
