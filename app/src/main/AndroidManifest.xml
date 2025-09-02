@@ -213,6 +213,7 @@
         <activity
             android:name=".ui.behavior.SettingsActivity"
             android:label="@string/title_activity_settings"
+            android:exported="true"
             android:theme="@style/AppThemeWithActionBar" />
         <activity
             android:name=".ui.behavior.BehaviorActivity"

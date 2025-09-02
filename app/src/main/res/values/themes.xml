@@ -32,7 +32,7 @@
     </style>
 
 
-    <style name="AppThemeWithActionBar" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="AppThemeWithActionBar" parent="Theme.Material3.DynamicColors.DayNight">
         <!-- Customize your theme here. -->
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>

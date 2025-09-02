@@ -14,6 +14,7 @@ import android.os.SystemClock
 import android.util.Log
 import android.util.LogPrinter
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.alibaba.fastjson.JSON
@@ -70,6 +71,7 @@ class RootActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         viewBinding = ActivityRootBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         mainScope = MainScope()
