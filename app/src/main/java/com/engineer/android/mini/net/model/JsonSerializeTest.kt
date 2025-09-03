@@ -5,6 +5,7 @@ import android.util.Log
 import com.alibaba.fastjson.JSON
 import com.engineer.android.mini.util.JsonUtil
 import com.engineer.common.utils.AndroidFileUtils
+import java.io.File
 
 
 object JsonSerializeTest {
@@ -29,5 +30,24 @@ object JsonSerializeTest {
         val siteWrapper = JSON.parseObject(jsonString, SiteWrapper::class.java)
         Log.e(TAG, "jsonDeserialize() obj  = $siteWrapper")
 
+    }
+
+    fun updateConfig(context: Context) {
+        val start = System.currentTimeMillis()
+        val theme = THEME.AUTO
+        val accessTokenData = AccessTokenData("890438490234890", "43894394", 199000)
+        val historyList = ArrayList<String>()
+        for (i in 0 until 10000) {
+            historyList.add("history_$i")
+        }
+        val configs = Configs(theme, accessTokenData, historyList)
+        val configJson = JSON.toJSONString(configs)
+
+        Log.e(TAG,"time0 = ${System.currentTimeMillis() - start}")
+        val file = File(context.cacheDir, "config.json")
+        file.bufferedWriter().use { writer ->
+            writer.write(configJson)
+        }
+        Log.e(TAG,"time1 = ${System.currentTimeMillis() - start}")
     }
 }

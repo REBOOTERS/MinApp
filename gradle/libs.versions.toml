@@ -20,7 +20,8 @@ lifecycleViewmodelCompose = "2.9.2"
 coilCompose = "2.7.0"
 composeRuntimeLiveData="1.9.0"
 accompanistPager = "0.36.0"
-
+protobuf = "0.9.5"
+protobufJavaLite = "4.26.1"
 
 # @keep
 lifecycleRuntimeKtxVersion = "2.7.0"
@@ -58,6 +59,7 @@ accompanist-pager = {group = "com.google.accompanist",name="accompanist-pager",v
 accompanist-pager-indicator = {group = "com.google.accompanist",name="accompanist-pager-indicators",version.ref = "accompanistPager"}
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+protobuf-javalite = { group = "com.google.protobuf", name = "protobuf-javalite", version.ref = "protobufJavaLite" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
@@ -65,3 +67,4 @@ jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = 
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 tools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+protobuf = {id = "com.google.protobuf", version.ref = "protobuf"}

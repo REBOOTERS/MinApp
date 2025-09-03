@@ -19,6 +19,7 @@ import com.engineer.android.mini.net.driver.registerFlow
 import com.engineer.android.mini.net.hilt.AnalyticsService
 import com.engineer.android.mini.net.hilt.MiniEntryHelper
 import com.engineer.android.mini.net.model.JsonSerializeTest
+import com.engineer.android.mini.net.model.PbSerializeTest
 import com.engineer.android.mini.util.JsonUtil
 import com.zchu.rxcache.RxCache
 import com.zchu.rxcache.data.CacheResult
@@ -108,7 +109,7 @@ class RxCacheActivity : AppCompatActivity() {
         createFlowUp()
         registerFlow()
 //        JsonSerializeTest.jsonSerialize()
-        JsonSerializeTest.jsonDeserialize(this)
+//        JsonSerializeTest.jsonDeserialize(this)
 
         Observable.create<String> {
             val address = InetAddress.getByName("www.qq.com")
@@ -134,6 +135,8 @@ class RxCacheActivity : AppCompatActivity() {
         val content = Html.fromHtml(s)
         viewBinding.fullTv.text = content
 
+        JsonSerializeTest.updateConfig(this)
+        PbSerializeTest.updateConfig(this)
     }
 
 

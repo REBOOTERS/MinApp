@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.tools.ksp)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.protobuf)
 }
 
 val buildTime: String = SimpleDateFormat("yyMMddHHmm").format(Date())
@@ -240,6 +241,7 @@ dependencies {
 
     add("localImplementation", "io.noties.markwon:core:4.6.2")
 //    add("huaweiGlobalImplementation","io.noties.markwon:core:4.6.2")
+    implementation(libs.protobuf.javalite)
 }
 apply(from = "../custom-gradle/test-dep.gradle")
 apply(from = "../custom-gradle/viewmodel-dep.gradle")
@@ -248,6 +250,7 @@ apply(from = "../custom-gradle/rx-retrofit-dep.gradle")
 apply(from = "../custom-gradle/hilt-dep.gradle")
 apply(from = "../custom-gradle/apk_dest_dir_change.gradle")
 apply(from = "../custom-gradle/report_apk_size_after_package.gradle")
+//apply(from = "../custom-gradle/protobuf-config.gradle.kts")
 
 tasks.register("listConfigurations") {
     doLast {
@@ -255,4 +258,9 @@ tasks.register("listConfigurations") {
             println(config.name)
         }
     }
+}
+
+protobuf {
+    protoc { artifact = "com.google.protobuf:protoc:4.26.1" }
+    generateProtoTasks { all().forEach { it.plugins { create("java") { option("lite") } } } }
 }
