@@ -9,8 +9,8 @@ plugins {
 }
 //apply(from = rootProject.rootDir.absolutePath + "/custom-gradle/check-style.gradle")
 
-tasks.create("clean") {
-    delete(rootProject.buildDir)
+tasks.register("clean") {
+    delete(rootProject.layout.buildDirectory)
     delete(rootProject.rootDir.absolutePath + "/final.apk")
     delete(rootDir.absolutePath + "/local_repo/")
 }
