@@ -23,16 +23,35 @@ object PbSerializeTest {
         for (i in 0 until 10000) {
             historyList.add("history_$i")
         }
+        Log.e(TAG, "time0 = ${System.currentTimeMillis() - start}")
 
         val configs = Configs.newBuilder().setTheme(theme).setAccessTokenData(accessTokenData)
             .addAllListHistory(historyList).build()
-        Log.e(TAG,"time0 = ${System.currentTimeMillis() - start}")
         val file = File(context.cacheDir, "config.pb")
         FileOutputStream(file).use { output ->
             configs.writeTo(output)
         }
 
-        Log.e(TAG,"time1 = ${System.currentTimeMillis() - start}")
+        Log.e(TAG, "time1 = ${System.currentTimeMillis() - start}")
+    }
+
+    suspend fun updateConfig2(context: Context) {
+        val start = System.currentTimeMillis()
+        val theme = Theme.THEME_AUTO
+        val accessTokenData = AccessTokenData.newBuilder().setAccessToken("890438490234890")
+            .setRefreshToken("43894394").setExpiresAtMs(199000).build()
+        val historyList = ArrayList<String>()
+        for (i in 0 until 10000) {
+            historyList.add("history_$i")
+        }
+        Log.e(TAG, "time0 = ${System.currentTimeMillis() - start}")
+        context.configsDataStore.updateData { configs ->
+            configs.toBuilder().setTheme(theme).setAccessTokenData(accessTokenData)
+                .clearListHistory()
+                .addAllListHistory(historyList).build()
+        }
+
+        Log.e(TAG, "time1 = ${System.currentTimeMillis() - start}")
     }
 
     private fun saveConfigsToFile(context: Context, configs: Configs) {

@@ -30,6 +30,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.File
 import java.net.InetAddress
 import java.util.*
@@ -137,6 +139,9 @@ class RxCacheActivity : AppCompatActivity() {
 
         JsonSerializeTest.updateConfig(this)
         PbSerializeTest.updateConfig(this)
+        GlobalScope.launch {
+            PbSerializeTest.updateConfig2(this@RxCacheActivity)
+        }
     }
 
 

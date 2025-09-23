@@ -242,6 +242,8 @@ dependencies {
     add("localImplementation", "io.noties.markwon:core:4.6.2")
 //    add("huaweiGlobalImplementation","io.noties.markwon:core:4.6.2")
     implementation(libs.protobuf.javalite)
+
+    implementation(libs.androidx.datastore)
 }
 apply(from = "../custom-gradle/test-dep.gradle")
 apply(from = "../custom-gradle/viewmodel-dep.gradle")

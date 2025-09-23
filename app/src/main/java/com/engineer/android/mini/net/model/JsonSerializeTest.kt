@@ -40,10 +40,10 @@ object JsonSerializeTest {
         for (i in 0 until 10000) {
             historyList.add("history_$i")
         }
+        Log.e(TAG,"time0 = ${System.currentTimeMillis() - start}")
+
         val configs = Configs(theme, accessTokenData, historyList)
         val configJson = JSON.toJSONString(configs)
-
-        Log.e(TAG,"time0 = ${System.currentTimeMillis() - start}")
         val file = File(context.cacheDir, "config.json")
         file.bufferedWriter().use { writer ->
             writer.write(configJson)
