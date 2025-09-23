@@ -232,20 +232,6 @@
             android:layout_margin="6dp"
             android:text="dudu" />
 
-        <Button
-            android:id="@+id/open_style_trans"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:text="style_trans" />
-
-        <Button
-            android:id="@+id/open_style_trans2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:text="style_trans_multi" />
-
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/handler_log_switch"
             android:layout_width="wrap_content"

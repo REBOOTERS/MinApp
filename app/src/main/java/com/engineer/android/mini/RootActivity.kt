@@ -3,7 +3,6 @@ package com.engineer.android.mini
 import android.Manifest
 import android.app.ActivityOptions
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -17,10 +16,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
-import com.alibaba.fastjson.JSON
-import com.alibaba.fastjson.TypeReference
 import com.engineer.android.mini.better.BetterActivity
-import com.engineer.android.mini.better.testfastjson
 import com.engineer.android.mini.coroutines.old.DetailActivity
 import com.engineer.android.mini.databinding.ActivityRootBinding
 import com.engineer.android.mini.ext.gotoActivity
@@ -31,10 +27,8 @@ import com.engineer.android.mini.jetpack.FragmentManagerActivity
 import com.engineer.android.mini.net.RxCacheActivity
 import com.engineer.android.mini.net.ThreadExTransform
 import com.engineer.android.mini.ui.BaseActivity
-import com.engineer.android.mini.ui.TransMultiActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.behavior.lifecycle.PanelActivity
-import com.engineer.android.mini.ui.compose.pickimg.StyleTransActivity
 import com.engineer.android.mini.ui.pure.ChangeViewActivity
 import com.engineer.android.mini.ui.pure.DuDuActivity
 import com.engineer.android.mini.ui.pure.MessyActivity
@@ -235,12 +229,6 @@ class RootActivity : BaseActivity() {
         }
         viewBinding.openDudu.setOnClickListener {
             gotoActivity(DuDuActivity::class.java)
-        }
-        viewBinding.openStyleTrans.setOnClickListener {
-            gotoActivity(StyleTransActivity::class.java)
-        }
-        viewBinding.openStyleTrans2.setOnClickListener {
-            gotoActivity(TransMultiActivity::class.java)
         }
     }
 

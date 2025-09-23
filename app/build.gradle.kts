@@ -107,7 +107,6 @@ android {
         viewBinding = true
         aidl = true
         buildConfig = true
-        mlModelBinding = true
         compose = true
     }
     lint {
@@ -232,12 +231,6 @@ dependencies {
         exclude("com.facebook.fresco", "memory-type-native")
         exclude("com.facebook.fresco", "imagepipeline-native")
     }
-    val tensorLiteVersion = "2.9.0"
-    implementation("org.tensorflow:tensorflow-lite:$tensorLiteVersion")
-//    implementation("org.tensorflow:tensorflow-lite-gpu:$tensorLiteVersion")
-//    implementation("org.tensorflow:tensorflow-lite-select-tf-ops:$tensorLiteVersion")
-    implementation("org.tensorflow:tensorflow-lite-support:0.3.1")
-    implementation("org.tensorflow:tensorflow-lite-metadata:0.2.0")
 
     add("localImplementation", "io.noties.markwon:core:4.6.2")
 //    add("huaweiGlobalImplementation","io.noties.markwon:core:4.6.2")

@@ -21,10 +21,13 @@ import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityPureUiBinding
-import com.engineer.android.mini.ext.*
+import com.engineer.android.mini.ext.dp
+import com.engineer.android.mini.ext.getStatusBarHeight
+import com.engineer.android.mini.ext.gotoActivity
+import com.engineer.android.mini.ext.resizeMarginTop
+import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.ForceBottomActivity
-import com.engineer.android.mini.ui.TransMultiActivity
 import com.engineer.android.mini.ui.adapter.ActionModeCallbackAdapter
 import com.engineer.android.mini.ui.adapter.RecyclerViewActivity
 import com.engineer.android.mini.ui.pure.helper.SimpleCallback
@@ -72,7 +75,7 @@ class PureUIActivity : BaseActivity() {
         realBinding.cropView.setOnClickListener { gotoActivity(CropActivity::class.java) }
         realBinding.roundCorner.setOnClickListener { gotoActivity(CornerViewActivity::class.java) }
         realBinding.viewPage2Test.setOnClickListener { gotoActivity(TabsActivity::class.java) }
-        realBinding.materialDesign3.setOnClickListener { gotoActivity(TransMultiActivity::class.java) }
+
         realBinding.imageView.setOnClickListener { boundsAnimation() }
         realBinding.statusBarTest.setOnClickListener { gotoActivity(LandscapeActivity::class.java) }
         realBinding.layoutAc.setOnClickListener { gotoActivity(LayoutActivity::class.java) }
