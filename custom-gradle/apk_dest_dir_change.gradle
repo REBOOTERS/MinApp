@@ -56,14 +56,9 @@ android {
         // 打包完成后做的一些事,复制apk到指定文件夹
         variant.assembleProvider.configure() {
             it.doLast {
-                File out = new File(outputFileDir)
                 copy {
-                    variant.outputs.forEach { file ->
-                        copy {
-                            from file.outputFile
-                            into out
-                        }
-                    }
+                    from variant.outputs.collect { it.outputFile }
+                    into outputFileDir
                 }
             }
         }
