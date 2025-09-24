@@ -2,6 +2,7 @@ package com.engineer.android.mini.ui.pure
 
 import android.content.Context
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.util.AttributeSet
@@ -11,6 +12,7 @@ import android.view.Choreographer
 import android.view.Gravity
 import android.view.KeyEvent
 import android.view.View
+import android.view.View.OnAttachStateChangeListener
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
@@ -24,6 +26,7 @@ import com.engineer.android.mini.ext.dp
 import com.engineer.android.mini.ext.gotoActivity
 import com.engineer.android.mini.ext.toast
 import com.engineer.android.mini.ui.BaseActivity
+import com.facebook.stetho.common.LogUtil
 
 class LayoutActivity : BaseActivity() {
     private lateinit var viewBinding: ActivityLayoutBinding
@@ -72,9 +75,29 @@ class LayoutActivity : BaseActivity() {
             gravity = Gravity.TOP or Gravity.START
             x = 10.dp
             y = 24.dp
+            flags = (WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Log.i(TAG,"${child.context.display}")
         }
         manager.addView(child, params)
+
+        child.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
+
+            override fun onViewAttachedToWindow(v: View) {
+                Log.d(TAG, "onViewAttachedToWindow: ")
+            }
+
+            override fun onViewDetachedFromWindow(v: View) {
+                Log.d(TAG, "onViewDetachedFromWindow: ")
+            }
+        })
+
         viewBinding.childRoot.setOnClickListener(null)
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
     }
 
     private fun genChild(windowManager: WindowManager): View {
@@ -99,7 +122,7 @@ class LayoutActivity : BaseActivity() {
         container.addView(text, params)
 
         val image = ImageView(this)
-        image.setImageResource(R.drawable.avatar)
+        image.setImageResource(R.drawable.android)
         val p = LinearLayout.LayoutParams(50.dp, 50.dp)
         p.setMargins(10.dp)
         container.addView(image, p)
@@ -122,6 +145,7 @@ class LayoutActivity : BaseActivity() {
                 "remove self from window".toast()
                 windowManager.removeView(containerShell)
                 viewBinding.childRoot.setOnClickListener {
+                    Log.i(TAG,"childRoot clicked")
                     addViewToWindow()
                 }
             }
@@ -170,7 +194,15 @@ class LayoutActivity : BaseActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        LogUtil.i(TAG, "onPause() called")
+    }
 
+    override fun onStop() {
+        super.onStop()
+        LogUtil.i(TAG, "onStop() called")
+    }
 }
 
 
