@@ -41,7 +41,7 @@ final class BitmapLoadingWorkerTask extends AsyncTask<Void, Void, BitmapLoadingW
   private final int mHeight;
   // endregion
 
-  public BitmapLoadingWorkerTask(CropImageView cropImageView, Uri uri) {
+  BitmapLoadingWorkerTask(CropImageView cropImageView, Uri uri) {
     mUri = uri;
     mCropImageViewReference = new WeakReference<>(cropImageView);
 

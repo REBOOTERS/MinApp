@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.logging.LogManager;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
@@ -60,8 +59,8 @@ public class Demo {
 
         long diff = time2 - time1;
         System.out.println(diff);
-        System.out.println(diff/60f);
-        System.out.println(diff/3600f);
+        System.out.println(diff / 60f);
+        System.out.println(diff / 3600f);
 
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         System.out.println(dayOfWeek);
@@ -159,7 +158,8 @@ public class Demo {
         result.put("time", System.currentTimeMillis());
 
 
-        String beauty = JSON.toJSONString(result, SerializerFeature.PrettyFormat, SerializerFeature.SortField, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteDateUseDateFormat);
+        String beauty = JSON.toJSONString(result, SerializerFeature.PrettyFormat, SerializerFeature.SortField,
+                SerializerFeature.WriteMapNullValue, SerializerFeature.WriteDateUseDateFormat);
         System.out.println(beauty);
     }
 

@@ -25,7 +25,8 @@ public class MatterTest {
         System.out.println("total match-2 " + matcher2.matches());
 
         while (matcher2.find()) {
-            String info = String.format(Locale.getDefault(), "find result %20s,start from %3d,end at %3d", matcher2.group(), matcher2.start(), matcher2.end());
+            String info = String.format(Locale.getDefault(), "find result %20s,start from %3d,end at %3d",
+                    matcher2.group(), matcher2.start(), matcher2.end());
             System.out.println(info);
         }
     }

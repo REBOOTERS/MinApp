@@ -1,15 +1,3 @@
-// "Therefore those skilled at the unorthodox
-// are infinite as heaven and earth,
-// inexhaustible as the great rivers.
-// When they come to an end,
-// they begin again,
-// like the days and months;
-// they die and are reborn,
-// like the four seasons."
-//
-// - Sun Tsu,
-// "The Art of War"
-
 package com.engineer.common.widget.cropper;
 
 import android.app.Activity;
@@ -46,7 +34,6 @@ import java.util.UUID;
 public class CropImageView extends FrameLayout {
 
     // region: Fields and Consts
-
     /**
      * Image view widget used to show the image for cropping.
      */
@@ -354,7 +341,8 @@ public class CropImageView extends FrameLayout {
         if (scaleType != mScaleType) {
             mScaleType = scaleType;
             mZoom = 1;
-            mZoomOffsetX = mZoomOffsetY = 0;
+            mZoomOffsetX = 0;
+            mZoomOffsetY = 0;
             mCropOverlayView.resetCropOverlayView();
             requestLayout();
         }
@@ -1243,11 +1231,12 @@ public class CropImageView extends FrameLayout {
         Bundle bundle = new Bundle();
         Uri imageUri = mLoadedImageUri;
         if (mSaveBitmapToInstanceState && imageUri == null && mImageResource < 1) {
-            mSaveInstanceStateBitmapUri = imageUri = BitmapUtils.writeTempStateStoreBitmap(getContext(), mBitmap, mSaveInstanceStateBitmapUri);
+            mSaveInstanceStateBitmapUri = BitmapUtils.writeTempStateStoreBitmap(getContext(), mBitmap, mSaveInstanceStateBitmapUri);
+            imageUri = mSaveInstanceStateBitmapUri;
         }
         if (imageUri != null && mBitmap != null) {
             String key = UUID.randomUUID().toString();
-            BitmapUtils.mStateBitmap = new Pair<>(key, new WeakReference<>(mBitmap));
+            BitmapUtils.sStateBitmap = new Pair<>(key, new WeakReference<>(mBitmap));
             bundle.putString("LOADED_IMAGE_STATE_BITMAP_KEY", key);
         }
         if (mBitmapLoadingWorkerTask != null) {
@@ -1291,8 +1280,8 @@ public class CropImageView extends FrameLayout {
                 if (uri != null) {
                     String key = bundle.getString("LOADED_IMAGE_STATE_BITMAP_KEY");
                     if (key != null) {
-                        Bitmap stateBitmap = BitmapUtils.mStateBitmap != null && BitmapUtils.mStateBitmap.first.equals(key) ? BitmapUtils.mStateBitmap.second.get() : null;
-                        BitmapUtils.mStateBitmap = null;
+                        Bitmap stateBitmap = BitmapUtils.sStateBitmap != null && BitmapUtils.sStateBitmap.first.equals(key) ? BitmapUtils.sStateBitmap.second.get() : null;
+                        BitmapUtils.sStateBitmap = null;
                         if (stateBitmap != null && !stateBitmap.isRecycled()) {
                             setBitmap(stateBitmap, 0, uri, bundle.getInt("LOADED_SAMPLE_SIZE"), 0);
                         }
@@ -1312,7 +1301,8 @@ public class CropImageView extends FrameLayout {
                     }
                 }
 
-                mDegreesRotated = mRestoreDegreesRotated = bundle.getInt("DEGREES_ROTATED");
+                mDegreesRotated = bundle.getInt("DEGREES_ROTATED");
+                mRestoreDegreesRotated = bundle.getInt("DEGREES_ROTATED");
 
                 Rect initialCropRect = bundle.getParcelable("INITIAL_CROP_RECT");
                 if (initialCropRect != null && (initialCropRect.width() > 0 || initialCropRect.height() > 0)) {
@@ -1385,8 +1375,8 @@ public class CropImageView extends FrameLayout {
                 desiredHeight = mBitmap.getHeight();
             }
 
-            int width = getOnMeasureSpec(widthMode, widthSize, desiredWidth);
-            int height = getOnMeasureSpec(heightMode, heightSize, desiredHeight);
+            int width = CropImageHelper.getOnMeasureSpec(widthMode, widthSize, desiredWidth);
+            int height = CropImageHelper.getOnMeasureSpec(heightMode, heightSize, desiredHeight);
 
             mLayoutWidth = width;
             mLayoutHeight = height;
@@ -1518,26 +1508,26 @@ public class CropImageView extends FrameLayout {
 
             // move the image to the center of the image view first so we can manipulate it from there
             mImageMatrix.postTranslate((width - mBitmap.getWidth()) / 2, (height - mBitmap.getHeight()) / 2);
-            mapImagePointsByImageMatrix();
+            CropImageHelper.mapImagePointsByImageMatrix(mBitmap, mImagePoints, mScaleImagePoints, mImageMatrix);
 
             // rotate the image the required degrees from center of image
             if (mDegreesRotated > 0) {
                 mImageMatrix.postRotate(mDegreesRotated, BitmapUtils.getRectCenterX(mImagePoints), BitmapUtils.getRectCenterY(mImagePoints));
-                mapImagePointsByImageMatrix();
+                CropImageHelper.mapImagePointsByImageMatrix(mBitmap, mImagePoints, mScaleImagePoints, mImageMatrix);
             }
 
             // scale the image to the image view, image rect transformed to know new width/height
             float scale = Math.min(width / BitmapUtils.getRectWidth(mImagePoints), height / BitmapUtils.getRectHeight(mImagePoints));
             if (mScaleType == ScaleType.FIT_CENTER || (mScaleType == ScaleType.CENTER_INSIDE && scale < 1) || (scale > 1 && mAutoZoomEnabled)) {
                 mImageMatrix.postScale(scale, scale, BitmapUtils.getRectCenterX(mImagePoints), BitmapUtils.getRectCenterY(mImagePoints));
-                mapImagePointsByImageMatrix();
+                CropImageHelper.mapImagePointsByImageMatrix(mBitmap, mImagePoints, mScaleImagePoints, mImageMatrix);
             }
 
             // scale by the current zoom level
             float scaleX = mFlipHorizontally ? -mZoom : mZoom;
             float scaleY = mFlipVertically ? -mZoom : mZoom;
             mImageMatrix.postScale(scaleX, scaleY, BitmapUtils.getRectCenterX(mImagePoints), BitmapUtils.getRectCenterY(mImagePoints));
-            mapImagePointsByImageMatrix();
+            CropImageHelper.mapImagePointsByImageMatrix(mBitmap, mImagePoints, mScaleImagePoints, mImageMatrix);
 
             mImageMatrix.mapRect(cropRect);
 
@@ -1556,7 +1546,7 @@ public class CropImageView extends FrameLayout {
             mImageMatrix.postTranslate(mZoomOffsetX * scaleX, mZoomOffsetY * scaleY);
             cropRect.offset(mZoomOffsetX * scaleX, mZoomOffsetY * scaleY);
             mCropOverlayView.setCropWindowRect(cropRect);
-            mapImagePointsByImageMatrix();
+            CropImageHelper.mapImagePointsByImageMatrix(mBitmap, mImagePoints, mScaleImagePoints, mImageMatrix);
             mCropOverlayView.invalidate();
 
             // set matrix to apply
@@ -1573,58 +1563,9 @@ public class CropImageView extends FrameLayout {
         }
     }
 
-    /**
-     * Adjust the given image rectangle by image transformation matrix to know the final rectangle of
-     * the image.<br>
-     * To get the proper rectangle it must be first reset to original image rectangle.
-     */
-    private void mapImagePointsByImageMatrix() {
-        mImagePoints[0] = 0;
-        mImagePoints[1] = 0;
-        mImagePoints[2] = mBitmap.getWidth();
-        mImagePoints[3] = 0;
-        mImagePoints[4] = mBitmap.getWidth();
-        mImagePoints[5] = mBitmap.getHeight();
-        mImagePoints[6] = 0;
-        mImagePoints[7] = mBitmap.getHeight();
-        mImageMatrix.mapPoints(mImagePoints);
-        mScaleImagePoints[0] = 0;
-        mScaleImagePoints[1] = 0;
-        mScaleImagePoints[2] = 100;
-        mScaleImagePoints[3] = 0;
-        mScaleImagePoints[4] = 100;
-        mScaleImagePoints[5] = 100;
-        mScaleImagePoints[6] = 0;
-        mScaleImagePoints[7] = 100;
-        mImageMatrix.mapPoints(mScaleImagePoints);
-    }
 
-    /**
-     * Determines the specs for the onMeasure function. Calculates the width or height depending on
-     * the mode.
-     *
-     * @param measureSpecMode The mode of the measured width or height.
-     * @param measureSpecSize The size of the measured width or height.
-     * @param desiredSize     The desired size of the measured width or height.
-     * @return The final size of the width or height.
-     */
-    private static int getOnMeasureSpec(int measureSpecMode, int measureSpecSize, int desiredSize) {
 
-        // Measure Width
-        int spec;
-        if (measureSpecMode == MeasureSpec.EXACTLY) {
-            // Must be this size
-            spec = measureSpecSize;
-        } else if (measureSpecMode == MeasureSpec.AT_MOST) {
-            // Can't be bigger than...; match_parent value
-            spec = Math.min(desiredSize, measureSpecSize);
-        } else {
-            // Be whatever you want; wrap_content
-            spec = desiredSize;
-        }
 
-        return spec;
-    }
 
     /**
      * Set visibility of crop overlay to hide it when there is no image or specificly set by client.

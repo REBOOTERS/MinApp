@@ -1013,13 +1013,13 @@ public class CropOverlayView extends View {
 
       float x = detector.getFocusX();
       float y = detector.getFocusY();
-      float dY = detector.getCurrentSpanY() / 2;
-      float dX = detector.getCurrentSpanX() / 2;
+      float dy = detector.getCurrentSpanY() / 2;
+      float dx = detector.getCurrentSpanX() / 2;
 
-      float newTop = y - dY;
-      float newLeft = x - dX;
-      float newRight = x + dX;
-      float newBottom = y + dY;
+      float newTop = y - dy;
+      float newLeft = x - dx;
+      float newRight = x + dx;
+      float newBottom = y + dy;
 
       if (newLeft < newRight
           && newTop <= newBottom

@@ -49,6 +49,8 @@ public class LQREditText extends EditText {
                 case KeyEvent.KEYCODE_DPAD_RIGHT:
                     direction = FOCUS_RIGHT;
                     break;
+                default:
+                    break;
             }
             View nextFocus = FocusFinder.getInstance().findNextFocus((ViewGroup) getParent(), this, direction);
             if (nextFocus != null) {

@@ -115,7 +115,7 @@ public interface IMediaPlayer {
 
     MediaInfo getMediaInfo();
 
-    public class MediaInfo {
+    class MediaInfo {
     }
 
     @SuppressWarnings("EmptyMethod")
@@ -165,7 +165,7 @@ public interface IMediaPlayer {
 
     interface OnVideoSizeChangedListener {
         void onVideoSizeChanged(IMediaPlayer mp, int width, int height,
-                                int sar_num, int sar_den);
+                                int sarNum, int sarDen);
     }
 
     interface OnErrorListener {
@@ -180,7 +180,7 @@ public interface IMediaPlayer {
         void onTimedText(IMediaPlayer mp, IjkTimedText text);
     }
 
-    public class IjkTimedText {
+    class IjkTimedText {
     }
 
     /*--------------------
@@ -207,7 +207,7 @@ public interface IMediaPlayer {
      */
     ITrackInfo[] getTrackInfo();
 
-    public class ITrackInfo {
+    class ITrackInfo {
     }
 
     /*--------------------

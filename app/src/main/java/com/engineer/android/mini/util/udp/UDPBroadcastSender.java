@@ -80,7 +80,7 @@ public class UDPBroadcastSender {
     public static String getBroadcastIP2() {
 
         try {
-            for (Enumeration<NetworkInterface> enumInter = NetworkInterface.getNetworkInterfaces(); enumInter.hasMoreElements(); ) {
+            for (Enumeration<NetworkInterface> enumInter = NetworkInterface.getNetworkInterfaces(); enumInter.hasMoreElements();) {
                 NetworkInterface networkInterface = enumInter.nextElement();
                 if (!networkInterface.isLoopback()) {
                     for (InterfaceAddress ia : networkInterface.getInterfaceAddresses()) {

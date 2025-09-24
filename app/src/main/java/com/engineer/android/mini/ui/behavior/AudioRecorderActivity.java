@@ -16,8 +16,6 @@ import com.engineer.common.utils.AudioUtil;
 import com.permissionx.guolindev.PermissionX;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,7 +34,8 @@ public class AudioRecorderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivty_audio_record);
 
-        PermissionX.init(this).permissions(android.Manifest.permission.RECORD_AUDIO).request((allGranted, grantedList, deniedList) -> {
+        PermissionX.init(this).permissions(android.Manifest.permission.RECORD_AUDIO)
+                .request((allGranted, grantedList, deniedList) -> {
             if (allGranted) {
                 AudioRecordHelper.INSTANCE.init(AudioRecorderActivity.this);
             }
@@ -92,7 +91,8 @@ public class AudioRecorderActivity extends AppCompatActivity {
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 return;
             }
-            AudioUtil.analyzePcmFile(pcmFile, AudioRecordHelper.sample, AudioRecordHelper.channelConfig, AudioRecordHelper.audioFormat);
+            AudioUtil.analyzePcmFile(pcmFile, AudioRecordHelper.sample,
+                    AudioRecordHelper.channelConfig, AudioRecordHelper.audioFormat);
             wavFile = AudioUtil.convertPcmToWav(v.getContext(), pcmFile);
         });
         findViewById(R.id.list_all_pcm).setOnClickListener(v -> {
