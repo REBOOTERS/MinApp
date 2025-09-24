@@ -97,7 +97,7 @@ public final class CropImage {
   public static final int CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE = 204;
   // endregion
 
-  private CropImage() {}
+  private CropImage() { }
 
   /**
    * Create a new bitmap that has all pixels beyond the oval shape transparent. Old bitmap is

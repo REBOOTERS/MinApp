@@ -35,26 +35,30 @@ public class ServiceBinder extends IBookInterface.Stub {
     }
 
     @Override
-    public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
+    public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString)
+            throws RemoteException {
 
     }
 
     @Override
     public List<Book> getBookList() {
-        Log.e(TAG, "getBookList() called on Thread " + Thread.currentThread().getName() + ",id = " + Thread.currentThread().getId());
+        Log.e(TAG, "getBookList() called on Thread " + Thread.currentThread().getName()
+                + ",id = " + Thread.currentThread().getId());
         return mBookList;
     }
 
     @Override
     public void addBook(Book book) {
-        Log.e(TAG, "addBook() called with: book = [" + book + "]" + " called on Thread " + Thread.currentThread().getName() + ",id = " + Thread.currentThread().getId());
+        Log.e(TAG, "addBook() called with: book = [" + book + "]" + " called on Thread "
+                + Thread.currentThread().getName() + ",id = " + Thread.currentThread().getId());
 
         mBookList.add(book);
     }
 
     @Override
     public void deleteBook(Book book) {
-        Log.e(TAG, "deleteBook() called with: book = [" + book + "]" + " called on Thread " + Thread.currentThread().getName() + ",id = " + Thread.currentThread().getId());
+        Log.e(TAG, "deleteBook() called with: book = [" + book + "]" + " called on Thread "
+                + Thread.currentThread().getName() + ",id = " + Thread.currentThread().getId());
         mBookList.remove(book);
     }
 

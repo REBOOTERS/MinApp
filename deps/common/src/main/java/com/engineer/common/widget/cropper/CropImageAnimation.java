@@ -50,7 +50,7 @@ final class CropImageAnimation extends Animation implements Animation.AnimationL
   private final float[] mAnimMatrix = new float[9];
   // endregion
 
-  public CropImageAnimation(ImageView cropImageView, CropOverlayView cropOverlayView) {
+  CropImageAnimation(ImageView cropImageView, CropOverlayView cropOverlayView) {
     mImageView = cropImageView;
     mCropOverlayView = cropOverlayView;
 
@@ -109,7 +109,7 @@ final class CropImageAnimation extends Animation implements Animation.AnimationL
   }
 
   @Override
-  public void onAnimationStart(Animation animation) {}
+  public void onAnimationStart(Animation animation) { }
 
   @Override
   public void onAnimationEnd(Animation animation) {
@@ -117,5 +117,5 @@ final class CropImageAnimation extends Animation implements Animation.AnimationL
   }
 
   @Override
-  public void onAnimationRepeat(Animation animation) {}
+  public void onAnimationRepeat(Animation animation) { }
 }

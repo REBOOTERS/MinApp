@@ -41,7 +41,7 @@ import javax.microedition.khronos.egl.EGLDisplay;
 
 
 /** Utility class that deals with operations with an ImageView. */
-final class BitmapUtils {
+final public  class BitmapUtils {
 
   static final Rect EMPTY_RECT = new Rect();
 
@@ -57,10 +57,10 @@ final class BitmapUtils {
   static final float[] POINTS2 = new float[6];
 
   /** Used to know the max texture size allowed to be rendered */
-  private static int mMaxTextureSize;
+  private static int sMaxTextureSize;
 
   /** used to save bitmaps during state save and restore so not to reload them. */
-  static Pair<String, WeakReference<Bitmap>> mStateBitmap;
+  public static Pair<String, WeakReference<Bitmap>> sStateBitmap;
 
   /**
    * Rotate the given image by reading the Exif value of the image (uri).<br>
@@ -109,7 +109,7 @@ final class BitmapUtils {
       // First decode with inJustDecodeBounds=true to check dimensions
       BitmapFactory.Options options = decodeImageForOption(resolver, uri);
 
-      if(options.outWidth  == -1 && options.outHeight == -1)
+      if (options.outWidth  == -1 && options.outHeight == -1)
         throw new RuntimeException("File is not a picture");
 
       // Calculate inSampleSize
@@ -549,10 +549,9 @@ final class BitmapUtils {
     int sampleSize;
     try {
       BitmapFactory.Options options = new BitmapFactory.Options();
-      options.inSampleSize =
-          sampleSize =
-              sampleMulti
-                  * calculateInSampleSizeByReqestedSize(rect.width(), rect.height(), width, height);
+      sampleSize = sampleMulti * calculateInSampleSizeByReqestedSize(rect.width(), rect.height(), width, height);
+      options.inSampleSize = sampleSize;
+
 
       Bitmap fullBitmap = decodeImage(context.getContentResolver(), loadedImageUri, options);
       if (fullBitmap != null) {
@@ -735,12 +734,12 @@ final class BitmapUtils {
    */
   private static int calculateInSampleSizeByMaxTextureSize(int width, int height) {
     int inSampleSize = 1;
-    if (mMaxTextureSize == 0) {
-      mMaxTextureSize = getMaxTextureSize();
+    if (sMaxTextureSize == 0) {
+      sMaxTextureSize = getMaxTextureSize();
     }
-    if (mMaxTextureSize > 0) {
-      while ((height / inSampleSize) > mMaxTextureSize
-          || (width / inSampleSize) > mMaxTextureSize) {
+    if (sMaxTextureSize > 0) {
+      while ((height / inSampleSize) > sMaxTextureSize
+          || (width / inSampleSize) > sMaxTextureSize) {
         inSampleSize *= 2;
       }
     }
@@ -774,7 +773,7 @@ final class BitmapUtils {
    */
   private static int getMaxTextureSize() {
     // Safe minimum default size
-    final int IMAGE_MAX_BITMAP_DIMENSION = 2048;
+    final int imageMaxBitmapDimension = 2048;
 
     try {
       // Get EGL Display
@@ -812,9 +811,9 @@ final class BitmapUtils {
       egl.eglTerminate(display);
 
       // Return largest texture size found, or default
-      return Math.max(maximumTextureSize, IMAGE_MAX_BITMAP_DIMENSION);
+      return Math.max(maximumTextureSize, imageMaxBitmapDimension);
     } catch (Exception e) {
-      return IMAGE_MAX_BITMAP_DIMENSION;
+      return imageMaxBitmapDimension;
     }
   }
 

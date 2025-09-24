@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author rookie
  */
-public class IjkMediaPlayer implements IMediaPlayer{
+public class IjkMediaPlayer implements IMediaPlayer {
     public int dropFrameRate = 0;
     public boolean isLooping;
 
@@ -28,7 +28,8 @@ public class IjkMediaPlayer implements IMediaPlayer{
     }
 
     @Override
-    public void setDataSource(Context context, Uri uri, Map<String, String> headers) throws IOException, IllegalArgumentException, SecurityException, IllegalStateException {
+    public void setDataSource(Context context, Uri uri, Map<String, String> headers)
+            throws IOException, IllegalArgumentException, SecurityException, IllegalStateException {
 
     }
 
@@ -38,7 +39,8 @@ public class IjkMediaPlayer implements IMediaPlayer{
     }
 
     @Override
-    public void setDataSource(String path) throws IOException, IllegalArgumentException, SecurityException, IllegalStateException {
+    public void setDataSource(String path)
+            throws IOException, IllegalArgumentException, SecurityException, IllegalStateException {
 
     }
 

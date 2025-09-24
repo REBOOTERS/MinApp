@@ -59,7 +59,7 @@ final class CropWindowMoveHandler {
    * @param touchX the location of the initial toch possition to measure move distance
    * @param touchY the location of the initial toch possition to measure move distance
    */
-  public CropWindowMoveHandler(
+  CropWindowMoveHandler(
       Type type, CropWindowHandler cropWindowHandler, float touchX, float touchY) {
     mType = type;
     mMinCropWidth = cropWindowHandler.getMinCropWidth();

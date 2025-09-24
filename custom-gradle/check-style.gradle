@@ -1,8 +1,8 @@
 apply plugin: 'checkstyle'
 
 
-task checkstyle(type: Checkstyle) {
-    source 'src/main/java'
+tasks.register("checkstyle", Checkstyle) {
+    source(subprojects.collect { it.fileTree("src").include("**/*.java") })
     exclude 'src/main/assets/'
     exclude '**/gen/**'
     exclude '**/test/**'

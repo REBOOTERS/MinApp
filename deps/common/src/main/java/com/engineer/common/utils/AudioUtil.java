@@ -7,7 +7,6 @@ import static com.engineer.common.utils.AudioRecordHelper.sample;
 
 import android.content.Context;
 import android.media.AudioFormat;
-import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
@@ -16,7 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class AudioUtil {
-    private static String TAG = "AudioRecordHelper";
+    private static String sTAG = "AudioRecordHelper";
 
     public static File convertPcmToWav(Context context, File pcmFile) {
         File wavFile = new File(context.getCacheDir(), "convert.wav");
@@ -55,7 +54,8 @@ public class AudioUtil {
         return wavFile;
     }
 
-    private static void addWavHeader(FileOutputStream fileOutputStream, long audioByteLen, long wavByteLen, int sampleRateInHz, int channelConfig, int audioFormat) {
+    private static void addWavHeader(FileOutputStream fileOutputStream, long audioByteLen,
+                                     long wavByteLen, int sampleRateInHz, int channelConfig, int audioFormat) {
         byte[] header = new byte[44];
 
         // RIFF/WAVE header chunk
@@ -140,12 +140,12 @@ public class AudioUtil {
         int bitrate = sampleRate * channels * bitDepth;
 
         // 输出信息
-        Log.i(TAG,"PCM 文件信息:");
-        Log.i(TAG,"文件大小: " + fileSize + " 字节");
-        Log.i(TAG,"采样率: " + sampleRate + " Hz");
-        Log.i(TAG,"声道数: " + channels);
-        Log.i(TAG,"位深度: " + bitDepth + " 位");
-        Log.i(TAG,"音频时长: " + duration + " 秒");
-        Log.i(TAG,"比特率: " + bitrate + " bps");
+        Log.i(sTAG, "PCM 文件信息:");
+        Log.i(sTAG, "文件大小: " + fileSize + " 字节");
+        Log.i(sTAG, "采样率: " + sampleRate + " Hz");
+        Log.i(sTAG, "声道数: " + channels);
+        Log.i(sTAG, "位深度: " + bitDepth + " 位");
+        Log.i(sTAG, "音频时长: " + duration + " 秒");
+        Log.i(sTAG, "比特率: " + bitrate + " bps");
     }
 }
