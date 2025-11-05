@@ -2,6 +2,7 @@ package com.engineer.compose.ui
 
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.media.AudioManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,6 +23,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Colors
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +40,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.platform.LocalContext
@@ -45,6 +52,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.engineer.compose.R
 import com.engineer.compose.ui.ui.theme.MiniAppTheme
+import com.engineer.compose.uitls.AudioFocusHelper
 import com.engineer.compose.viewmodel.ImagePreviewPayload
 
 /**
@@ -73,8 +81,8 @@ data class Message(val author: String, val body: String)
 fun SelectImageButton() {
 //    var imageUris by remember { mutableStateOf<List<Uri>>(emptyList()) }
     val context = LocalContext.current
-    val pickImagesLauncher =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetMultipleContents(), onResult = { uris ->
+    val pickImagesLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetMultipleContents(), onResult = { uris ->
             Log.i(TAG, "uris = $uris")
             val intent = Intent(context, GalleryActivity::class.java)
             val list = uris.map { it.toString() }
@@ -94,9 +102,10 @@ fun SelectImageButton() {
 fun MessageCard(msg: Message) {
     var text by rememberSaveable { mutableStateOf("") }
     val count = remember { mutableIntStateOf(0) }
+    val audioFocusHelper = AudioFocusHelper()
     Column {
         CircularProgressIndicator()
-        NetImage()
+//        NetImage()
         val context = LocalContext.current
         Button(onClick = {
             Toast.makeText(context, "you clicked me", Toast.LENGTH_SHORT).show()
@@ -114,6 +123,30 @@ fun MessageCard(msg: Message) {
         }) {
             Text(text = "open gallery")
         }
+        Row(
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color.Red)
+                .padding(all = 8.dp).background(Color.Green, shape = RoundedCornerShape(10.dp)),
+            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+            horizontalArrangement = androidx.compose.ui.arrangement.SpaceBetween
+        ) {
+            Text(text = "audio focus: ${audioFocusHelper.getHasAudioFocus()}")
+
+            Button(onClick = {
+                audioFocusHelper.requestAudioFocus(
+                    context, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE
+                )
+            }) {
+                Text(text = "request audio focus")
+            }
+            Button(onClick = {
+                audioFocusHelper.abandonAudioFocus(context)
+            }) {
+                Text(text = "abandon audio focus")
+            }
+        }
+
         SelectImageButton()
         Text(text = "${count.intValue}")
         Row(modifier = Modifier.padding(all = 8.dp)) {
@@ -132,7 +165,8 @@ fun MessageCard(msg: Message) {
             }
         }
 
-        OutlinedTextField(value = text,
+        OutlinedTextField(
+            value = text,
             onValueChange = { text = it },
             label = { Text("输入消息") },
             modifier = Modifier
