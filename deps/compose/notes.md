@@ -1,3 +1,5 @@
+# 在 Jetpack Compose 中，如果对于 Row/Box/Column 这些元素设置背景、圆角等信息，是什么样的规律？
+
 非常好的问题 👍，这其实是 Jetpack Compose 中 **`Modifier` 修饰顺序与布局绘制原理**的核心逻辑之一。
 要理解 `Row` / `Column` / `Box` 等容器的 **背景、圆角、边框** 等表现规律，关键在于：
 
@@ -74,7 +76,7 @@ Row(
         .fillMaxWidth()
         .background(Color.Gray)
         .padding(8.dp)
-) { ... }
+) {  }
 ```
 
 则灰色背景延伸到整行。
@@ -108,6 +110,8 @@ Box(
 > Clip 控形再上色，顺序不同样子变。**
 
 ---
+
+# margin 又是如何控制的呢？
 
 非常好的延伸问题 👏
 在 **Jetpack Compose** 中，确实有个容易让人困惑的点：
@@ -259,6 +263,9 @@ Column(
 * 两个 Text 间的 `spacedBy(12.dp)` 是元素间的间距。
 
 ---
+
+# verticalAlignment 和 horizontalArrangement 的适配
+
 非常棒的问题 🎯——你已经进入 **Jetpack Compose 布局系统的“空间分配与对齐”核心逻辑**了。
 让我们系统讲清楚：
 

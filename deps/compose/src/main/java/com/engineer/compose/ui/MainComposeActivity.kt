@@ -128,8 +128,7 @@ fun MessageCard(msg: Message) {
                 .clip(RoundedCornerShape(8.dp))
                 .background(Color.Red)
                 .padding(all = 8.dp).background(Color.Green, shape = RoundedCornerShape(10.dp)),
-            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
-            horizontalArrangement = androidx.compose.ui.arrangement.SpaceBetween
+            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
         ) {
             Text(text = "audio focus: ${audioFocusHelper.getHasAudioFocus()}")
 
