@@ -39,3 +39,4 @@ gradle.dev.properties
 /.idea/studiobot.xml
 /.idea/deviceManager.xml
 *.pb
+/.idea/markdown.xml

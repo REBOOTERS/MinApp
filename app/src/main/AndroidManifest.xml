@@ -281,7 +281,7 @@
             android:value="${max_aspect}" /> <!-- just for test replace other config -->
         <activity
             android:name="com.engineer.third.CppActivity"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="fullSensor"
             tools:node="replace" />
         <activity

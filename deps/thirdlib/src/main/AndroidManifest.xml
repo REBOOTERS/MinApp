@@ -3,9 +3,8 @@
 
     <application>
         <activity
-            android:screenOrientation="portrait"
             android:name="com.engineer.third.CppActivity"
-            android:exported="false" />
+            android:exported="true" />
     </application>
 
 </manifest>

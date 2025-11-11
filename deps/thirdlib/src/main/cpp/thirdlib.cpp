@@ -19,6 +19,7 @@
 #include <jni.h>
 #include <string>
 #include "androidlog.h"
+#include "room/demo.h"
 
 using namespace std;
 
@@ -35,21 +36,21 @@ Java_com_engineer_third_CppActivity_getHello(JNIEnv *env, jobject) {
 
 JNIEXPORT jint JNICALL
 Java_com_engineer_third_internal_NativeMethodsFactory_plus(JNIEnv *env, jobject thiz, jint a,
-                                                           jint b) {
+        jint b) {
     jint sum = a + b;
     return sum;
 }
 
 JNIEXPORT jint JNICALL
 Java_com_engineer_third_internal_NativeMethodsFactory_staticPlus(JNIEnv *env, jclass clazz, jint a,
-                                                                 jint b) {
+        jint b) {
     jint sum = a + b;
     return sum;
 }
 
 JNIEXPORT jstring JNICALL
 Java_com_engineer_third_internal_NativeMethodsFactory_transToNativeString(JNIEnv *env, jobject thiz,
-                                                                          jstring input) {
+        jstring input) {
 
     jstring nativeString = env->NewStringUTF("hello from native");
     const char *str = env->GetStringUTFChars(input, nullptr);
@@ -61,5 +62,9 @@ Java_com_engineer_third_internal_NativeMethodsFactory_transToNativeString(JNIEnv
     return nativeString;
 }
 
+JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *) {
+    entrance();
+    return JNI_VERSION_1_6;
+}
 }
 

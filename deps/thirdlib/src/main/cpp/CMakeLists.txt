@@ -18,12 +18,15 @@ message("MIN_APP=${MIN_APP}")
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
 
+file(GLOB DEMO room/*.cpp)
+
 add_library( # Sets the name of the library.
         thirdlib
 
         # Sets the library as a shared library.
         SHARED
-
+#        room/*.cpp
+        ${DEMO}
         # Provides a relative path to your source file(s).
         thirdlib.cpp)
 
