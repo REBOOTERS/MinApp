@@ -119,7 +119,12 @@ int wekws::WeKws::run(const std::vector<std::vector<float>> &feats,
     inputs[1].type = RKNN_TENSOR_FLOAT32;
     inputs[1].fmt = RKNN_TENSOR_NHWC;
     inputs[1].size = static_cast<int>(cache_buf.size() * 64 * sizeof(float));
-    inputs[1].buf = cache_buf.data();
+
+    if (cache_.empty()) {
+        inputs[1].buf = cache_buf.data();
+    } else {
+        inputs[1].buf = cache_.data();
+    }
 
     int ret = rknn_inputs_set(ctx, 2, inputs);
     if (ret != 0) {
