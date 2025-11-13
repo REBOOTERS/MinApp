@@ -20,6 +20,7 @@
 #include <string>
 #include "androidlog.h"
 #include "yoyoimg/yolo_image.h"
+#include "wekws/wekws.h"
 
 using namespace std;
 
@@ -61,4 +62,37 @@ Java_com_engineer_rknn_util_ModelHandler_nativeInitYoyo(JNIEnv *env, jobject thi
                                                         jstring model_path) {
     char *model_path_p = jstringToChar(env, model_path);
     return create(input_h, input_w, input_c, model_path_p);
+}
+
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_engineer_rknn_util_ModelHandler_onDestroyYoyo(JNIEnv *env, jobject thiz) {
+    destroy();
+}
+
+wekws::WeKws wekwsObj;
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_engineer_rknn_util_ModelHandler_nativeInitWekws(JNIEnv *env, jobject thiz,
+                                                         jstring model_path) {
+    const char *p_model_path = env->GetStringUTFChars(model_path, nullptr);
+
+    std::string input_path(p_model_path);
+
+    return wekwsObj.create(input_path);
+
+}
+
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_engineer_rknn_util_ModelHandler_onDestroyWekws(JNIEnv *env, jobject thiz) {
+    wekwsObj.destroy("哈哈哈");
+}
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_engineer_rknn_util_ModelHandler_infer(JNIEnv *env, jobject thiz) {
+    wekwsObj.infer();
 }

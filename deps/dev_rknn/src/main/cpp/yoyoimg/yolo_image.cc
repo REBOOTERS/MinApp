@@ -188,13 +188,6 @@ int create(int im_height, int im_width, int im_channel, char *model_path) {
 
 void destroy() {
     LOGI("release related rknn res");
-    // release io_mem resource
-    for (int i = 0; i < n_input; ++i) {
-        rknn_destroy_mem(ctx, input_mems[i]);
-    }
-    for (int i = 0; i < n_output; ++i) {
-        rknn_destroy_mem(ctx, output_mems[i]);
-    }
     rknn_destroy(ctx);
 }
 

@@ -29,10 +29,46 @@ object ModelHandler {
     }
 
 
-    fun modelInit(modelPath: String) {
-       val result =  nativeInitYoyo(1280, 720, 3, modelPath)
+    fun modelInit(modelPath: String, type: ModelType): Int {
+        val result = when (type) {
+            ModelType.YOYO -> {
+                nativeInitYoyo(1280, 720, 3, modelPath)
+            }
+
+            ModelType.WEWKS -> {
+                nativeInitWekws(modelPath)
+            }
+        }
+        return result
     }
 
-    private external fun nativeInitYoyo(inputW: Int, inputH: Int, inputC: Int, modelPath: String): Int
+    fun runInfer() {
+        infer()
+    }
 
+    fun release(type: ModelType) {
+        when (type) {
+            ModelType.YOYO -> {
+                onDestroyYoyo()
+            }
+
+            ModelType.WEWKS -> {
+                onDestroyWekws()
+            }
+        }
+    }
+
+    private external fun nativeInitYoyo(
+        inputW: Int, inputH: Int, inputC: Int, modelPath: String
+    ): Int
+
+    private external fun onDestroyYoyo()
+
+    private external fun nativeInitWekws(modelPath: String): Int
+    private external fun infer()
+    private external fun onDestroyWekws()
+}
+
+enum class ModelType {
+    YOYO, WEWKS
 }

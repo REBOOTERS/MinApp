@@ -50,4 +50,5 @@ dependencies {
     compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("io.reactivex.rxjava2:rxjava:2.2.21")
 }
