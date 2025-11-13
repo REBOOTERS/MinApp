@@ -47,6 +47,7 @@ println("env---------------------------<")
 rootProject.name = "MinApp"
 include(":app")
 include(":deps:thirdlib")
+include(":deps:dev_rknn")
 include(":deps:compose")
 include(":deps:filter")
 include(":other")
