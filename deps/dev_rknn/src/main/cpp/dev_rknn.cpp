@@ -21,6 +21,7 @@
 #include "androidlog.h"
 #include "yoyoimg/yolo_image.h"
 #include "wekws/wekws.h"
+#include "rknn_resnet_wrapper.h"
 
 using namespace std;
 
@@ -95,4 +96,50 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_engineer_rknn_util_ModelHandler_infer(JNIEnv *env, jobject thiz) {
     wekwsObj.infer();
+}
+
+resnet50::RKNNResNetWrapper resnet5Obj;
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_engineer_rknn_util_ModelHandler_nativeInitResnet(JNIEnv *env, jobject thiz,
+                                                          jstring model_path) {
+    const char *p_model_path = env->GetStringUTFChars(model_path, nullptr);
+
+    std::string input_path(p_model_path);
+    return resnet5Obj.initModelFromBytes(p_model_path);
+
+}
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_engineer_rknn_util_ModelHandler_inferResnet(JNIEnv *env, jobject thiz) {
+
+}
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_engineer_rknn_util_ModelHandler_onDestroyResnet(JNIEnv *env, jobject thiz) {
+    resnet5Obj.release();
+}
+extern "C"
+JNIEXPORT jfloatArray JNICALL
+Java_com_engineer_rknn_util_ModelHandler_resNetInfer(JNIEnv *env, jobject thiz,
+                                                     jbyteArray image_byte, jint w, jint h,
+                                                     jint format) {
+    jsize len = env->GetArrayLength(image_byte);
+    if (len <= 0) {
+        LOGE("infer: input image empty");
+        return nullptr;
+    }
+    std::vector<uint8_t> buf(len);
+    env->GetByteArrayRegion(image_byte, 0, len, reinterpret_cast<jbyte *>(buf.data()));
+    resnet50::RKNNResNetWrapper::ImageFormat fmt =
+            (format ==1) ? resnet50::RKNNResNetWrapper::FORMAT_NV21 : resnet50::RKNNResNetWrapper::FORMAT_ARGB;
+    std::vector<float> probs = resnet5Obj.inferFromBuffer(buf, w, h, fmt);
+    if (probs.empty()) {
+        LOGE("infer result empty");
+        return nullptr;
+    }
+    jfloatArray out = env->NewFloatArray((jsize) probs.size());
+    env->SetFloatArrayRegion(out, 0, (jsize) probs.size(), probs.data());
+    return out;
 }

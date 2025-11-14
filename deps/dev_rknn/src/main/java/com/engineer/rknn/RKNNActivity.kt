@@ -17,8 +17,8 @@ private const val TAG = "RKNNActivity"
 
 class RKNNActivity : AppCompatActivity() {
 
-    private val currentType = ModelType.WEWKS
-    private var disposables: Disposable ? = null
+    private val currentType = ModelType.RESNET
+    private var disposables: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,17 +34,33 @@ class RKNNActivity : AppCompatActivity() {
             ModelType.YOYO -> {
                 ModelHandler.copyModelToInternal(this, "yolov5s.rknn", R.raw.yolov5s_rk3566)
             }
+
+            ModelType.RESNET -> {
+                ModelHandler.copyModelToInternal(this, "resnet50v2.rknn", R.raw.resnet50v2)
+            }
         }
 
         Log.i(TAG, "model path = $resultPath")
 
         val result = ModelHandler.modelInit(resultPath, currentType)
         if (result == 0) {
-            disposables = Observable.interval(1, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.computation())
-                .subscribe {
-                    ModelHandler.runInfer()
+            when (currentType) {
+                ModelType.WEWKS -> {
+                    disposables = Observable.interval(1, TimeUnit.SECONDS)
+                        .subscribeOn(Schedulers.computation()).subscribe {
+                            ModelHandler.runInfer(this, currentType)
+                        }
                 }
+
+                ModelType.YOYO -> {
+
+                }
+
+                ModelType.RESNET -> {
+                    ModelHandler.runInfer(this, currentType)
+                }
+            }
+
         }
 
 

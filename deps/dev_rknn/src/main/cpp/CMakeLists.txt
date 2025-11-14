@@ -12,6 +12,7 @@ project(dev_rknn)
 include_directories(logcat)
 include_directories(yoyoimg)
 include_directories(wekws)
+include_directories(resnet50_v2)
 file(GLOB WEKWS wekws/*.cpp)
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
@@ -24,6 +25,7 @@ add_library( # Sets the name of the library.
         # Sets the library as a shared library.
         SHARED
         yoyoimg/yolo_image.cc
+        resnet50_v2/rknn_resnet_wrapper.cpp
         ${WEKWS}
 #        room/*.cpp
         # Provides a relative path to your source file(s).
