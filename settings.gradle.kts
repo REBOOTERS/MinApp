@@ -52,4 +52,4 @@ include(":deps:filter")
 include(":other")
 include(":deps:common")
 include(":deps:lib_jar")
- 
+include(":deps:dev_onnx")
