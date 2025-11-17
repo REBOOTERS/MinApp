@@ -95,10 +95,16 @@ object ModelHandler {
                     val bmp = if (bitmap.config == Bitmap.Config.ARGB_8888) bitmap else bitmap.copy(
                         Bitmap.Config.ARGB_8888, false
                     )
-                    val input = bitmapToFloatArray(bitmap)
 
+                    val width = bitmap.width
+                    val height = bitmap.height
 
-                    resNetInfer(floatArrayToByteArray(input), bmp.width, bmp.height, 0)
+                    // 1. 创建 ARGB 原始字节 buffer
+                    val byteCount = width * height * 4
+                    val buffer = ByteBuffer.allocate(byteCount)
+                    bitmap.copyPixelsToBuffer(buffer)
+                    val imageBytesARGB = buffer.array()
+                    resNetInfer(imageBytesARGB, width, height, 0)
                 }
             }
 
