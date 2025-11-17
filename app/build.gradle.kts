@@ -196,8 +196,6 @@ dependencies {
         implementation("com.engineer.third:thirdlib:1.0.0")
     }
     implementation(project(":deps:common"))
-    implementation(project(":deps:dev_rknn"))
-//    globalImplementation(project(":deps:compose"))
     add("globalImplementation",project(":deps:compose"))
     implementation("androidx.navigation:navigation-fragment-ktx:2.9.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.9.3")
