@@ -52,13 +52,15 @@ class RKNNActivity : AppCompatActivity() {
                         }
                 }
 
-                ModelType.YOYO -> {
-
-                }
+                ModelType.YOYO -> {}
 
                 ModelType.RESNET -> {
-                    ModelHandler.runInfer(this, currentType)
+                    val result = ModelHandler.runInfer(this, currentType)
+                    val resultTv = findViewById<TextView>(R.id.result)
+                    resultTv.text = result
                 }
+
+
             }
 
         }

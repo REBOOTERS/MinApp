@@ -85,16 +85,31 @@ object ModelHandler {
     }
 
 
+    fun runInfer(context: Context, type: ModelType):String {
 
-    fun runInfer(context: Context, type: ModelType) {
+        val labels = mutableListOf<String>()
+
+        /* 输入：predict() 得到的 1000 维概率；输出：Top-5 类别+概率 */
+        fun topK(prob: FloatArray, k: Int = 5): List<Pair<String, Float>> {
+            return prob.withIndex().sortedByDescending { it.value }.take(k)
+                .map { labels[it.index] to it.value }
+        }
+
         when (type) {
             ModelType.RESNET -> {
+
+
+                context.assets.open("labels.txt").bufferedReader().useLines { lines ->
+                    lines.forEach { line ->
+                        // 0:tench, Tinca tinca  -> 取 ":" 后字符串
+                        labels += line.substringAfter(":").trim()
+                    }
+                }
+
+
                 context.assets.open("dog_224x224.jpg").use {
                     val bitmap = BitmapFactory.decodeStream(it)
                     Log.i("RKNNActivity", "format ${bitmap.config}")
-                    val bmp = if (bitmap.config == Bitmap.Config.ARGB_8888) bitmap else bitmap.copy(
-                        Bitmap.Config.ARGB_8888, false
-                    )
 
                     val width = bitmap.width
                     val height = bitmap.height
@@ -104,7 +119,18 @@ object ModelHandler {
                     val buffer = ByteBuffer.allocate(byteCount)
                     bitmap.copyPixelsToBuffer(buffer)
                     val imageBytesARGB = buffer.array()
-                    resNetInfer(imageBytesARGB, width, height, 0)
+                    val result = resNetInfer(imageBytesARGB, width, height, 0)
+                    Log.i("RKNNActivity", "result ${result.contentToString()}")
+                    // 返回 top5 的 index 和 概率
+                    val topK = 5
+                    val indexedResults = result.mapIndexed { index, fl -> index to fl }
+                    val sortedResults = indexedResults.sortedByDescending { it.second }.take(topK)
+                    Log.i("RKNNActivity", "sortedResults ${sortedResults}")
+                    val top5 = topK(result)
+                    Log.i("RKNNActivity", "top5 $top5")
+                    // 2. 释放资源
+                    bitmap.recycle()
+                    return "$top5\n $sortedResults"
                 }
             }
 
@@ -116,6 +142,7 @@ object ModelHandler {
                 infer()
             }
         }
+        return ""
 
     }
 

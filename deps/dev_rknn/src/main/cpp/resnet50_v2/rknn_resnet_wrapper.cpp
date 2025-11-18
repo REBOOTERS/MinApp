@@ -88,11 +88,23 @@ bool resnet50::RKNNResNetWrapper::initRknn(const std::string &model_path) {
         return false;
     }
 
-    LOGI("model input fmt=%d, type=%d", input_attrs[0].fmt, input_attrs[0].type);
+    // 输出详细输入信息
+    LOGI("model input index=%d, name=%s, n_dims=%d, dims=[%d,%d,%d,%d], n_elems=%d, size=%d, fmt=%d, type=%d, qnt_type=%d, qnt_zp=%d, qnt_scale=%f",
+        input_attrs[0].index,
+        input_attrs[0].name,
+        input_attrs[0].n_dims,
+        input_attrs[0].dims[0], input_attrs[0].dims[1], input_attrs[0].dims[2], input_attrs[0].dims[3],
+        input_attrs[0].n_elems,
+        input_attrs[0].size,
+        input_attrs[0].fmt,
+        input_attrs[0].type,
+        input_attrs[0].qnt_type,
+        input_attrs[0].zp,
+        input_attrs[0].scale);
 
-    // This wrapper requires a specific input format (NCHW) and type (FLOAT32).
+    // 检查输入类型和格式
     if (input_attrs[0].fmt != RKNN_TENSOR_NHWC || input_attrs[0].type != RKNN_TENSOR_INT8) {
-        LOGE("Unsupported model: this wrapper requires NCHW FLOAT32 input. Model has fmt=%d, type=%d",
+        LOGE("Unsupported model: this wrapper requires NHWC INT8 input. Model has fmt=%d, type=%d",
              input_attrs[0].fmt, input_attrs[0].type);
         return false;
     }
@@ -152,17 +164,24 @@ resnet50::RKNNResNetWrapper::nv21_to_rgb(const uint8_t *nv21, int w, int h, uint
     }
 }
 
-void
-resnet50::RKNNResNetWrapper::argb_to_rgb(const uint8_t *argb, int w, int h, uint8_t *outRgb) const {
+void resnet50::RKNNResNetWrapper::argb_to_rgb(const uint8_t *argb, int w, int h, uint8_t *outRgb) const {
     int pix = w * h;
     for (int i = 0; i < pix; ++i) {
-        const uint8_t a = argb[i * 4 + 0];
-        const uint8_t r = argb[i * 4 + 1];
-        const uint8_t g = argb[i * 4 + 2];
-        const uint8_t b = argb[i * 4 + 3];
-        outRgb[i * 3 + 0] = r;
-        outRgb[i * 3 + 1] = g;
-        outRgb[i * 3 + 2] = b;
+        // A R G B
+        outRgb[i * 3 + 0] = argb[i * 4 + 1];
+        outRgb[i * 3 + 1] = argb[i * 4 + 2];
+        outRgb[i * 3 + 2] = argb[i * 4 + 3];
+    }
+}
+
+// 新增: float 版本 ARGB -> RGB
+void resnet50::RKNNResNetWrapper::argb_to_rgb_float(const float *argb, int w, int h, float *outRgb) const {
+    int pix = w * h;
+    for (int i = 0; i < pix; ++i) {
+        // A R G B
+        outRgb[i * 3 + 0] = argb[i * 4 + 1];
+        outRgb[i * 3 + 1] = argb[i * 4 + 2];
+        outRgb[i * 3 + 2] = argb[i * 4 + 3];
     }
 }
 
@@ -210,10 +229,10 @@ void resnet50::RKNNResNetWrapper::softmax_inplace(float *data, int len) const {
     for (int i = 0; i < len; ++i) data[i] = (float) (data[i] / sum);
 }
 
+
 std::vector<float>
 resnet50::RKNNResNetWrapper::inferFromBuffer(const std::vector<uint8_t> &image_bytes,
                                              int width, int height, ImageFormat fmt){
-
     LOGI("inferFromBuffer ,w = %d,h=%d,fmt=%d", width, height, fmt);
     std::lock_guard<std::mutex> lk(mtx_);
     std::vector<float> empty;
@@ -227,53 +246,98 @@ resnet50::RKNNResNetWrapper::inferFromBuffer(const std::vector<uint8_t> &image_b
         return empty;
     }
 
-    // 1) 转换成 RGB
-    std::vector<uint8_t> rgb_src(width * height * 3);
-    if (fmt == FORMAT_NV21) {
-        nv21_to_rgb(image_bytes.data(), width, height, rgb_src.data());
-    } else {
-        argb_to_rgb(image_bytes.data(), width, height, rgb_src.data());
+    // 判断输入是否 float ARGB
+    bool is_float_argb = false;
+    if (fmt == FORMAT_ARGB && image_bytes.size() == width * height * 4 * sizeof(float)) {
+        is_float_argb = true;
     }
 
 
-    // 2) resize 到模型输入
     int ow = input_w_;
     int oh = input_h_;
     if (ow <= 0 || oh <= 0) {
         LOGE("Invalid model input dimensions: %dx%d. Set positive dimensions with setModelInputSize.", ow, oh);
         return empty;
     }
-    std::vector<uint8_t> rgb_resized(ow * oh * 3);
-    resize_bilinear_rgb(rgb_src.data(), width, height, rgb_resized.data(), ow, oh);
 
-    // 3) float + normalize (ImageNet 标准) -> NCHW
-    const float mean_vals[3] = {123.675f, 116.28f, 103.53f};
-    const float std_vals[3] = {58.395f, 57.12f, 57.375f};
-    std::vector<float> input_data(3 * ow * oh);
-    for (int y = 0; y < oh; ++y) {
-        for (int x = 0; x < ow; ++x) {
-            int idx = (y * ow + x) * 3;
-            uint8_t r = rgb_resized[idx + 0];
-            uint8_t g = rgb_resized[idx + 1];
-            uint8_t b = rgb_resized[idx + 2];
-            int base = y * ow + x;
-            input_data[0 * ow * oh + base] = (r - mean_vals[0]) / std_vals[0];
-            input_data[1 * ow * oh + base] = (g - mean_vals[1]) / std_vals[1];
-            input_data[2 * ow * oh + base] = (b - mean_vals[2]) / std_vals[2];
+
+    // 获取模型量化参数（scale, zp）
+    float input_scale = 1.0f;
+    int input_zp = 0;
+    {
+        rknn_tensor_attr input_attr;
+        memset(&input_attr, 0, sizeof(input_attr));
+        input_attr.index = 0;
+        int ret = rknn_query((rknn_context)rknn_ctx_, RKNN_QUERY_INPUT_ATTR, &input_attr, sizeof(input_attr));
+        if (ret == 0) {
+            input_scale = input_attr.scale;
+            input_zp = input_attr.zp;
         }
     }
 
-    // 4) RKNN 输入、推理、输出获取（同之前）
+    // 始终生成 int8_t NHWC 格式输入（量化）
+    std::vector<int8_t> input_nhwc(ow * oh * 3);
+    const float mean_vals[3] = {0.485f, 0.456f, 0.406f};
+    const float std_vals[3] = {0.229f, 0.224f, 0.225f};
+    if (is_float_argb) {
+        // float ARGB -> float RGB
+        const float* argb_ptr = reinterpret_cast<const float*>(image_bytes.data());
+        std::vector<float> rgb_src(width * height * 3);
+        argb_to_rgb_float(argb_ptr, width, height, rgb_src.data());
+        // resize 最近邻
+        std::vector<float> rgb_resized(ow * oh * 3);
+        float x_ratio = (float)width / ow;
+        float y_ratio = (float)height / oh;
+        for (int j = 0; j < oh; ++j) {
+            int sy = std::min((int)(j * y_ratio), height - 1);
+            for (int i = 0; i < ow; ++i) {
+                int sx = std::min((int)(i * x_ratio), width - 1);
+                for (int c = 0; c < 3; ++c) {
+                    float v = rgb_src[(sy * width + sx) * 3 + c];
+                    // 归一化
+                    float norm = (v / 255.0f - mean_vals[c]) / std_vals[c];
+                    // 量化
+                    int q = static_cast<int>(std::round(norm / input_scale + input_zp));
+                    if (q < -128) q = -128;
+                    if (q > 127) q = 127;
+                    input_nhwc[(j * ow + i) * 3 + c] = static_cast<int8_t>(q);
+                }
+            }
+        }
+    } else {
+        // 原有 uint8_t 流程
+        std::vector<uint8_t> rgb_src(width * height * 3);
+        if (fmt == FORMAT_NV21) {
+            nv21_to_rgb(image_bytes.data(), width, height, rgb_src.data());
+        } else {
+            argb_to_rgb(image_bytes.data(), width, height, rgb_src.data());
+        }
+        std::vector<uint8_t> rgb_resized(ow * oh * 3);
+        resize_bilinear_rgb(rgb_src.data(), width, height, rgb_resized.data(), ow, oh);
+        for (int j = 0; j < oh; ++j) {
+            for (int i = 0; i < ow; ++i) {
+                int idx = (j * ow + i) * 3;
+                for (int c = 0; c < 3; ++c) {
+                    float v = rgb_resized[idx + c];
+                    float norm = (v / 255.0f - mean_vals[c]) / std_vals[c];
+                    int q = static_cast<int>(std::round(norm / input_scale + input_zp));
+                    if (q < -128) q = -128;
+                    if (q > 127) q = 127;
+                    input_nhwc[idx + c] = static_cast<int8_t>(q);
+                }
+            }
+        }
+    }
+
+    // 4) RKNN 输入、推理、输出获取
     rknn_input inputs[1];
     memset(inputs, 0, sizeof(inputs));
     inputs[0].index = 0;
-    inputs[0].buf = input_data.data();
-    inputs[0].size = input_data.size() * sizeof(float);
+    inputs[0].buf = input_nhwc.data();
+    inputs[0].size = input_nhwc.size() * sizeof(int8_t);
     inputs[0].pass_through = 0;
     inputs[0].type = RKNN_TENSOR_INT8;
     inputs[0].fmt = RKNN_TENSOR_NHWC;
-
-
 
     if (rknn_ctx_ == nullptr) {
         LOGE("rknn_ctx_ is null");

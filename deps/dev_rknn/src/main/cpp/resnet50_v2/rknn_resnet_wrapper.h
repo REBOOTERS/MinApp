@@ -32,6 +32,9 @@ namespace resnet50 {
         std::vector<float> inferFromBuffer(const std::vector<uint8_t> &image_bytes,
                                            int width, int height, ImageFormat fmt);
 
+        // 新增 float ARGB to RGB
+        void argb_to_rgb_float(const float *argb, int w, int h, float *outRgb) const;
+
         // 可配置模型输入尺寸（默认 224x224）
         void setModelInputSize(int w, int h);
 
