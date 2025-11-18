@@ -23,7 +23,7 @@ class InferViewModel : ViewModel() {
     fun init(context: Context) {
         viewModelScope.launch {
             withContext(Dispatchers.Default) {
-                ResNet50V2Oxnn.init(context)
+                ResNet50V2onnx.init(context)
             }
         }
         initSuccess.value = true
@@ -44,14 +44,14 @@ class InferViewModel : ViewModel() {
         withContext(Dispatchers.IO) {
             // 1. 预处理（resize + normalize）
 //            val nhwc = ResNet50V2Oxnn.bitmapToNhwc(bitmap)
-            val input = ResNet50V2Oxnn.bitmapToChw(bitmap)
+            val input = ResNet50V2onnx.bitmapToChw(bitmap)
             val shape = longArrayOf(1L, 3L, 224L, 224L)
             val tensor = OnnxTensor.createTensor(
                 OrtEnvironment.getEnvironment(), FloatBuffer.wrap(input), shape
             )
 
             // 2. 推理
-            val session = ResNet50V2Oxnn.session   // 提前初始化好
+            val session = ResNet50V2onnx.session   // 提前初始化好
             val inputs = mapOf("data" to tensor)
             val output = session.run(inputs)
 
@@ -65,6 +65,6 @@ class InferViewModel : ViewModel() {
 
 
             // 3. 取 Top-5
-            ResNet50V2Oxnn.topK(prob)
+            ResNet50V2onnx.topK(prob)
         }
 }

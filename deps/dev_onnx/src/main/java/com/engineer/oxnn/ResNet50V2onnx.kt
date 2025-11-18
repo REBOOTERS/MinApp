@@ -8,7 +8,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-object ResNet50V2Oxnn {
+object ResNet50V2onnx {
     // 模型地址：https://s3.amazonaws.com/onnx-model-zoo/resnet/resnet50v2/resnet50v2.onnx
     private const val modelName = "resnet50v2.onnx"
     private val TAG = "ResNet50V2Oxnn"
@@ -113,25 +113,30 @@ object ResNet50V2Oxnn {
      */
     fun bitmapToChw(
         bmp: Bitmap,
-        mean: FloatArray = floatArrayOf(123.675f, 116.28f, 103.53f),
-        std: FloatArray = floatArrayOf(58.82f, 58.82f, 58.82f)
+        mean: FloatArray = floatArrayOf(0.485f, 0.456f, 0.406f),
+        std: FloatArray = floatArrayOf(0.229f, 0.224f, 0.225f)
     ): FloatArray {
         val w = 224
         val h = 224
         val resized = Bitmap.createScaledBitmap(bmp, w, h, true)
         val pixels = IntArray(w * h)
         resized.getPixels(pixels, 0, w, 0, 0, w, h)
+        // Proper CHW ordering: channel planes contiguous (R plane, G plane, B plane)
+        val hw = h * w
+        val chw = FloatArray(3 * hw)
+        for (pi in pixels.indices) {
+            val px = pixels[pi]
+            val r = ((px shr 16) and 0xFF).toFloat() / 255f
+            val g = ((px shr 8) and 0xFF).toFloat() / 255f
+            val b = (px and 0xFF).toFloat() / 255f
 
-        val chw = FloatArray(3 * h * w)
-        var i = 0
-        for (px in pixels) {
-            val r = ((px shr 16) and 0xFF).toFloat()
-            val g = ((px shr 8) and 0xFF).toFloat()
-            val b = (px and 0xFF).toFloat()
+            val rn = (r - mean[0]) / std[0]
+            val gn = (g - mean[1]) / std[1]
+            val bn = (b - mean[2]) / std[2]
 
-            chw[i] = (r - mean[0]) / std[0]; i++
-            chw[i] = (g - mean[1]) / std[1]; i++
-            chw[i] = (b - mean[2]) / std[2]; i++
+            chw[0 * hw + pi] = rn
+            chw[1 * hw + pi] = gn
+            chw[2 * hw + pi] = bn
         }
         return chw
     }

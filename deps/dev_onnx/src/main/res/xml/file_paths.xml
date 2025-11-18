@@ -1,0 +1,6 @@
+<!-- 创建res/xml/file_paths.xml -->
+<paths>
+    <external-files-path
+        name="pictures"
+        path="Pictures/" />
+</paths>
