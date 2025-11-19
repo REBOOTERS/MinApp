@@ -26,6 +26,7 @@ add_library( # Sets the name of the library.
         SHARED
         yoyoimg/yolo_image.cc
         resnet50_v2/rknn_resnet_wrapper.cpp
+        resnet50_v2/image_helper.cpp
         ${WEKWS}
 #        room/*.cpp
         # Provides a relative path to your source file(s).

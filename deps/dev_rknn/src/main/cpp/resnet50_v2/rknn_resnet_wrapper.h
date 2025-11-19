@@ -32,9 +32,6 @@ namespace resnet50 {
         std::vector<float> inferFromBuffer(const std::vector<uint8_t> &image_bytes,
                                            int width, int height, ImageFormat fmt);
 
-        // 新增 float ARGB to RGB
-        void argb_to_rgb_float(const float *argb, int w, int h, float *outRgb) const;
-
         // 可配置模型输入尺寸（默认 224x224）
         void setModelInputSize(int w, int h);
 
@@ -49,17 +46,9 @@ namespace resnet50 {
 
         bool simpleInit(const std::string &model_path,bool simple);
 
+        bool queryInfo();
+
         void destroyRknn();
-
-        // 图像处理函数（成员版本）
-        void nv21_to_rgb(const uint8_t *nv21, int w, int h, uint8_t *outRgb) const;
-
-        void argb_to_rgb(const uint8_t *argb, int w, int h, uint8_t *outRgb) const;
-
-        void
-        resize_bilinear_rgb(const uint8_t *in, int w, int h, uint8_t *out, int ow, int oh) const;
-
-        void softmax_inplace(float *data, int len) const;
 
     private:
         // RKNN 上下文等
