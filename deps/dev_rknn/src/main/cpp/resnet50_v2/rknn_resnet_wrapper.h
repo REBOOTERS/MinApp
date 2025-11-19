@@ -47,6 +47,8 @@ namespace resnet50 {
         // 私有实现细节
         bool initRknn(const std::string &model_path);
 
+        bool simpleInit(const std::string &model_path,bool simple);
+
         void destroyRknn();
 
         // 图像处理函数（成员版本）
@@ -62,13 +64,16 @@ namespace resnet50 {
     private:
         // RKNN 上下文等
         void *rknn_ctx_; // 使用 void* 以便兼容不同 SDK，实际类型为 rknn_context
-        int output_count_;
+        uint32_t input_count_;
+        uint32_t output_count_;
         int num_classes_;
         int input_w_;
         int input_h_;
 
         // 线程安全
         mutable std::mutex mtx_;
+        int32_t zp;
+        float scale;
     };
 }
 #endif // RKNN_RESNET_WRAPPER_H

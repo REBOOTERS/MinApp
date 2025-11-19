@@ -1,13 +1,16 @@
 package com.engineer.rknn
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.engineer.rknn.util.ModelHandler
 import com.engineer.rknn.util.ModelType
 import io.reactivex.Observable
 import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
@@ -55,9 +58,22 @@ class RKNNActivity : AppCompatActivity() {
                 ModelType.YOYO -> {}
 
                 ModelType.RESNET -> {
-                    val result = ModelHandler.runInfer(this, currentType)
-                    val resultTv = findViewById<TextView>(R.id.result)
-                    resultTv.text = result
+                    disposables = Observable.interval(2, TimeUnit.SECONDS)
+                        .map {
+                            ModelHandler.runInfer(this,currentType)
+                        }
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe {
+                            val resultTv = findViewById<TextView>(R.id.result)
+                            resultTv.text = it.second
+                            val inputImg = findViewById<ImageView>(R.id.input_res)
+                            assets.open(it.first).use {
+                                val bitmap = BitmapFactory.decodeStream(it)
+                                inputImg.setImageBitmap(bitmap)
+                            }
+                        }
+
                 }
 
 

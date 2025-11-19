@@ -9,6 +9,7 @@
 
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, "RKNN_WRAPPER", __VA_ARGS__)
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, "RKNN_WRAPPER", __VA_ARGS__)
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, "RKNN_WRAPPER", __VA_ARGS__)
 
 resnet50::RKNNResNetWrapper::RKNNResNetWrapper()
         : rknn_ctx_(nullptr),
@@ -40,36 +41,52 @@ int resnet50::RKNNResNetWrapper::initModelFromBytes(const std::string &model_pat
     return -1;
 }
 
-bool resnet50::RKNNResNetWrapper::initRknn(const std::string &model_path) {
-    FILE *fp = fopen(model_path.c_str(), "rb");
-    if (fp == NULL) {
-        LOGE("fopen %s fail!!", model_path.c_str());
-        return false;
-    }
-    fseek(fp, 0, SEEK_END);
-    uint32_t model_len = ftell(fp);
-    void *model = malloc(model_len);
-    fseek(fp, 0, SEEK_SET);
-    if (model_len != fread(model, 1, model_len, fp)) {
-        LOGE("fread  %s fail ", model_path.c_str());
-        free(model);
+bool resnet50::RKNNResNetWrapper::simpleInit(const std::string &model_path, bool simple) {
+    int ret = 0;
+    if (simple) {
+        LOGI("init with simple way");
+        void *input_path = (void *) model_path.c_str();
+        ret = rknn_init((rknn_context *) &rknn_ctx_, input_path, 0, 0, nullptr);
+    } else {
+        FILE *fp = fopen(model_path.c_str(), "rb");
+        if (fp == NULL) {
+            LOGE("fopen %s fail!!", model_path.c_str());
+            return false;
+        }
+        fseek(fp, 0, SEEK_END);
+        uint32_t model_len = ftell(fp);
+        void *model = malloc(model_len);
+        fseek(fp, 0, SEEK_SET);
+        if (model_len != fread(model, 1, model_len, fp)) {
+            LOGE("fread  %s fail ", model_path.c_str());
+            free(model);
+            fclose(fp);
+            return false;
+        }
         fclose(fp);
-        return false;
+        // init model
+        ret = rknn_init((rknn_context *) &rknn_ctx_, model, model_len, 0, nullptr);
+        free(model);
+        if (ret < 0) {
+            LOGE("rknn init fail ,ret = %d", ret);
+            return false;
+        }
     }
-    fclose(fp);
+    return ret == 0;
+}
 
-    // init model
-    int ret = rknn_init((rknn_context *) &rknn_ctx_, model, model_len, 0, nullptr);
-    free(model);
-    if (ret < 0) {
-        LOGE("rknn init fail ,ret = %d", ret);
+bool resnet50::RKNNResNetWrapper::initRknn(const std::string &model_path) {
+
+    bool result = simpleInit(model_path, true);
+    if(!result) {
+        LOGE("rknn init fail ,ret = %d", result);
         return false;
     }
     LOGI("rknn_init_success ");
 
 
     rknn_input_output_num io_num;
-    ret = rknn_query((rknn_context) rknn_ctx_, RKNN_QUERY_IN_OUT_NUM, &io_num, sizeof(io_num));
+    int ret = rknn_query((rknn_context) rknn_ctx_, RKNN_QUERY_IN_OUT_NUM, &io_num, sizeof(io_num));
     if (ret < 0) {
         LOGE("rknn_query IO num err=%d", ret);
         return false;
@@ -78,29 +95,36 @@ bool resnet50::RKNNResNetWrapper::initRknn(const std::string &model_path) {
         LOGE("model requires %d inputs, but this wrapper only supports 1 input", io_num.n_input);
         return false;
     }
-
+    input_count_ = io_num.n_input;
+    output_count_ = io_num.n_output;
+    LOGI("input %d,output %d",input_count_,output_count_);
     rknn_tensor_attr input_attrs[1];
     memset(input_attrs, 0, sizeof(input_attrs));
     input_attrs[0].index = 0;
-    ret = rknn_query((rknn_context) rknn_ctx_, RKNN_QUERY_INPUT_ATTR, input_attrs, sizeof(input_attrs));
+    ret = rknn_query((rknn_context) rknn_ctx_, RKNN_QUERY_INPUT_ATTR, input_attrs,
+                     sizeof(input_attrs));
     if (ret < 0) {
         LOGE("rknn_query input attr err=%d", ret);
         return false;
     }
-
+    zp = input_attrs[0].zp;
+    scale = input_attrs[0].scale;
     // 输出详细输入信息
-    LOGI("model input index=%d, name=%s, n_dims=%d, dims=[%d,%d,%d,%d], n_elems=%d, size=%d, fmt=%d, type=%d, qnt_type=%d, qnt_zp=%d, qnt_scale=%f",
-        input_attrs[0].index,
-        input_attrs[0].name,
-        input_attrs[0].n_dims,
-        input_attrs[0].dims[0], input_attrs[0].dims[1], input_attrs[0].dims[2], input_attrs[0].dims[3],
-        input_attrs[0].n_elems,
-        input_attrs[0].size,
-        input_attrs[0].fmt,
-        input_attrs[0].type,
-        input_attrs[0].qnt_type,
-        input_attrs[0].zp,
-        input_attrs[0].scale);
+    LOGI("model input index=%d, name=%s, n_dims=%d, dims=[%d,%d,%d,%d], n_elems=%d, size=%d, fmt=%d,fmt(s)=%s, type=%d,type(s)=%s, qnt_type=%d, qnt_zp=%d, qnt_scale=%f",
+         input_attrs[0].index,
+         input_attrs[0].name,
+         input_attrs[0].n_dims,
+         input_attrs[0].dims[0], input_attrs[0].dims[1], input_attrs[0].dims[2],
+         input_attrs[0].dims[3],
+         input_attrs[0].n_elems,
+         input_attrs[0].size,
+         input_attrs[0].fmt,
+         get_format_string(input_attrs[0].fmt),
+         input_attrs[0].type,
+         get_type_string(input_attrs[0].type),
+         input_attrs[0].qnt_type,
+         input_attrs[0].zp,
+         input_attrs[0].scale);
 
     // 检查输入类型和格式
     if (input_attrs[0].fmt != RKNN_TENSOR_NHWC || input_attrs[0].type != RKNN_TENSOR_INT8) {
@@ -108,9 +132,40 @@ bool resnet50::RKNNResNetWrapper::initRknn(const std::string &model_path) {
              input_attrs[0].fmt, input_attrs[0].type);
         return false;
     }
+    rknn_tensor_attr output_attrs[1];
+    memset(output_attrs, 0, sizeof(output_attrs));
+    output_attrs->index =0 ;
+    ret = rknn_query((rknn_context) rknn_ctx_, RKNN_QUERY_OUTPUT_ATTR, output_attrs,
+                     sizeof(output_attrs));
+    if(ret<0) {
+        LOGE("rknn_query output attr err=%d", ret);
+        return false;
+    }
 
-    output_count_ = io_num.n_output;
-    num_classes_ = 1000; // Default value, can be adjusted based on model output shape query
+    LOGI("model output index=%d, name=%s, n_dims=%d, dims=[%d,%d], n_elems=%d, size=%d, fmt=%d,fmt(s)=%s, type=%d,type(s)=%s, qnt_type=%d, qnt_zp=%d, qnt_scale=%f",
+         output_attrs[0].index,
+         output_attrs[0].name,
+         output_attrs[0].n_dims,
+         output_attrs[0].dims[0], output_attrs[0].dims[1],
+         output_attrs[0].n_elems,
+         output_attrs[0].size,
+         output_attrs[0].fmt,
+         get_format_string(output_attrs[0].fmt),
+         output_attrs[0].type,
+         get_type_string(output_attrs[0].type),
+         output_attrs[0].qnt_type,
+         output_attrs[0].zp,
+         output_attrs[0].scale);
+
+    rknn_sdk_version sdkVersion;
+    memset(&sdkVersion, 0, sizeof(sdkVersion));
+    ret = rknn_query((rknn_context) rknn_ctx_, RKNN_QUERY_SDK_VERSION, &sdkVersion,
+                     sizeof(sdkVersion));
+    if (ret < 0) {
+        LOGE("query version fail");
+        return false;
+    }
+    LOGI("api-v %s, drv-v %s",sdkVersion.api_version,sdkVersion.drv_version);
     return true;
 }
 
@@ -164,7 +219,8 @@ resnet50::RKNNResNetWrapper::nv21_to_rgb(const uint8_t *nv21, int w, int h, uint
     }
 }
 
-void resnet50::RKNNResNetWrapper::argb_to_rgb(const uint8_t *argb, int w, int h, uint8_t *outRgb) const {
+void
+resnet50::RKNNResNetWrapper::argb_to_rgb(const uint8_t *argb, int w, int h, uint8_t *outRgb) const {
     int pix = w * h;
     for (int i = 0; i < pix; ++i) {
         // A R G B
@@ -175,7 +231,8 @@ void resnet50::RKNNResNetWrapper::argb_to_rgb(const uint8_t *argb, int w, int h,
 }
 
 // 新增: float 版本 ARGB -> RGB
-void resnet50::RKNNResNetWrapper::argb_to_rgb_float(const float *argb, int w, int h, float *outRgb) const {
+void resnet50::RKNNResNetWrapper::argb_to_rgb_float(const float *argb, int w, int h,
+                                                    float *outRgb) const {
     int pix = w * h;
     for (int i = 0; i < pix; ++i) {
         // A R G B
@@ -232,8 +289,8 @@ void resnet50::RKNNResNetWrapper::softmax_inplace(float *data, int len) const {
 
 std::vector<float>
 resnet50::RKNNResNetWrapper::inferFromBuffer(const std::vector<uint8_t> &image_bytes,
-                                             int width, int height, ImageFormat fmt){
-    LOGI("inferFromBuffer ,w = %d,h=%d,fmt=%d", width, height, fmt);
+                                             int width, int height, ImageFormat fmt) {
+    LOGD("inferFromBuffer ,w = %d,h=%d,fmt=%d", width, height, fmt);
     std::lock_guard<std::mutex> lk(mtx_);
     std::vector<float> empty;
 
@@ -256,24 +313,15 @@ resnet50::RKNNResNetWrapper::inferFromBuffer(const std::vector<uint8_t> &image_b
     int ow = input_w_;
     int oh = input_h_;
     if (ow <= 0 || oh <= 0) {
-        LOGE("Invalid model input dimensions: %dx%d. Set positive dimensions with setModelInputSize.", ow, oh);
+        LOGE("Invalid model input dimensions: %dx%d. Set positive dimensions with setModelInputSize.",
+             ow, oh);
         return empty;
     }
 
 
     // 获取模型量化参数（scale, zp）
-    float input_scale = 1.0f;
-    int input_zp = 0;
-    {
-        rknn_tensor_attr input_attr;
-        memset(&input_attr, 0, sizeof(input_attr));
-        input_attr.index = 0;
-        int ret = rknn_query((rknn_context)rknn_ctx_, RKNN_QUERY_INPUT_ATTR, &input_attr, sizeof(input_attr));
-        if (ret == 0) {
-            input_scale = input_attr.scale;
-            input_zp = input_attr.zp;
-        }
-    }
+    float input_scale = scale;
+    int input_zp = zp;
 
     // 始终生成 int8_t NHWC 格式输入（量化）
     std::vector<int8_t> input_nhwc(ow * oh * 3);
@@ -281,17 +329,17 @@ resnet50::RKNNResNetWrapper::inferFromBuffer(const std::vector<uint8_t> &image_b
     const float std_vals[3] = {0.229f, 0.224f, 0.225f};
     if (is_float_argb) {
         // float ARGB -> float RGB
-        const float* argb_ptr = reinterpret_cast<const float*>(image_bytes.data());
+        const auto *argb_ptr = reinterpret_cast<const float *>(image_bytes.data());
         std::vector<float> rgb_src(width * height * 3);
         argb_to_rgb_float(argb_ptr, width, height, rgb_src.data());
         // resize 最近邻
         std::vector<float> rgb_resized(ow * oh * 3);
-        float x_ratio = (float)width / ow;
-        float y_ratio = (float)height / oh;
+        float x_ratio = (float) width / ow;
+        float y_ratio = (float) height / oh;
         for (int j = 0; j < oh; ++j) {
-            int sy = std::min((int)(j * y_ratio), height - 1);
+            int sy = std::min((int) (j * y_ratio), height - 1);
             for (int i = 0; i < ow; ++i) {
-                int sx = std::min((int)(i * x_ratio), width - 1);
+                int sx = std::min((int) (i * x_ratio), width - 1);
                 for (int c = 0; c < 3; ++c) {
                     float v = rgb_src[(sy * width + sx) * 3 + c];
                     // 归一化
@@ -380,13 +428,14 @@ resnet50::RKNNResNetWrapper::inferFromBuffer(const std::vector<uint8_t> &image_b
     }
 
     // Sort in descending order of probability
-    std::sort(top_probs.begin(), top_probs.end(), [](const std::pair<float, int>& a, const std::pair<float, int>& b) {
-        return a.first > b.first;
-    });
+    std::sort(top_probs.begin(), top_probs.end(),
+              [](const std::pair<float, int> &a, const std::pair<float, int> &b) {
+                  return a.first > b.first;
+              });
 
     // Log top 5
     LOGI("Top 5 probabilities:");
-    for (int i = 0; i < std::min((int)top_probs.size(), 5); ++i) {
+    for (int i = 0; i < std::min((int) top_probs.size(), 5); ++i) {
         LOGI("  [%d]: %.4f (index %d)", i + 1, top_probs[i].first, top_probs[i].second);
     }
 

@@ -25,4 +25,10 @@
         android:textStyle="bold"
         tools:text="" />
 
+    <ImageView
+        android:id="@+id/input_res"
+        android:layout_margin="10dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"/>
+
 </LinearLayout>
