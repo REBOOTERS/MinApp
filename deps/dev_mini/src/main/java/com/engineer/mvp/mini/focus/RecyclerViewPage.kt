@@ -6,20 +6,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.engineer.mvp.mini.R
+import com.engineer.mvp.mini.databinding.PageListBinding
 
 class RecyclerViewPage : AppCompatActivity() {
     private val TAG = "RecyclerViewPage"
+
+    private lateinit var vBinding: PageListBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val recyclerView = RecyclerView(this)
-        setContentView(recyclerView)
+        vBinding = PageListBinding.inflate(layoutInflater)
+        setContentView(vBinding.root)
+        renderRecyclerView(vBinding.recyclerView)
+    }
 
+
+    private fun renderRecyclerView(recyclerView: RecyclerView) {
         val doc = getString(R.string.long_content)
 
         val dataList = ArrayList<Item>()
@@ -27,11 +38,21 @@ class RecyclerViewPage : AppCompatActivity() {
         headerItem.info = doc
         dataList.add(headerItem)
 
-        for (i in 0..10) {
+        for (i in 0..5) {
             val contentItem = ContentItem()
             contentItem.info = "项目 ${i + 1} $doc"
             dataList.add(contentItem)
         }
+
+        val mixItem = MixItem()
+        val subList = ArrayList<ContentItem>()
+        for (i in 0..10) {
+            val contentItem = ContentItem()
+            contentItem.info = "sub 项目 ${i + 1} $doc"
+            subList.add(contentItem)
+            mixItem.subList = subList
+        }
+        dataList.add(mixItem)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = SimpleAdapter(dataList)
@@ -71,8 +92,7 @@ class RecyclerViewPage : AppCompatActivity() {
             init {
                 view.setStateListAnimator(
                     AnimatorInflater.loadStateListAnimator(
-                        view.context,
-                        R.drawable.common_selector
+                        view.context, R.drawable.common_selector
                     )
                 )
             }
@@ -82,12 +102,20 @@ class RecyclerViewPage : AppCompatActivity() {
             val textView: TextView = view.findViewById(R.id.content)
         }
 
+        class MixViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val subRecyclerView: RecyclerView = view.findViewById(R.id.sub_recyclerView)
+        }
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
             if (viewType == HEADER) {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.list_item_unfocusable, parent, false)
                 return HeaderViewHolder(view)
+            } else if (viewType == MIX) {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.list_item_sub_list, parent, false)
+                return MixViewHolder(view)
             }
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.list_item_focusable, parent, false)
@@ -101,6 +129,14 @@ class RecyclerViewPage : AppCompatActivity() {
                 holder.textView.text = data[position].getContent()
                 val id = imgRes[position % len]
                 holder.imageSwitcher.setImageResource(id)
+            } else if (holder is MixViewHolder) {
+                val model: MixItem = data[position] as MixItem
+
+                val adapter = SimpleAdapter(model.subList)
+                holder.subRecyclerView.layoutManager = GridLayoutManager(holder.itemView.context, 3)
+//                holder.subRecyclerView.layoutManager = StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.HORIZONTAL)
+                holder.subRecyclerView.adapter = adapter
+
             }
         }
 
@@ -141,8 +177,24 @@ class RecyclerViewPage : AppCompatActivity() {
 
     }
 
+    class MixItem : Item {
+
+        var subList: ArrayList<ContentItem> = ArrayList()
+
+        override fun getType(): Int {
+            return MIX
+        }
+
+        override fun getContent(): String {
+            return ""
+        }
+
+    }
+
     companion object {
         const val HEADER = 0
         const val CONTENT = 1
+
+        const val MIX = 2
     }
 }

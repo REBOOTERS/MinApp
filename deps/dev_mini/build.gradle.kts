@@ -19,6 +19,10 @@ android {
     kotlinOptions {
         jvmTarget = "21"
     }
+    buildFeatures {
+        viewBinding = true
+
+    }
     namespace ="com.engineer.mvp.mini"
 }
 
