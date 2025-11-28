@@ -38,7 +38,7 @@ android {
     externalNativeBuild {
         cmake {
             path =file("src/main/cpp/CMakeLists.txt")
-            version ="3.22.1"
+            version ="4.1.2"
         }
     }
     namespace ="com.engineer.gif.thirdlib"
