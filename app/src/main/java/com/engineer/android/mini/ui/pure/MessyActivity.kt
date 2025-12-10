@@ -53,6 +53,7 @@ import com.engineer.android.mini.util.JavaUtil
 import com.engineer.android.mini.util.NetWorkUtil
 import com.engineer.android.mini.util.RxTimer
 import com.engineer.common.contract.ContentProviderHelper
+import com.engineer.common.utils.AppSignatureUtil
 import com.engineer.common.utils.SystemTools
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.MainScope
@@ -105,6 +106,10 @@ class MessyActivity : BaseActivity() {
         Log.i(TAG, "mac2 ${NetWorkUtil.getMac(this)}")
 
         setupJankStatus()
+
+        Log.i(TAG, "appSignSHA256 = " + AppSignatureUtil.getAppSignSHA256(this, packageName))
+        Log.i(TAG, "appSignMD5    = " + AppSignatureUtil.getAppSignMD5(this, packageName))
+
     }
 
 
