@@ -26,7 +26,7 @@ class RecyclerViewPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         vBinding = PageListBinding.inflate(layoutInflater)
         setContentView(vBinding.root)
-//        renderRecyclerView(vBinding.recyclerView)
+        renderRecyclerView(vBinding.recyclerView)
     }
 
 

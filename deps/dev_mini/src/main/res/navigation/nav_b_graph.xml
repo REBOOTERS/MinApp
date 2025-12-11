@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_b_graph"
+    app:startDestination="@id/bFragment">
+
+    <fragment
+        android:id="@+id/bFragment"
+        android:name="com.engineer.mvp.mini.nav.fragments.BFragment"
+        android:label="@string/b_fragment_label"
+        tools:layout="@layout/fragment_b">
+
+        <action
+            android:id="@+id/action_b_to_a"
+            app:destination="@id/nav_a_graph"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="false" />
+    </fragment>
+</navigation>

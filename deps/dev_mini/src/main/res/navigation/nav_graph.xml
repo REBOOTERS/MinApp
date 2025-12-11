@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_a_graph">
+
+    <!-- 包含A模块的嵌套导航图 -->
+    <include app:graph="@navigation/nav_a_graph" />
+
+    <!-- 包含B模块的嵌套导航图 -->
+    <include app:graph="@navigation/nav_b_graph" />
+
+    <!-- 全局操作用于跨层级导航 -->
+    <action
+        android:id="@+id/action_global_nav_a_graph"
+        app:destination="@id/nav_a_graph"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="false" />
+
+    <action
+        android:id="@+id/action_global_nav_b_graph"
+        app:destination="@id/nav_b_graph"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="false" />
+
+</navigation>

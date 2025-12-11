@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_a_graph"
+    app:startDestination="@id/a1Fragment">
+
+    <!-- A1 Fragment -->
+    <fragment
+        android:id="@+id/a1Fragment"
+        android:name="com.engineer.mvp.mini.nav.fragments.A1Fragment"
+        android:label="@string/a1_fragment_label"
+        tools:layout="@layout/fragment_a1">
+
+        <action
+            android:id="@+id/action_a1_to_nav_a2_graph"
+            app:destination="@id/nav_a2_graph" />
+
+        <action
+            android:id="@+id/action_a1_to_b"
+            app:destination="@id/nav_b_graph"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="false" />
+
+    </fragment>
+
+    <!-- A2模块的嵌套导航图 -->
+    <navigation
+        android:id="@+id/nav_a2_graph"
+        app:startDestination="@id/a2Fragment">
+
+        <fragment
+            android:id="@+id/a2Fragment"
+            android:name="com.engineer.mvp.mini.nav.fragments.A2Fragment"
+            android:label="@string/a2_fragment_label"
+            tools:layout="@layout/fragment_a2">
+
+            <action
+                android:id="@+id/action_a2_to_a21"
+                app:destination="@id/a21Fragment"
+                app:popUpTo="@id/a2Fragment"
+                app:popUpToInclusive="false" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/a21Fragment"
+            android:name="com.engineer.mvp.mini.nav.fragments.A21Fragment"
+            android:label="@string/a21_fragment_label"
+            tools:layout="@layout/fragment_a21">
+
+            <action
+                android:id="@+id/action_a21_to_a2"
+                app:destination="@id/a2Fragment"
+                app:popUpTo="@id/a2Fragment"
+                app:popUpToInclusive="true" />
+        </fragment>
+    </navigation>
+
+</navigation>
