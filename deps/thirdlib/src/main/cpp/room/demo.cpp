@@ -3,7 +3,20 @@
 //
 #include<vector>
 #include <iostream>
-#include "../logcat/androidlog.h"
+
+//#include "httplib.h"
+//
+//int port = 8081;
+//std::string listen_address = "127.0.0.1";
+//int http_server() {
+//    httplib::Server svr;
+//    svr.Get("/health", [](const httplib::Request &, httplib::Response &res) {
+//        res.status = 200;
+//    });
+//    std::cout << "Server listening on " << listen_address << ":" << port
+//              << std::endl;
+//    svr.listen(listen_address.c_str(), port);
+//}
 
 int entrance() {
     std::vector<int> v1;
@@ -12,6 +25,12 @@ int entrance() {
 
     v1.emplace_back(1);
     std::cout << v1.size() << std::endl;
-    LOGV("v1 size %zu", v1.size());
+    std::cout << "v1 size " << v1.size() << std::endl;
     return 0;
+}
+
+
+int main(int argc, char **argv) {
+    std::cout << "main fun " << argc << argv << std::endl;
+    entrance();
 }
