@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.TextView
 import com.engineer.gif.thirdlib.R
 import com.engineer.third.internal.NativeMethodsFactory
+import com.engineer.third.internal.ProcessCppHelper
 
 private const val TAG = "CppActivity"
 
@@ -16,6 +17,9 @@ class CppActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.simple).text = getHello()
 
         testJNI()
+        findViewById<TextView>(R.id.simple).setOnClickListener {
+            ProcessCppHelper.startCommand(this)
+        }
     }
 
     private fun testJNI() {

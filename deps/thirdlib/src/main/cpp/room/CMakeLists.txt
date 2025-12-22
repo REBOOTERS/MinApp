@@ -22,7 +22,7 @@ if(ANDROID)
     # Optimize for size and enable section garbage collection
     target_compile_options(demo PRIVATE -Os -ffunction-sections -fdata-sections -fvisibility=hidden)
     # Disable C++ RTTI/exceptions if your code doesn't rely on them (can reduce size)
-    target_compile_options(demo PRIVATE -fno-rtti -fno-exceptions)
+    target_compile_options(demo PRIVATE -fno-rtti)
     # Enable link-time optimization where supported
     target_compile_options(demo PRIVATE -flto)
     target_link_options(demo PRIVATE -Wl,--gc-sections -flto)

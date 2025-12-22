@@ -46,6 +46,11 @@ android {
     buildFeatures {
         aidl= true
     }
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
 //    aidlPackagedList = mutableListOf("com.engineer.android.mini.ipc.aidl")
 }
 

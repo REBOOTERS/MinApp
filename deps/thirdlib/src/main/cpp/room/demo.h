@@ -5,4 +5,5 @@
 #ifndef MINAPP_DEMO_H
 #define MINAPP_DEMO_H
 int entrance();
+int network();
 #endif //MINAPP_DEMO_H
