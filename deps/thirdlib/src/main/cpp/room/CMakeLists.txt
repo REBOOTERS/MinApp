@@ -17,6 +17,25 @@ endif()
 
 add_library(demo SHARED demo.cpp)
 
+# Size-optimization: prefer size-optimized code, remove unused sections, hide symbols
+if(ANDROID)
+    # Optimize for size and enable section garbage collection
+    target_compile_options(demo PRIVATE -Os -ffunction-sections -fdata-sections -fvisibility=hidden)
+    # Disable C++ RTTI/exceptions if your code doesn't rely on them (can reduce size)
+    target_compile_options(demo PRIVATE -fno-rtti -fno-exceptions)
+    # Enable link-time optimization where supported
+    target_compile_options(demo PRIVATE -flto)
+    target_link_options(demo PRIVATE -Wl,--gc-sections -flto)
+
+    # Strip unnecessary symbols from the final shared object
+    if(CMAKE_STRIP)
+        add_custom_command(TARGET demo POST_BUILD
+            COMMAND ${CMAKE_STRIP} --strip-unneeded $<TARGET_FILE:demo>
+            COMMENT "Stripping unneeded symbols from $<TARGET_FILE:demo>"
+        )
+    endif()
+endif()
+
 # 链接Android日志库
 if(ANDROID)
     target_link_libraries(demo ${log-lib})
