@@ -1,14 +1,57 @@
 @echo off
 setlocal enabledelayedexpansion
+rem Default NDK path (kept for fallback). Can be overridden via command-line.
+set DEFAULT_NDK_PATH=C:\Users\%USERNAME%\AppData\Local\Android\Sdk\ndk\27.1.12297006
+set NDK_PATH=
 
-set NDK_PATH=C:\Users\xx\AppData\Local\Android\Sdk\ndk\27.1.12297006
+rem Parse command-line arguments to allow passing NDK path at runtime.
+rem Supported forms: --ndk <path>  -ndk <path>  /ndk:<path>
+:parse_args
+if "%~1"=="" goto args_parsed
+set "ARG=%~1"
+if /I "%ARG%"=="--ndk" (
+    set "NDK_PATH=%~2"
+    shift
+    shift
+    goto parse_args
+)
+if /I "%ARG%"=="-ndk" (
+    set "NDK_PATH=%~2"
+    shift
+    shift
+    goto parse_args
+)
+rem support /ndk:C:\path\to\ndk
+if /I "!ARG:~0,5!"=="/ndk:" (
+    set "NDK_PATH=!ARG:~5!"
+    shift
+    goto parse_args
+)
+shift
+goto parse_args
+
+:args_parsed
+
+rem If no NDK provided via args, try environment vars, else use default.
+if "%NDK_PATH%"=="" (
+    if defined ANDROID_NDK_HOME (
+        set "NDK_PATH=%ANDROID_NDK_HOME%"
+    ) else if defined ANDROID_NDK_ROOT (
+        set "NDK_PATH=%ANDROID_NDK_ROOT%"
+    ) else (
+        set "NDK_PATH=%DEFAULT_NDK_PATH%"
+    )
+)
+
+echo Using NDK_PATH = %NDK_PATH%
 set PROJECT_DIR=%~dp0
 set BUILD_DIR=%PROJECT_DIR%build_android
 
+echo "PROJECT_DIR = %PROJECT_DIR%"
+echo "BUILD_DIR = %BUILD_DIR%"
+
 rem 设置输出目录（可根据需要修改）
 set JNI_LIBS_DIR=%PROJECT_DIR%jniLibs
-rem 或者使用当前目录下的 jniLibs
-rem set JNI_LIBS_DIR=%PROJECT_DIR%jniLibs
 
 echo Cleaning build directory...
 if exist "%BUILD_DIR%" rmdir /s /q "%BUILD_DIR%"
@@ -24,7 +67,7 @@ echo Configuring for Android...
 
 rem 支持的ABI列表
 rem set ABIS=armeabi-v7a arm64-v8a x86 x86_64
-set ABIS=x86_64
+set ABIS=x86_64 arm64-v8a
 
 for %%A in (%ABIS%) do (
     echo Building for %%A...
