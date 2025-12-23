@@ -40,3 +40,16 @@ endif()
 if(ANDROID)
     target_link_libraries(demo ${log-lib})
 endif()
+
+
+add_executable(server demo.cpp)
+
+# Linux/macOS
+if(UNIX AND NOT APPLE)
+    target_link_libraries(server pthread)
+endif()
+
+# Windows
+if(WIN32)
+    target_link_libraries(server ws2_32 wsock32)
+endif()

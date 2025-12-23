@@ -103,11 +103,6 @@
             android:name=".ui.behavior.FishActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.TransMultiActivity"
-            android:exported="true"
-            android:label="@string/title_activity_md3"
-            android:theme="@style/Theme.M3" />
-        <activity
             android:name=".ui.behavior.WebViewActivity"
             android:exported="true" />
         <activity
@@ -292,23 +287,6 @@
         <activity
             android:name=".ui.behavior.MDActivity"
             android:exported="true" />
-        <activity
-            android:name=".ui.compose.pickimg.StyleTransActivity"
-            android:exported="true"
-            android:taskAffinity=".trans" />
-
-        <activity-alias
-            android:name=".AliasEntry"
-            android:exported="true"
-            android:icon="@drawable/android"
-            android:label="Trans"
-            android:targetActivity=".ui.compose.pickimg.StyleTransActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
     </application>
 
 </manifest>

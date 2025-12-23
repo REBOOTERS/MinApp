@@ -20,7 +20,7 @@ EOF
 }
 
 # Default ABIs
-DEFAULT_ABIS=("x86_64" "arm64-v8a")
+DEFAULT_ABIS=("armeabi-v7a" "arm64-v8a")
 ABIS=()
 NDK_PATH=""
 
@@ -120,7 +120,9 @@ for ABI in "${ABIS[@]}"; do
       echo "Copying $sofile to $TARGET_DIR"
       cp -f "$sofile" "$TARGET_DIR/"
       COPIED=$((COPIED+1))
-    done < <(find . -type f -name "*.so" -print0 2>/dev/null)
+    done <<EOF
+$(find . -type f -name "*.so" -print0 2>/dev/null)
+EOF
 
     # If none found, try top-level of this build dir
     if [[ $COPIED -eq 0 ]]; then
