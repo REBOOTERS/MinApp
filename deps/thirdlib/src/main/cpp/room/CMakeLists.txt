@@ -41,15 +41,25 @@ if(ANDROID)
     target_link_libraries(demo ${log-lib})
 endif()
 
-
-add_executable(server demo.cpp)
-
-# Linux/macOS
-if(UNIX AND NOT APPLE)
-    target_link_libraries(server pthread)
+if(ANDROID)
+    add_executable(server.so demo.cpp)
+else()
+    add_executable(server demo.cpp)
 endif()
+    ## Linux/macOS
+#if(UNIX AND NOT APPLE)
+#    target_link_libraries(server pthread)
+#endif()
 
 # Windows
 if(WIN32)
     target_link_libraries(server ws2_32 wsock32)
+elseif(ANDROID)
+    find_package(Threads REQUIRED)
+    target_link_libraries(server.so PRIVATE Threads::Threads)
+elseif(UNIX AND NOT APPLE)
+    find_package(Threads REQUIRED)
+    target_link_libraries(server PRIVATE Threads::Threads)
+else()
+    message("not support")
 endif()
