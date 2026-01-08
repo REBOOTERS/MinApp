@@ -72,7 +72,7 @@ fi
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$SCRIPT_DIR"
 BUILD_DIR="$PROJECT_DIR/build_android"
-JNI_LIBS_DIR="$PROJECT_DIR/jniLibs"
+JNI_LIBS_DIR="$PROJECT_DIR/../../jniLibs"
 
 if [[ ${#ABIS[@]} -eq 0 ]]; then
   ABIS=("${DEFAULT_ABIS[@]}")

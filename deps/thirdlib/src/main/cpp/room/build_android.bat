@@ -51,7 +51,7 @@ echo "PROJECT_DIR = %PROJECT_DIR%"
 echo "BUILD_DIR = %BUILD_DIR%"
 
 rem 设置输出目录（可根据需要修改）
-set JNI_LIBS_DIR=%PROJECT_DIR%jniLibs
+set JNI_LIBS_DIR=%PROJECT_DIR%../../jniLibs
 
 echo Cleaning build directory...
 if exist "%BUILD_DIR%" rmdir /s /q "%BUILD_DIR%"
@@ -67,7 +67,7 @@ echo Configuring for Android...
 
 rem 支持的ABI列表
 rem set ABIS=armeabi-v7a arm64-v8a x86 x86_64
-set ABIS=x86_64 arm64-v8a
+set ABIS=armeabi-v7a arm64-v8a
 
 for %%A in (%ABIS%) do (
     echo Building for %%A...

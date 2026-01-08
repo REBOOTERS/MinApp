@@ -51,7 +51,6 @@ int network() {
         std::cerr << "Failed to start server!" << std::endl;
         return -1;
     }
-
     return 0;
 }
 

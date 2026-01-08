@@ -60,6 +60,7 @@ dependencies {
     compileOnly("com.squareup.radiography:radiography:2.7")
     implementation("androidx.appcompat:appcompat:1.7.0")
     api("com.google.android.material:material:1.12.0")
+    implementation("com.squareup.okhttp3:okhttp:5.1.0")
 }
 
 apply(from="publish.gradle") // publish-self-aar

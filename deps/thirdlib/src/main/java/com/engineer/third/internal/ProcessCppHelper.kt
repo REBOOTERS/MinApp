@@ -1,8 +1,11 @@
 package com.engineer.third.internal
 
 import android.content.Context
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 object ProcessCppHelper {
     private val TAG = "ProcessCppHelper"
@@ -15,11 +18,11 @@ object ProcessCppHelper {
 
 
     fun startCommand(context: Context) {
-        Log.d(TAG,"startCommand called")
+        Log.d(TAG, "startCommand called")
         val nativeDir = context.applicationInfo.nativeLibraryDir
         val executableFile = File(nativeDir, EXECUTABLE_NAME)
 
-        Log.d(TAG,"executable path = ${executableFile.absolutePath}")
+        Log.d(TAG, "executable path = ${executableFile.absolutePath}")
         if (!executableFile.exists()) {
             Log.e(TAG, "error: executable does not exist: ${executableFile.absolutePath}")
             return
@@ -39,7 +42,7 @@ object ProcessCppHelper {
     }
 
     private fun startMonitorThread() {
-        Log.d(TAG,"process = $process")
+        Log.d(TAG, "process = $process")
         Thread {
             try {
                 process?.let { proc ->
@@ -61,6 +64,27 @@ object ProcessCppHelper {
         }.apply {
             isDaemon = true
             start()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun stopBackend() {
+        Log.i(TAG, "to stop backend")
+        process?.let { proc ->
+            try {
+                proc.destroy()
+
+                if (!proc.waitFor(5, TimeUnit.SECONDS)) {
+                    proc.destroyForcibly()
+                }
+
+                Log.i(TAG, "process end, code: ${proc.exitValue()}")
+
+            } catch (e: Exception) {
+                Log.e(TAG, "error", e)
+            } finally {
+                process = null
+            }
         }
     }
 }

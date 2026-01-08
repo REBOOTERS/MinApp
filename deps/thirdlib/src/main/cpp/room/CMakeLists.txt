@@ -36,20 +36,17 @@ if(ANDROID)
     endif()
 endif()
 
+message("ANDROID--------------------> " ,${ANDROID})
+message("WIN32  --------------------> " ,${WIN32})
+message("UNIX   --------------------> " ,${UNIX})
+message("APPLE  --------------------> " ,${APPLE})
+
 # 链接Android日志库
 if(ANDROID)
     target_link_libraries(demo ${log-lib})
 endif()
 
-if(ANDROID)
-    add_executable(server.so demo.cpp)
-else()
-    add_executable(server demo.cpp)
-endif()
-    ## Linux/macOS
-#if(UNIX AND NOT APPLE)
-#    target_link_libraries(server pthread)
-#endif()
+add_executable(server.so demo.cpp)
 
 # Windows
 if(WIN32)

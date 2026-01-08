@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="CppActivity">
+    tools:context="com.engineer.third.CppActivity">
 
     <TextView
         android:id="@+id/simple"
@@ -15,5 +15,12 @@
         android:text=""
         android:textStyle="bold"
         tools:text="@string/app_name" />
+
+    <Button
+        android:id="@+id/send_request"
+        android:text="send request"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" />
 
 </LinearLayout>
