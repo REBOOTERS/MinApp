@@ -40,3 +40,5 @@ gradle.dev.properties
 /.idea/deviceManager.xml
 *.pb
 /.idea/markdown.xml
+/.idea/copilot.data.migration.ask.xml
+/.idea/copilot.data.migration.edit.xml

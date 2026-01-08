@@ -11,14 +11,15 @@ object ProcessCppHelper {
     private var process: Process? = null
 
 
-    private const val EXECUTABLE_NAME = "libdemo.so"
+    private const val EXECUTABLE_NAME = "server.so"
 
 
     fun startCommand(context: Context) {
+        Log.d(TAG,"startCommand called")
         val nativeDir = context.applicationInfo.nativeLibraryDir
         val executableFile = File(nativeDir, EXECUTABLE_NAME)
 
-
+        Log.d(TAG,"executable path = ${executableFile.absolutePath}")
         if (!executableFile.exists()) {
             Log.e(TAG, "error: executable does not exist: ${executableFile.absolutePath}")
             return

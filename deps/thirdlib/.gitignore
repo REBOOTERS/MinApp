@@ -2,3 +2,4 @@
 /.cxx
 **/build/
 **/build*/
+**/server.so
