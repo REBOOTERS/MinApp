@@ -1,29 +1,26 @@
 def getCommit() {
-    def stdout = new ByteArrayOutputStream()
-    exec {
-        commandLine "git"
-        args "rev-parse", "--short", "HEAD"
-        standardOutput = stdout
+    // Use String.execute with rootDir like other git helpers to avoid Project.exec() signature issues
+    try {
+        return "git rev-parse --short HEAD".execute(null, rootDir).text.trim()
+    } catch (Exception ignored) {
+        return "unknown"
     }
-    return stdout.toString().trim()
 }
 
 def getBranch() {
-    def stdout = new ByteArrayOutputStream()
-    exec {
-        commandLine "git"
-        args "rev-parse", "--abbrev-ref", "HEAD"
-        standardOutput = stdout
+    try {
+        return "git rev-parse --abbrev-ref HEAD".execute(null, rootDir).text.trim()
+    } catch (Exception ignored) {
+        return "unknown"
     }
-    return stdout.toString().trim()
 }
 
 def gitLastCommitAuthorName() {
-    return "git log -1 --pretty=format:'%an'".execute(null, rootDir).text.trim().replaceAll("\'", "")
+    return "git log -1 --pretty=format:'%an'".execute(null, rootDir).text.trim().replace("'", "")
 }
 
 def gitLastCommitAuthorEmail() {
-    return "git log -1 --pretty=format:'%ae'".execute(null, rootDir).text.trim().replaceAll("\'", "")
+    return "git log -1 --pretty=format:'%ae'".execute(null, rootDir).text.trim().replace("'", "")
 }
 
 
