@@ -122,8 +122,10 @@ class BehaviorActivity : BaseActivity() {
                 PictureBottomDialog(GalleryType.PHOTO).show(supportFragmentManager, "picture")
             }
         }
+        val contract1 = ActivityResultContracts.OpenMultipleDocuments()
+        val contract2 = ActivityResultContracts.GetMultipleContents()
         val launcher = registerForActivityResult(
-            contract = ActivityResultContracts.OpenMultipleDocuments()
+            contract =contract2
         ) { uris ->
             val filePaths = uris.map { uri ->
                 Log.i(TAG, "uri = $uri")
@@ -145,7 +147,8 @@ class BehaviorActivity : BaseActivity() {
                 "audio/aac",
                 "audio/ogg"
             )
-            launcher.launch(mimeTypes)
+            launcher.launch("audio/*")
+//            launcher.launch(mimeTypes)
         }
 
 
