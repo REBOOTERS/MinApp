@@ -1,6 +1,5 @@
 package com.engineer.android.mini.ui.behavior
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.content.ContentValues
@@ -10,7 +9,13 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.*
+import android.os.Build
+import android.os.Bundle
+import android.os.Environment
+import android.os.Handler
+import android.os.HandlerThread
+import android.os.Looper
+import android.os.Message
 import android.provider.MediaStore
 import android.util.Log
 import android.util.LogPrinter
@@ -20,7 +25,6 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import com.engineer.android.mini.R
 import com.engineer.android.mini.databinding.ActivityBehaviorBinding
 import com.engineer.android.mini.ext.gotoActivity
@@ -30,13 +34,11 @@ import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.fragments.GalleryType
 import com.engineer.android.mini.ui.fragments.PictureBottomDialog
 import com.engineer.android.mini.ui.pure.MessyActivity
-import com.engineer.android.mini.util.ImageUtils
 import com.engineer.common.contract.ChooserResultContract
 import com.engineer.common.contract.PickFileResultContract
 import com.engineer.common.utils.AndroidFileUtils
 import com.engineer.common.utils.SystemTools
 import com.google.android.material.snackbar.Snackbar
-import com.permissionx.guolindev.PermissionX
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -62,10 +64,11 @@ class BehaviorActivity : BaseActivity() {
     private lateinit var viewBinding: ActivityBehaviorBinding
     private val mainScope = MainScope()
 
-    private val pickPictureCallback = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        if (uri == null) Log.e(TAG, "Invalid input image Uri.")
-        else startActivity(FilterActivity.newIntent(this, uri))
-    }
+    private val pickPictureCallback =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri == null) Log.e(TAG, "Invalid input image Uri.")
+            else startActivity(FilterActivity.newIntent(this, uri))
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,11 +122,32 @@ class BehaviorActivity : BaseActivity() {
                 PictureBottomDialog(GalleryType.PHOTO).show(supportFragmentManager, "picture")
             }
         }
+        val launcher = registerForActivityResult(
+            contract = ActivityResultContracts.OpenMultipleDocuments()
+        ) { uris ->
+            val filePaths = uris.map { uri ->
+                Log.i(TAG, "uri = $uri")
+                uri.toString()
+            }
+            Log.i(TAG, "filePaths = $filePaths")
+        }
         viewBinding.gifQuery.setOnClickListener {
             requestMediaPermission {
                 PictureBottomDialog(GalleryType.GIF).show(supportFragmentManager, "picture")
             }
+
+            val mimeTypes = arrayOf(
+                "audio/mpeg",
+                "audio/mp3",
+                "audio/mp4",
+                "audio/flac",
+                "audio/wav",
+                "audio/aac",
+                "audio/ogg"
+            )
+            launcher.launch(mimeTypes)
         }
+
 
         viewBinding.audioRecord.setOnClickListener {
             gotoActivity(AudioRecorderActivity::class.java)
@@ -176,7 +200,8 @@ class BehaviorActivity : BaseActivity() {
         }
 
         viewBinding.useHideApi.setOnClickListener {
-            val downloadManager: DownloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val downloadManager: DownloadManager =
+                getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
 
             extracted(downloadManager)
         }
@@ -185,7 +210,8 @@ class BehaviorActivity : BaseActivity() {
             Log.e(TAG, "\n")
             val h = Handler(Looper.getMainLooper()) { msg ->
                 Log.e(
-                    TAG, "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg" + ",${msg.target}"
+                    TAG,
+                    "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg" + ",${msg.target}"
                 )
                 true
             }
@@ -195,7 +221,8 @@ class BehaviorActivity : BaseActivity() {
             handlerThread.looper.setMessageLogging(LogPrinter(Log.DEBUG, "ActivityThread"))
             val subHandler = Handler(handlerThread.looper) { msg ->
                 Log.e(
-                    TAG, "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg " + ",${msg.target}"
+                    TAG,
+                    "handleMessage() called in ${Thread.currentThread().name} with: msg = $msg " + ",${msg.target}"
                 )
                 // 为了方便调试多次方法，正常情况下，用完后记得立即关闭
 //                handlerThread.quitSafely()
@@ -276,7 +303,11 @@ class BehaviorActivity : BaseActivity() {
     }
 
     private fun showSnackBar() {
-        Snackbar.make(viewBinding.rootScrollerView, getString(R.string.long_chinese_content), Snackbar.LENGTH_SHORT)
+        Snackbar.make(
+            viewBinding.rootScrollerView,
+            getString(R.string.long_chinese_content),
+            Snackbar.LENGTH_SHORT
+        )
             .setAction("OPEN", object : View.OnClickListener {
                 override fun onClick(v: View?) {
                     "OPEN CLICKED".toast()
@@ -294,7 +325,8 @@ class BehaviorActivity : BaseActivity() {
                     it.isAccessible = true
                     Log.e(TAG, "it = ${it.name}: ${it.get(downloadManager)}")
                 }
-                val mAccessFilename: Field = downloadManager.javaClass.getDeclaredField("mAccessFilename")
+                val mAccessFilename: Field =
+                    downloadManager.javaClass.getDeclaredField("mAccessFilename")
                 mAccessFilename.isAccessible = true
                 Log.e(TAG, "before hack value is $mAccessFilename")
 
@@ -415,22 +447,24 @@ class BehaviorActivity : BaseActivity() {
         pickGifLauncher.launch("选择 Gif")
     }
 
-    private val pickFileLauncher = registerForActivityResult(PickFileResultContract("*/*")) { result ->
-        if (result != null) {
-            val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
+    private val pickFileLauncher =
+        registerForActivityResult(PickFileResultContract("*/*")) { result ->
+            if (result != null) {
+                val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
 //            copyUriToExternalFilesDir(result, fileName)
-            fileName.toast()
-            Log.d(TAG, "pick $fileName")
+                fileName.toast()
+                Log.d(TAG, "pick $fileName")
+            }
         }
-    }
 
-    private val pickGifLauncher = registerForActivityResult(PickFileResultContract("image/gif")) { result ->
-        if (result != null) {
-            val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
+    private val pickGifLauncher =
+        registerForActivityResult(PickFileResultContract("image/gif")) { result ->
+            if (result != null) {
+                val fileName = SystemTools.getFileNameByUri(this@BehaviorActivity, result)
 //            copyUriToAlbumDir(this, result, fileName, "image/gif")
-            fileName.toast()
+                fileName.toast()
+            }
         }
-    }
 
     private val chooserLauncher = registerForActivityResult(ChooserResultContract()) { result ->
         if (result != null) {
@@ -458,7 +492,8 @@ class BehaviorActivity : BaseActivity() {
                 bos.close()
                 fos.close()
                 runOnUiThread {
-                    Toast.makeText(this, "Copy file into $tempDir succeeded.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Copy file into $tempDir succeeded.", Toast.LENGTH_LONG)
+                        .show()
                 }
             }
         }
@@ -499,7 +534,8 @@ class BehaviorActivity : BaseActivity() {
                 )
             }
             val bis = BufferedInputStream(inputStream)
-            val uri = context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+            val uri =
+                context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
             if (uri != null) {
                 val outputStream = context.contentResolver.openOutputStream(uri)
                 if (outputStream != null) {

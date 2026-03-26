@@ -20,6 +20,7 @@ import kotlin.concurrent.thread
 class CursorQueryViewModel @Inject constructor(app: Application) : AndroidViewModel(app) {
     internal val imageResults = MutableLiveData<List<Uri>>()
     internal val videoResults = MutableLiveData<List<Uri>>()
+    internal val audioResults = MutableLiveData<List<Uri>>()
 
     fun loadGifs() {
         val sectionHolder = buildSelectionAndArgs(listOf("image/gif"))
@@ -102,6 +103,30 @@ class CursorQueryViewModel @Inject constructor(app: Application) : AndroidViewMo
                 cursor.close()
             }
             videoResults.postValue(imageList)
+        }
+    }
+
+    fun loadAudios() {
+        thread {
+            val temp = ArrayList<Uri>()
+            val cursor = getApplication<MinApp>().contentResolver.query(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                null,
+                null,
+                null,
+                "${MediaStore.MediaColumns.DATE_ADDED} desc"
+            )
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    val id =
+                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID))
+                    val uri =
+                        ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
+                    temp.add(uri)
+                }
+                cursor.close()
+            }
+            audioResults.postValue(temp)
         }
     }
 }

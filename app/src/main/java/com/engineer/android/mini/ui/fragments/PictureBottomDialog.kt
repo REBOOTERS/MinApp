@@ -85,7 +85,7 @@ class PictureBottomDialog(val type: GalleryType) : BaseBottomSheetDialog() {
 
         cursorQueryViewModel.videoResults.observe(this) {
             thread {
-                Log.e(TAG, "currentThread ${Thread.currentThread().name}")
+                Log.e(TAG, "currentThread1 ${Thread.currentThread().name}")
                 it.forEach { uri ->
                     context?.let {
                         Log.e(
@@ -101,12 +101,31 @@ class PictureBottomDialog(val type: GalleryType) : BaseBottomSheetDialog() {
             }
         }
         cursorQueryViewModel.loadVideos()
+
+        cursorQueryViewModel.audioResults.observe(this) {
+            thread {
+                Log.e(TAG, "currentThread3 ${Thread.currentThread().name}")
+                it.forEach { uri ->
+                    context?.let {
+                        Log.e(
+                            TAG, "uri=$uri," + "fileName=${
+                                SystemTools.getFileNameByUri(
+                                    it, uri
+                                )
+                            }," + "path=${SystemTools.getAudioFilePathFromUri(it, uri)}"
+                        )
+                    }
+
+                }
+            }
+        }
+        cursorQueryViewModel.loadAudios()
     }
 
 
     private fun handleUri(it: List<Uri>) {
         thread {
-            Log.e(TAG, "currentThread ${Thread.currentThread().name}")
+            Log.e(TAG, "currentThread2 ${Thread.currentThread().name}")
             it.forEach { uri ->
                 context?.let {
                     Log.e(
@@ -114,7 +133,7 @@ class PictureBottomDialog(val type: GalleryType) : BaseBottomSheetDialog() {
                             SystemTools.getFileNameByUri(
                                 it, uri
                             )
-                        }," + "path=${SystemTools.getVideoFilePathFromUri(it, uri)}"
+                        }," + "path=${SystemTools.getImageFilePathFromUri(it, uri)}"
                     )
 //                    val fd = it.contentResolver.openFileDescriptor(uri, "r")
 //                    fd?.let {
