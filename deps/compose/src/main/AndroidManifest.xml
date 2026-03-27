@@ -19,6 +19,11 @@
             android:exported="true"
             android:theme="@style/ComposeApp.Theme"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.PlaygroundPage"
+            android:exported="true"
+            android:theme="@style/ComposeApp.Theme"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

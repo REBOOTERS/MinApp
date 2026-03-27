@@ -123,6 +123,11 @@ fun MessageCard(msg: Message) {
         }) {
             Text(text = "open gallery")
         }
+        Button(onClick = {
+            context.startActivity(Intent(context, PlaygroundPage::class.java))
+        }) {
+            Text(text = "playground")
+        }
         Row(
             modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))
