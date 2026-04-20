@@ -48,7 +48,10 @@ android {
     }
     packaging {
         jniLibs {
-            useLegacyPackaging = true
+            // Use modern packaging so AGP can handle native libs correctly for
+            // new Android page-size requirements. Legacy packaging may bypass
+            // some of AGP's handling that ensures proper alignment.
+            useLegacyPackaging = false
         }
     }
 //    aidlPackagedList = mutableListOf("com.engineer.android.mini.ipc.aidl")

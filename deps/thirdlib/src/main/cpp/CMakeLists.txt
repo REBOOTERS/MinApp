@@ -66,3 +66,22 @@ target_link_libraries( # Specifies the target library.
         # Links the target library to the log library
         # included in the NDK.
         ${log-lib})
+
+# For Android builds prefer flexible/large page sizes when available.
+# Gradle already passes -DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON, but
+# add safe linker hints here as well. These are best-effort: the NDK/toolchain
+# ultimately decides supported page sizes.
+if(ANDROID)
+    message("ANDROID: enabling flexible page-size support (request 16KB)")
+    # Define for source if needed
+    add_definitions(-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON)
+    # Prefer 16 KB max page size during linking (if linker supports it).
+    # This appends a linker option; if the toolchain rejects it the build will fail,
+    # so we only add it as a target-level option as a best-effort.
+    if (CMAKE_VERSION VERSION_GREATER "3.13")
+        target_link_options(thirdlib PRIVATE "-Wl,-z,max-page-size=16384")
+    else()
+        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,max-page-size=16384")
+    endif()
+endif()
+

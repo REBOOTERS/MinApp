@@ -42,3 +42,4 @@ gradle.dev.properties
 /.idea/markdown.xml
 /.idea/copilot.data.migration.ask.xml
 /.idea/copilot.data.migration.edit.xml
+/.idea/copilotDiffState.xml

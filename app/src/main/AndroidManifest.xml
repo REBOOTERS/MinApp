@@ -224,6 +224,7 @@
             android:name=".ui.pure.FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_fullscreen"
+            android:exported="true"
             android:theme="@style/FullscreenTheme" />
         <activity
             android:name=".jetpack.FragmentManagerActivity"
