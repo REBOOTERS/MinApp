@@ -4,6 +4,7 @@ import android.app.ActivityManager
 import android.app.Application
 import android.content.Context
 import android.os.Process
+import android.provider.Settings
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -62,6 +63,9 @@ class MinApp : Application() {
 
         val sign = ApplySigningUtils.getRawSignatureStr(this, this.packageName)
         Log.e(TAG, "sign is $sign")
+
+        val didp = Settings.Global.getString(contentResolver, "global_didp_version")
+        Log.i(TAG,"dip is $didp")
     }
 
     private fun isMainProcess(): Boolean {

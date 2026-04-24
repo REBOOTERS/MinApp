@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APK包名解析器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 800px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .upload-area {
+            border: 3px dashed #764ba2;
+            border-radius: 15px;
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f6ff;
+        }
+
+        .upload-area:hover {
+            background: #f0edff;
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .upload-area.dragover {
+            background: #e6e0ff;
+            border-color: #667eea;
+            border-style: solid;
+        }
+
+        .upload-icon {
+            font-size: 60px;
+            color: #764ba2;
+            margin-bottom: 20px;
+        }
+
+        .upload-text {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .upload-hint {
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto 30px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-area {
+            display: none;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-title {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-title i {
+            color: #667eea;
+        }
+
+        .result-content {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .package-name {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 1.2em;
+            word-break: break-all;
+        }
+
+        .app-name {
+            color: #2c3e50;
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            color: #e74c3c;
+            text-align: center;
+            padding: 20px;
+            background: #ffeaea;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .info-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .info-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .copy-btn {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            float: right;
+        }
+
+        .copy-btn:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        .copy-btn.copied {
+            background: #3498db;
+        }
+    </style>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>🔍 APK包名解析器</h1>
+    <p class="subtitle">上传加固APK文件，自动解析包名与应用信息</p>
+
+    <div class="upload-area" id="uploadArea">
+        <div class="upload-icon">
+            <i class="fas fa-cloud-upload-alt"></i>
+        </div>
+        <p class="upload-text">点击或拖拽APK文件到此处</p>
+        <p class="upload-hint">支持 .apk 文件，最大 100MB</p>
+    </div>
+
+    <input type="file" id="fileInput" class="file-input" accept=".apk">
+
+    <button class="btn" id="analyzeBtn" disabled>
+        <i class="fas fa-search"></i> 解析APK
+    </button>
+
+    <div class="progress-bar" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>正在解析APK，请稍候...</p>
+    </div>
+
+    <div class="error" id="error"></div>
+
+    <div class="result-area" id="resultArea">
+        <h3 class="result-title">
+            <i class="fas fa-check-circle"></i> 解析完成
+        </h3>
+
+        <div class="result-content">
+            <div class="info-item">
+                <div class="info-label">应用名称</div>
+                <div class="app-name" id="appName">-</div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-label">包名 (Package Name)</div>
+                <div class="package-name" id="packageName">-</div>
+            </div>
+
+            <div class="info-grid" id="infoGrid">
+                <!-- 动态填充其他信息 -->
+            </div>
+        </div>
+
+        <button class="copy-btn" id="copyBtn">
+            <i class="fas fa-copy"></i> 复制包名
+        </button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const resultArea = document.getElementById('resultArea');
+        const loading = document.getElementById('loading');
+        const error = document.getElementById('error');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        const packageName = document.getElementById('packageName');
+        const appName = document.getElementById('appName');
+        const infoGrid = document.getElementById('infoGrid');
+        const copyBtn = document.getElementById('copyBtn');
+
+        const DEBUG = true;
+        let selectedFile = null;
+
+        // 拖拽功能
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                handleFileSelect(e.dataTransfer.files[0]);
+            }
+        });
+
+        // 文件选择
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFileSelect(e.target.files[0]);
+            }
+        });
+
+        function handleFileSelect(file) {
+            if (!file.name.toLowerCase().endsWith('.apk')) {
+                showError('请选择APK文件');
+                return;
+            }
+
+            if (file.size > 100 * 1024 * 1024) { // 100MB限制
+                showError('文件大小不能超过100MB');
+                return;
+            }
+
+            selectedFile = file;
+            uploadArea.innerHTML = `
+                <div class="upload-icon">
+                    <i class="fas fa-file-archive"></i>
+                </div>
+                <p class="upload-text">${file.name}</p>
+                <p class="upload-hint">${(file.size / 1024 / 1024).toFixed(2)} MB</p>
+            `;
+            analyzeBtn.disabled = false;
+        }
+
+        // 解析按钮点击事件
+        analyzeBtn.addEventListener('click', async () => {
+            if (!selectedFile) return;
+
+            // 显示加载中
+            loading.style.display = 'block';
+            progressBar.style.display = 'block';
+            error.style.display = 'none';
+            resultArea.style.display = 'none';
+
+            // 模拟上传进度
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += 1;
+                progressFill.style.width = `${Math.min(progress, 90)}%`;
+            }, 30);
+
+            try {
+                // 使用两种方式尝试解析
+                const packageInfo = await parseAPK(selectedFile);
+
+                clearInterval(progressInterval);
+                progressFill.style.width = '100%';
+
+                // 显示结果
+                setTimeout(() => {
+                    loading.style.display = 'none';
+                    progressBar.style.display = 'none';
+                    displayResult(packageInfo);
+                }, 500);
+
+            } catch (err) {
+                clearInterval(progressInterval);
+                loading.style.display = 'none';
+                progressBar.style.display = 'none';
+                showError('解析失败: ' + err.message);
+            }
+        });
+
+        // 复制按钮
+        copyBtn.addEventListener('click', () => {
+            const text = packageName.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                copyBtn.classList.add('copied');
+                setTimeout(() => {
+                    copyBtn.innerHTML = '<i class="fas fa-copy"></i> 复制包名';
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            });
+        });
+
+        async function parseAPK(file) {
+            try {
+                if (!window.ApkParser) {
+                    throw new Error('APK解析模块未加载');
+                }
+                const packageInfo = await window.ApkParser.parseApkFile(file, { debug: DEBUG });
+                return packageInfo;
+            } catch (err) {
+                if (DEBUG) console.error('[APK] 解析失败:', err);
+                throw new Error('解析APK失败: ' + err.message);
+            }
+        }
+
+        function displayResult(info) {
+            packageName.textContent = info.packageName;
+            appName.textContent = info.appName;
+
+            // 清空并填充信息网格
+            infoGrid.innerHTML = `
+                <div class="info-item">
+                    <div class="info-label">版本号</div>
+                    <div class="info-value">${info.version || '-'}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">版本代码</div>
+                    <div class="info-value">${info.versionCode || '-'}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">最低SDK</div>
+                    <div class="info-value">${info.minSdk || '-'}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">目标SDK</div>
+                    <div class="info-value">${info.targetSdk || '-'}</div>
+                </div>
+            `;
+
+            // 如果有权限信息
+            if (info.permissions && info.permissions.length > 0) {
+                const permissionsDiv = document.createElement('div');
+                permissionsDiv.className = 'info-item';
+                permissionsDiv.innerHTML = `
+                    <div class="info-label">所需权限 (${info.permissions.length})</div>
+                    <div class="info-value">${info.permissions.slice(0, 3).join(', ')}${info.permissions.length > 3 ? '...' : ''}</div>
+                `;
+                infoGrid.appendChild(permissionsDiv);
+            }
+
+            resultArea.style.display = 'block';
+            resultArea.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showError(message) {
+            error.textContent = message;
+            error.style.display = 'block';
+            error.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+</script>
+
+<!-- 添加JSZip库支持 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="apk-parser.js"></script>
+</body>
+</html>
