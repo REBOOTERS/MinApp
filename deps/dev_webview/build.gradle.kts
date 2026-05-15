@@ -16,9 +16,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
-    kotlinOptions {
-        jvmTarget = "21"
-    }
+//    kotlinOptions {
+//        jvmTarget = "21"
+//    }
     buildFeatures {
         viewBinding = true
 
@@ -27,6 +27,6 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.17.0")
+    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
 }

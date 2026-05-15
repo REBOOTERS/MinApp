@@ -14,3 +14,9 @@ tasks.register("clean") {
     delete(rootProject.rootDir.absolutePath + "/final.apk")
     delete(rootDir.absolutePath + "/local_repo/")
 }
+
+subprojects {
+    configurations.configureEach {
+        resolutionStrategy.force("org.jetbrains.kotlin:kotlin-metadata-jvm:2.3.0")
+    }
+}

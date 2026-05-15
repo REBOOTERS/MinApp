@@ -46,7 +46,7 @@ class MinApp : Application() {
         val defaultExc = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler { t, e ->
             Log.e(MINI, "current process    : ${Process.myPid()}")
-            Log.e(MINI, "current thread     : id = ${t.id}, name = ${t.name}")
+            Log.e(MINI, "current thread     : id = ${t.threadId()}, name = ${t.name}")
             Log.e(MINI, "current exception  : ${Log.getStackTraceString(e)}")
             defaultExc?.uncaughtException(t, e)
         }

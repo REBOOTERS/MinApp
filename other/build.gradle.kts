@@ -38,8 +38,6 @@ android {
             //混淆
             isMinifyEnabled = true
             //所以尽可能的减少第三方的使用 也是可以降低混淆的难度
-            //Zipalign优化
-            isZipAlignEnabled = true
             // 移除无用的resource文件
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -54,17 +52,17 @@ android {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
-    kotlinOptions {
-        jvmTarget = "21"
-    }
+//    kotlinOptions {
+//        jvmTarget = "21"
+//    }
     namespace = "com.engineer.other"
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.google.android.material:material:1.12.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.material)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(project(":deps:common"))
     implementation(project(":deps:thirdlib"))
 

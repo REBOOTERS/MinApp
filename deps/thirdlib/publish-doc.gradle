@@ -24,8 +24,3 @@ task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
         from androidJavadocs.destinationDir
     }
 }
-
-artifacts {
-    // aar包增加注释
-    archives androidJavadocsJar
-}

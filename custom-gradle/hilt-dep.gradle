@@ -2,11 +2,11 @@
 dependencies {
     implementation libs.androidx.navigation.ui.ktx
     implementation libs.androidx.navigation.fragment.ktx
-    implementation 'com.google.dagger:hilt-android:2.57.1'
-    implementation 'androidx.appcompat:appcompat:1.7.1'
-    implementation 'com.google.android.material:material:1.12.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation libs.hilt.android
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    implementation libs.androidx.constraintlayout
     implementation project(path: ':deps:filter')
-    implementation 'androidx.activity:activity:1.9.3'
-    ksp 'com.google.dagger:hilt-android-compiler:2.57.1'
+    implementation libs.androidx.activity
+    ksp libs.hilt.android.compiler
 }

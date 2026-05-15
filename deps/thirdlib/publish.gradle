@@ -26,7 +26,7 @@ afterEvaluate {
         repositories { RepositoryHandler handler ->
             handler.mavenLocal()
             handler.maven {
-                url "${rootDir}/local_repo/"
+                url = uri("${rootDir}/local_repo/")
             }
         }
         publications { PublicationContainer publicationContainer ->

@@ -2,7 +2,7 @@ dependencies {
 
 // coroutines
 //                                       👇 依赖协程核心库
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1"
+    implementation libs.kotlinx.coroutines.core
 //                                       👇 依赖当前平台所对应的平台库
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
+    implementation libs.kotlinx.coroutines.android
 }

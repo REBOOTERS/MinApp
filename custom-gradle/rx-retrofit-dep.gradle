@@ -1,13 +1,9 @@
 dependencies {
-    def gson_version = '2.11.0'
-    def retrofit_gson_version = '2.11.0'
-    def retrofit_version = '2.11.0'
+    implementation libs.google.gson
+    implementation libs.squareup.retrofit2.converter.gson
+    implementation libs.squareup.retrofit2.retrofit
+    implementation libs.squareup.retrofit2.adapter.rxjava2
 
-    implementation "com.google.code.gson:gson:$gson_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_gson_version"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.11.0'
-
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation libs.reactivex.rxjava2.rxjava
+    implementation libs.reactivex.rxjava2.rxandroid
 }

@@ -61,9 +61,9 @@ dependencies {
     compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     compileOnly("com.squareup.radiography:radiography:2.7")
-    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation(libs.androidx.appcompat)
     api("com.google.android.material:material:1.12.0")
-    implementation("com.squareup.okhttp3:okhttp:5.1.0")
+    implementation(libs.squareup.okhttp)
 }
 
 apply(from="publish.gradle") // publish-self-aar

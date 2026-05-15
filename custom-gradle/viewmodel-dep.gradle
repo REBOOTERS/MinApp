@@ -1,33 +1,31 @@
 dependencies {
-    def lifecycle_version = '2.8.7'
     def arch_version = "2.1.0"
-    def room_version = '2.6.1'
 
     // ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation libs.androidx.lifecycle.viewmodel.ktx
     // LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation libs.androidx.lifecycle.livedata.ktx
 
 
     // deprecated
     // implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
 
     // Lifecycles only (without ViewModel or LiveData)
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    implementation libs.androidx.lifecycle.runtime.ktx
 
     // Saved state module for ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+    implementation libs.androidx.lifecycle.viewmodel.savedstate
 
     // Annotation processor
 //    ksp "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     // alternately - if using Java8, use the following instead of lifecycle-compiler
-    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    implementation libs.androidx.lifecycle.common.java8
 
     // optional - helpers for implementing LifecycleOwner in a Service
-    implementation "androidx.lifecycle:lifecycle-service:$lifecycle_version"
+    implementation libs.androidx.lifecycle.service
 
     // optional - ProcessLifecycleOwner provides a lifecycle for the whole application process
-    implementation "androidx.lifecycle:lifecycle-process:$lifecycle_version"
+    implementation libs.androidx.lifecycle.process
 
 //    // optional - ReactiveStreams support for LiveData
 //    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version"
@@ -37,9 +35,8 @@ dependencies {
 
 
     // Room for database
-    implementation "androidx.room:room-ktx:$room_version"
-    ksp "androidx.room:room-compiler:$room_version"
+    implementation libs.androidx.room.ktx
+    ksp libs.androidx.room.compiler
 
-    def work_version = '2.10.0'
-    implementation "androidx.work:work-runtime-ktx:$work_version"
+    implementation libs.androidx.work.runtime.ktx
 }

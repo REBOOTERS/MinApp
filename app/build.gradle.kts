@@ -1,4 +1,3 @@
-import com.android.build.api.dsl.ApplicationProductFlavor
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -51,13 +50,13 @@ android {
         manifestPlaceholders["activity_exported"] = true
 
 
-//        resourceConfigurations += listOf("zh-rCN", "xxhdpi")
-        resourceConfigurations += listOf("zh-rCN")
-
         ndk {
             //noinspection ChromeOsAbiSupport
             abiFilters += setOf("arm64-v8a")
         }
+    }
+    androidResources {
+        localeFilters += listOf("zh-rCN")
     }
     ksp {
         arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
@@ -82,6 +81,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             signingConfig = signingConfigs.findByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
@@ -99,9 +99,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
-    kotlinOptions {
-        jvmTarget = "21"
-    }
+//    kotlinOptions {
+//        jvmTarget = "21"
+//    }
     buildFeatures {
         dataBinding = true
         viewBinding = true
@@ -164,9 +164,6 @@ androidComponents {
         val flavorChannel = variantBuilder.productFlavors.find {
             it.first == "channel"
         }?.second
-        val flavorType = variantBuilder.productFlavors.find {
-            it.first == "type"
-        }?.second
         if (flavorChannel == "oppo" || flavorChannel == "xiaomi") {
             variantBuilder.enable = false
         }
@@ -174,56 +171,56 @@ androidComponents {
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.7.1")
-    implementation("androidx.core:core-ktx:1.17.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("com.google.android.material:material:1.12.0")
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.material)
 
 
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-    implementation("androidx.preference:preference-ktx:1.2.1")
+    implementation(libs.bumptech.glide)
+    implementation(libs.androidx.preference.ktx)
 
-    implementation("com.facebook.stetho:stetho:1.6.0")
-    implementation("com.facebook.stetho:stetho-okhttp3:1.6.0")
+    implementation(libs.facebook.stetho)
+    implementation(libs.facebook.stetho.okhttp3)
 
-    implementation("com.github.z-chu.RxCache:rxcache:2.3.5")
-    implementation("com.github.z-chu.RxCache:rxcache-kotlin:2.3.5")
+    implementation(libs.zchu.rxcache)
+    implementation(libs.zchu.rxcache.kotlin)
 
     if (sourceCode) {
         implementation(project(":deps:thirdlib"))
     } else {
-        implementation("com.engineer.third:thirdlib:1.0.0")
+        implementation(libs.engineer.thirdlib)
     }
     implementation(project(":deps:common"))
 //    globalImplementation(project(":deps:compose"))
     add("globalImplementation",project(":deps:compose"))
-    implementation("androidx.navigation:navigation-fragment-ktx:2.9.3")
-    implementation("androidx.navigation:navigation-ui-ktx:2.9.3")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.2")
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 
-    implementation("com.google.android.flexbox:flexbox:3.0.0")
+    implementation(libs.google.flexbox)
 
-    implementation("com.alibaba:fastjson:1.2.69")
-    implementation("org.jetbrains.kotlin:kotlin-script-runtime:2.0.20")
+    implementation(libs.alibaba.fastjson)
+    implementation(libs.kotlin.script.runtime)
 
 
     // https://github.com/koral--/android-gif-drawable/tree/master
-    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.29")
-    implementation("com.squareup.okhttp3:okhttp:5.1.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:5.1.0")
+    implementation(libs.droidsonroids.gif)
+    implementation(libs.squareup.okhttp)
+    implementation(libs.squareup.logging.interceptor)
 
 //    implementation("com.github.microshow:RxFFmpeg:4.9.0")
 
-    implementation("androidx.metrics:metrics-performance:1.0.0-beta02")
-    implementation("androidx.tracing:tracing-ktx:1.3.0")
+    implementation(libs.androidx.metrics.performance)
+    implementation(libs.androidx.tracing.ktx)
     // AndroidDraw Library
-    implementation("com.github.divyanshub024:AndroidDraw:v0.1")
+    implementation(libs.divyanshub.androiddraw)
 
-    implementation("io.noties.markwon:core:4.6.2")
-    implementation("io.noties.markwon:ext-latex:4.6.2")
-    implementation("com.facebook.fresco:fresco:3.6.0") {
+    implementation(libs.noties.markwon.core)
+    implementation(libs.noties.markwon.ext.latex)
+    implementation(libs.facebook.fresco) {
         exclude("com.facebook.soloader", "soloader")
         exclude("com.facebook.fresco", "soloader")
         exclude("com.facebook.fresco", "soloader")

@@ -9,13 +9,13 @@ java {
 }
 
 dependencies {
-    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
-    implementation 'com.squareup.okhttp3:okhttp-sse:4.12.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
+    implementation libs.squareup.okhttp.legacy
+    implementation libs.squareup.okhttp.sse
+    implementation libs.squareup.logging.interceptor.legacy
 
     // https://github.com/square/moshi
-    implementation 'com.squareup.moshi:moshi:1.15.2'
-    implementation 'com.squareup.moshi:moshi-kotlin:1.15.2'
+    implementation libs.squareup.moshi
+    implementation libs.squareup.moshi.kotlin
 
-    implementation "com.alibaba:fastjson:1.2.69"
+    implementation libs.alibaba.fastjson
 }
