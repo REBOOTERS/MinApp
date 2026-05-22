@@ -103,6 +103,7 @@ fun MessageCard(msg: Message) {
     var text by rememberSaveable { mutableStateOf("") }
     val count = remember { mutableIntStateOf(0) }
     val audioFocusHelper = AudioFocusHelper()
+    var flip by remember { mutableStateOf(false) }
     Column {
         CircularProgressIndicator()
 //        NetImage()
@@ -148,6 +149,16 @@ fun MessageCard(msg: Message) {
                 audioFocusHelper.abandonAudioFocus(context)
             }) {
                 Text(text = "abandon audio focus")
+            }
+            Button(onClick = {
+                if(flip) {
+                    audioFocusHelper.setLowerVolume()
+                } else {
+                    audioFocusHelper.setHighVolume()
+                }
+                flip = !flip
+            }) {
+                Text(text = "change volume")
             }
         }
 

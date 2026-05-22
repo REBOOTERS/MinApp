@@ -2,9 +2,12 @@ package com.engineer.compose.uitls
 
 import android.content.Context
 import android.media.AudioManager
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import androidx.annotation.RequiresApi
+
 
 class AudioFocusHelper() {
     private var isHasAudioFocus = false
@@ -39,7 +42,7 @@ class AudioFocusHelper() {
         get() = mAudioManager!!.getStreamVolume(AudioManager.STREAM_MUSIC)
 
     fun setLowerVolume() {
-        Log.i(TAG, "volume = " + this.volume)
+        Log.i(TAG, "volume lower = " + this.volume)
         if (this.volume <= 1) {
             return
         }
@@ -49,13 +52,43 @@ class AudioFocusHelper() {
     }
 
     fun setHighVolume() {
-        Log.i(TAG, "volume = " + this.volume)
+        Log.i(TAG, "volume high = " + this.volume)
         if (this.volume >= mAudioManager!!.getStreamMaxVolume(AudioManager.STREAM_MUSIC) - 1) {
             return
         }
         mAudioManager!!.setStreamVolume(
             AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND
         )
+    }
+
+
+    // max
+    fun getStreamMaxVolume(context: Context, streamType: Int): Int {
+        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        return am.getStreamMaxVolume(streamType)
+    }
+
+    // current
+    fun getStreamVolume(context: Context, streamType: Int): Int {
+        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        return am.getStreamVolume(streamType)
+    }
+
+    fun setStreamVolume(context: Context, streamType: Int, index: Int) {
+        Log.i(TAG, "setStreamVolume streamType = " + streamType + ", index = " + index)
+        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        am.setStreamVolume(streamType, index, 0)
+    }
+
+    fun adjustSystemVolume(context: Context, streamType: Int, value: Int) {
+        Log.i(TAG, "adjustSystemVolume streamType = " + streamType + ", value = " + value)
+        setStreamVolume(context, streamType, value)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun isStreamMute(context: Context, streamType: Int): Boolean {
+        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        return am.isStreamMute(streamType)
     }
 
     private val `object` = Any()
