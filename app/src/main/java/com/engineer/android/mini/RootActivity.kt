@@ -9,9 +9,11 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.os.PowerManager
 import android.os.SystemClock
 import android.util.Log
 import android.util.LogPrinter
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.core.app.ActivityCompat
@@ -34,6 +36,7 @@ import com.engineer.android.mini.ui.pure.DuDuActivity
 import com.engineer.android.mini.ui.pure.MessyActivity
 import com.engineer.android.mini.ui.pure.PureUIActivity
 import com.engineer.android.mini.util.InstrumentationHelper
+import com.engineer.android.mini.util.PowerManagerUtil
 import com.engineer.android.mini.util.ProducerConsumerViewModel
 import com.engineer.common.utils.AndroidSystem
 import com.engineer.compose.ui.MainComposeActivity
@@ -71,7 +74,8 @@ class RootActivity : BaseActivity() {
         mainScope = MainScope()
         handlePermissions()
         setupUI()
-//        coroutineTest()
+        PowerManagerUtil.wakeupScreen(this)
+        //        coroutineTest()
 //        testfastjson()
 //        val dd: IntArray = intArrayOf(1, 2, 3, 4)
 //        val json = dd.contentToString()
