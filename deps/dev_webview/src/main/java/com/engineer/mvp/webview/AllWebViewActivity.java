@@ -26,10 +26,8 @@ import com.engineer.mvp.webview.util.Tools;
 public class AllWebViewActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "AllWebViewActivity";
 
-    private static final String TWXQ = "file:///android_asset/twxq.html";
     private static final String LOCAL_URL = "file:///android_asset/index.html";
     private static final String JS_BRIDGE_CASE_URL = "file:///android_asset/js_bridge_case.html";
-    private static final String ALI_PAY_URL = "file:///android_asset/launch_alipay_app.html";
     private static final String THREE_D_URL = "file:///android_asset/keyframe.html";
 
     private Context mContext;
@@ -117,12 +115,6 @@ public class AllWebViewActivity extends AppCompatActivity implements View.OnClic
         } else if (id == R.id.js_bridge_case) {
             mWebView.loadUrl(JS_BRIDGE_CASE_URL);
             tools.setVisibility(View.VISIBLE);
-        } else if (id == R.id.twxq) {
-            mWebView.loadUrl(TWXQ);
-            tools.setVisibility(View.GONE);
-        } else if (id == R.id.alipay) {
-            mWebView.loadUrl(ALI_PAY_URL);
-            tools.setVisibility(View.GONE);
         } else if (id == R.id.menu) {
             startActivity(new Intent(mContext, WebViewMenuActivity.class));
         } else if (id == R.id.galaxy) {

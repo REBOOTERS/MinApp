@@ -26,16 +26,6 @@
             app:showAsAction="never" />
 
     <item
-            android:id="@+id/twxq"
-            android:orderInCategory="100"
-            android:title="图文详情"
-            app:showAsAction="never" />
-    <item
-            android:id="@+id/alipay"
-            android:orderInCategory="100"
-            android:title="AliPay"
-            app:showAsAction="never" />
-    <item
             android:id="@+id/menu"
             android:orderInCategory="100"
             android:title="ScrollView 长按菜单探索"
