@@ -32,6 +32,7 @@ public class AllWebViewActivity extends AppCompatActivity implements View.OnClic
     private static final String TWXQ = "file:///android_asset/twxq_1.html";
     private static final String JIANSHU = "file:///android_asset/a.html";
     private static final String LOCAL_URL = "file:///android_asset/index.html";
+    private static final String JS_BRIDGE_CASE_URL = "file:///android_asset/js_bridge_case.html";
     private static final String ALI_PAY_URL = "file:///android_asset/launch_alipay_app.html";
     private static final String THREE_D_URL = "file:///android_asset/keyframe.html";
     private static final String WEIXIN_PAY_URL = "http://wechat.66card.com/vcweixin/common/toTestH5Weixin?company=c4p ";
@@ -121,6 +122,9 @@ public class AllWebViewActivity extends AppCompatActivity implements View.OnClic
             String text = Tools.readStrFromAssets("a.html", this);
             mWebView.loadDataWithBaseURL("", text, "text/html", "UTF-8", "");
             tools.setVisibility(View.GONE);
+        } else if (id == R.id.js_bridge_case) {
+            mWebView.loadUrl(JS_BRIDGE_CASE_URL);
+            tools.setVisibility(View.VISIBLE);
         } else if (id == R.id.twxq) {
             mWebView.loadUrl(TWXQ);
             tools.setVisibility(View.GONE);

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSBridge Case</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 16px;
+            font-family: sans-serif;
+            line-height: 1.4;
+            background: #f5f5f5;
+        }
+
+        .card {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 16px;
+            border-radius: 8px;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+        }
+
+        h1 {
+            font-size: 20px;
+            margin: 0 0 8px;
+        }
+
+        p {
+            margin: 8px 0;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            border: 0;
+            border-radius: 6px;
+            font-size: 15px;
+            color: #fff;
+            background: #1976d2;
+        }
+
+        button.secondary {
+            background: #455a64;
+        }
+
+        .status {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 6px;
+            background: #eceff1;
+            word-break: break-word;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>WebView JSBridge Test</h1>
+    <p>This page is used to verify <code>myObj</code> and <code>myHtml</code>.</p>
+
+    <button onclick="callShowToast()">Call myObj.showToast()</button>
+    <button onclick="callShowDialog()">Call myObj.showDialog()</button>
+    <button class="secondary" onclick="callPrintSourceCode()">Call myHtml.printSourceCode()</button>
+
+    <div id="status" class="status">Ready</div>
+</div>
+
+<script>
+    function updateStatus(msg) {
+        document.getElementById("status").textContent = msg;
+    }
+
+    function callShowToast() {
+        if (window.myObj && typeof window.myObj.showToast === "function") {
+            window.myObj.showToast("Toast from js_bridge_case.html");
+            updateStatus("myObj.showToast() called");
+        } else {
+            updateStatus("myObj.showToast() is not available");
+            alert("myObj.showToast() is not available");
+        }
+    }
+
+    function callShowDialog() {
+        if (window.myObj && typeof window.myObj.showDialog === "function") {
+            window.myObj.showDialog();
+            updateStatus("myObj.showDialog() called");
+        } else {
+            updateStatus("myObj.showDialog() is not available");
+            alert("myObj.showDialog() is not available");
+        }
+    }
+
+    function callPrintSourceCode() {
+        if (window.myHtml && typeof window.myHtml.printSourceCode === "function") {
+            var html = document.documentElement.outerHTML;
+            window.myHtml.printSourceCode(html);
+            updateStatus("myHtml.printSourceCode() called, html length=" + html.length);
+        } else {
+            updateStatus("myHtml.printSourceCode() is not available");
+            alert("myHtml.printSourceCode() is not available");
+        }
+    }
+</script>
+</body>
+</html>

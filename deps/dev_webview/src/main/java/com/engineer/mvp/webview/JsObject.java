@@ -1,12 +1,19 @@
 package com.engineer.mvp.webview;
 
 import android.app.Activity;
+import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.TextUtils;
+import android.util.Log;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
+import androidx.annotation.Keep;
 import androidx.appcompat.app.AlertDialog;
+
+import java.lang.ref.WeakReference;
 
 
 
@@ -14,40 +21,62 @@ import androidx.appcompat.app.AlertDialog;
  * Created by rookie on 2017/2/13.
  */
 
+@Keep
 public class JsObject {
-    private Context mContext;
+    private static final String TAG = "JsObject";
+    private final WeakReference<Context> contextRef;
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     public JsObject(Context context) {
-        mContext = context;
+        contextRef = new WeakReference<>(context);
     }
 
+    @Keep
     @JavascriptInterface
     public void showToast(String content) {
-        Toast.makeText(mContext, content, Toast.LENGTH_SHORT).show();
+        Context context = contextRef.get();
+        if (context == null) {
+            Log.w(TAG, "showToast skipped because context is null");
+            return;
+        }
+        String message = TextUtils.isEmpty(content) ? "Hello from Android" : content;
+        mainHandler.post(() -> Toast.makeText(context.getApplicationContext(), message, Toast.LENGTH_SHORT).show());
     }
 
+    @Keep
     @JavascriptInterface
     public void showDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setMessage("Exit the application ?");
-        builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+        Activity activity = getActivity();
+        if (activity == null) {
+            Log.w(TAG, "showDialog skipped because activity is unavailable");
+            return;
+        }
+        mainHandler.post(() -> {
+            if (activity.isFinishing()) {
+                return;
             }
-        });
-        builder.setPositiveButton("sure", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                Activity activity = (Activity) mContext;
-                activity.finish();
-//                System.exit(0);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && activity.isDestroyed()) {
+                return;
             }
+            new AlertDialog.Builder(activity)
+                    .setTitle("Exit App")
+                    .setMessage("Exit the application ?")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setCancelable(false)
+                    .setNegativeButton("cancel", (dialog, which) -> dialog.dismiss())
+                    .setPositiveButton("sure", (dialog, which) -> {
+                        dialog.dismiss();
+                        activity.finish();
+                    })
+                    .show();
         });
-        builder.setTitle("Exit App");
-        builder.setIcon(R.drawable.radar_card_guide_hot);
-        builder.setCancelable(false);
-        builder.show();
+    }
+
+    private Activity getActivity() {
+        Context context = contextRef.get();
+        if (context instanceof Activity activity) {
+            return activity;
+        }
+        return null;
     }
 }

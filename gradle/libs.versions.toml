@@ -55,9 +55,9 @@ moshi = "1.15.2"
 
 # @keep
 lifecycleRuntimeKtxVersion = "2.7.0"
-minSdk = "21"
-targetSdk = "36"
-compileSdk = "36"
+minSdk = "23"
+targetSdk = "37"
+compileSdk = "37"
 navigationFragmentKtx = "2.9.8"
 navigationUiKtx = "2.9.3"
 recyclerview = "1.4.0"

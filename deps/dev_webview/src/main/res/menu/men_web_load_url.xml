@@ -20,6 +20,12 @@
             app:showAsAction="never" />
 
     <item
+            android:id="@+id/js_bridge_case"
+            android:orderInCategory="100"
+            android:title="JSBridge Case"
+            app:showAsAction="never" />
+
+    <item
             android:id="@+id/jianshu"
             android:orderInCategory="100"
             android:title="jianshu"
