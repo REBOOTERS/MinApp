@@ -38,6 +38,7 @@ import com.engineer.android.mini.ui.pure.PureUIActivity
 import com.engineer.android.mini.util.InstrumentationHelper
 import com.engineer.android.mini.util.PowerManagerUtil
 import com.engineer.android.mini.util.ProducerConsumerViewModel
+import com.engineer.android.mini.util.SystemUtil
 import com.engineer.common.utils.AndroidSystem
 import com.engineer.compose.ui.MainComposeActivity
 import com.engineer.third.CppActivity
@@ -65,6 +66,10 @@ class RootActivity : BaseActivity() {
     private lateinit var disposeOn: CompositeDisposable
 
     private lateinit var mainScope: CoroutineScope
+
+    // 避免代码主动同步 switch 状态时重复触发监听
+    private var ignoreShowTouchesSwitchChange = false
+    private var ignorePointerLocationSwitchChange = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -234,6 +239,64 @@ class RootActivity : BaseActivity() {
         viewBinding.openDudu.setOnClickListener {
             gotoActivity(DuDuActivity::class.java)
         }
+        syncShowTouchesSwitchState()
+        viewBinding.showTouchesSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (ignoreShowTouchesSwitchChange) {
+                return@setOnCheckedChangeListener
+            }
+            if (!SystemUtil.canWriteSettings(this)) {
+                "Need to grant WRITE_SETTINGS permission in system settings".toast()
+                Log.d(TAG, "Requesting WRITE_SETTINGS permission")
+                syncShowTouchesSwitchState()
+                SystemUtil.openWriteSettingsPermission(this)
+                return@setOnCheckedChangeListener
+            }
+            val success = SystemUtil.setShowTouches(this, isChecked)
+            if (!success) {
+                syncShowTouchesSwitchState()
+                "show_touches failed".toast()
+                Log.d(TAG, "show_touches failed")
+                return@setOnCheckedChangeListener
+            }
+            val message = if (isChecked) "show_touches_on" else "show_touches_off"
+            message.toast()
+            Log.d(TAG, message)
+        }
+        syncPointerLocationSwitchState()
+        viewBinding.pointerLocationSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (ignorePointerLocationSwitchChange) {
+                return@setOnCheckedChangeListener
+            }
+            if (!SystemUtil.canWriteSettings(this)) {
+                "Need to grant WRITE_SETTINGS permission in system settings".toast()
+                Log.d(TAG, "Requesting WRITE_SETTINGS permission")
+                syncPointerLocationSwitchState()
+                SystemUtil.openWriteSettingsPermission(this)
+                return@setOnCheckedChangeListener
+            }
+            val success = SystemUtil.setPointerLocation(this, isChecked)
+            if (!success) {
+                syncPointerLocationSwitchState()
+                "pointer_location failed".toast()
+                Log.d(TAG, "pointer_location failed")
+                return@setOnCheckedChangeListener
+            }
+            val message = if (isChecked) "pointer_location_on" else "pointer_location_off"
+            message.toast()
+            Log.d(TAG, message)
+        }
+    }
+
+    private fun syncShowTouchesSwitchState() {
+        ignoreShowTouchesSwitchChange = true
+        viewBinding.showTouchesSwitch.isChecked = SystemUtil.isShowTouchesEnabled(this)
+        ignoreShowTouchesSwitchChange = false
+    }
+
+    private fun syncPointerLocationSwitchState() {
+        ignorePointerLocationSwitchChange = true
+        viewBinding.pointerLocationSwitch.isChecked = SystemUtil.isPointerLocationEnabled(this)
+        ignorePointerLocationSwitchChange = false
     }
 
     private fun handleBlur() {
@@ -256,6 +319,8 @@ class RootActivity : BaseActivity() {
         Log.d(TAG, "onResume() called")
         disposeOn = CompositeDisposable()
         printSysInfo()
+        syncShowTouchesSwitchState()
+        syncPointerLocationSwitchState()
     }
 
     override fun onPause() {

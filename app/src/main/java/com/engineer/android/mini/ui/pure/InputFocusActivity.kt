@@ -16,7 +16,7 @@ import com.engineer.android.mini.databinding.ActivityInputFocusBinding
 import com.engineer.android.mini.ext.screenHeight
 import com.engineer.android.mini.ext.screenWidth
 import com.engineer.android.mini.ext.toast
-import com.engineer.compose.uitls.KeyBoardUtil
+import com.engineer.android.mini.util.KeyBoardUtil
 
 
 class InputFocusActivity : AppCompatActivity() {

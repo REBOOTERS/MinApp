@@ -1,0 +1,59 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+title WRITE_SETTINGS、system app、root 与两种实现路径的关系
+
+start
+
+:需求;
+:修改 show_touches / pointer_location;
+
+if (使用哪种方式?) then (Settings.System.putInt)
+  :调用 Settings.System.putInt(...);
+  if (是否拥有 WRITE_SETTINGS?) then (Yes)
+    :写入 system setting;
+    :功能可用;
+  else (No)
+    :跳转 ACTION_MANAGE_WRITE_SETTINGS;
+    :用户手动授予
+"修改系统设置";
+    if (用户已授予?) then (Yes)
+      :再次调用 putInt;
+      :功能可用;
+    else (No)
+      :返回失败;
+    endif
+  endif
+else (Runtime.exec settings)
+  :应用进程内执行
+settings put system ...;
+  if (具备 root?) then (Yes)
+    :通常可执行成功;
+  else (No)
+    if (是否具备系统级/特权级能力?) then (Yes)
+      :可能成功;
+      note right
+      例如：
+      - privileged app
+      - platform-signed app
+      - ROM 白名单放行
+      仍受厂商策略影响
+      end note
+    else (No)
+      :普通三方应用通常失败;
+    endif
+  endif
+endif
+
+:结论;
+note right
+1. WRITE_SETTINGS 是 special access，
+   不是普通运行时权限
+2. system app != 拥有所有系统权限
+3. shell 方案通常比 putInt 方案要求更高
+4. 本项目优先推荐：
+   putInt + canWrite + 跳设置页授权
+end note
+
+stop
+@enduml

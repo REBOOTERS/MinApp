@@ -239,9 +239,19 @@
             android:layout_margin="6dp"
             android:text="Handler_Logger " />
 
-        <Switch
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/show_touches_switch"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="show_touches" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/pointer_location_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="pointer_location" />
 
     </com.google.android.flexbox.FlexboxLayout>
 
