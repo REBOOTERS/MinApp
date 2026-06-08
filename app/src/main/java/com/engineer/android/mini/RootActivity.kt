@@ -31,6 +31,7 @@ import com.engineer.android.mini.net.ThreadExTransform
 import com.engineer.android.mini.ui.BaseActivity
 import com.engineer.android.mini.ui.behavior.BehaviorActivity
 import com.engineer.android.mini.ui.behavior.lifecycle.PanelActivity
+import com.engineer.android.mini.ui.game.PoolGameActivity
 import com.engineer.android.mini.ui.pure.ChangeViewActivity
 import com.engineer.android.mini.ui.pure.DuDuActivity
 import com.engineer.android.mini.ui.pure.MessyActivity
@@ -238,6 +239,9 @@ class RootActivity : BaseActivity() {
         }
         viewBinding.openDudu.setOnClickListener {
             gotoActivity(DuDuActivity::class.java)
+        }
+        viewBinding.openPoolGame.setOnClickListener {
+            gotoActivity(PoolGameActivity::class.java)
         }
         syncShowTouchesSwitchState()
         viewBinding.showTouchesSwitch.setOnCheckedChangeListener { _, isChecked ->

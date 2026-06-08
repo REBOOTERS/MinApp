@@ -232,6 +232,13 @@
             android:layout_margin="6dp"
             android:text="dudu" />
 
+        <Button
+            android:id="@+id/open_pool_game"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="pool_local" />
+
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/handler_log_switch"
             android:layout_width="wrap_content"

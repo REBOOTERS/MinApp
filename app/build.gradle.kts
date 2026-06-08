@@ -233,6 +233,7 @@ dependencies {
     implementation(libs.protobuf.javalite)
 
     implementation(libs.androidx.datastore)
+    implementation(libs.androidx.datastore.preferences)
 }
 apply(from = "../custom-gradle/test-dep.gradle")
 apply(from = "../custom-gradle/viewmodel-dep.gradle")

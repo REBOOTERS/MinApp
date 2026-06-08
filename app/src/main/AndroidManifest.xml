@@ -102,6 +102,14 @@
             android:name=".ui.pure.ChangeViewActivity"
             android:exported="true" />
         <activity
+            android:name=".ui.game.PoolGameActivity"
+            android:exported="true"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.game.PoolSettingsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.behavior.TreeActivity"
             android:exported="true" />
         <activity
