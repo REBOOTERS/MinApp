@@ -46,6 +46,7 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Show layout.activity_main and setup data binding.
@@ -150,7 +151,7 @@ class DetailActivity : BaseActivity() {
 
     private suspend fun mockNet(input: Int): Int {
         withContext(Dispatchers.Default) {
-            delay(1000)
+            delay(1000.milliseconds)
             printThreadName("mockNet")
         }
         return Random.nextInt(input)
